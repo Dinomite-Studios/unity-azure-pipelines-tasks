@@ -1,0 +1,137 @@
+{
+  "id": "64e90d50-a9c0-11e8-a356-d3eab7857116",
+  "name": "UnityBuildTask",
+  "friendlyName": "Unity Build",
+  "description": "Build a Unity project and get the exported output files.",
+  "author": "Dinomite Studios",
+  "helpMarkDown": "Builds a Unity project to supported build target platforms. [Documentation](http://dinomitestudios.com/tools)",
+  "category": "Utility",
+  "visibility": [
+    "Build"
+  ],
+  "demands": [],
+  "version": {
+    "Major": "1",
+    "Minor": "2",
+    "Patch": "32"
+  },
+  "minimumAgentVersion": "1.95.0",
+  "instanceNameFormat": "Unity Build $(message)",
+  "groups": [
+    {
+      "name": "unityEditorVersionGroup",
+      "displayName": "Unity Editor Version",
+      "isExpanded": true
+    },
+    {
+      "name": "advancedGroup",
+      "displayName": "Advanced",
+      "isExpanded": false
+    }
+  ],
+  "inputs": [
+    {
+      "name": "buildTarget",
+      "type": "pickList",
+      "label": "Build Target",
+      "defaultValue": "standalone",
+      "required": true,
+      "helpMarkDown": "Build platform to build the Unity project for.",
+      "options": {
+        "standalone": "PC, Mac & Linux Standalone",
+        "iOS": "iOS",
+        "tvOS": "tvOS",
+        "Android": "Android",
+        "WindowsStoreApps": "Universal Windows Platform",
+        "WebGL": "WebGL"
+      }
+    },
+    {
+      "name": "unityHubEditorLocation",
+      "type": "string",
+      "label": "Editor Folder Location",
+      "defaultValue": "",
+      "required": false,
+      "groupName": "unityEditorVersionGroup",
+      "helpMarkDown": "(Optional) Set the Unity Editor install path on the agent. If no value is entered, `C:\\Program Files\\Unity\\Hub\\Editor\\` will be used on Windows agents and `/Applications/Unity/Hub/Editor/` on Mac agents."
+    },
+    {
+      "name": "unityVersion",
+      "type": "pickList",
+      "label": "Unity Version",
+      "required": true,
+      "helpMarkDown": "The Unity editor version used to build the target. Use `Project Version` to use the version the project was last opened with. Use `Specify` to use a specific version.",
+      "defaultValue": "project",
+      "groupName": "unityEditorVersionGroup",
+      "options": {
+        "project": "Project Version",
+        "specify": "Specify"
+      }
+    },
+    {
+      "name": "specificUnityVersion",
+      "type": "string",
+      "label": "Specific Unity Version",
+      "required": false,
+      "groupName": "unityEditorVersionGroup",
+      "helpMarkDown": "(Optional) Please specify the Unity editor version to use, e.g. `2018.2.5f1`. Make sure it exists on the agent.",
+      "visibleRule": "unityVersion == specify"
+    },
+    {
+      "name": "developmentBuild",
+      "type": "boolean",
+      "label": "Development Build",
+      "helpMarkDown": "(Optional) Build a development version of the player.",
+      "groupName": "advancedGroup",
+      "defaultValue": false,
+      "required": false
+    },
+    {
+      "name": "acceptApiUpdate",
+      "type": "boolean",
+      "label": "Run API Updater",
+      "helpMarkDown": "(Optional) Use this option to specify that Unity APIUpdater should run before building the project.",
+      "groupName": "advancedGroup",
+      "defaultValue": false,
+      "required": false
+    },
+    {
+      "name": "noPackageManager",
+      "type": "boolean",
+      "label": "Disable Unity Package Manager",
+      "helpMarkDown": "(Optional) Disables the Unity Package Manager.",
+      "groupName": "advancedGroup",
+      "defaultValue": false,
+      "required": false
+    },
+    {
+      "name": "unityProjectPath",
+      "type": "filePath",
+      "label": "Unity Project Path",
+      "defaultValue": "",
+      "required": false,
+      "groupName": "advancedGroup",
+      "helpMarkDown": "(Optional) Enter the directory path to the Unity project. If no value is entered, the root of the repository will be used."
+    },
+    {
+      "name": "buildScenes",
+      "type": "string",
+      "label": "Build Scenes",
+      "helpMarkDown": "(Optional) Enter a comma separated list of scene paths to include in the build. If no value is entered, the project's pre-configured scenes will be included.",
+      "groupName": "advancedGroup",
+      "required": false
+    }
+  ],
+  "OutputVariables": [
+    {
+      "name": "buildOutputPath",
+      "description": "Path to the directory containing Unity build output files. Path is relative to repository root."
+    }
+  ],
+  "execution": {
+    "Node": {
+      "target": "unity-build.js",
+      "argumentFormat": ""
+    }
+  }
+}
