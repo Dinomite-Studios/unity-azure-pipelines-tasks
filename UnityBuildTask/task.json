@@ -4,7 +4,7 @@
   "friendlyName": "Unity Build",
   "description": "Build a Unity project and get the exported output files.",
   "author": "Dinomite Studios",
-  "helpMarkDown": "Builds a Unity project to supported build target platforms. [Documentation](http://dinomitestudios.com/tools)",
+  "helpMarkDown": "Builds a Unity project to supported build target platforms. [Documentation](https://github.com/Dinomite-Studios/unity-build-task)",
   "category": "Utility",
   "visibility": [
     "Build"
@@ -13,7 +13,7 @@
   "version": {
     "Major": "1",
     "Minor": "2",
-    "Patch": "32"
+    "Patch": "37"
   },
   "minimumAgentVersion": "1.95.0",
   "instanceNameFormat": "Unity Build $(message)",

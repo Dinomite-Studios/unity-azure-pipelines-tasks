@@ -5,39 +5,44 @@ import findProcess = require('find-process');
  */
 export class UnityProcessMonitor {
 
-    /**
-     * Array contains a list of processes that should be ignored
-     * when checking whether the Unity editor build process is still running.
-     */
-    private static ignoredProcesses = [
-        "Unity Helper",
-        "Unity Hub Helper",
-        "Unity Hub",
-        "node" // HACK: find-process lib for some reason always returns 'node' as a running process.
-    ];
-
-    private static readonly windowsProcess = "Unity.exe";
-    private static readonly macProcess = "Unity";
+    private static readonly windowsProcessName = "Unity.exe";
+    private static readonly macProcessName = "Unity";
 
     public static async isUnityStillRunning(): Promise<boolean> {
-        const results = await findProcess("name", process.platform === 'win32' ? this.windowsProcess : this.macProcess);
+        const runningOnWindows = process.platform === 'win32';
+        const results = await findProcess("name", runningOnWindows ? this.windowsProcessName : this.macProcessName);
 
-        if (results.length > 0) {
-            let running = false;
-
-            for (let i = 0; i < results.length; i++) {
-                const process = results[i].name.trim();
-
-                // If the process is NOT in the list of ignored Unity related
-                // processes, then it's most likely actually the Unity Editor process.
-                if (this.ignoredProcesses.indexOf(process) === -1) {
-                    running = true;
-                }
-            }
-
-            return running;
+        // HACK / WORKAROUND:
+        // find-process lib for some reason always returns 'node' as a running process, even though we are searching for processes with a 'Unity' substring.
+        // So in case it's in the results array, we'll remove it first.
+        const nodeProcessIndex = results.findIndex((v) => v.name.trim() === 'node');
+        if (nodeProcessIndex !== -1) {
+            results.splice(nodeProcessIndex, 1);
         }
 
+        if (results.length > 0) {
+            if (runningOnWindows) {
+                return true;
+            } else {
+                let running = false;
+
+                for (let i = 0; i < results.length; i++) {
+                    const processCmd = results[i].cmd.trim();
+
+                    // ANOTHER HACK / WORKAROUND:
+                    // Unity Hub and Unity Editor share the same process name on Mac, which is 'Unity'.
+                    // That's why we need to filter the Hub by cmd value since we don't care whether it's running.
+                    if (!processCmd.startsWith('/Applications/Unity Hub.app')) {
+                        running = true;
+                    }
+                }
+
+                return running;
+            }
+        }
+
+        // Since no process containing the name 'Unity' was found, we can assume that Unity has exited and the build is not
+        // running anymore.
         return false;
     }
 }
