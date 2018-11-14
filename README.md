@@ -13,7 +13,16 @@ Unity Build is an extension that adds a Unity build task to be used in Azure Pip
 
 ## Test Builds
 
-[![Android on Windows](https://medialesson.visualstudio.com/HoloPlayground/_apis/build/status/Windows%20Agent/Build%20Test%20-%20CI%20-%20WIN%20-%20Android)](https://medialesson.visualstudio.com/HoloPlayground/_build/latest?definitionId=258)
+While each and every project has its own complexity and requirements, these test builds indicate whether the task is successfully building a sample Unity project targeting the configured platform. These pipelines always use the latest publicly available Unity editor version (that is not a beta or alpha version).
+
+|                            |                                                                        Windows Agent                                                                       |                                                                       Mac Agent                                                                       |
+|:--------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------:|
+|           Android          |   ![Build Status ](https://medialesson.visualstudio.com/HoloPlayground/_apis/build/status/Windows%20Agent/Build%20Test%20-%20CI%20-%20WIN%20-%20Android )  | ![Build status ](https://medialesson.visualstudio.com/HoloPlayground/_apis/build/status/Windows%20Agent/Build%20Test%20-%20CI%20-%20WIN%20-%20WebGL ) |
+| Universal Windows Platform |     ![Build status ](https://medialesson.visualstudio.com/HoloPlayground/_apis/build/status/Windows%20Agent/Build%20Test%20-%20CI%20-%20WIN%20-%20UWP )    |                                                                           -                                                                           |
+|            WebGL           |    ![Build status ](https://medialesson.visualstudio.com/HoloPlayground/_apis/build/status/Windows%20Agent/Build%20Test%20-%20CI%20-%20WIN%20-%20WebGL )   | ![Build status ](https://medialesson.visualstudio.com/HoloPlayground/_apis/build/status/Windows%20Agent/Build%20Test%20-%20CI%20-%20WIN%20-%20WebGL ) |
+|             iOS            |                                                                              -                                                                             | ![Build status ](https://medialesson.visualstudio.com/HoloPlayground/_apis/build/status/Windows%20Agent/Build%20Test%20-%20CI%20-%20WIN%20-%20WebGL ) |
+|            tvOS            |                                                                              -                                                                             | ![Build status ](https://medialesson.visualstudio.com/HoloPlayground/_apis/build/status/Windows%20Agent/Build%20Test%20-%20CI%20-%20WIN%20-%20WebGL ) |
+|         Standalone         | ![Build status ](https://medialesson.visualstudio.com/HoloPlayground/_apis/build/status/Windows%20Agent/Build%20Test%20-%20CI%20-%20WIN%20-%20Standalone ) | ![Build status ](https://medialesson.visualstudio.com/HoloPlayground/_apis/build/status/Windows%20Agent/Build%20Test%20-%20CI%20-%20WIN%20-%20WebGL ) |
 
 ## How to use
 
