@@ -11,6 +11,10 @@ Unity Build is an extension that adds a Unity build task to be used in Azure Pip
 - Universal Windows Platform
 - WebGL
 
+## Test Builds
+
+[![Android on Windows](https://medialesson.visualstudio.com/HoloPlayground/_apis/build/status/Windows%20Agent/Build%20Test%20-%20CI%20-%20WIN%20-%20Android)](https://medialesson.visualstudio.com/HoloPlayground/_build/latest?definitionId=258)
+
 ## How to use
 
 ### Supported Agents
