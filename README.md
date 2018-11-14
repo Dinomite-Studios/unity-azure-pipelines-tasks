@@ -48,4 +48,13 @@ The extension is published at the [Visual Studio Marketplace](https://marketplac
 
 ### Custom installation
 
-TODO
+You can build the extensio yourself and upload it to your Azure DevOps organization. please make sure [Node.js®](https://nodejs.org/en/) is installed on your development
+machine. Also you'll need the [Node CLI for Azure DevOps](https://www.npmjs.com/package/tfx-cli) as well as [TypeScript](https://www.npmjs.com/package/typescript).
+
+1. Download or clone the source
+2. Run `tsc unity-build.ts --lib es6` to compile to JavaScript code
+3. Run `tfx build tasks upload --task-path unity-build-task/UnityBuildTask` to upload the task to your orgnaization
+
+*Note*
+You can not upload the same version number twice. If oyu made changed to the code
+and need to upload a new version by changing the version value in the `task.json` file. You can alternatively uninstall the extension before uploading again to avoid this using `tfx build tasks delete --task-id 64e90d50-a9c0-11e8-a356-d3eab7857116`.
