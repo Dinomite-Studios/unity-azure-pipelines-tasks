@@ -67,7 +67,6 @@ async function run() {
 
             const buildArgs = [
                 '-batchmode',
-                '-quit',
                 '-buildTarget', UnityBuildTarget[unityBuildConfiguration.buildTarget],
                 '-projectPath', unityBuildConfiguration.projectPath,
                 '-executeMethod', 'AzureDevOps.PerformBuild'];
