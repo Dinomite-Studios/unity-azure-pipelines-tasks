@@ -28,11 +28,11 @@ While each and every project has its own complexity and requirements, these test
 
 ### Supported Agents
 
-**Hosted Agents**
+**Hosted Agents:**
 Hosted agents are supported by the extension. But keep in mind that there might not be the Unity version installed
 your project requires. You can find more information about pre-installed software on Microsoft hosted agents [here](https://docs.microsoft.com/en-us/vsts/pipelines/agents/hosted?view=vsts).
 
-**Custom Agents**
+**Custom Agents:**
 We recommend hosting your own build agent for Unity pipelines, which is an easy one-time configuration. This gives you full control over installed Unity versions. You can find more information about hosting your own agent [here](https://docs.microsoft.com/en-us/vsts/pipelines/agents/agents?view=vsts).
 
 ### Requirements
@@ -55,6 +55,6 @@ machine. Also you'll need the [Node CLI for Azure DevOps](https://www.npmjs.com/
 2. Run `tsc unity-build.ts --lib es6` to compile to JavaScript code
 3. Run `tfx build tasks upload --task-path unity-build-task/UnityBuildTask` to upload the task to your orgnaization
 
-**Note**
+**Note:**
 You can not upload the same version number twice. If oyu made changed to the code
 and need to upload a new version by changing the version value in the `task.json` file. You can alternatively uninstall the extension before uploading again to avoid this using `tfx build tasks delete --task-id 64e90d50-a9c0-11e8-a356-d3eab7857116`.
