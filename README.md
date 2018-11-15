@@ -56,5 +56,4 @@ machine. Also you'll need the [Node CLI for Azure DevOps](https://www.npmjs.com/
 3. Run `tfx build tasks upload --task-path unity-build-task/UnityBuildTask` to upload the task to your orgnaization
 
 **Note:**
-You can not upload the same version number twice. If you made changes to the code
-and need to upload a new version by changing the version value in the `task.json` file. You can alternatively uninstall the extension before uploading again to avoid this using `tfx build tasks delete --task-id 64e90d50-a9c0-11e8-a356-d3eab7857116`.
+You can not upload the same version number twice. If you made changes to the code and need to upload a new version make sure to change the version value in the `task.json` file. You can alternatively uninstall the extension before uploading again to avoid this using `tfx build tasks delete --task-id 64e90d50-a9c0-11e8-a356-d3eab7857116`.
