@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- PC, Mac & Linux Standalone build target
+- PC, Mac Standalone build target
 - tvOS build target
 - Android build target
 - WebGL build target
