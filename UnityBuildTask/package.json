@@ -1,0 +1,24 @@
+{
+  "name": "unitybuildtask",
+  "version": "1.0.0",
+  "description": "An Azure DevOps build extension to build Unity projects.",
+  "main": "unity-build.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Dinomite-Studios/unity-build-task"
+  },
+  "author": "Dinomite Studios",
+  "license": "MIT",
+  "dependencies": {
+    "find-process": "^1.2.1",
+    "fs-extra": "^7.0.1",
+    "vsts-task-lib": "^2.7.0"
+  },
+  "devDependencies": {
+    "@types/node": "^10.12.8",
+    "@types/q": "^1.5.1"
+  }
+}

@@ -1,0 +1,31 @@
+# Testing Unity project for builds
+TestProject/[Ll]ibrary/
+TestProject/[Tt]emp/
+TestProject/[Oo]bj/
+TestProject/[Bb]uild/
+TestProject/[Bb]uilds/
+TestProject/Assets/AssetStoreTools*
+TestProject/.vs/
+TestProject/ExportedObj/
+TestProject/.consulo/
+TestProject/*.csproj
+TestProject/*.unityproj
+TestProject/*.sln
+TestProject/*.suo
+TestProject/*.tmp
+TestProject/*.user
+TestProject/*.userprefs
+TestProject/*.pidb
+TestProject/*.booproj
+TestProject/*.svd
+TestProject/*.pdb
+TestProject/*.opendb
+TestProject/*.pidb.meta
+TestProject/*.pdb.meta
+TestProject/sysinfo.txt
+TestProject/*.apk
+TestProject/*.unitypackage
+
+# Unity Build Task
+UnityBuildTask/node_modules
+UnityBuildTask/*.js
