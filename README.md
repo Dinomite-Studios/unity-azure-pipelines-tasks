@@ -15,7 +15,7 @@ Unity Build is an extension that adds a Unity build task to be used in Azure Pip
 
 While each and every project has its own complexity and requirements, these test builds indicate whether the task is successfully building a sample Unity project targeting the configured platform. These pipelines always use the latest publicly available Unity editor version (that is not a beta or alpha version).
 
-|      Unity 2018.2.15f1     |                                                                        Windows Agent                                                                       |                                                                       Mac Agent                                                                      |
+|      Unity 2018.2.18f1     |                                                                        Windows Agent                                                                       |                                                                       Mac Agent                                                                      |
 |:--------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------:|
 |           Android          |   ![Build status](https://dinomite.visualstudio.com/Unity%20Build%20Task/_apis/build/status/Test%20Builds/Unity%20Build%20Task%20-%20Test%20-%20WIN%20-%20Android)  |   ![Build status](https://medialesson.visualstudio.com/HoloPlayground/_apis/build/status/Mac%20Agent/Build%20Test%20-%20CI%20-%20MAC%20-%20Android)  |
 | Universal Windows Platform |     ![Build status ](https://medialesson.visualstudio.com/HoloPlayground/_apis/build/status/Windows%20Agent/Build%20Test%20-%20CI%20-%20WIN%20-%20UWP )    |                                                                           -                                                                          |
@@ -52,8 +52,8 @@ You can build the extensio yourself and upload it to your Azure DevOps organizat
 machine. Also you'll need the [Node CLI for Azure DevOps](https://www.npmjs.com/package/tfx-cli) as well as [TypeScript](https://www.npmjs.com/package/typescript).
 
 1. Download or clone the source
-2. Run `tsc unity-build.ts --lib es6` to compile to JavaScript code
-3. Run `tfx build tasks upload --task-path unity-build-task/UnityBuildTask` to upload the task to your orgnaization
+2. Run `tsc UnityBuildTask\unity-build.ts --lib es6` to compile to JavaScript code
+3. Run `tfx build tasks upload --task-path UnityBuildTask` to upload the task to your orgnaization
 
 **Note:**
 You can not upload the same version number twice. If you made changes to the code and need to upload a new version make sure to change the version value in the `task.json` file. You can alternatively uninstall the extension before uploading again to avoid this using `tfx build tasks delete --task-id 64e90d50-a9c0-11e8-a356-d3eab7857116`.

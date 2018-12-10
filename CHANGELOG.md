@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+
+- Now demanding variable `UnityHub.EditorFolderLocation` to be set on the executing agent instead of specifying it in the task itself. Please refer to the [documentation to learn how to set the variable on your agent](https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/agents?view=vsts#capabilities)
+- Update instance name format to contain target platform
+- Slightly improved validation and error messages
+
 ## [1.3.0]
 
 ### Added
@@ -20,3 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Renamed the generated C# build script to AzureDevOps instead of VSTSBuildTask
 - Build output directory from previous builds gets deleted before making a new build
 - Improved checking for build result. Now monitoring whether Unity process is still running
+
+## [1.0.0]
+
+Initial release.
