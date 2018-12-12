@@ -22,6 +22,11 @@
   "instanceNameFormat": "Unity Build $(buildTarget)",
   "groups": [
     {
+      "name": "unityEditorVersionGroup",
+      "displayName": "Unity Editor Version",
+      "isExpanded": true
+    },
+    {
       "name": "advancedGroup",
       "displayName": "Advanced",
       "isExpanded": false
@@ -45,12 +50,22 @@
       }
     },
     {
+      "name": "unityHubEditorLocation",
+      "type": "string",
+      "label": "Editor Folder Location",
+      "defaultValue": "",
+      "required": false,
+      "groupName": "unityEditorVersionGroup",
+      "helpMarkDown": "(Optional) Set the Unity Editor install path on the agent. If no value is entered, `C:\\Program Files\\Unity\\Hub\\Editor\\` will be used on Windows agents and `/Applications/Unity/Hub/Editor/` on Mac agents."
+    },
+    {
       "name": "unityVersion",
       "type": "pickList",
       "label": "Unity Version",
       "required": true,
       "helpMarkDown": "The Unity editor version used to build the target. Use `Project Version` to use the version the project was last opened with. Use `Specify` to use a specific version.",
       "defaultValue": "project",
+      "groupName": "unityEditorVersionGroup",
       "options": {
         "project": "Project Version",
         "specify": "Specify"
