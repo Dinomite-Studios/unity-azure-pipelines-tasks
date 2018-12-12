@@ -9,7 +9,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Now demanding variable `UnityHub.EditorFolderLocation` to be set on the executing agent instead of specifying it in the task itself. Please refer to the [documentation to learn how to set the variable on your agent](https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/agents?view=vsts#capabilities)
 - Update instance name format to contain target platform
 - Slightly improved validation and error messages
 

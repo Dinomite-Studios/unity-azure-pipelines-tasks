@@ -1,8 +1,7 @@
 import path = require('path');
-import task = require('vsts-task-lib/task');
+import tl = require('azure-pipelines-task-lib/task');
 import fs = require('fs-extra');
 
-import { ToolRunner } from 'vsts-task-lib/toolrunner';
 import { isNullOrUndefined } from 'util';
 import { AgentOS } from './agent-os.enum';
 import { UnityBuildTarget } from './unity-build-target.enum';
@@ -10,28 +9,28 @@ import { UnityBuildScriptHelper } from './unity-build-script.helper';
 import { UnityBuildConfiguration } from './unity-build-configuration.model';
 import { UnityProcessMonitor } from './unity-process-monitor';
 
-task.setResourcePath(path.join(__dirname, 'task.json'));
+tl.setResourcePath(path.join(__dirname, 'task.json'));
 
 async function run() {
     try {
         // Genreate the internal build configuration model based on user input.
         const unityBuildConfiguration: UnityBuildConfiguration = new UnityBuildConfiguration();
-        unityBuildConfiguration.developmentBuild = task.getBoolInput('developmentBuild', false);
-        unityBuildConfiguration.runAPIUpdater = task.getBoolInput('acceptApiUpdate', false);
-        unityBuildConfiguration.disablePackageManager = task.getBoolInput('noPackageManager', false);
-        unityBuildConfiguration.buildScenes = task.getInput('buildScenes', false);
-        unityBuildConfiguration.buildTarget = (<any>UnityBuildTarget)[task.getInput('buildTarget', true)];
-        unityBuildConfiguration.projectPath = task.getPathInput('unityProjectPath', false);
+        unityBuildConfiguration.developmentBuild = tl.getBoolInput('developmentBuild', false);
+        unityBuildConfiguration.runAPIUpdater = tl.getBoolInput('acceptApiUpdate', false);
+        unityBuildConfiguration.disablePackageManager = tl.getBoolInput('noPackageManager', false);
+        unityBuildConfiguration.buildScenes = tl.getInput('buildScenes', false);
+        unityBuildConfiguration.buildTarget = (<any>UnityBuildTarget)[tl.getInput('buildTarget', true)];
+        unityBuildConfiguration.projectPath = tl.getPathInput('unityProjectPath', false);
 
         const agentOS = process.platform === 'win32' ? AgentOS.Windows : AgentOS.Mac;
-        unityBuildConfiguration.unityVersion = task.getInput('unityVersion', false) === 'project' ?
+        unityBuildConfiguration.unityVersion = tl.getInput('unityVersion', false) === 'project' ?
             fs.readFileSync(path.join(`${unityBuildConfiguration.projectPath}`, 'ProjectSettings', 'ProjectVersion.txt'), 'utf8')
                 .toString()
                 .split(':')[1]
                 .trim()
-            : task.getInput('specificUnityVersion', false);
+            : tl.getInput('specificUnityVersion', false);
 
-        unityBuildConfiguration.unityHubEditorFolderLocation = task.getInput('unityHubEditorLocation', false);
+        unityBuildConfiguration.unityHubEditorFolderLocation = tl.getInput('unityHubEditorLocation', false);
         if (isNullOrUndefined(unityBuildConfiguration.unityHubEditorFolderLocation) || unityBuildConfiguration.unityHubEditorFolderLocation === '') {
             unityBuildConfiguration.unityHubEditorFolderLocation = agentOS === AgentOS.Windows ?
                 path.join('C:', 'Program Files', 'Unity', 'Hub', 'Editor')
@@ -39,28 +38,28 @@ async function run() {
         }
 
         if (agentOS === AgentOS.Mac && unityBuildConfiguration.buildTarget === UnityBuildTarget.WindowsStoreApps) {
-            task.setResult(task.TaskResult.Failed, 'Cannot build a UWP project on a Mac.');
+            tl.setResult(tl.TaskResult.Failed, 'Cannot build a UWP project on a Mac.');
         } else if (agentOS === AgentOS.Windows && unityBuildConfiguration.buildTarget === UnityBuildTarget.iOS) {
-            task.setResult(task.TaskResult.Failed, 'Cannot build an iOS project on a Windows PC.');
+            tl.setResult(tl.TaskResult.Failed, 'Cannot build an iOS project on a Windows PC.');
         } else {
             // Make sure the selected editor exists.
             const unityEditorDirectory = agentOS === AgentOS.Windows ?
                 path.join(`${unityBuildConfiguration.unityHubEditorFolderLocation}`, `${unityBuildConfiguration.unityVersion}`, 'Editor')
                 : path.join(`${unityBuildConfiguration.unityHubEditorFolderLocation}`, `${unityBuildConfiguration.unityVersion}`);
-            task.checkPath(unityEditorDirectory, 'Unity Editor Directory');
+            tl.checkPath(unityEditorDirectory, 'Unity Editor Directory');
 
             // Create the editor script that will trigger the Unity build.
             const projectAssetsEditorFolderPath = path.join(`${unityBuildConfiguration.projectPath}`, 'Assets', 'Editor');
-            task.mkdirP(projectAssetsEditorFolderPath);
-            task.cd(projectAssetsEditorFolderPath);
-            task.writeFile('AzureDevOps.cs',
+            tl.mkdirP(projectAssetsEditorFolderPath);
+            tl.cd(projectAssetsEditorFolderPath);
+            tl.writeFile('AzureDevOps.cs',
                 UnityBuildScriptHelper.getUnityEditorBuildScriptContent(
                     unityBuildConfiguration,
                     agentOS));
-            task.cd(unityBuildConfiguration.projectPath);
+            tl.cd(unityBuildConfiguration.projectPath);
 
             // Execute Unity command line.
-            let unityBuildTool: ToolRunner = task.tool(
+            let unityBuildTool = tl.tool(
                 agentOS === AgentOS.Windows ?
                     path.join(`${unityEditorDirectory}`, 'Unity.exe')
                     : path.join(`${unityEditorDirectory}`, 'Unity.app', 'Contents', 'MacOS', 'Unity'));
@@ -82,14 +81,14 @@ async function run() {
             unityBuildTool.arg(buildArgs);
 
             // Make sure the build output directory exists.
-            const repositoryLocalPath = task.getVariable('Build.Repository.LocalPath');
+            const repositoryLocalPath = tl.getVariable('Build.Repository.LocalPath');
             const buildOutputDir = UnityBuildScriptHelper.getBuildOutputDirectory(unityBuildConfiguration.buildTarget);
             const fullBuildOutputPath = path.join(`${unityBuildConfiguration.projectPath}`, `${buildOutputDir}`)
 
             fs.removeSync(fullBuildOutputPath);
-            task.mkdirP(fullBuildOutputPath);
-            task.checkPath(fullBuildOutputPath, 'Build Output Directory');
-            task.setVariable('buildOutputPath', fullBuildOutputPath.substr(repositoryLocalPath.length + 1));
+            tl.mkdirP(fullBuildOutputPath);
+            tl.checkPath(fullBuildOutputPath, 'Build Output Directory');
+            tl.setVariable('buildOutputPath', fullBuildOutputPath.substr(repositoryLocalPath.length + 1));
 
             // Execute the unity command, which will launche the Unity editor in batch mode and trigger a build.
             // Unfortuntely, the command line will return before the unity build has actually finished, and eventually
@@ -138,11 +137,11 @@ function checkForFilesInFolder(path: string): boolean {
 }
 
 function setResultFailed(msg: string): void {
-    task.setResult(task.TaskResult.Failed, msg);
+    tl.setResult(tl.TaskResult.Failed, msg);
 }
 
 function setResultSucceeded(msg: string): void {
-    task.setResult(task.TaskResult.Succeeded, msg);
+    tl.setResult(tl.TaskResult.Succeeded, msg);
 }
 
 run();

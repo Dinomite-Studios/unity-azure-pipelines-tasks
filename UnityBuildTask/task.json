@@ -15,9 +15,6 @@
     "Patch": "10"
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-build-task/blob/master/CHANGELOG.md)",
-  "demands": [
-    "UnityHub.EditorFolderLocation"
-  ],
   "minimumAgentVersion": "1.95.0",
   "instanceNameFormat": "Unity Build $(buildTarget)",
   "groups": [
