@@ -37,7 +37,7 @@ export class UnityBuildScriptHelper {
         using System;
         using System.IO;
         using UnityEditor;
-        d.Reporting;
+        using UnityEditor.Build.Reporting;
         using UnityEngine;
         
         public class AzureDevOps
