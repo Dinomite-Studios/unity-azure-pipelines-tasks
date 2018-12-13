@@ -3,20 +3,20 @@
   "name": "UnityBuildTask",
   "friendlyName": "Unity Build",
   "description": "Build a Unity project and get the exported output files.",
-  "author": "Dinomite Studios",
-  "helpMarkDown": "Builds a Unity project to supported build target platforms. [Documentation](https://github.com/Dinomite-Studios/unity-build-task)",
-  "category": "Utility",
+  "helpMarkDown": "Builds a Unity project to supported build target platforms. [More Information](https://github.com/Dinomite-Studios/unity-build-task)",
+  "category": "Azure Pipelines",
   "visibility": [
     "Build"
   ],
-  "demands": [],
+  "author": "Dinomite Studios",
   "version": {
     "Major": "1",
-    "Minor": "3",
-    "Patch": "0"
+    "Minor": "4",
+    "Patch": "10"
   },
+  "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-build-task/blob/master/CHANGELOG.md)",
   "minimumAgentVersion": "1.95.0",
-  "instanceNameFormat": "Unity Build $(message)",
+  "instanceNameFormat": "Unity Build $(buildTarget)",
   "groups": [
     {
       "name": "unityEditorVersionGroup",
@@ -73,7 +73,6 @@
       "type": "string",
       "label": "Specific Unity Version",
       "required": false,
-      "groupName": "unityEditorVersionGroup",
       "helpMarkDown": "(Optional) Please specify the Unity editor version to use, e.g. `2018.2.5f1`. Make sure it exists on the agent.",
       "visibleRule": "unityVersion == specify"
     },
