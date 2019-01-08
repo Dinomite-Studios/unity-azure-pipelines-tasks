@@ -122,11 +122,9 @@ function getBuildConfiguration(): UnityBuildConfiguration {
         }
     }
 
-    unityBuildConfiguration.unityHubEditorFolderLocation = tl.getInput('unityHubEditorLocation');
+    unityBuildConfiguration.unityHubEditorFolderLocation = process.env.UNITYHUB_EDITORS_FOLDER_LOCATION as string;
     if (isNullOrUndefined(unityBuildConfiguration.unityHubEditorFolderLocation) || unityBuildConfiguration.unityHubEditorFolderLocation === '') {
-        unityBuildConfiguration.unityHubEditorFolderLocation = process.platform === 'win32' ?
-            path.join('C:', 'Program Files', 'Unity', 'Hub', 'Editor')
-            : path.join('/', 'Applications', 'Unity', 'Hub', 'Editor');
+        throw Error('Expected UNITYHUB_EDITORS_FOLDER_LOCATION environment variable to be set!');
     }
 
     if (process.platform !== 'win32' && unityBuildConfiguration.buildTarget === UnityBuildTarget.WindowsStoreApps) {
