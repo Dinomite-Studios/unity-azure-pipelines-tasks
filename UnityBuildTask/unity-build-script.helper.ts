@@ -1,5 +1,4 @@
 import path = require('path');
-import { AgentOS } from "./agent-os.enum";
 import { UnityBuildTarget } from "./unity-build-target.enum";
 import { UnityBuildConfiguration } from "./unity-build-configuration.model";
 
@@ -19,9 +18,8 @@ export class UnityBuildScriptHelper {
     /**
      * Generates a C# script to start a Unity build with the specified options.
      * @param config Build configuration values.
-     * @param agentOS The agent's operating system.
      */
-    public static getUnityEditorBuildScriptContent(config: UnityBuildConfiguration, agentOS: AgentOS): string {
+    public static getUnityEditorBuildScriptContent(config: UnityBuildConfiguration): string {
 
         // If the user has specified custom scene paths to include in the build, split them here
         // and use them to override scenes added to the build in the project.

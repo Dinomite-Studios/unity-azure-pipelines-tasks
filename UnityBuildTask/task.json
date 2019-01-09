@@ -3,26 +3,21 @@
   "name": "UnityBuildTask",
   "friendlyName": "Unity Build",
   "description": "Build a Unity project and get the exported output files.",
-  "author": "Dinomite Studios",
-  "helpMarkDown": "Builds a Unity project to supported build target platforms. [Documentation](https://github.com/Dinomite-Studios/unity-build-task)",
-  "category": "Utility",
+  "helpMarkDown": "Builds a Unity project to supported build target platforms. [More Information](https://github.com/Dinomite-Studios/unity-build-task)",
+  "category": "Azure Pipelines",
   "visibility": [
     "Build"
   ],
-  "demands": [],
+  "author": "Dinomite Studios",
   "version": {
     "Major": "1",
-    "Minor": "3",
+    "Minor": "4",
     "Patch": "0"
   },
+  "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-build-task/blob/master/CHANGELOG.md)",
   "minimumAgentVersion": "1.95.0",
-  "instanceNameFormat": "Unity Build $(message)",
+  "instanceNameFormat": "Unity Build $(buildTarget)",
   "groups": [
-    {
-      "name": "unityEditorVersionGroup",
-      "displayName": "Unity Editor Version",
-      "isExpanded": true
-    },
     {
       "name": "advancedGroup",
       "displayName": "Advanced",
@@ -47,22 +42,12 @@
       }
     },
     {
-      "name": "unityHubEditorLocation",
-      "type": "string",
-      "label": "Editor Folder Location",
-      "defaultValue": "",
-      "required": false,
-      "groupName": "unityEditorVersionGroup",
-      "helpMarkDown": "(Optional) Set the Unity Editor install path on the agent. If no value is entered, `C:\\Program Files\\Unity\\Hub\\Editor\\` will be used on Windows agents and `/Applications/Unity/Hub/Editor/` on Mac agents."
-    },
-    {
       "name": "unityVersion",
       "type": "pickList",
       "label": "Unity Version",
       "required": true,
       "helpMarkDown": "The Unity editor version used to build the target. Use `Project Version` to use the version the project was last opened with. Use `Specify` to use a specific version.",
       "defaultValue": "project",
-      "groupName": "unityEditorVersionGroup",
       "options": {
         "project": "Project Version",
         "specify": "Specify"
@@ -73,7 +58,6 @@
       "type": "string",
       "label": "Specific Unity Version",
       "required": false,
-      "groupName": "unityEditorVersionGroup",
       "helpMarkDown": "(Optional) Please specify the Unity editor version to use, e.g. `2018.2.5f1`. Make sure it exists on the agent.",
       "visibleRule": "unityVersion == specify"
     },
