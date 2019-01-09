@@ -48,7 +48,7 @@ The extension is published at the [Visual Studio Marketplace](https://marketplac
 
 ### Custom installation
 
-You can build the extensio yourself and upload it to your Azure DevOps organization. please make sure [Node.js®](https://nodejs.org/en/) is installed on your development
+You can build the extension yourself and upload it to your Azure DevOps organization. please make sure [Node.js®](https://nodejs.org/en/) is installed on your development
 machine. Also you'll need the [Node CLI for Azure DevOps](https://www.npmjs.com/package/tfx-cli) as well as [TypeScript](https://www.npmjs.com/package/typescript).
 
 1. Download or clone the source
