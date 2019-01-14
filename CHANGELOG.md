@@ -5,18 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.4.0]
 
 ### Changed
 
 - Update instance name format to contain target platform
 - Slightly improved validation and error messages
-- Update build test project to 2018.2.19f1
 - Unity Hub Editors Folder Location is now expected to be an environent variable `UNITYHUB_EDITORS_FOLDER_LOCATION` on the agent. To create the variable create a `.env` file in the agent's root directory and specify the variable by entering e.g. `UNITYHUB_EDITORS_FOLDER_LOCATION=D:\Unity\Editor`. Restart the agent for the change to take effect. For detailed instructions please visit the project's [Wiki - Setup agent pool](https://github.com/Dinomite-Studios/unity-build-task/wiki)
 
 ### Removed
 
 - Support for Microsoft Hosted Agents, since Unity Hub is not available there and the needed environment variable isn't set
+- Preview flag
 
 ## [1.3.0]
 
