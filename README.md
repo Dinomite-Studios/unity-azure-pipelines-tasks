@@ -26,21 +26,12 @@ While each and every project has its own complexity and requirements, these test
 
 ## How to use
 
-### Supported Agents
-
-**Hosted Agents:**
-Hosted agents are supported by the extension. But keep in mind that there might not be the Unity version installed
-your project requires. You can find more information about pre-installed software on Microsoft hosted agents [here](https://docs.microsoft.com/en-us/vsts/pipelines/agents/hosted?view=vsts).
-
-**Custom Agents:**
-We recommend hosting your own build agent for Unity pipelines, which is an easy one-time configuration. This gives you full control over installed Unity versions. You can find more information about hosting your own agent [here](https://docs.microsoft.com/en-us/vsts/pipelines/agents/agents?view=vsts).
+Visit the [Wiki](https://github.com/Dinomite-Studios/unity-build-task/wiki) for detailed instructions on how to setup your Unity pipelines and configure your agents.
 
 ### Requirements
 
 - The Unity version to be used for the build needs to be installed on the agent machine
-- When building e.g. for UWP, Visual Studio 2017 must be installed on the agent machine. When targeting iOS, you'll need Xcode to be installed etc.
-
-Please refer to the official Unity docs on required software to successfully build for your target platform.
+- Please refer to the official Unity docs on required software and SDKs to successfully build for your target platform.
 
 ### Install published extension
 
