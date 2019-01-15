@@ -10,8 +10,8 @@
   ],
   "author": "Dinomite Studios",
   "version": {
-    "Major": "1",
-    "Minor": "4",
+    "Major": "2",
+    "Minor": "0",
     "Patch": "0"
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityBuildV1/CHANGELOG.md)",
