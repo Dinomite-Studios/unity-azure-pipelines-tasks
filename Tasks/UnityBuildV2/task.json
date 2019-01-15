@@ -14,7 +14,7 @@
     "Minor": "0",
     "Patch": "0"
   },
-  "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityBuildV1/CHANGELOG.md)",
+  "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityBuildV2/CHANGELOG.md)",
   "minimumAgentVersion": "1.95.0",
   "instanceNameFormat": "Unity Build $(buildTarget)",
   "groups": [
@@ -33,7 +33,7 @@
       "required": true,
       "helpMarkDown": "Build platform to build the Unity project for.",
       "options": {
-        "standalone": "PC, Mac & Linux Standalone",
+        "standalone": "PC & Mac Standalone",
         "iOS": "iOS",
         "tvOS": "tvOS",
         "Android": "Android",
@@ -43,23 +43,32 @@
     },
     {
       "name": "unityVersion",
-      "type": "pickList",
+      "type": "string",
       "label": "Unity Version",
       "required": true,
-      "helpMarkDown": "The Unity editor version used to build the target. Use `Project Version` to use the version the project was last opened with. Use `Specify` to use a specific version.",
-      "defaultValue": "project",
-      "options": {
-        "project": "Project Version",
-        "specify": "Specify"
-      }
+      "defaultValue": "",
+      "helpMarkDown": "Please specify the Unity editor version to use, e.g. `2018.3.1f1`. You can use the `projectVersion` output variable of the task `Unity Get Project Version` to automatically detect the right version to use."
     },
     {
-      "name": "specificUnityVersion",
-      "type": "string",
-      "label": "Specific Unity Version",
+      "name": "unityProjectPath",
+      "type": "filePath",
+      "label": "Unity Project Path",
+      "defaultValue": "",
       "required": false,
-      "helpMarkDown": "(Optional) Please specify the Unity editor version to use, e.g. `2018.2.5f1`. Make sure it exists on the agent.",
-      "visibleRule": "unityVersion == specify"
+      "helpMarkDown": "(Optional) Enter the directory path to the Unity project. If no value is entered, the root of the repository will be used."
+    },
+    {
+      "name": "commandLineArguments",
+      "type": "pickList",
+      "label": "Command Line Arguments",
+      "defaultValue": "default",
+      "groupName": "advancedGroup",
+      "required": true,
+      "helpMarkDown": "Use the task's default set of command line arguments or specify custom arguments.",
+      "options": {
+        "default": "Default",
+        "custom": "Custom"
+      }
     },
     {
       "name": "developmentBuild",
@@ -67,6 +76,7 @@
       "label": "Development Build",
       "helpMarkDown": "(Optional) Build a development version of the player.",
       "groupName": "advancedGroup",
+      "visibleRule": "commandLineArguments == default",
       "defaultValue": false,
       "required": false
     },
@@ -76,6 +86,7 @@
       "label": "Run API Updater",
       "helpMarkDown": "(Optional) Use this option to specify that Unity APIUpdater should run before building the project.",
       "groupName": "advancedGroup",
+      "visibleRule": "commandLineArguments == default",
       "defaultValue": false,
       "required": false
     },
@@ -85,17 +96,9 @@
       "label": "Disable Unity Package Manager",
       "helpMarkDown": "(Optional) Disables the Unity Package Manager.",
       "groupName": "advancedGroup",
+      "visibleRule": "commandLineArguments == default",
       "defaultValue": false,
       "required": false
-    },
-    {
-      "name": "unityProjectPath",
-      "type": "filePath",
-      "label": "Unity Project Path",
-      "defaultValue": "",
-      "required": false,
-      "groupName": "advancedGroup",
-      "helpMarkDown": "(Optional) Enter the directory path to the Unity project. If no value is entered, the root of the repository will be used."
     },
     {
       "name": "buildScenes",
@@ -103,7 +106,18 @@
       "label": "Build Scenes",
       "helpMarkDown": "(Optional) Enter a comma separated list of scene paths to include in the build. If no value is entered, the project's pre-configured scenes will be included.",
       "groupName": "advancedGroup",
+      "visibleRule": "commandLineArguments == default",
       "required": false
+    },
+    {
+      "name": "customCommandLineArguments",
+      "type": "string",
+      "label": "Arguments",
+      "required": false,
+      "defaultValue": "",
+      "groupName": "advancedGroup",
+      "visibleRule": "commandLineArguments == custom",
+      "helpMarkDown": "Specify your custom command line arguments, see the [documentation](https://docs.unity3d.com/Manual/CommandLineArguments.html) for more info."
     }
   ],
   "OutputVariables": [

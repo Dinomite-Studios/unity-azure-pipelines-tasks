@@ -5,10 +5,10 @@ This is version 2 of the Unity build task. This Unity task will build a Unity pr
 ## Compiling the task yourself
 
 - Check out the repository
-- Open a terminal in the repository's root folder and execute `tsc Tasks\UnityBuildV1\unity-build.ts --lib es6`
+- Open a terminal in the repository's root folder and execute `tsc Tasks\UnityBuildV2\unity-build.ts --lib es6`
 
 ## Uploading the task to your organization
 
-- Open a terminal in the repository's root folder and execute `tfx build tasks upload --task-path Tasks\UnityBuildV1`
+- Open a terminal in the repository's root folder and execute `tfx build tasks upload --task-path Tasks\UnityBuildV2`
 
 *Note*: You can't upload the same version twice. Either change the version or delete the task before uploading it using `tfx build tasks delete --task-id 64e90d50-a9c0-11e8-a356-d3eab7857116`.
