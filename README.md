@@ -43,8 +43,8 @@ You can build the extension yourself and upload it to your Azure DevOps organiza
 machine. Also you'll need the [Node CLI for Azure DevOps](https://www.npmjs.com/package/tfx-cli) as well as [TypeScript](https://www.npmjs.com/package/typescript).
 
 1. Download or clone the source
-2. Run `tsc UnityBuildTask\unity-build.ts --lib es6` to compile to JavaScript code
-3. Run `tfx build tasks upload --task-path UnityBuildTask` to upload the task to your orgnaization
+2. Run `tsc Tasks\UnityBuildV1\unity-build.ts --lib es6` to compile to JavaScript code
+3. Run `tfx build tasks upload --task-path Tasks\UnityBuildV1` to upload the task to your orgnaization
 
 **Note:**
 You can not upload the same version number twice. If you made changes to the code and need to upload a new version make sure to change the version value in the `task.json` file. You can alternatively uninstall the extension before uploading again to avoid this using `tfx build tasks delete --task-id 64e90d50-a9c0-11e8-a356-d3eab7857116`.
