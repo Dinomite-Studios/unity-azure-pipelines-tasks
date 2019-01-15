@@ -14,6 +14,7 @@ async function run() {
             .trim();
 
         if (!isNullOrUndefined(projectVersion) && projectVersion !== '') {
+            tl.setVariable('projectVersion', projectVersion);
             tl.setResult(tl.TaskResult.Succeeded, `Found project version: ${projectVersion}`);
         } else {
             tl.setResult(tl.TaskResult.Failed, 'Failed to get project version from ProjectVersion.txt file.');
