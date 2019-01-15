@@ -14,107 +14,28 @@
     "Minor": "0",
     "Patch": "0"
   },
-  "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-build-task/blob/master/CHANGELOG.md)",
+  "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityGetProjectVersionV1/CHANGELOG.md)",
   "minimumAgentVersion": "1.95.0",
   "instanceNameFormat": "Unity Get Project Version",
-  "groups": [
-    {
-      "name": "advancedGroup",
-      "displayName": "Advanced",
-      "isExpanded": false
-    }
-  ],
   "inputs": [
-    {
-      "name": "buildTarget",
-      "type": "pickList",
-      "label": "Build Target",
-      "defaultValue": "standalone",
-      "required": true,
-      "helpMarkDown": "Build platform to build the Unity project for.",
-      "options": {
-        "standalone": "PC, Mac & Linux Standalone",
-        "iOS": "iOS",
-        "tvOS": "tvOS",
-        "Android": "Android",
-        "WindowsStoreApps": "Universal Windows Platform",
-        "WebGL": "WebGL"
-      }
-    },
-    {
-      "name": "unityVersion",
-      "type": "pickList",
-      "label": "Unity Version",
-      "required": true,
-      "helpMarkDown": "The Unity editor version used to build the target. Use `Project Version` to use the version the project was last opened with. Use `Specify` to use a specific version.",
-      "defaultValue": "project",
-      "options": {
-        "project": "Project Version",
-        "specify": "Specify"
-      }
-    },
-    {
-      "name": "specificUnityVersion",
-      "type": "string",
-      "label": "Specific Unity Version",
-      "required": false,
-      "helpMarkDown": "(Optional) Please specify the Unity editor version to use, e.g. `2018.2.5f1`. Make sure it exists on the agent.",
-      "visibleRule": "unityVersion == specify"
-    },
-    {
-      "name": "developmentBuild",
-      "type": "boolean",
-      "label": "Development Build",
-      "helpMarkDown": "(Optional) Build a development version of the player.",
-      "groupName": "advancedGroup",
-      "defaultValue": false,
-      "required": false
-    },
-    {
-      "name": "acceptApiUpdate",
-      "type": "boolean",
-      "label": "Run API Updater",
-      "helpMarkDown": "(Optional) Use this option to specify that Unity APIUpdater should run before building the project.",
-      "groupName": "advancedGroup",
-      "defaultValue": false,
-      "required": false
-    },
-    {
-      "name": "noPackageManager",
-      "type": "boolean",
-      "label": "Disable Unity Package Manager",
-      "helpMarkDown": "(Optional) Disables the Unity Package Manager.",
-      "groupName": "advancedGroup",
-      "defaultValue": false,
-      "required": false
-    },
     {
       "name": "unityProjectPath",
       "type": "filePath",
       "label": "Unity Project Path",
       "defaultValue": "",
       "required": false,
-      "groupName": "advancedGroup",
       "helpMarkDown": "(Optional) Enter the directory path to the Unity project. If no value is entered, the root of the repository will be used."
-    },
-    {
-      "name": "buildScenes",
-      "type": "string",
-      "label": "Build Scenes",
-      "helpMarkDown": "(Optional) Enter a comma separated list of scene paths to include in the build. If no value is entered, the project's pre-configured scenes will be included.",
-      "groupName": "advancedGroup",
-      "required": false
     }
   ],
   "OutputVariables": [
     {
-      "name": "buildOutputPath",
-      "description": "Path to the directory containing Unity build output files. Path is relative to repository root."
+      "name": "projectVersion",
+      "description": "The project version found by the task for the specified Unity project."
     }
   ],
   "execution": {
     "Node": {
-      "target": "unity-build.js",
+      "target": "unity-get-project-version.js",
       "argumentFormat": ""
     }
   }
