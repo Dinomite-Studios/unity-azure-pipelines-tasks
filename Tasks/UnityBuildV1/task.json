@@ -74,7 +74,7 @@
       "name": "acceptApiUpdate",
       "type": "boolean",
       "label": "Run API Updater",
-      "helpMarkDown": "(Optional) Use this option to specify that Unity APIUpdater should run before building the project.",
+      "helpMarkDown": "(Optional) Use this option to specify that Unity API Updater should run before building the project.",
       "groupName": "advancedGroup",
       "defaultValue": false,
       "required": false

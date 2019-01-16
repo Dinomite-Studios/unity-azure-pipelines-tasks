@@ -58,7 +58,7 @@
       "helpMarkDown": "(Optional) Enter the directory path to the Unity project. If no value is entered, the root of the repository will be used."
     },
     {
-      "name": "commandLineArguments",
+      "name": "commandLineArgumentsMode",
       "type": "pickList",
       "label": "Command Line Arguments",
       "defaultValue": "default",
@@ -76,7 +76,7 @@
       "label": "Development Build",
       "helpMarkDown": "(Optional) Build a development version of the player.",
       "groupName": "advancedGroup",
-      "visibleRule": "commandLineArguments == default",
+      "visibleRule": "commandLineArgumentsMode == default",
       "defaultValue": false,
       "required": false
     },
@@ -84,9 +84,9 @@
       "name": "acceptApiUpdate",
       "type": "boolean",
       "label": "Run API Updater",
-      "helpMarkDown": "(Optional) Use this option to specify that Unity APIUpdater should run before building the project.",
+      "helpMarkDown": "(Optional) Use this option to specify that Unity API Updater should run before building the project.",
       "groupName": "advancedGroup",
-      "visibleRule": "commandLineArguments == default",
+      "visibleRule": "commandLineArgumentsMode == default",
       "defaultValue": false,
       "required": false
     },
@@ -96,7 +96,7 @@
       "label": "Disable Unity Package Manager",
       "helpMarkDown": "(Optional) Disables the Unity Package Manager.",
       "groupName": "advancedGroup",
-      "visibleRule": "commandLineArguments == default",
+      "visibleRule": "commandLineArgumentsMode == default",
       "defaultValue": false,
       "required": false
     },
@@ -106,7 +106,7 @@
       "label": "Build Scenes",
       "helpMarkDown": "(Optional) Enter a comma separated list of scene paths to include in the build. If no value is entered, the project's pre-configured scenes will be included.",
       "groupName": "advancedGroup",
-      "visibleRule": "commandLineArguments == default",
+      "visibleRule": "commandLineArgumentsMode == default",
       "required": false
     },
     {
@@ -116,7 +116,7 @@
       "required": false,
       "defaultValue": "",
       "groupName": "advancedGroup",
-      "visibleRule": "commandLineArguments == custom",
+      "visibleRule": "commandLineArgumentsMode == custom",
       "helpMarkDown": "Specify your custom command line arguments, see the [documentation](https://docs.unity3d.com/Manual/CommandLineArguments.html) for more info."
     }
   ],

@@ -20,16 +20,6 @@ export class UnityBuildConfiguration {
     public developmentBuild: boolean = false;
 
     /**
-     * Gets or sets whether the Unity API updater should run before building the project.
-     */
-    public runAPIUpdater: boolean = false;
-
-    /**
-     * Gets or sets whether the Unity package manager should be disabled for the build.
-     */
-    public disablePackageManager: boolean = false;
-
-    /**
      * Gets or sets the target build platform for the build output.
      */
     public buildTarget: UnityBuildTarget = UnityBuildTarget.standalone;
