@@ -42,14 +42,6 @@
       }
     },
     {
-      "name": "unityVersion",
-      "type": "string",
-      "label": "Unity Version",
-      "required": true,
-      "defaultValue": "",
-      "helpMarkDown": "Please specify the Unity editor version to use, e.g. `2018.3.1f1`. You can use the `projectVersion` output variable of the task `Unity Get Project Version` to automatically detect the right version to use."
-    },
-    {
       "name": "unityProjectPath",
       "type": "filePath",
       "label": "Unity Project Path",

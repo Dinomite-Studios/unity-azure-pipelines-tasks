@@ -112,7 +112,14 @@ function getBuildConfiguration(): UnityBuildConfiguration {
     unityBuildConfiguration.buildScenes = tl.getInput('buildScenes');
     unityBuildConfiguration.buildTarget = (<any>UnityBuildTarget)[tl.getInput('buildTarget', true)];
     unityBuildConfiguration.projectPath = tl.getPathInput('unityProjectPath');
-    unityBuildConfiguration.unityVersion = tl.getInput('unityVersion', true);
+    unityBuildConfiguration.unityVersion = fs.readFileSync(path.join(`${unityBuildConfiguration.projectPath}`, 'ProjectSettings', 'ProjectVersion.txt'), 'utf8')
+        .toString()
+        .split(':')[1]
+        .trim();
+
+    if (isNullOrUndefined(unityBuildConfiguration.unityVersion) || unityBuildConfiguration.unityVersion === '') {
+        throw Error('Failed to get project version from ProjectVersion.txt file.');
+    }
 
     unityBuildConfiguration.unityHubEditorFolderLocation = process.env.UNITYHUB_EDITORS_FOLDER_LOCATION as string;
     if (isNullOrUndefined(unityBuildConfiguration.unityHubEditorFolderLocation) || unityBuildConfiguration.unityHubEditorFolderLocation === '') {
