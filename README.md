@@ -1,4 +1,4 @@
-# About this Azure DevOps extension
+# Unity Tools for Azure DevOps
 
 This extension adds tools for use in Azure Pipelines with Unity 3D. Use these tools to build a Unity project and configure
 CI / CD for your projects.
