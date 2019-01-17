@@ -58,15 +58,19 @@
             "addressable": true
         },
         {
-            "path": "Tasks/UnityBuildV1"
+            "path": "Tasks/UnityBuild/UnityBuildV1"
         },
         {
-            "path": "Tasks/UnityBuildV2"
+            "path": "Tasks/UnityBuild/UnityBuildV2"
         },
         {
-            "path": "Tasks/UnityGetProjectVersionV1"
+            "path": "Tasks/UnityGetProjectVersion/UnityGetProjectVersionV1"
         }
     ],
+    "branding": {
+        "color": "rgb(0, 0, 0)",
+        "theme": "dark"
+    },
     "screenshots": [
         {
             "path": "images/screen1.png"
@@ -83,33 +87,23 @@
     ],
     "contributions": [
         {
-            "id": "custom-unity-build-task-v1",
+            "id": "custom-unity-build-task",
             "type": "ms.vss-distributed-task.task",
             "targets": [
                 "ms.vss-distributed-task.tasks"
             ],
             "properties": {
-                "name": "Tasks/UnityBuildV1"
+                "name": "Tasks/UnityBuild"
             }
         },
         {
-            "id": "custom-unity-build-task-v2",
+            "id": "custom-unity-get-project-version-task",
             "type": "ms.vss-distributed-task.task",
             "targets": [
                 "ms.vss-distributed-task.tasks"
             ],
             "properties": {
-                "name": "Tasks/UnityBuildV2"
-            }
-        },
-        {
-            "id": "custom-unity-get-project-version-task-v1",
-            "type": "ms.vss-distributed-task.task",
-            "targets": [
-                "ms.vss-distributed-task.tasks"
-            ],
-            "properties": {
-                "name": "Tasks/UnityGetProjectVersionV1"
+                "name": "Tasks/UnityGetProjectVersion"
             }
         }
     ]
