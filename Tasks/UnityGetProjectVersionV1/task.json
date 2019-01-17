@@ -1,0 +1,42 @@
+{
+  "id": "38ec98bf-601a-4390-9f2e-23d43dd6dbba",
+  "name": "UnityGetProjectVersionTask",
+  "friendlyName": "Unity Get Project Version",
+  "description": "Gets the project version of a Unity project.",
+  "helpMarkDown": "Gets the project version of a Unity project. [More Information](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks)",
+  "category": "Azure Pipelines",
+  "visibility": [
+    "Build"
+  ],
+  "author": "Dinomite Studios",
+  "version": {
+    "Major": "1",
+    "Minor": "0",
+    "Patch": "0"
+  },
+  "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityGetProjectVersionV1/CHANGELOG.md)",
+  "minimumAgentVersion": "1.95.0",
+  "instanceNameFormat": "Unity Get Project Version",
+  "inputs": [
+    {
+      "name": "unityProjectPath",
+      "type": "filePath",
+      "label": "Unity Project Path",
+      "defaultValue": "",
+      "required": false,
+      "helpMarkDown": "(Optional) Enter the directory path to the Unity project. If no value is entered, the root of the repository will be used."
+    }
+  ],
+  "OutputVariables": [
+    {
+      "name": "projectVersion",
+      "description": "The project version found by the task for the specified Unity project."
+    }
+  ],
+  "execution": {
+    "Node": {
+      "target": "unity-get-project-version.js",
+      "argumentFormat": ""
+    }
+  }
+}

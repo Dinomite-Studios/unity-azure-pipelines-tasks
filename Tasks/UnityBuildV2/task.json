@@ -1,0 +1,149 @@
+{
+  "id": "64e90d50-a9c0-11e8-a356-d3eab7857116",
+  "name": "UnityBuildTask",
+  "friendlyName": "Unity Build",
+  "description": "Build a Unity project and get the exported output files.",
+  "helpMarkDown": "Builds a Unity project to supported build target platforms. [More Information](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks)",
+  "category": "Azure Pipelines",
+  "visibility": [
+    "Build"
+  ],
+  "author": "Dinomite Studios",
+  "version": {
+    "Major": "2",
+    "Minor": "0",
+    "Patch": "0"
+  },
+  "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityBuildV2/CHANGELOG.md)",
+  "minimumAgentVersion": "1.95.0",
+  "instanceNameFormat": "Unity Build $(buildTarget)",
+  "groups": [
+    {
+      "name": "advancedGroup",
+      "displayName": "Advanced",
+      "isExpanded": false
+    }
+  ],
+  "inputs": [
+    {
+      "name": "buildTarget",
+      "type": "pickList",
+      "label": "Build Target",
+      "defaultValue": "standalone",
+      "required": true,
+      "helpMarkDown": "Build platform to build the Unity project for.",
+      "options": {
+        "standalone": "PC & Mac Standalone",
+        "iOS": "iOS",
+        "tvOS": "tvOS",
+        "Android": "Android",
+        "WindowsStoreApps": "Universal Windows Platform",
+        "WebGL": "WebGL"
+      }
+    },
+    {
+      "name": "unityEditorsPathMode",
+      "type": "pickList",
+      "label": "Unity Editors Location",
+      "defaultValue": "unityHub",
+      "required": true,
+      "helpMarkDown": "Define where to look for Unity installations on the agent.",
+      "options": {
+        "unityHub": "Unity Hub default installation path",
+        "environmentVariable": "Use UNITYHUB_EDITORS_FOLDER_LOCATION environment variable on agent",
+        "specify": "Specify path"
+      }
+    },
+    {
+      "name": "customUnityEditorsPath",
+      "type": "string",
+      "label": "Editors Folder Location",
+      "required": false,
+      "defaultValue": "",
+      "visibleRule": "unityEditorsPathMode == specify",
+      "helpMarkDown": "Specify where to look for Unity Editor versions on the agent."
+    },
+    {
+      "name": "unityProjectPath",
+      "type": "filePath",
+      "label": "Unity Project Path",
+      "defaultValue": "",
+      "required": false,
+      "helpMarkDown": "(Optional) Enter the directory path to the Unity project. If no value is entered, the root of the repository will be used."
+    },
+    {
+      "name": "commandLineArgumentsMode",
+      "type": "pickList",
+      "label": "Command Line Arguments",
+      "defaultValue": "default",
+      "groupName": "advancedGroup",
+      "required": true,
+      "helpMarkDown": "Use the task's default set of command line arguments or specify custom arguments.",
+      "options": {
+        "default": "Default",
+        "custom": "Custom"
+      }
+    },
+    {
+      "name": "developmentBuild",
+      "type": "boolean",
+      "label": "Development Build",
+      "helpMarkDown": "(Optional) Build a development version of the player.",
+      "groupName": "advancedGroup",
+      "visibleRule": "commandLineArgumentsMode == default",
+      "defaultValue": false,
+      "required": false
+    },
+    {
+      "name": "acceptApiUpdate",
+      "type": "boolean",
+      "label": "Run API Updater",
+      "helpMarkDown": "(Optional) Use this option to specify that Unity API Updater should run before building the project.",
+      "groupName": "advancedGroup",
+      "visibleRule": "commandLineArgumentsMode == default",
+      "defaultValue": false,
+      "required": false
+    },
+    {
+      "name": "noPackageManager",
+      "type": "boolean",
+      "label": "Disable Unity Package Manager",
+      "helpMarkDown": "(Optional) Disables the Unity Package Manager.",
+      "groupName": "advancedGroup",
+      "visibleRule": "commandLineArgumentsMode == default",
+      "defaultValue": false,
+      "required": false
+    },
+    {
+      "name": "buildScenes",
+      "type": "string",
+      "label": "Build Scenes",
+      "helpMarkDown": "(Optional) Enter a comma separated list of scene paths to include in the build. If no value is entered, the project's pre-configured scenes will be included.",
+      "groupName": "advancedGroup",
+      "visibleRule": "commandLineArgumentsMode == default",
+      "required": false
+    },
+    {
+      "name": "customCommandLineArguments",
+      "type": "string",
+      "label": "Arguments",
+      "required": false,
+      "defaultValue": "",
+      "groupName": "advancedGroup",
+      "visibleRule": "commandLineArgumentsMode == custom",
+      "helpMarkDown": "Specify your custom command line arguments, see the [documentation](https://docs.unity3d.com/Manual/CommandLineArguments.html) for more info."
+    }
+  ],
+  "OutputVariables": [
+    {
+      "name": "buildOutputPath",
+      "description": "Path to the directory containing Unity build output files. Path is relative to repository root."
+    }
+  ],
+  "execution": {
+    "Node": {
+      "target": "unity-build.js",
+      "argumentFormat": ""
+    }
+  }
+}
