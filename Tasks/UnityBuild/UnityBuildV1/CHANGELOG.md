@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Fixed some typos in the helper texts and updated paths to new repository URL
+- Fixed generated AzureDevOps C# scripts not building on Unity versions prior 2018.1
 
 ## [1.4.0]
 
