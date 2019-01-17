@@ -12,11 +12,12 @@ tl.setResourcePath(path.join(__dirname, 'task.json'));
 async function run() {
     try {
         const unityBuildConfiguration = getBuildConfiguration();
+        const unityEditorsPath = getUnityEditorsPath();
 
         // Make sure the selected editor exists.
         const unityEditorDirectory = process.platform === 'win32' ?
-            path.join(`${unityBuildConfiguration.unityHubEditorFolderLocation}`, `${unityBuildConfiguration.unityVersion}`, 'Editor')
-            : path.join(`${unityBuildConfiguration.unityHubEditorFolderLocation}`, `${unityBuildConfiguration.unityVersion}`);
+            path.join(`${unityEditorsPath}`, `${unityBuildConfiguration.unityVersion}`, 'Editor')
+            : path.join(`${unityEditorsPath}`, `${unityBuildConfiguration.unityVersion}`);
         tl.checkPath(unityEditorDirectory, 'Unity Editor Directory');
 
         // Here we make sure the build output directory exists and we can export Unity artifacts
@@ -121,11 +122,6 @@ function getBuildConfiguration(): UnityBuildConfiguration {
         throw Error('Failed to get project version from ProjectVersion.txt file.');
     }
 
-    unityBuildConfiguration.unityHubEditorFolderLocation = process.env.UNITYHUB_EDITORS_FOLDER_LOCATION as string;
-    if (isNullOrUndefined(unityBuildConfiguration.unityHubEditorFolderLocation) || unityBuildConfiguration.unityHubEditorFolderLocation === '') {
-        throw Error('Expected UNITYHUB_EDITORS_FOLDER_LOCATION environment variable to be set!');
-    }
-
     if (process.platform !== 'win32' && unityBuildConfiguration.buildTarget === UnityBuildTarget.WindowsStoreApps) {
         throw Error('Cannot build an UWP project on a Mac.');
     } else if (process.platform === 'win32' && unityBuildConfiguration.buildTarget === UnityBuildTarget.iOS) {
@@ -133,6 +129,31 @@ function getBuildConfiguration(): UnityBuildConfiguration {
     }
 
     return unityBuildConfiguration;
+}
+
+function getUnityEditorsPath(): string {
+    const editorsPathMode = tl.getInput('unityEditorsPathMode', true);
+    if (editorsPathMode === 'unityHub') {
+        const unityHubPath = process.platform === 'win32' ?
+            path.join('C:', 'Program Files', 'Unity', 'Hub', 'Editor')
+            : path.join('/', 'Applications', 'Unity', 'Hub', 'Editor');
+
+        return unityHubPath;
+    } else if (editorsPathMode === 'environmentVariable') {
+        const environmentVariablePath = process.env.UNITYHUB_EDITORS_FOLDER_LOCATION as string;
+        if (isNullOrUndefined(environmentVariablePath) || environmentVariablePath === '') {
+            throw Error('Expected UNITYHUB_EDITORS_FOLDER_LOCATION environment variable to be set!');
+        }
+
+        return environmentVariablePath;
+    } else {
+        const customPath = tl.getInput('customUnityEditorsPath');
+        if (isNullOrUndefined(customPath) || customPath === '') {
+            throw Error('Expected custom editors folder location to be set. Please the task configuration.');
+        }
+
+        return customPath;
+    }
 }
 
 function isFolderNotEmpty(path: string): boolean {
