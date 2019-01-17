@@ -1,0 +1,116 @@
+{
+    "manifestVersion": 1,
+    "id": "64e90d50-a9c0-11e8-a356-d3eab7857116",
+    "version": "2.0.0",
+    "name": "Unity Tools for Azure DevOps",
+    "description": "The Unity Tools for Azure DevOps adds tasks to easily enable build and release pipelines for Unity 3D projects.",
+    "publisher": "DinomiteStudios",
+    "public": true,
+    "icons": {
+        "default": "images/extensionIcon.png"
+    },
+    "content": {
+        "details": {
+            "path": "README.md"
+        },
+        "license": {
+            "path": "LICENSE"
+        }
+    },
+    "targets": [
+        {
+            "id": "Microsoft.VisualStudio.Services"
+        }
+    ],
+    "categories": [
+        "Build and release"
+    ],
+    "tags": [
+        "Unity",
+        "Build",
+        "UWP",
+        "Android",
+        "iOS",
+        "3D",
+        "tvOS",
+        "WebGL",
+        "CI",
+        "CD"
+    ],
+    "links": {
+        "getstarted": {
+            "uri": "https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/wiki"
+        },
+        "license": {
+            "uri": "https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/LICENSE"
+        },
+        "support": {
+            "uri": "https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/issues"
+        }
+    },
+    "repository": {
+        "type": "git",
+        "uri": "https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks"
+    },
+    "files": [
+        {
+            "path": "images",
+            "addressable": true
+        },
+        {
+            "path": "Tasks/UnityBuildV1"
+        },
+        {
+            "path": "Tasks/UnityBuildV2"
+        },
+        {
+            "path": "Tasks/UnityGetProjectVersionV1"
+        }
+    ],
+    "screenshots": [
+        {
+            "path": "images/screen1.png"
+        },
+        {
+            "path": "images/screen2.png"
+        },
+        {
+            "path": "images/screen3.png"
+        },
+        {
+            "path": "images/screen4.png"
+        }
+    ],
+    "contributions": [
+        {
+            "id": "custom-unity-build-task-v1",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "Tasks/UnityBuildV1"
+            }
+        },
+        {
+            "id": "custom-unity-build-task-v2",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "Tasks/UnityBuildV2"
+            }
+        },
+        {
+            "id": "custom-unity-get-project-version-task-v1",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "Tasks/UnityGetProjectVersionV1"
+            }
+        }
+    ]
+}
