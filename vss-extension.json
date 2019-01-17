@@ -1,7 +1,7 @@
 {
     "manifestVersion": 1,
     "id": "64e90d50-a9c0-11e8-a356-d3eab7857116",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "name": "Unity Tools for Azure DevOps",
     "description": "The Unity Tools for Azure DevOps adds tasks to easily enable build and release pipelines for Unity 3D projects.",
     "publisher": "DinomiteStudios",
@@ -73,16 +73,16 @@
     },
     "screenshots": [
         {
-            "path": "images/screen1.png"
+            "path": "images/screen1.PNG"
         },
         {
-            "path": "images/screen2.png"
+            "path": "images/screen2.PNG"
         },
         {
-            "path": "images/screen3.png"
+            "path": "images/screen3.PNG"
         },
         {
-            "path": "images/screen4.png"
+            "path": "images/screen4.PNG"
         }
     ],
     "contributions": [
