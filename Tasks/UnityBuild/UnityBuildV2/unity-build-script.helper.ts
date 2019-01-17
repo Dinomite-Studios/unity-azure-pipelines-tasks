@@ -36,8 +36,11 @@ export class UnityBuildScriptHelper {
         using System;
         using System.IO;
         using UnityEditor;
-        using UnityEditor.Build.Reporting;
         using UnityEngine;
+
+        #if UNITY_2018_1_OR_NEWER
+        using UnityEditor.Build.Reporting;
+        #endif
         
         public class AzureDevOps
         {
@@ -45,7 +48,8 @@ export class UnityBuildScriptHelper {
             private static bool developmentBuild = ${config.developmentBuild ? 'true' : 'false'};
             private static string locationPathName = @"${this.getBuildOutputDirectory(config.buildTarget)}";
             private static string[] includedScenes = ${buildScenesSnippet};
-            [MenuItem("Dinomite Studios/Azure DevOps/Perform Build")]
+
+            [MenuItem("Dinomite Studios/Azure DevOps Tools/Perform Build")]
             public static void PerformBuild()
             {
                 try
@@ -60,7 +64,14 @@ export class UnityBuildScriptHelper {
                             includedScenes[i] = editorConfiguredBuildScenes[i].path;
                         }
                     }
-                    BuildReport buildReport = BuildPipeline.BuildPlayer(new BuildPlayerOptions
+
+        #if UNITY_2018_1_OR_NEWER
+                    BuildReport buildReport = default(BuildReport);
+        #else
+                    string buildReport = "ERROR";
+        #endif
+
+                    buildReport = BuildPipeline.BuildPlayer(new BuildPlayerOptions
                     {
                         scenes = includedScenes,
                         target = EditorUserBuildSettings.activeBuildTarget,
@@ -69,6 +80,7 @@ export class UnityBuildScriptHelper {
                         options = developmentBuild ? BuildOptions.Development : BuildOptions.None
                     });
                 
+        #if UNITY_2018_1_OR_NEWER
                     switch (buildReport.summary.result)
                     {
                         case BuildResult.Succeeded:
@@ -81,6 +93,16 @@ export class UnityBuildScriptHelper {
                             EditorApplication.Exit(1);
                             break;
                     }
+        #else
+                    if (buildReport.StartsWith("Error"))
+                    {
+                        EditorApplication.Exit(1);
+                    }
+                    else
+                    {
+                        EditorApplication.Exit(0);
+                    }
+        #endif
                 }
                 catch (Exception ex)
                 {
@@ -97,7 +119,9 @@ export class UnityBuildScriptHelper {
                     case BuildTarget.StandaloneWindows64:
                     case BuildTarget.StandaloneWindows:
                         return string.Format("{0}.exe", outputFileName);
+        #if UNITY_2018_1_OR_NEWER
                     case BuildTarget.StandaloneOSX:
+        #endif
                     case BuildTarget.StandaloneOSXIntel:
                     case BuildTarget.StandaloneOSXIntel64:
                         return string.Format("{0}.app", outputFileName);
