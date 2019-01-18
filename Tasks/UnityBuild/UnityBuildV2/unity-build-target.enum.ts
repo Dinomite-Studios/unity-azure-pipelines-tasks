@@ -8,6 +8,9 @@
  */
 export enum UnityBuildTarget {
     standalone,
+    Win,
+    Win64,
+    OSXUniversal,
     iOS,
     tvOS,
     Android,
