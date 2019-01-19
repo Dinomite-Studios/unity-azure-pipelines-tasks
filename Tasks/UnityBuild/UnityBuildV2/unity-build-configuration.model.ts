@@ -25,6 +25,12 @@ export class UnityBuildConfiguration {
     public projectPath: string = '';
 
     /**
+     * Gets or sets the output filename, which will be used when constructing
+     * the appropriate platform's extension (i.e. drop.exe, drop.app, drop.apk).
+     */
+    public outputFileName: string = '';
+
+    /**
      * Gets or sets scenes to include in the build. If nothing specified,
      * the scenes configured in the project will be used.
      * Input format: {path_to_scene_1_asset},{path_to_scene_2_asset}...

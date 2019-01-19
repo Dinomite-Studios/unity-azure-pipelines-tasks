@@ -44,7 +44,7 @@ export class UnityBuildScriptHelper {
         
         public class AzureDevOps
         {
-            private static string outputFileName = "drop";
+            private static string outputFileName = @"${config.outputFileName}";
             private static bool developmentBuild = ${config.developmentBuild ? 'true' : 'false'};
             private static string locationPathName = @"${this.getBuildOutputDirectory(config.buildTarget)}";
             private static string[] includedScenes = ${buildScenesSnippet};

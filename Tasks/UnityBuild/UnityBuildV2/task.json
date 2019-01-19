@@ -11,7 +11,7 @@
   "author": "Dinomite Studios",
   "version": {
     "Major": "2",
-    "Minor": "0",
+    "Minor": "1",
     "Patch": "0"
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityBuild/UnityBuildV2/CHANGELOG.md)",
@@ -33,7 +33,10 @@
       "required": true,
       "helpMarkDown": "Build platform to build the Unity project for.",
       "options": {
-        "standalone": "PC & Mac Standalone",
+        "standalone": "Standalone (agent-based)",
+        "Win64": "PC Standalone (64-bit)",
+        "Win": "PC Standalone (32-bit)",
+        "OSXUniversal": "Mac Standalone",        
         "iOS": "iOS",
         "tvOS": "tvOS",
         "Android": "Android",
@@ -132,6 +135,15 @@
       "groupName": "advancedGroup",
       "visibleRule": "commandLineArgumentsMode == custom",
       "helpMarkDown": "Specify your custom command line arguments, see the [documentation](https://docs.unity3d.com/Manual/CommandLineArguments.html) for more info."
+    },
+    {
+      "name": "outputFileName",
+      "type": "string",
+      "label": "Output Filename",
+      "helpMarkDown": "(Optional) Enter the output filename to be used when constructing the platform-appropriate output.  For instance, if you want the output to be 'thegame.exe' on Windows Standalone, enter 'thegame'",
+      "groupName": "advancedGroup",
+      "required": false,
+      "defaultValue": "drop"
     }
   ],
   "OutputVariables": [
