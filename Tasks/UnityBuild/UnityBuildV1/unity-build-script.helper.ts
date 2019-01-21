@@ -110,6 +110,7 @@ export class UnityBuildScriptHelper {
                     EditorApplication.Exit(1);
                 }
             }
+
             private static string GetBuildTargetOutputFileNameAndExtension()
             {
                 switch (EditorUserBuildSettings.activeBuildTarget)
@@ -122,8 +123,10 @@ export class UnityBuildScriptHelper {
         #if UNITY_2018_1_OR_NEWER
                     case BuildTarget.StandaloneOSX:
         #endif
+        #if !UNITY_2017_3_OR_NEWER
                     case BuildTarget.StandaloneOSXIntel:
                     case BuildTarget.StandaloneOSXIntel64:
+        #endif
                         return string.Format("{0}.app", outputFileName);
                     case BuildTarget.iOS:
                     case BuildTarget.tvOS:
@@ -132,12 +135,18 @@ export class UnityBuildScriptHelper {
                     case BuildTarget.WSAPlayer:
                     case BuildTarget.StandaloneLinux64:
                     case BuildTarget.StandaloneLinuxUniversal:
-                    case BuildTarget.PSP2:
+        #if !UNITY_2018_3_OR_NEWER
+                    case BuildTarget.PSP2:    
+        #endif
                     case BuildTarget.PS4:
                     case BuildTarget.XboxOne:
+        #if !UNITY_2017_3_OR_NEWER
                     case BuildTarget.SamsungTV:
+        #endif
+        #if !UNITY_2018_1_OR_NEWER
                     case BuildTarget.N3DS:
                     case BuildTarget.WiiU:
+        #endif
                     case BuildTarget.Switch:
                     case BuildTarget.NoTarget:
                     default:
