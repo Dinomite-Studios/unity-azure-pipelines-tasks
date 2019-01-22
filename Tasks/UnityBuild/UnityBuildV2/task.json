@@ -11,7 +11,7 @@
   "author": "Dinomite Studios",
   "version": {
     "Major": "2",
-    "Minor": "1",
+    "Minor": "2",
     "Patch": "0"
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityBuild/UnityBuildV2/CHANGELOG.md)",
@@ -36,7 +36,7 @@
         "standalone": "Standalone (agent-based)",
         "Win64": "PC Standalone (64-bit)",
         "Win": "PC Standalone (32-bit)",
-        "OSXUniversal": "Mac Standalone",        
+        "OSXUniversal": "Mac Standalone",
         "iOS": "iOS",
         "tvOS": "tvOS",
         "Android": "Android",
@@ -144,6 +144,26 @@
       "groupName": "advancedGroup",
       "required": false,
       "defaultValue": "drop"
+    },
+    {
+      "name": "specifyLogFile",
+      "type": "boolean",
+      "label": "Specify Log File",
+      "helpMarkDown": "(Optional) Enables settings to specify a logfile name. The logfile can then be used to find build errors. You can find the logfile after the build in the build output directory. Use the `buildOutputPath` output variable to find it.",
+      "groupName": "advancedGroup",
+      "visibleRule": "commandLineArgumentsMode == default",
+      "defaultValue": false,
+      "required": false
+    },
+    {
+      "name": "logFileName",
+      "type": "string",
+      "label": "Logfile Name",
+      "helpMarkDown": "Enter the output filename to be used when constructing the platform-appropriate output.  For instance, if you want the output to be 'thegame.exe' on Windows Standalone, enter 'thegame'",
+      "groupName": "advancedGroup",
+      "required": false,
+      "defaultValue": "Editor.log",
+      "visibleRule": "commandLineArgumentsMode == default && specifyLogFile"
     }
   ],
   "OutputVariables": [

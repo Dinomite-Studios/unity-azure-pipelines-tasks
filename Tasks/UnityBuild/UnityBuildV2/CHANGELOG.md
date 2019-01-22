@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- New feature to specify a logfile name. The logfile will be in the build output directory after the build
+
 ### Changed
 
 - Fixed compiler warnings regarding deprecated build targets
