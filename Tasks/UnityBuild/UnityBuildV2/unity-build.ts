@@ -69,8 +69,10 @@ async function run() {
                     throw Error('Expected log file name to be set. Disable the Specify Log File setting or enter a logfile name.');
                 }
 
+                const logFilePath = path.join(repositoryLocalPath, logFileName);
                 unityCmd.arg('-logfile');
-                unityCmd.arg(path.join(fullBuildOutputPath, logFileName));
+                unityCmd.arg(logFilePath);
+                tl.setVariable('editorLogPath', logFilePath);
             }
         } else {
             // The user has configured to use his own custom command line arguments.
