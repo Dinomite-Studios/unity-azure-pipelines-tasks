@@ -70,7 +70,7 @@ async function run() {
                 }
 
                 unityCmd.arg('-logfile');
-                unityCmd.arg(path.join('fullBuildOutputPath', logFileName));
+                unityCmd.arg(path.join(fullBuildOutputPath, logFileName));
             }
         } else {
             // The user has configured to use his own custom command line arguments.
