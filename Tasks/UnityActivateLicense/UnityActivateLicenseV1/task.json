@@ -33,10 +33,26 @@
       "description": "The project version found by the task for the specified Unity project."
     }
   ],
+  "prejobexecution": {
+    "Node": {
+      "target": "pre-unity-activate-license.js",
+      "argumentFormat": ""
+    }
+  },
   "execution": {
     "Node": {
       "target": "unity-activate-license.js",
       "argumentFormat": ""
     }
+  },
+  "postjobexecution": {
+    "Node": {
+      "target": "post-unity-activate-license.js",
+      "argumentFormat": ""
+    }
+  },
+  "messages": {
+    "InputProvisioningProfileNotFound": "Provisioning profile to be installed was not found at %s. Specify the full file path to a provisioning profile.",
+    "InstallRequiresMac": "Install Apple Provisioning Profile requires a macOS agent. Installing on Windows or Linux is not supported by Apple."
   }
 }
