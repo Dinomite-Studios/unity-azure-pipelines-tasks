@@ -5,7 +5,7 @@ This is version 2.1 of the Unity build task. This Unity task will build a Unity 
 ## Compiling the task yourself
 
 - Check out the repository
-- Open a terminal in `Tasks\UnityBuild\UnityBuildV2` and execute `npm i @types/node`
+- Open a terminal in `Tasks\UnityBuild\UnityBuildV2` and execute `npm install` to install the required node packages
 - Open a terminal in the repository's root folder and execute `tsc Tasks\UnityBuild\UnityBuildV2\unity-build.ts --lib es6`
 
 ## Uploading the task to your organization

@@ -61,6 +61,19 @@ async function run() {
             tl.cd(unityBuildConfiguration.projectPath);
             unityCmd.arg('-executeMethod');
             unityCmd.arg('AzureDevOps.PerformBuild');
+
+            // Optionally add a logfile definition to the command and output the logfile to the build output directory.
+            if (tl.getInput('specifyLogFile')) {
+                const logFileName = tl.getInput('logFileName');
+                if (isNullOrUndefined(logFileName) || logFileName === '') {
+                    throw Error('Expected log file name to be set. Disable the Specify Log File setting or enter a logfile name.');
+                }
+
+                const logFilePath = path.join(repositoryLocalPath, logFileName);
+                unityCmd.arg('-logfile');
+                unityCmd.arg(logFilePath);
+                tl.setVariable('editorLogFilePath', logFilePath);
+            }
         } else {
             // The user has configured to use his own custom command line arguments.
             // In this case, just append them to the mandatory set of arguments and we're done.
