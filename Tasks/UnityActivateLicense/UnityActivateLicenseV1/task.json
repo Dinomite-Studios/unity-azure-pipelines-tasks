@@ -41,6 +41,42 @@
       "defaultValue": "",
       "required": true,
       "helpMarkDown": "Serial key used to activate the Unity Editor. The serial key must be assigned to the user defined by username and password above."
+    },
+    {
+      "name": "unityEditorsPathMode",
+      "type": "pickList",
+      "label": "Unity Editors Location",
+      "defaultValue": "unityHub",
+      "required": true,
+      "helpMarkDown": "Define where to look for Unity installations on the agent.",
+      "options": {
+        "unityHub": "Unity Hub default installation path",
+        "environmentVariable": "Use UNITYHUB_EDITORS_FOLDER_LOCATION environment variable on agent",
+        "specify": "Specify path"
+      }
+    },
+    {
+      "name": "customUnityEditorsPath",
+      "type": "string",
+      "label": "Editors Folder Location",
+      "required": false,
+      "defaultValue": "",
+      "visibleRule": "unityEditorsPathMode == specify",
+      "helpMarkDown": "Specify where to look for Unity Editor versions on the agent."
+    },
+    {
+      "name": "unityProjectPath",
+      "type": "filePath",
+      "label": "Unity Project Path",
+      "defaultValue": "",
+      "required": false,
+      "helpMarkDown": "(Optional) Enter the directory path to the Unity project. If no value is entered, the root of the repository will be used."
+    }
+  ],
+  "OutputVariables": [
+    {
+      "name": "logFilePath",
+      "description": "Path to the Unity editor log file for the activation process. Path is relative to repository root."
     }
   ],
   "execution": {
@@ -56,7 +92,7 @@
     }
   },
   "messages": {
-    "InputProvisioningProfileNotFound": "Provisioning profile to be installed was not found at %s. Specify the full file path to a provisioning profile.",
-    "InstallRequiresMac": "Install Apple Provisioning Profile requires a macOS agent. Installing on Windows or Linux is not supported by Apple."
+    "EditorsPathEnvironmentVariableNotSet": "Expected UNITYHUB_EDITORS_FOLDER_LOCATION environment variable to be set.",
+    "EditorsPathCustomPathNotSet": "Expected custom editors folder location to be set. Please the task configuration."
   }
 }
