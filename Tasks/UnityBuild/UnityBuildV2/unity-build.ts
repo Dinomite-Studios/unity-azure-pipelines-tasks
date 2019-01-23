@@ -72,7 +72,7 @@ async function run() {
                 const logFilePath = path.join(repositoryLocalPath, logFileName);
                 unityCmd.arg('-logfile');
                 unityCmd.arg(logFilePath);
-                tl.setVariable('editorLogPath', logFilePath);
+                tl.setVariable('editorLogFilePath', logFilePath);
             }
         } else {
             // The user has configured to use his own custom command line arguments.

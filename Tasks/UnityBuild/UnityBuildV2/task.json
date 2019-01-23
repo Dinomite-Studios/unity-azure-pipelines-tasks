@@ -173,8 +173,8 @@
       "description": "Path to the directory containing Unity build output files. Path is relative to repository root."
     },
     {
-      "name": "editorLogPath",
-      "description": "Path to the directory containing Unity editor log file. Path is relative to repository root. Only set, if `Specify Log File` enabled."
+      "name": "editorLogFilePath",
+      "description": "Path to the Unity editor log file. Path is relative to repository root. Only set, if `Specify Log File` enabled."
     }
   ],
   "execution": {
