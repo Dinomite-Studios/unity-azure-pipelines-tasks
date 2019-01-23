@@ -19,18 +19,28 @@
   "instanceNameFormat": "Unity Activate License",
   "inputs": [
     {
-      "name": "unityProjectPath",
-      "type": "filePath",
-      "label": "Unity Project Path",
+      "name": "username",
+      "type": "string",
+      "label": "Username",
       "defaultValue": "",
-      "required": false,
-      "helpMarkDown": "(Optional) Enter the directory path to the Unity project. If no value is entered, the root of the repository will be used."
-    }
-  ],
-  "OutputVariables": [
+      "required": true,
+      "helpMarkDown": "The username used to activate the Unity Editor."
+    },
     {
-      "name": "projectVersion",
-      "description": "The project version found by the task for the specified Unity project."
+      "name": "password",
+      "type": "string",
+      "label": "Password",
+      "defaultValue": "",
+      "required": true,
+      "helpMarkDown": "The password used to activate the Unity Editor."
+    },
+    {
+      "name": "serial",
+      "type": "string",
+      "label": "Serial",
+      "defaultValue": "",
+      "required": true,
+      "helpMarkDown": "Serial key used to activate the Unity Editor. The serial key must be assigned to the user defined by username and password above."
     }
   ],
   "execution": {
