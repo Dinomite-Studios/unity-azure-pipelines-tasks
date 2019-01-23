@@ -1,0 +1,42 @@
+{
+  "id": "13159b9a-b7ba-4977-922c-2b5cb63c90df",
+  "name": "UnityActivateLicenseTask",
+  "friendlyName": "Unity Activate License",
+  "description": "Activates a Unity license on the agent.",
+  "helpMarkDown": "Activates a Unity license on the agent. [More Information](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks)",
+  "category": "Azure Pipelines",
+  "visibility": [
+    "Build"
+  ],
+  "author": "Dinomite Studios",
+  "version": {
+    "Major": "1",
+    "Minor": "0",
+    "Patch": "0"
+  },
+  "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityActivateLicense/UnityActivateLicenseV1/CHANGELOG.md)",
+  "minimumAgentVersion": "1.95.0",
+  "instanceNameFormat": "Unity Activate License",
+  "inputs": [
+    {
+      "name": "unityProjectPath",
+      "type": "filePath",
+      "label": "Unity Project Path",
+      "defaultValue": "",
+      "required": false,
+      "helpMarkDown": "(Optional) Enter the directory path to the Unity project. If no value is entered, the root of the repository will be used."
+    }
+  ],
+  "OutputVariables": [
+    {
+      "name": "projectVersion",
+      "description": "The project version found by the task for the specified Unity project."
+    }
+  ],
+  "execution": {
+    "Node": {
+      "target": "unity-activate-license.js",
+      "argumentFormat": ""
+    }
+  }
+}

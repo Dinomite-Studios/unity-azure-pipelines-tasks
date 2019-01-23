@@ -65,6 +65,9 @@
         },
         {
             "path": "Tasks/UnityGetProjectVersion/UnityGetProjectVersionV1"
+        },
+        {
+            "path": "Tasks/UnityActivateLicense/UnityActivateLicenseV1"
         }
     ],
     "branding": {
@@ -104,6 +107,16 @@
             ],
             "properties": {
                 "name": "Tasks/UnityGetProjectVersion"
+            }
+        },
+        {
+            "id": "custom-unity-activate-license-task",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "Tasks/UnityActivateLicense"
             }
         }
     ]
