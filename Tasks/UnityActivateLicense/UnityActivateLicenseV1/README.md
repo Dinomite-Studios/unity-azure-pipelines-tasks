@@ -7,6 +7,7 @@ It's part of the [Unity Tools for Azure DevOps](https://marketplace.visualstudio
 
 - Check out the repository
 - Open a terminal in `Tasks\UnityActivateLicense\UnityActivateLicenseV1` and execute `npm install` to install the required node packages
+- Open a terminal in the repository's root folder and execute `tsc Tasks\UnityActivateLicense\UnityActivateLicenseV1\post-unity-activate-license.ts --lib es6`
 - Open a terminal in the repository's root folder and execute `tsc Tasks\UnityActivateLicense\UnityActivateLicenseV1\unity-activate-license.ts --lib es6`
 
 ## Uploading the task to your organization
