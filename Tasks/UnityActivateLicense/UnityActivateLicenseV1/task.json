@@ -33,12 +33,6 @@
       "description": "The project version found by the task for the specified Unity project."
     }
   ],
-  "prejobexecution": {
-    "Node": {
-      "target": "pre-unity-activate-license.js",
-      "argumentFormat": ""
-    }
-  },
   "execution": {
     "Node": {
       "target": "unity-activate-license.js",
