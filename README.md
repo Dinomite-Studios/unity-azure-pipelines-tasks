@@ -10,6 +10,7 @@ The `master` branch is automatically built and deployed to the [Visual Studio Ma
 ## Included Build / Release Tasks
 
 - Unity Get Project Version
+- Unity Activate License
 - Unity Build
 
 ## Supported Unity Target Platforms
@@ -23,12 +24,4 @@ The `master` branch is automatically built and deployed to the [Visual Studio Ma
 
 ## How to use
 
-Visit the [Wiki](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks) for detailed instructions on how to setup your Unity pipelines and configure your agents.
-
-### Custom installation
-
-You'll need these tools to build and deploy the tasks yourself:
-
-- [Node.js®](https://nodejs.org/en/)
-- [Node CLI for Azure DevOps](https://www.npmjs.com/package/tfx-cli)
-- [TypeScript](https://www.npmjs.com/package/typescript)
+Visit the [Documentation](https://dinomite-studios.github.io/unity-azure-pipelines-tasks/) for detailed instructions on how to setup your Unity pipelines and configure your agents.
