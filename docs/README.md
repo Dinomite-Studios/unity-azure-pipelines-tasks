@@ -13,9 +13,9 @@ If you are going to build projects targeting iOS, tvOS or macOS, you'll need a m
 
 If you are unsure how to setup your pipeline. You can use one of the following examples as a template for your own pipeline:
 
-* [PC & Mac Standalone](https://github.com/Dinomite-Studios/unity-build-task/wiki/Android-Pipeline)
-* [iOS](https://github.com/Dinomite-Studios/unity-build-task/wiki/Android-Pipeline)
-* [tvOS](https://github.com/Dinomite-Studios/unity-build-task/wiki/Android-Pipeline)
-* [Android](https://github.com/Dinomite-Studios/unity-build-task/wiki/Android-Pipeline)
-* [Universal Windows Platform](https://github.com/Dinomite-Studios/unity-build-task/wiki/Android-Pipeline)
-* [WebGL](https://github.com/Dinomite-Studios/unity-build-task/wiki/Android-Pipeline)
+* PC & Mac Standalone (coming soon)
+* [iOS](ios-pipeline.md)
+* tvOS (coming soon)
+* Android (coming soon)
+* Universal Windows Platform (coming soon)
+* WebGL (coming soon)
