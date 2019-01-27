@@ -1,0 +1,98 @@
+{
+  "id": "13159b9a-b7ba-4977-922c-2b5cb63c90df",
+  "name": "UnityActivateLicenseTask",
+  "friendlyName": "Unity Activate License",
+  "description": "Activates a Unity license on the agent.",
+  "helpMarkDown": "Activates a Unity license on the agent. [More Information](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks)",
+  "category": "Azure Pipelines",
+  "visibility": [
+    "Build"
+  ],
+  "author": "Dinomite Studios",
+  "version": {
+    "Major": "1",
+    "Minor": "0",
+    "Patch": "0"
+  },
+  "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityActivateLicense/UnityActivateLicenseV1/CHANGELOG.md)",
+  "minimumAgentVersion": "1.95.0",
+  "instanceNameFormat": "Unity Activate License",
+  "inputs": [
+    {
+      "name": "username",
+      "type": "string",
+      "label": "Username",
+      "defaultValue": "",
+      "required": true,
+      "helpMarkDown": "The username used to activate the Unity Editor."
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "label": "Password",
+      "defaultValue": "",
+      "required": true,
+      "helpMarkDown": "The password used to activate the Unity Editor."
+    },
+    {
+      "name": "serial",
+      "type": "string",
+      "label": "Serial",
+      "defaultValue": "",
+      "required": true,
+      "helpMarkDown": "Serial key used to activate the Unity Editor. The serial key must be assigned to the user defined by username and password above."
+    },
+    {
+      "name": "unityEditorsPathMode",
+      "type": "pickList",
+      "label": "Unity Editors Location",
+      "defaultValue": "unityHub",
+      "required": true,
+      "helpMarkDown": "Define where to look for Unity installations on the agent.",
+      "options": {
+        "unityHub": "Unity Hub default installation path",
+        "environmentVariable": "Use UNITYHUB_EDITORS_FOLDER_LOCATION environment variable on agent",
+        "specify": "Specify path"
+      }
+    },
+    {
+      "name": "customUnityEditorsPath",
+      "type": "string",
+      "label": "Editors Folder Location",
+      "required": false,
+      "defaultValue": "",
+      "visibleRule": "unityEditorsPathMode == specify",
+      "helpMarkDown": "Specify where to look for Unity Editor versions on the agent."
+    },
+    {
+      "name": "unityProjectPath",
+      "type": "filePath",
+      "label": "Unity Project Path",
+      "defaultValue": "",
+      "required": false,
+      "helpMarkDown": "(Optional) Enter the directory path to the Unity project. If no value is entered, the root of the repository will be used."
+    }
+  ],
+  "OutputVariables": [
+    {
+      "name": "logFilePath",
+      "description": "Path to the Unity editor log file for the activation process. Path is relative to repository root."
+    }
+  ],
+  "execution": {
+    "Node": {
+      "target": "unity-activate-license.js",
+      "argumentFormat": ""
+    }
+  },
+  "postjobexecution": {
+    "Node": {
+      "target": "post-unity-activate-license.js",
+      "argumentFormat": ""
+    }
+  },
+  "messages": {
+    "EditorsPathEnvironmentVariableNotSet": "Expected UNITYHUB_EDITORS_FOLDER_LOCATION environment variable to be set.",
+    "EditorsPathCustomPathNotSet": "Expected custom editors folder location to be set. Please the task configuration."
+  }
+}
