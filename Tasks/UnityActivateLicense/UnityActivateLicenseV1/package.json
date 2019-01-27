@@ -15,6 +15,7 @@
   "dependencies": {
     "@types/fs-extra": "^5.0.4",
     "azure-pipelines-task-lib": "^2.7.7",
+    "find-process": "^1.2.1",
     "fs-extra": "^7.0.1"
   },
   "devDependencies": {
