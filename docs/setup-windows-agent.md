@@ -1,3 +1,5 @@
+## Setup Custom Windows Agent
+
 Please follow the official documentation on how to ["Deploy an agent on Windows"](https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/v2-windows?view=vsts) for use in your Azure DevOps organization. Once you have done that, please navigate the Windows Explorer to the agent's root directory and create a `.env` file, if it does not exist yet.
 
 ![.env file in agent root folder](images/agent_setup_win_env_file.PNG)
