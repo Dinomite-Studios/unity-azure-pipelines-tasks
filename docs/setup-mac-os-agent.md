@@ -1,3 +1,5 @@
+## Setup Custom macOS Agent
+
 Please follow the official documentation on how to ["Deploy an agent on macOS"](https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/v2-osx?view=vsts) for use in your Azure DevOps organization. Once you have done that, please navigate the Finder to the agent's root directory. Use `COMMAND + SHIFT + .` to show hidden files in the folder. Check whether a `.env` file already exists. If not, please create one.
 
 ![.env file in agent root folder](images/agent_setup_mac_os_env_file.png)
