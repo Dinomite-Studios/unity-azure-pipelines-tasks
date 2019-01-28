@@ -3,9 +3,9 @@ This Azure DevOps extension contains build and release tasks for use in Azure Pi
 ## 1. Installing the extension
 Please install the extension ["Unity Tools for Azure DevOps"](https://marketplace.visualstudio.com/items?itemName=DinomiteStudios.64e90d50-a9c0-11e8-a356-d3eab7857116) for use in your Azure DevOps organization.
 
-![Extension in Marketplace](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/docs/images/vs-marketplace-get-extension.PNG)
+![Extension in Marketplace](images/vs-marketplace-get-extension.PNG)
 
-![Install to organization](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/docs/images/vs-marketplace-install.PNG)
+![Install to organization](images/vs-marketplace-install.PNG)
 
 Now that you have installed the extension, you can use the following tasks in your pipelines:
 
@@ -22,7 +22,7 @@ Use this task to activate a license on the agent before building. Once the pipel
 Use this task to actually build your Unity project and get the build output files for following tasks to process.
 
 ## 2. Supported Build Agents
-The extension supports Microsoft hosted agents as well as custom agents. Some of Unity's target build platforms are not supported on hosted agents, since they require manual configuration of SDKs & Tools, which we can't do on hosted agents. For full control over the tools and software, we recommend using your own build agent. This table illustrated the supported platforms on either agent:
+The extension supports Microsoft hosted agents as well as custom agents. Some of Unity's target build platforms are not supported on hosted agents, since they require manual configuration of SDKs & Tools, which we can't do on hosted agents. For full control over the tools and software, we recommend using your own build agent. This table illustrates the supported platforms on either agent:
 
 | Target Platform            |                             Hosted Agents                            |    Custom Agents   |
 |----------------------------|:--------------------------------------------------------------------:|:------------------:|
