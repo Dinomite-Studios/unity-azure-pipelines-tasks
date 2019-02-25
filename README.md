@@ -13,15 +13,6 @@ The `master` branch is automatically built and deployed to the [Visual Studio Ma
 - Unity Activate License
 - Unity Build
 
-## Supported Unity Target Platforms
-
-- PC & Mac Standalone
-- iOS
-- tvOS
-- Android
-- Universal Windows Platform
-- WebGL
-
 ## How to use
 
-Visit the [Documentation](https://dinomite-studios.github.io/unity-azure-pipelines-tasks/) for detailed instructions on how to setup your Unity pipelines and configure your agents.
+Visit the [documentation](https://dinomite-studios.github.io/unity-azure-pipelines-tasks/) for detailed instructions on how to setup your Unity pipelines and configure your agents.

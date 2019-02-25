@@ -138,8 +138,6 @@ function getBuildConfiguration(): UnityBuildConfiguration {
 
     if (process.platform !== 'win32' && unityBuildConfiguration.buildTarget === UnityBuildTarget.WindowsStoreApps) {
         throw Error('Cannot build an UWP project on a Mac.');
-    } else if (process.platform === 'win32' && unityBuildConfiguration.buildTarget === UnityBuildTarget.iOS) {
-        throw Error('Cannot build an iOS/tvOS project on a Windows PC.');
     }
 
     return unityBuildConfiguration;
