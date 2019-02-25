@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.0]
+
+### Changed
+
+- You can now build Unity iOS / tvOS / macOS projects on a windows agent. This was added to support scenarios where one agent will build the Unity project and then output data is built by a mac agent in a following pipeline step. Please keep in mind this not mean you can get and build an iOS app package on a Windows agent
+
 ## [2.2.0]
 
 ### Added
