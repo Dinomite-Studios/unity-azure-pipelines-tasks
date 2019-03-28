@@ -15,3 +15,21 @@ Next we need to select a template for the build pipeline. If you have experience
 Alright, we now have a new empty pipeline. Please enter a name for your build pipeline (I named it "Unity Build Pipeline Hosted Agent" for this example). Also select the agent pools to use. I am going to use **Hosted VS2017** here.
 
 ![Create new pipeline (set name and agent)](images/pipeline-new-pipeline-name.jpg)
+
+### Add tasks to the pipeline
+
+The first task we want to add when building on a hosted agent is the [Unity Get Project Version](unity-get-project-version.md) task. This task will help us to find out which Unity version we need to install for our project to build. Select the + - Button on the **Agent job 1** in your pipeline and search for "Unity". Then add the task to the pipeline.
+
+![Add get project version task](images/pipeline-add-project-version-task.jpg)
+
+This task does not have many options. The Unity Project path is optional. If your Unity project's Asset folder is not in the repository root, please specify the path to the Unity project here. For this example we'll leave it empty (repository root). Make sure to unfold the **Output Variables** options and specify a reference name for the task, because we will need it to get a reference to the projectVersion output variable.
+
+![Configure get project version task](images/pipeline-edit-project-version-task.jpg)
+
+Alright. Next we'll need to install a PowerShell module which will help us to install the required Unity version on build. Please select the + - Button on the agent job again, search for "PowerShell" and add the **PowerShell** task to the pipeline.
+
+![Add PowerShell task](images/pipeline-add-powershell-task-1.jpg)
+
+Select it for editing and enter the name "Install UnitySetup.PowerShell module". We make use of [this open source module](https://github.com/Microsoft/unitysetup.powershell) here to install Unity, so we need to install it first on the agent. Make it an **Inline** type script and paste `Install-Module -Name UnitySetup -AllowPrerelease` into the script field. Also make sure to check "Fail on Standard Error" in the advanced options. At the time of writing this, a prerelease version of this module is needed since it contains a fix we need.
+
+![Configure PowerShell task](images/pipeline-edit-powershell-task-1.jpg)
