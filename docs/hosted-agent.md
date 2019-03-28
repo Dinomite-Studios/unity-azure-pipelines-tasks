@@ -53,3 +53,5 @@ Now please add the **Publish Build Artifacts** task to the pipeline. This will p
 Congratulations! You have completed all the steps needed to build the project. Your final pipeline should now look something like this:
 
 ![Configure PowerShell task](images/pipeline-full.jpg)
+
+Queue a build to have your project build. Consider enabling a trigger for continuous integration whenever you push changes e.g. Note that since Unity needs to get installed every time you build the project building might take a while, even for small projects. Consider setting up your own agent to avoid this.
