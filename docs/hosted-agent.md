@@ -37,3 +37,19 @@ Select it for editing and enter the name "Install UnitySetup.PowerShell module".
 Great. Now repeat this and add another PowerShell task to the pipeline. This one will actually install Unity. Give it the name "Install Unity Editor" therefore. Again make it an **Inline** type script and paste `Install-UnitySetupInstance -Installers (Find-UnitySetupInstaller -Version '$(unitygetprojectversion.projectVersion)' -Components Windows,Windows_IL2CPP) -Verbose` into the script field. Note how we are using the output variable of the Get Project Version task to tell it which version to install. For this example we are building a standalone player on a Windows agent so we need the Windows and Windows_IL2CPP Unity modules to be installed. Please check the modules documentation for all the module specifiers you can put here.
 
 ![Configure PowerShell task](images/pipeline-edit-powershell-task-2.jpg)
+
+As mentioned in the docs, in order to build using a hosted agent we need to have a Unity plus / pro license activated on the agent for the time of the build. So please add the [Unity Activate License](unity-activate-license.md) task to the pipeline. Enter your username, password and serial key accordingly. It's strongly recommened to not enter plaint text here, instead define protected pipeline variables and reference them here as suggested in the screenshot.
+
+![Configure PowerShell task](images/pipeline-edit-activate-license-task.jpg)
+
+It's time to do the heavy lifting, which is actually easy to do. Add the [Unity Build](unity-build.md) task to the pipeline. Set the build target, in this case we are building Standalone and letting the task decide whether it's Windows or macOS based on the agent. Again, if your Assets folder is not in the repository root, specify the path optionally. Also make sure to give a reference name in the output variables section. We will need it to reference build output.
+
+![Configure PowerShell task](images/pipeline-edit-unity-build-task.jpg)
+
+Now please add the **Publish Build Artifacts** task to the pipeline. This will publish the build artifacts to Azure DevOps so you can use them e.g. in a release pipeline. Make sure to use the Unity Build task's output variable for the **Path to publish** field.
+
+![Configure PowerShell task](images/pipeline-edit-publish-task.jpg)
+
+Congratulations! You have completed all the steps needed to build the project. Your final pipeline should now look something like this:
+
+![Configure PowerShell task](images/pipeline-full.jpg)
