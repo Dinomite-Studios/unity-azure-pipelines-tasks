@@ -13,10 +13,10 @@ Open your Azure DevOps project and navigate to the Pipelines module. Then select
 
 ![Create new pipeline (get source)](images/pipeline-new-pipeline-get-source.jpg)
 
-Next we need to select a template for the build pipeline. If you have experience you might select one of the existing templates and build on top of it. For this example we'll use the empty template to start from scratch. Search in the search box for "empty" and select the **Empty Template**.
+Next we need to select a template for the build pipeline. If you have experience you might select one of the existing templates and build on top of it. For this example we'll use the empty template to start from scratch. Search in the search box for "empty" and select the **Empty pipeline** template.
 
 ![Create new pipeline (select template)](images/pipeline-new-pipeline-template.jpg)
 
-
+Alright, we now have a new empty pipeline. Please enter a name for your build pipeline (I named it "Unity Build Pipeline Hosted Agent" for this example). Also select the agent pools to use. I am going to use **Hosted VS2017** here.
 
 ![Create new pipeline (set name and agent)](images/pipeline-new-pipeline-name.jpg)
