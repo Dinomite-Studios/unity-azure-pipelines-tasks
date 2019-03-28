@@ -28,7 +28,7 @@ export class UnityBuildScriptHelper {
             buildScenesSnippet = `new string[]
             {
                 ${config.buildScenes}
-            };`;
+            }`;
         }
 
         // Finally put it all together.
