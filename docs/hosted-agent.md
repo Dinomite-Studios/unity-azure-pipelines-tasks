@@ -33,3 +33,7 @@ Alright. Next we'll need to install a PowerShell module which will help us to in
 Select it for editing and enter the name "Install UnitySetup.PowerShell module". We make use of [this open source module](https://github.com/Microsoft/unitysetup.powershell) here to install Unity, so we need to install it first on the agent. Make it an **Inline** type script and paste `Install-Module -Name UnitySetup -AllowPrerelease` into the script field. Also make sure to check "Fail on Standard Error" in the advanced options. At the time of writing this, a prerelease version of this module is needed since it contains a fix we need.
 
 ![Configure PowerShell task](images/pipeline-edit-powershell-task-1.jpg)
+
+Great. Now repeat this and add another PowerShell task to the pipeline. This one will actually install Unity. Give it the name "Install Unity Editor" therefore. Again make it an **Inline** type script and paste `Install-UnitySetupInstance -Installers (Find-UnitySetupInstaller -Version '$(unitygetprojectversion.projectVersion)' -Components Windows,Windows_IL2CPP) -Verbose` into the script field. Note how we are using the output variable of the Get Project Version task to tell it which version to install. For this example we are building a standalone player on a Windows agent so we need the Windows and Windows_IL2CPP Unity modules to be installed. Please check the modules documentation for all the module specifiers you can put here.
+
+![Configure PowerShell task](images/pipeline-edit-powershell-task-2.jpg)
