@@ -50,6 +50,10 @@ async function run() {
                 unityCmd.arg('-accept-apiupdate');
             }
 
+            if (tl.getBoolInput('noGraphics')) {
+                unityCmd.arg('-nographics');
+            }
+
             // When using the default command line arguments set, we rely on having a C# script
             // in the Unity project to trigger the build. This C# script is generated here based on the
             // tasks configuration and then "injected" into the project before Unity launches. This way it will

@@ -23,13 +23,7 @@ export class UnityBuildScriptHelper {
 
         // If the user has specified custom scene paths to include in the build, split them here
         // and use them to override scenes added to the build in the project.
-        let buildScenesSnippet: string = 'null';
-        if (config.getShouldOverrideScenes()) {
-            buildScenesSnippet = `new string[]
-            {
-                ${config.buildScenes}
-            };`;
-        }
+        let buildScenesSnippet: string = config.getShouldOverrideScenes() ? `@"${config.buildScenes}".Split(',')` : 'null';
 
         // Finally put it all together.
         return `

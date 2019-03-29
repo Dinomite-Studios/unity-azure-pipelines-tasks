@@ -11,7 +11,7 @@
   "author": "Dinomite Studios",
   "version": {
     "Major": "2",
-    "Minor": "3",
+    "Minor": "4",
     "Patch": "0"
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityBuild/UnityBuildV2/CHANGELOG.md)",
@@ -112,6 +112,16 @@
       "type": "boolean",
       "label": "Disable Unity Package Manager",
       "helpMarkDown": "(Optional) Disables the Unity Package Manager.",
+      "groupName": "advancedGroup",
+      "visibleRule": "commandLineArgumentsMode == default",
+      "defaultValue": false,
+      "required": false
+    },
+    {
+      "name": "noGraphics",
+      "type": "boolean",
+      "label": "No Graphics Device",
+      "helpMarkDown": "(Optional) Do not initialize the graphics device at all. This makes it possible to run your automated workflows on machines that don’t even have a GPU (automated workflows only work when you have a window in focus, otherwise you can’t send simulated input commands). Note that -nographics does not allow you to bake GI, because Enlighten requires GPU acceleration.",
       "groupName": "advancedGroup",
       "visibleRule": "commandLineArgumentsMode == default",
       "defaultValue": false,
