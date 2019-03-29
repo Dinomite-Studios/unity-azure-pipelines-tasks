@@ -11,7 +11,7 @@
   "author": "Dinomite Studios",
   "version": {
     "Major": "2",
-    "Minor": "3",
+    "Minor": "4",
     "Patch": "0"
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityBuild/UnityBuildV2/CHANGELOG.md)",
