@@ -22,10 +22,15 @@ async function run() {
 
         // Here we make sure the build output directory exists and we can export Unity artifacts
         // there. If the folder already exists, we'll delete it so we get a clean build.
+        const cleanBuild = tl.getVariable('Build.Repository.Clean');
         const repositoryLocalPath = tl.getVariable('Build.Repository.LocalPath');
         const buildOutputDir = UnityBuildScriptHelper.getBuildOutputDirectory(unityBuildConfiguration.buildTarget);
         const fullBuildOutputPath = path.join(`${unityBuildConfiguration.projectPath}`, `${buildOutputDir}`)
-        fs.removeSync(fullBuildOutputPath);
+
+        if (cleanBuild === 'true') {
+            fs.removeSync(fullBuildOutputPath);
+        }
+
         tl.mkdirP(fullBuildOutputPath);
         tl.checkPath(fullBuildOutputPath, 'Build Output Directory');
         tl.setVariable('buildOutputPath', fullBuildOutputPath.substr(repositoryLocalPath.length + 1));
@@ -131,10 +136,19 @@ function getBuildConfiguration(): UnityBuildConfiguration {
     unityBuildConfiguration.buildScenes = tl.getInput('buildScenes');
     unityBuildConfiguration.buildTarget = (<any>UnityBuildTarget)[tl.getInput('buildTarget', true)];
     unityBuildConfiguration.projectPath = tl.getPathInput('unityProjectPath');
-    unityBuildConfiguration.unityVersion = fs.readFileSync(path.join(`${unityBuildConfiguration.projectPath}`, 'ProjectSettings', 'ProjectVersion.txt'), 'utf8')
+
+    let unityVersion = fs.readFileSync(path.join(`${unityBuildConfiguration.projectPath}`, 'ProjectSettings', 'ProjectVersion.txt'), 'utf8')
         .toString()
         .split(':')[1]
         .trim();
+
+    const revisionVersionIndex = unityVersion.indexOf('m_EditorVersionWithRevision');
+    if (revisionVersionIndex > -1) {
+        // The ProjectVersion.txt contains a revision version. We need to drop it.
+        unityVersion = unityVersion.substr(0, revisionVersionIndex).trim();
+    }
+
+    unityBuildConfiguration.unityVersion = unityVersion;
 
     if (isNullOrUndefined(unityBuildConfiguration.unityVersion) || unityBuildConfiguration.unityVersion === '') {
         throw Error('Failed to get project version from ProjectVersion.txt file.');
