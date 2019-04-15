@@ -8,10 +8,16 @@ tl.setResourcePath(path.join(__dirname, 'task.json'));
 async function run() {
     try {
         const projectPath = tl.getPathInput('unityProjectPath');
-        const projectVersion = fs.readFileSync(path.join(`${projectPath}`, 'ProjectSettings', 'ProjectVersion.txt'), 'utf8')
+        let projectVersion = fs.readFileSync(path.join(`${projectPath}`, 'ProjectSettings', 'ProjectVersion.txt'), 'utf8')
             .toString()
             .split(':')[1]
             .trim();
+
+        const revisionVersionIndex = projectVersion.indexOf('m_EditorVersionWithRevision');
+        if (revisionVersionIndex > -1) {
+            // The ProjectVersion.txt contains a revision version. We need to drop it.
+            projectVersion = projectVersion.substr(0, revisionVersionIndex).trim();
+        }
 
         if (!isNullOrUndefined(projectVersion) && projectVersion !== '') {
             tl.setVariable('projectVersion', projectVersion);
