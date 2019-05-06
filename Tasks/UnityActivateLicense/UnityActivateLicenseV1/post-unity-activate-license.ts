@@ -31,10 +31,18 @@ async function run() {
 run();
 
 function getUnityProjectVersion(projectPath: string): string {
-    return fs.readFileSync(path.join(`${projectPath}`, 'ProjectSettings', 'ProjectVersion.txt'), 'utf8')
+    let unityVersion = fs.readFileSync(path.join(`${projectPath}`, 'ProjectSettings', 'ProjectVersion.txt'), 'utf8')
         .toString()
         .split(':')[1]
         .trim();
+
+    const revisionVersionIndex = unityVersion.indexOf('m_EditorVersionWithRevision');
+    if (revisionVersionIndex > -1) {
+        // The ProjectVersion.txt contains a revision version. We need to drop it.
+        unityVersion = unityVersion.substr(0, revisionVersionIndex).trim();
+    }
+
+    return unityVersion;
 }
 
 function getUnityEditorsPath(): string {
