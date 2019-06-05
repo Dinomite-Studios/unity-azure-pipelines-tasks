@@ -42,8 +42,12 @@ async function run() {
         const unityCmd = tl.tool(unityExecutablePath)
             .arg('-batchmode')
             .arg('-buildTarget').arg(UnityBuildTarget[unityBuildConfiguration.buildTarget])
-            .arg('-projectPath').arg(unityBuildConfiguration.projectPath)
-            .argIf(tl.getInput('additionalCmdArgs') !== '', tl.getInput('additionalCmdArgs'));
+            .arg('-projectPath').arg(unityBuildConfiguration.projectPath);
+
+        const additionalArgs = tl.getInput('additionalCmdArgs');
+        if (additionalArgs !== '') {
+            unityCmd.line(additionalArgs);
+        }
 
         // Perform setup depending on build script type selected
         const buildScriptType = tl.getInput('buildScriptType');
