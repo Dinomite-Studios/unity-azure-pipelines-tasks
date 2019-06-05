@@ -12,7 +12,7 @@
   "version": {
     "Major": "3",
     "Minor": "0",
-    "Patch": "12"
+    "Patch": "13"
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityBuild/UnityBuildV2/CHANGELOG.md)",
   "minimumAgentVersion": "1.95.0",
@@ -127,10 +127,6 @@
     {
       "name": "buildOutputPath",
       "description": "Path to the directory containing Unity build output files. Path is relative to repository root."
-    },
-    {
-      "name": "editorLogFilePath",
-      "description": "Path to the Unity editor log file. Path is relative to repository root. Only set, if `Specify Log File` enabled."
     }
   ],
   "execution": {
