@@ -22,6 +22,11 @@
       "name": "advancedGroup",
       "displayName": "Advanced",
       "isExpanded": false
+    },
+    {
+      "name": "loggingGroup",
+      "displayName": "Logging",
+      "isExpanded": false
     }
   ],
   "inputs": [
@@ -161,7 +166,7 @@
       "type": "string",
       "label": "Logfile Name",
       "helpMarkDown": "(Optional) Specify a log file name to use. If empty, no log file is created.",
-      "groupName": "advancedGroup",
+      "groupName": "loggingGroup",
       "required": false,
       "defaultValue": "Editor.log"
     }
