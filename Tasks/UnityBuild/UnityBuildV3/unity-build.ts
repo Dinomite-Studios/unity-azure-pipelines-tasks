@@ -38,23 +38,39 @@ async function run() {
         const unityExecutablePath = process.platform === 'win32' ? path.join(`${unityEditorDirectory}`, 'Unity.exe')
             : path.join(`${unityEditorDirectory}`, 'Unity.app', 'Contents', 'MacOS', 'Unity');
 
-        // Build the Unity command to execute
+        // Build the base Unity command to execute
         const unityCmd = tl.tool(unityExecutablePath)
             .arg('-batchmode')
             .arg('-buildTarget').arg(UnityBuildTarget[unityBuildConfiguration.buildTarget])
             .arg('-projectPath').arg(unityBuildConfiguration.projectPath)
-            .argIf(tl.getInput('additionalCmdArgs') !== '', tl.getInput('additionalCmdArgs'))
-            .argIf(tl.getInput('logFileName', false) !== '', '-logfile').argIf(tl.getInput('logFileName', false) !== '', path.join(repositoryLocalPath, tl.getInput('logFileName', false)))
-            .arg('-executeMethod')
-            .arg('AzureDevOps.PerformBuild');
+            .argIf(tl.getInput('additionalCmdArgs') !== '', tl.getInput('additionalCmdArgs'));
 
-        // Generate C# script that will be used to actually trigger a Unity build and place it
-        // in a 'Editor' folder at the root level of the project's Assets directory
-        const projectAssetsEditorFolderPath = path.join(`${unityBuildConfiguration.projectPath}`, 'Assets', 'Editor');
-        tl.mkdirP(projectAssetsEditorFolderPath);
-        tl.cd(projectAssetsEditorFolderPath);
-        tl.writeFile('AzureDevOps.cs', UnityBuildScriptHelper.getUnityEditorBuildScriptContent(unityBuildConfiguration));
-        tl.cd(unityBuildConfiguration.projectPath);
+        // Perform setup depending on build script type selected
+        const buildScriptType = tl.getInput('buildScriptType');
+        if (buildScriptType === 'default' || buildScriptType === 'inline') {
+            // For default or inline selection we need to make sure to place our default or the user's
+            // entered build script inside the Untiy project.
+            const isDefault = buildScriptType === 'default';
+
+            // Create a C# script file in a Editor folder at the root Assets directory level. Then write
+            // the default or the user's script into it. Unity will then compile it on launch and make sure it's available.
+            const projectAssetsEditorFolderPath = path.join(`${unityBuildConfiguration.projectPath}`, 'Assets', 'Editor');
+            tl.mkdirP(projectAssetsEditorFolderPath);
+            tl.cd(projectAssetsEditorFolderPath);
+            tl.writeFile('AzureDevOps.cs', isDefault
+                ? UnityBuildScriptHelper.getUnityEditorBuildScriptContent(unityBuildConfiguration)
+                : tl.getInput('inlineBuildScript'));
+            tl.cd(unityBuildConfiguration.projectPath);
+
+            // Tell Unity which method to execute for build.
+            unityCmd.arg('-executeMethod').arg(isDefault ? 'AzureDevOps.PerformBuild' : tl.getInput('scriptExecuteMethod'));
+        } else if (buildScriptType === 'existing') {
+            // If the user already has an existing build script we only need the method to execute.
+            unityCmd.arg('-executeMethod').arg(tl.getInput('scriptExecuteMethod'));
+        }
+        else {
+            throw Error('Invalid build script type specified.')
+        }
 
         // Execute build
         const result = unityCmd.execSync();

@@ -12,30 +12,19 @@
   "version": {
     "Major": "3",
     "Minor": "0",
-    "Patch": "1"
+    "Patch": "9"
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityBuild/UnityBuildV2/CHANGELOG.md)",
   "minimumAgentVersion": "1.95.0",
   "instanceNameFormat": "Unity Build $(buildTarget)",
-  "groups": [
-    {
-      "name": "advancedGroup",
-      "displayName": "Advanced",
-      "isExpanded": false
-    },
-    {
-      "name": "loggingGroup",
-      "displayName": "Logging",
-      "isExpanded": false
-    }
-  ],
+  "groups": [],
   "inputs": [
     {
       "name": "buildTarget",
       "type": "pickList",
       "label": "Build Target",
       "defaultValue": "standalone",
-      "required": true,
+      "required": false,
       "helpMarkDown": "Build platform to build the Unity project for.",
       "options": {
         "standalone": "Standalone (agent-based)",
@@ -54,7 +43,7 @@
       "type": "pickList",
       "label": "Unity Editors Location",
       "defaultValue": "unityHub",
-      "required": true,
+      "required": false,
       "helpMarkDown": "Define where to look for Unity installations on the agent.",
       "options": {
         "unityHub": "Unity Hub default installation path",
@@ -66,7 +55,7 @@
       "name": "customUnityEditorsPath",
       "type": "string",
       "label": "Editors Folder Location",
-      "required": false,
+      "required": true,
       "defaultValue": "",
       "visibleRule": "unityEditorsPathMode == specify",
       "helpMarkDown": "Specify where to look for Unity Editor versions on the agent."
@@ -80,13 +69,48 @@
       "helpMarkDown": "(Optional) Enter the directory path to the Unity project. If no value is entered, the root of the repository will be used."
     },
     {
+      "name": "buildScriptType",
+      "type": "radio",
+      "label": "Build Script Type",
+      "required": false,
+      "defaultValue": "default",
+      "helpMarkDown": "Build script type: Use `Default` to use a built-in simple script which will perform a build without additional options. Use `Existing` if you already have a build script in your source and only need to specify the method to execute on build. Or use `Inline` to define the script inline, please make sure it's valid C#.",
+      "options": {
+        "default": "Default",
+        "existing": "Existing",
+        "inline": "Inline"
+      }
+    },
+    {
+      "name": "inlineBuildScript",
+      "type": "multiLine",
+      "label": "Inline Build Script",
+      "visibleRule": "buildScriptType = inline",
+      "required": true,
+      "defaultValue": "/* Write your C# build script here. Define a class and make sure to define a public static method to execute for the build. You'll want to verify your script actually works on your local computer.\n\nExample:\npublic class MyClass {\npublic static void PerformBuild() {\n...\n}\n}\n */",
+      "properties": {
+        "resizable": "true",
+        "rows": "20",
+        "maxLength": "5000"
+      },
+      "helpMarkDown": "Write your C# build script here. Define a class and make sure to define a public static method to execute for the build. You'll want to verify your script actually works on your local computer."
+    },
+    {
+      "name": "scriptExecuteMethod",
+      "type": "string",
+      "label": "Build Script Execute Method",
+      "visibleRule": "buildScriptType = inline || buildScriptType = existing",
+      "required": true,
+      "defaultValue": "",
+      "helpMarkDown": "Specify class and method name of the method to execute in your build script separated by a dot. E.g. `MyClass.PerformBuild`"
+    },
+    {
       "name": "additionalCmdArgs",
       "type": "string",
       "label": "Arguments",
       "required": false,
       "defaultValue": "",
-      "groupName": "advancedGroup",
-      "helpMarkDown": "(Optional) Specify your custom command line arguments, see the [documentation](https://docs.unity3d.com/Manual/CommandLineArguments.html) for more info."
+      "helpMarkDown": "(Optional) Specify additional command line arguments, see the [documentation](https://docs.unity3d.com/Manual/CommandLineArguments.html) for more info."
     },
     {
       "name": "outputFileName",
@@ -97,15 +121,6 @@
       "visibleRule": "commandLineArgumentsMode == default",
       "required": false,
       "defaultValue": "drop"
-    },
-    {
-      "name": "logFileName",
-      "type": "string",
-      "label": "Logfile Name",
-      "helpMarkDown": "(Optional) Specify a log file name to use. If empty, no log file is created.",
-      "groupName": "loggingGroup",
-      "required": false,
-      "defaultValue": "Editor.log"
     }
   ],
   "OutputVariables": [
