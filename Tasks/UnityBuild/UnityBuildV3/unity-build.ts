@@ -21,12 +21,11 @@ async function run() {
 
         // Here we make sure the build output directory exists and we can export Unity artifacts
         // there. If the folder already exists, we'll delete it so we get a clean build.
-        const cleanBuild = tl.getVariable('Build.Repository.Clean');
         const repositoryLocalPath = tl.getVariable('Build.Repository.LocalPath');
         const buildOutputDir = UnityBuildScriptHelper.getBuildOutputDirectory(unityBuildConfiguration.buildTarget);
         const fullBuildOutputPath = path.join(`${unityBuildConfiguration.projectPath}`, `${buildOutputDir}`)
 
-        if (cleanBuild === 'true') {
+        if (tl.getVariable('Build.Repository.Clean') === 'true') {
             fs.removeSync(fullBuildOutputPath);
         }
 
