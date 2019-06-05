@@ -13,84 +13,55 @@ async function run() {
         const unityBuildConfiguration = getBuildConfiguration();
         const unityEditorsPath = getUnityEditorsPath();
 
-        // Make sure the selected editor exists.
+        // Make sure the selected editor exists
         const unityEditorDirectory = process.platform === 'win32' ?
             path.join(`${unityEditorsPath}`, `${unityBuildConfiguration.unityVersion}`, 'Editor')
             : path.join(`${unityEditorsPath}`, `${unityBuildConfiguration.unityVersion}`);
         tl.checkPath(unityEditorDirectory, 'Unity Editor Directory');
 
-        // Here we make sure the build output directory exists and we can export Unity artifacts
-        // there. If the folder already exists, we'll delete it so we get a clean build.
+        // Build the output path where Unity output should be saved to
         const repositoryLocalPath = tl.getVariable('Build.Repository.LocalPath');
         const buildOutputDir = UnityBuildScriptHelper.getBuildOutputDirectory(unityBuildConfiguration.buildTarget);
         const fullBuildOutputPath = path.join(`${unityBuildConfiguration.projectPath}`, `${buildOutputDir}`)
 
+        // If clean was specified by the user, delete the existing output directory, if it exists
         if (tl.getVariable('Build.Repository.Clean') === 'true') {
             fs.removeSync(fullBuildOutputPath);
         }
 
+        // No matter if clean build or not, make sure the output diretory exists
         tl.mkdirP(fullBuildOutputPath);
         tl.checkPath(fullBuildOutputPath, 'Build Output Directory');
         tl.setVariable('buildOutputPath', fullBuildOutputPath.substr(repositoryLocalPath.length + 1));
 
-        // Mandatory set of command line arguments for Unity.
-        // -batchmode will open Unity without UI
-        // -buildTarget sets the configured target platform
-        // -projectPath tell Unity which project to load
+        // Build Unity executable path depending on agent OS
         const unityExecutablePath = process.platform === 'win32' ? path.join(`${unityEditorDirectory}`, 'Unity.exe')
             : path.join(`${unityEditorDirectory}`, 'Unity.app', 'Contents', 'MacOS', 'Unity');
+
+        // Build the Unity command to execute
         const unityCmd = tl.tool(unityExecutablePath)
             .arg('-batchmode')
             .arg('-buildTarget').arg(UnityBuildTarget[unityBuildConfiguration.buildTarget])
-            .arg('-projectPath').arg(unityBuildConfiguration.projectPath);
+            .arg('-projectPath').arg(unityBuildConfiguration.projectPath)
+            .argIf(tl.getBoolInput('noPackageManager'), '-noUpm')
+            .argIf(tl.getBoolInput('acceptApiUpdate'), '-accept-apiupdate')
+            .argIf(tl.getBoolInput('noGraphics'), '-nographics')
+            .argIf(tl.getInput('additionalCmdArgs') !== '', tl.getInput('additionalCmdArgs'))
+            .argIf(tl.getInput('logFileName', false) !== '', `-logfile ${path.join(repositoryLocalPath, tl.getInput('logFileName', false))}`)
+            .arg('-executeMethod')
+            .arg('AzureDevOps.PerformBuild');
 
-        if (tl.getInput('commandLineArgumentsMode', true) === 'default') {
-            if (tl.getBoolInput('noPackageManager')) {
-                unityCmd.arg('-noUpm');
-            }
+        // Generate C# script that will be used to actually trigger a Unity build and place it
+        // in a 'Editor' folder at the root level of the project's Assets directory
+        const projectAssetsEditorFolderPath = path.join(`${unityBuildConfiguration.projectPath}`, 'Assets', 'Editor');
+        tl.mkdirP(projectAssetsEditorFolderPath);
+        tl.cd(projectAssetsEditorFolderPath);
+        tl.writeFile('AzureDevOps.cs', UnityBuildScriptHelper.getUnityEditorBuildScriptContent(unityBuildConfiguration));
+        tl.cd(unityBuildConfiguration.projectPath);
 
-            if (tl.getBoolInput('acceptApiUpdate')) {
-                unityCmd.arg('-accept-apiupdate');
-            }
-
-            if (tl.getBoolInput('noGraphics')) {
-                unityCmd.arg('-nographics');
-            }
-
-            // When using the default command line arguments set, we rely on having a C# script
-            // in the Unity project to trigger the build. This C# script is generated here based on the
-            // tasks configuration and then "injected" into the project before Unity launches. This way it will
-            // be available to us and we can Invoke it using the command line.
-            const projectAssetsEditorFolderPath = path.join(`${unityBuildConfiguration.projectPath}`, 'Assets', 'Editor');
-            tl.mkdirP(projectAssetsEditorFolderPath);
-            tl.cd(projectAssetsEditorFolderPath);
-            tl.writeFile('AzureDevOps.cs', UnityBuildScriptHelper.getUnityEditorBuildScriptContent(unityBuildConfiguration));
-            tl.cd(unityBuildConfiguration.projectPath);
-            unityCmd.arg('-executeMethod');
-            unityCmd.arg('AzureDevOps.PerformBuild');
-
-            // Optionally add a logfile definition to the command and output the logfile to the build output directory.
-            const logFileName = tl.getInput('logFileName', false);
-            if (logFileName && logFileName !== '') {
-                const logFilePath = path.join(repositoryLocalPath, logFileName);
-                unityCmd.arg('-logfile');
-                unityCmd.arg(logFilePath);
-                tl.setVariable('editorLogFilePath', logFilePath);
-            }
-
-        } else {
-            // The user has configured to use his own custom command line arguments.
-            // In this case, just append them to the mandatory set of arguments and we're done.
-            unityCmd.line(tl.getInput('customCommandLineArguments'));
-        }
-
-        // Now we are ready to execute the Unity command line.
-        // Unfortuntely, the command line will return before the unity build has actually finished, and eventually
-        // give us a false positive. The solution is currently to observe whether the Unity process is still running,
-        // and when done, check whether there are output files.
-        unityCmd.execSync();
-
-        // TODO: Check result.
+        // Execute build
+        const result = unityCmd.execSync();
+        setResultSucceeded(`Unity Build finished successfully with exit code ${result.code}`);
     } catch (err) {
         setResultFailed(err.message);
     }
@@ -157,7 +128,7 @@ function setResultFailed(msg: string): void {
     tl.setResult(tl.TaskResult.Failed, msg);
 }
 
-function setResultSucceeded(msg: string): void {
+function setResultSucceeded(msg: string = ''): void {
     tl.setResult(tl.TaskResult.Succeeded, msg);
 }
 
