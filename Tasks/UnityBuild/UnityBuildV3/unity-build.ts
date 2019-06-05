@@ -5,7 +5,6 @@ import { isNullOrUndefined } from 'util';
 import { UnityBuildTarget } from './unity-build-target.enum';
 import { UnityBuildScriptHelper } from './unity-build-script.helper';
 import { UnityBuildConfiguration } from './unity-build-configuration.model';
-import { UnityProcessMonitor } from './unity-process-monitor';
 
 tl.setResourcePath(path.join(__dirname, 'task.json'));
 
@@ -72,17 +71,14 @@ async function run() {
             unityCmd.arg('AzureDevOps.PerformBuild');
 
             // Optionally add a logfile definition to the command and output the logfile to the build output directory.
-            if (tl.getInput('specifyLogFile')) {
-                const logFileName = tl.getInput('logFileName');
-                if (isNullOrUndefined(logFileName) || logFileName === '') {
-                    throw Error('Expected log file name to be set. Disable the Specify Log File setting or enter a logfile name.');
-                }
-
+            const logFileName = tl.getInput('logFileName', false);
+            if (logFileName && logFileName !== '') {
                 const logFilePath = path.join(repositoryLocalPath, logFileName);
                 unityCmd.arg('-logfile');
                 unityCmd.arg(logFilePath);
                 tl.setVariable('editorLogFilePath', logFilePath);
             }
+
         } else {
             // The user has configured to use his own custom command line arguments.
             // In this case, just append them to the mandatory set of arguments and we're done.
@@ -95,37 +91,9 @@ async function run() {
         // and when done, check whether there are output files.
         unityCmd.execSync();
 
-        // The build is now running. Start observing the output directory.
-        // Check every minute whether the Unity process is still running and if not,
-        // whether there is build output.
-        setTimeout(() => {
-            waitForResult(fullBuildOutputPath);
-        }, 30000);
+        // TODO: Check result.
     } catch (err) {
         setResultFailed(err.message);
-    }
-}
-
-async function waitForResult(path: string): Promise<void> {
-    console.log('Checking whether Unity process is still running...');
-    const unityStillRunning = await UnityProcessMonitor.isUnityStillRunning();
-
-    if (unityStillRunning) {
-        console.log('Unity process still running. Will check again in 30 seconds...')
-
-        // Check every minute whether the unity process is still running.
-        setTimeout(() => {
-            waitForResult(path);
-        }, 30000);
-    } else {
-        console.log(`Unity process has finished. Checking for build output in ${path}`);
-        if (isFolderNotEmpty(path)) {
-            // If there is build output, the build succeeded.
-            setResultSucceeded(`Unity Build task completed successfully.`);
-        } else {
-            // We don't know what happened at this point but the build failed most likely.
-            setResultFailed('The Unity build task finished without results. Check editor logs for details.');
-        }
     }
 }
 
@@ -184,11 +152,6 @@ function getUnityEditorsPath(): string {
 
         return customPath;
     }
-}
-
-function isFolderNotEmpty(path: string): boolean {
-    const files: string[] = fs.readdirSync(path);
-    return !isNullOrUndefined(files) && files.length > 0;
 }
 
 function setResultFailed(msg: string): void {
