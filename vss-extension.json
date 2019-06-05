@@ -64,6 +64,9 @@
             "path": "Tasks/UnityBuild/UnityBuildV2"
         },
         {
+            "path": "Tasks/UnityBuild/UnityBuildV3"
+        },
+        {
             "path": "Tasks/UnityGetProjectVersion/UnityGetProjectVersionV1"
         },
         {
