@@ -43,11 +43,8 @@ async function run() {
             .arg('-batchmode')
             .arg('-buildTarget').arg(UnityBuildTarget[unityBuildConfiguration.buildTarget])
             .arg('-projectPath').arg(unityBuildConfiguration.projectPath)
-            .argIf(tl.getBoolInput('noPackageManager'), '-noUpm')
-            .argIf(tl.getBoolInput('acceptApiUpdate'), '-accept-apiupdate')
-            .argIf(tl.getBoolInput('noGraphics'), '-nographics')
             .argIf(tl.getInput('additionalCmdArgs') !== '', tl.getInput('additionalCmdArgs'))
-            .argIf(tl.getInput('logFileName', false) !== '', `-logfile ${path.join(repositoryLocalPath, tl.getInput('logFileName', false))}`)
+            .argIf(tl.getInput('logFileName', false) !== '', '-logfile').argIf(tl.getInput('logFileName', false) !== '', path.join(repositoryLocalPath, tl.getInput('logFileName', false)))
             .arg('-executeMethod')
             .arg('AzureDevOps.PerformBuild');
 

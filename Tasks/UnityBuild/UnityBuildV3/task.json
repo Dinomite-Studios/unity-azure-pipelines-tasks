@@ -12,7 +12,7 @@
   "version": {
     "Major": "3",
     "Minor": "0",
-    "Patch": "0"
+    "Patch": "1"
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityBuild/UnityBuildV2/CHANGELOG.md)",
   "minimumAgentVersion": "1.95.0",
@@ -84,33 +84,6 @@
       "type": "boolean",
       "label": "Development Build",
       "helpMarkDown": "(Optional) Build a development version of the player.",
-      "groupName": "advancedGroup",
-      "defaultValue": false,
-      "required": false
-    },
-    {
-      "name": "acceptApiUpdate",
-      "type": "boolean",
-      "label": "Run API Updater",
-      "helpMarkDown": "(Optional) Use this option to specify that Unity API Updater should run before building the project.",
-      "groupName": "advancedGroup",
-      "defaultValue": false,
-      "required": false
-    },
-    {
-      "name": "noPackageManager",
-      "type": "boolean",
-      "label": "Disable Unity Package Manager",
-      "helpMarkDown": "(Optional) Disables the Unity Package Manager.",
-      "groupName": "advancedGroup",
-      "defaultValue": false,
-      "required": false
-    },
-    {
-      "name": "noGraphics",
-      "type": "boolean",
-      "label": "No Graphics Device",
-      "helpMarkDown": "(Optional) Do not initialize the graphics device at all. This makes it possible to run your automated workflows on machines that don’t even have a GPU (automated workflows only work when you have a window in focus, otherwise you can’t send simulated input commands). Note that -nographics does not allow you to bake GI, because Enlighten requires GPU acceleration.",
       "groupName": "advancedGroup",
       "defaultValue": false,
       "required": false
