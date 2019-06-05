@@ -21,10 +21,6 @@ export class UnityBuildScriptHelper {
      */
     public static getUnityEditorBuildScriptContent(config: UnityBuildConfiguration): string {
 
-        // If the user has specified custom scene paths to include in the build, split them here
-        // and use them to override scenes added to the build in the project.
-        let buildScenesSnippet: string = config.getShouldOverrideScenes() ? `@"${config.buildScenes}".Split(',')` : 'null';
-
         // Finally put it all together.
         return `
         using System;
@@ -39,24 +35,19 @@ export class UnityBuildScriptHelper {
         public class AzureDevOps
         {
             private static string outputFileName = @"${config.outputFileName}";
-            private static bool developmentBuild = ${config.developmentBuild ? 'true' : 'false'};
             private static string locationPathName = @"${this.getBuildOutputDirectory(config.buildTarget)}";
-            private static string[] includedScenes = ${buildScenesSnippet};
 
             [MenuItem("Dinomite Studios/Azure DevOps Tools/Perform Build")]
             public static void PerformBuild()
             {
                 try
                 {
-                    if (includedScenes == null || includedScenes.Length == 0)
+                    EditorBuildSettingsScene[] editorConfiguredBuildScenes = EditorBuildSettings.scenes;
+                    string[] includedScenes = new string[editorConfiguredBuildScenes.Length];
+                
+                    for (int i = 0; i < editorConfiguredBuildScenes.Length; i++)
                     {
-                        EditorBuildSettingsScene[] editorConfiguredBuildScenes = EditorBuildSettings.scenes;
-                        includedScenes = new string[editorConfiguredBuildScenes.Length];
-                    
-                        for (int i = 0; i < editorConfiguredBuildScenes.Length; i++)
-                        {
-                            includedScenes[i] = editorConfiguredBuildScenes[i].path;
-                        }
+                        includedScenes[i] = editorConfiguredBuildScenes[i].path;
                     }
 
         #if UNITY_2018_1_OR_NEWER
@@ -71,7 +62,7 @@ export class UnityBuildScriptHelper {
                         target = EditorUserBuildSettings.activeBuildTarget,
                         locationPathName = Path.Combine(locationPathName, GetBuildTargetOutputFileNameAndExtension()),
                         targetGroup = EditorUserBuildSettings.selectedBuildTargetGroup,
-                        options = developmentBuild ? BuildOptions.Development : BuildOptions.None
+                        options = BuildOptions.None
                     });
                 
         #if UNITY_2018_1_OR_NEWER

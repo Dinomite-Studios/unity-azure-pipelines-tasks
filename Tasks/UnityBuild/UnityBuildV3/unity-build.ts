@@ -67,8 +67,6 @@ async function run() {
 function getBuildConfiguration(): UnityBuildConfiguration {
     const unityBuildConfiguration: UnityBuildConfiguration = new UnityBuildConfiguration();
     unityBuildConfiguration.outputFileName = tl.getInput('outputFileName');
-    unityBuildConfiguration.developmentBuild = tl.getBoolInput('developmentBuild');
-    unityBuildConfiguration.buildScenes = tl.getInput('buildScenes');
     unityBuildConfiguration.buildTarget = (<any>UnityBuildTarget)[tl.getInput('buildTarget', true)];
     unityBuildConfiguration.projectPath = tl.getPathInput('unityProjectPath');
 

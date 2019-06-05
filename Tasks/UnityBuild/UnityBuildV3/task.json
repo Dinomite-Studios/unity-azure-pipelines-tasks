@@ -80,23 +80,6 @@
       "helpMarkDown": "(Optional) Enter the directory path to the Unity project. If no value is entered, the root of the repository will be used."
     },
     {
-      "name": "developmentBuild",
-      "type": "boolean",
-      "label": "Development Build",
-      "helpMarkDown": "(Optional) Build a development version of the player.",
-      "groupName": "advancedGroup",
-      "defaultValue": false,
-      "required": false
-    },
-    {
-      "name": "buildScenes",
-      "type": "string",
-      "label": "Build Scenes",
-      "helpMarkDown": "(Optional) Enter a comma separated list of scene paths to include in the build. If no value is entered, the project's pre-configured scenes will be included.",
-      "groupName": "advancedGroup",
-      "required": false
-    },
-    {
       "name": "additionalCmdArgs",
       "type": "string",
       "label": "Arguments",
