@@ -2,10 +2,6 @@ import path = require('path');
 import { UnityBuildTarget } from "./unity-build-target.enum";
 import { UnityBuildConfiguration } from "./unity-build-configuration.model";
 
-/**
- * Helper class which will generate the C# code script that is played in the Unity Project's Editor asset folder and
- * will trigger the actual build. It generates different C# code depending on the user's input confgiguration for the task.
- */
 export class UnityBuildScriptHelper {
 
     /**
@@ -37,7 +33,6 @@ export class UnityBuildScriptHelper {
             private static string outputFileName = @"${config.outputFileName}";
             private static string locationPathName = @"${this.getBuildOutputDirectory(config.buildTarget)}";
 
-            [MenuItem("Dinomite Studios/Azure DevOps Tools/Perform Build")]
             public static void PerformBuild()
             {
                 try
