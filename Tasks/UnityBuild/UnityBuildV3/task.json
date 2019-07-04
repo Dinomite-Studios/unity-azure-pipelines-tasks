@@ -12,7 +12,7 @@
   "version": {
     "Major": "3",
     "Minor": "0",
-    "Patch": "13"
+    "Patch": "16"
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityBuild/UnityBuildV2/CHANGELOG.md)",
   "minimumAgentVersion": "1.95.0",
