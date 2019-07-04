@@ -78,9 +78,9 @@ async function run() {
 
         // Execute build
         const result = unityCmd.execSync();
-        setResultSucceeded(`Unity Build finished successfully with exit code ${result.code}`);
+        tl.setResult(tl.TaskResult.Succeeded, `Unity Build finished successfully with exit code ${result.code}`);
     } catch (err) {
-        setResultFailed(err.message);
+        tl.setResult(tl.TaskResult.Failed, err.message);
     }
 }
 
@@ -137,14 +137,6 @@ function getUnityEditorsPath(): string {
 
         return customPath;
     }
-}
-
-function setResultFailed(msg: string): void {
-    tl.setResult(tl.TaskResult.Failed, msg);
-}
-
-function setResultSucceeded(msg: string = ''): void {
-    tl.setResult(tl.TaskResult.Succeeded, msg);
 }
 
 run();

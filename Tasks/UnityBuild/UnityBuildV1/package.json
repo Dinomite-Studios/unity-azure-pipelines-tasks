@@ -1,6 +1,6 @@
 {
   "name": "unitybuildtask",
-  "version": "1.4.0",
+  "version": "1.4.2",
   "description": "An Azure Pipelines task to build Unity projects.",
   "main": "unity-build.js",
   "scripts": {
