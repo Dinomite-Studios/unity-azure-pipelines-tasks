@@ -11,9 +11,18 @@ export enum UnityBuildTarget {
     Win,
     Win64,
     OSXUniversal,
+    Linux,
+    Linux64,
+    LinuxUniversal,
     iOS,
-    tvOS,
     Android,
+    Web,
+    WebStreamed,
+    WebGL,
+    XboxOne,
+    PS4,
     WindowsStoreApps,
-    WebGL
+    Switch,
+    N3DS,
+    tvOS
 }

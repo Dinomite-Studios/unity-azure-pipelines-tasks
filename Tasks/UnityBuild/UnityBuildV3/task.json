@@ -13,7 +13,7 @@
   "version": {
     "Major": "3",
     "Minor": "0",
-    "Patch": "21"
+    "Patch": "22"
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityBuild/UnityBuildV2/CHANGELOG.md)",
   "minimumAgentVersion": "1.95.0",
@@ -29,14 +29,23 @@
       "helpMarkDown": "Build platform to build the Unity project for.",
       "options": {
         "standalone": "Standalone (agent-based)",
-        "Win64": "PC Standalone (64-bit)",
-        "Win": "PC Standalone (32-bit)",
-        "OSXUniversal": "Mac Standalone",
+        "Win": "Windows Standalone (32-bit)",
+        "Win64": "Windows Standalone (64-bit)",
+        "OSXUniversal": "macOS Standalone",
+        "Linux": "Linux Standalone (32-bit)",
+        "Linux64": "Linux Standalone (64-bit)",
+        "LinuxUniversal": "Linux Standalone (universal)",
         "iOS": "iOS",
-        "tvOS": "tvOS",
         "Android": "Android",
-        "WindowsStoreApps": "Universal Windows Platform",
-        "WebGL": "WebGL"
+        "Web": "Web",
+        "WebStreamed": "Web Streamed",
+        "WebGL": "WebGL",
+        "XboxOne": "Xbox One",
+        "PS4": "PS4",
+        "WindowsStoreApps": "Windows Store Apps",
+        "Switch": "Switch",
+        "N3DS": "N3DS",
+        "tvOS": "tvOS"
       }
     },
     {
