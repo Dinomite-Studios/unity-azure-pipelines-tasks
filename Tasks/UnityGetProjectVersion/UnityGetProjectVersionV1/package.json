@@ -13,12 +13,12 @@
   "author": "Dinomite Studios",
   "license": "MIT",
   "dependencies": {
-    "@types/fs-extra": "^5.0.4",
-    "azure-pipelines-task-lib": "^2.7.7",
-    "fs-extra": "^7.0.1"
+    "@types/fs-extra": "^8.0.0",
+    "azure-pipelines-task-lib": "^2.8.0",
+    "fs-extra": "^8.1.0"
   },
   "devDependencies": {
-    "@types/node": "^10.12.14",
-    "@types/q": "^1.5.1"
+    "@types/node": "^12.6.8",
+    "@types/q": "^1.5.2"
   }
 }
