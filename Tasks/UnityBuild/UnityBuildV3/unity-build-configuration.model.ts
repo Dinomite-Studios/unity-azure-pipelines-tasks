@@ -1,5 +1,3 @@
-import { UnityBuildTarget } from "./unity-build-target.enum";
-
 export interface UnityBuildConfiguration {
 
     /**
@@ -10,7 +8,7 @@ export interface UnityBuildConfiguration {
     /**
      * The target build platform for the build output.
      */
-    buildTarget: UnityBuildTarget;
+    buildTarget: string;
 
     /**
      * Path to the Unity project to build, relative to repository root.

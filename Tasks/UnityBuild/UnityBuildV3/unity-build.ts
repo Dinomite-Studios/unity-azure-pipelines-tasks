@@ -2,7 +2,6 @@ import path = require('path');
 import tl = require('azure-pipelines-task-lib/task');
 import fs = require('fs-extra');
 import { isNullOrUndefined } from 'util';
-import { UnityBuildTarget } from './unity-build-target.enum';
 import { UnityBuildScriptHelper } from './unity-build-script.helper';
 import { UnityBuildConfiguration } from './unity-build-configuration.model';
 
@@ -35,7 +34,7 @@ async function run() {
         // Build the base Unity command to execute
         const unityCmd = tl.tool(unityExecutablePath)
             .arg('-batchmode')
-            .arg('-buildTarget').arg(UnityBuildTarget[unityBuildConfiguration.buildTarget])
+            .arg('-buildTarget').arg(unityBuildConfiguration.buildTarget)
             .arg('-projectPath').arg(unityBuildConfiguration.projectPath);
 
         const additionalArgs = tl.getInput('additionalCmdArgs');
@@ -80,7 +79,7 @@ async function run() {
 
 function getBuildConfiguration(): UnityBuildConfiguration {
     const outputFileName = tl.getInput('outputFileName');
-    const buildTarget = (<any>UnityBuildTarget)[tl.getInput('buildTarget', true)];
+    const buildTarget = tl.getInput('buildTarget', true);
     const projectPath = tl.getPathInput('unityProjectPath');
     const outputPath = tl.getPathInput('outputPath');
 
@@ -97,10 +96,6 @@ function getBuildConfiguration(): UnityBuildConfiguration {
 
     if (!unityVersion) {
         throw Error('Failed to get project version from ProjectVersion.txt file.');
-    }
-
-    if (process.platform !== 'win32' && buildTarget === UnityBuildTarget.WindowsStoreApps) {
-        throw Error('Cannot build an UWP project on a Mac.');
     }
 
     return {
