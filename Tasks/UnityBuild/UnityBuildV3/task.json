@@ -88,7 +88,7 @@
       "helpMarkDown": "Specify the build output path relative to the repository root or fully qualified.",
       "label": "Output Path",
       "required": true,
-      "defaultValue": "",
+      "defaultValue": "$(Build.BinariesDirectory)",
       "visibleRule": "buildScriptType = default"
     },
     {
