@@ -5,6 +5,7 @@
   "description": "Build a Unity project and get the exported output files.",
   "helpMarkDown": "Builds a Unity project to supported build target platforms. [More Information](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks)",
   "category": "Azure Pipelines",
+  "preview": true,
   "visibility": [
     "Build"
   ],
@@ -12,7 +13,7 @@
   "version": {
     "Major": "3",
     "Minor": "0",
-    "Patch": "20"
+    "Patch": "21"
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityBuild/UnityBuildV2/CHANGELOG.md)",
   "minimumAgentVersion": "1.95.0",
