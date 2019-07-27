@@ -19,20 +19,14 @@ async function run() {
             : path.join(`${unityEditorsPath}`, `${unityBuildConfiguration.unityVersion}`);
         tl.checkPath(unityEditorDirectory, 'Unity Editor Directory');
 
-        // Build the output path where Unity output should be saved to
-        const repositoryLocalPath = tl.getVariable('Build.Repository.LocalPath');
-        const buildOutputDir = UnityBuildScriptHelper.getBuildOutputDirectory(unityBuildConfiguration.buildTarget);
-        const fullBuildOutputPath = path.join(`${unityBuildConfiguration.projectPath}`, `${buildOutputDir}`)
-
         // If clean was specified by the user, delete the existing output directory, if it exists
         if (tl.getVariable('Build.Repository.Clean') === 'true') {
-            fs.removeSync(fullBuildOutputPath);
+            fs.removeSync(unityBuildConfiguration.outputPath);
         }
 
         // No matter if clean build or not, make sure the output diretory exists
-        tl.mkdirP(fullBuildOutputPath);
-        tl.checkPath(fullBuildOutputPath, 'Build Output Directory');
-        tl.setVariable('buildOutputPath', fullBuildOutputPath.substr(repositoryLocalPath.length + 1));
+        tl.mkdirP(unityBuildConfiguration.outputPath);
+        tl.checkPath(unityBuildConfiguration.outputPath, 'Build Output Directory');
 
         // Build Unity executable path depending on agent OS
         const unityExecutablePath = process.platform === 'win32' ? path.join(`${unityEditorDirectory}`, 'Unity.exe')
@@ -85,12 +79,12 @@ async function run() {
 }
 
 function getBuildConfiguration(): UnityBuildConfiguration {
-    const unityBuildConfiguration: UnityBuildConfiguration = new UnityBuildConfiguration();
-    unityBuildConfiguration.outputFileName = tl.getInput('outputFileName');
-    unityBuildConfiguration.buildTarget = (<any>UnityBuildTarget)[tl.getInput('buildTarget', true)];
-    unityBuildConfiguration.projectPath = tl.getPathInput('unityProjectPath');
+    const outputFileName = tl.getInput('outputFileName');
+    const buildTarget = (<any>UnityBuildTarget)[tl.getInput('buildTarget', true)];
+    const projectPath = tl.getPathInput('unityProjectPath');
+    const outputPath = tl.getPathInput('outputPath');
 
-    let unityVersion = fs.readFileSync(path.join(`${unityBuildConfiguration.projectPath}`, 'ProjectSettings', 'ProjectVersion.txt'), 'utf8')
+    let unityVersion = fs.readFileSync(path.join(`${projectPath}`, 'ProjectSettings', 'ProjectVersion.txt'), 'utf8')
         .toString()
         .split(':')[1]
         .trim();
@@ -101,17 +95,21 @@ function getBuildConfiguration(): UnityBuildConfiguration {
         unityVersion = unityVersion.substr(0, revisionVersionIndex).trim();
     }
 
-    unityBuildConfiguration.unityVersion = unityVersion;
-
-    if (isNullOrUndefined(unityBuildConfiguration.unityVersion) || unityBuildConfiguration.unityVersion === '') {
+    if (!unityVersion) {
         throw Error('Failed to get project version from ProjectVersion.txt file.');
     }
 
-    if (process.platform !== 'win32' && unityBuildConfiguration.buildTarget === UnityBuildTarget.WindowsStoreApps) {
+    if (process.platform !== 'win32' && buildTarget === UnityBuildTarget.WindowsStoreApps) {
         throw Error('Cannot build an UWP project on a Mac.');
     }
 
-    return unityBuildConfiguration;
+    return {
+        buildTarget: buildTarget,
+        outputFileName: outputFileName,
+        outputPath: outputPath,
+        projectPath: projectPath,
+        unityVersion: unityVersion
+    }
 }
 
 function getUnityEditorsPath(): string {

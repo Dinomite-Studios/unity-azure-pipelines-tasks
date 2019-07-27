@@ -1,5 +1,3 @@
-import path = require('path');
-import { UnityBuildTarget } from "./unity-build-target.enum";
 import { UnityBuildConfiguration } from "./unity-build-configuration.model";
 
 /**
@@ -7,13 +5,6 @@ import { UnityBuildConfiguration } from "./unity-build-configuration.model";
  * will trigger the actual build. It generates different C# code depending on the user's input confgiguration for the task.
  */
 export class UnityBuildScriptHelper {
-
-    /**
-     * Gets the directory path where build artifacts can be found.
-     */
-    public static getBuildOutputDirectory(buildTarget: UnityBuildTarget): string {
-        return path.join('Build', `${UnityBuildTarget[buildTarget]}`)
-    }
 
     /**
      * Generates a C# script to start a Unity build with the specified options.
@@ -35,7 +26,7 @@ export class UnityBuildScriptHelper {
         public class AzureDevOps
         {
             private static string outputFileName = @"${config.outputFileName}";
-            private static string locationPathName = @"${this.getBuildOutputDirectory(config.buildTarget)}";
+            private static string locationPathName = @"${config.outputPath}";
 
             [MenuItem("Dinomite Studios/Azure DevOps Tools/Perform Build")]
             public static void PerformBuild()
