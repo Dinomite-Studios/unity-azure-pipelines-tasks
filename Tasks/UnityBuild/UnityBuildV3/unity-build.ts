@@ -60,12 +60,10 @@ function run() {
 
             // Tell Unity which method to execute for build.
             unityCmd.arg('-executeMethod').arg(isDefault ? 'AzureDevOps.PerformBuild' : tl.getInput('scriptExecuteMethod'));
-        } else if (buildScriptType === 'existing') {
+        } else {
+            // Must be build script type "existing".
             // If the user already has an existing build script we only need the method to execute.
             unityCmd.arg('-executeMethod').arg(tl.getInput('scriptExecuteMethod'));
-        }
-        else {
-            throw Error('Invalid build script type specified.')
         }
 
         // Execute build
@@ -129,7 +127,7 @@ function getUnityEditorsPath(): string {
     } else {
         const customPath = tl.getInput('customUnityEditorsPath');
         if (!customPath) {
-            throw Error('Expected custom editors folder location to be set. Please the task configuration.');
+            throw Error('Expected custom editors folder location to be set. Please check the task configuration.');
         }
 
         return customPath;
