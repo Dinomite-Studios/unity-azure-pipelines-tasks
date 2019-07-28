@@ -1,25 +1,27 @@
-import { UnityBuildTarget } from "./unity-build-target.enum";
-
-export class UnityBuildConfiguration {
+export interface UnityBuildConfiguration {
 
     /**
      * Unity Editor version to use for the build.
      */
-    public unityVersion: string = '';
+    unityVersion: string;
 
     /**
-     * Gets or sets the target build platform for the build output.
+     * The target build platform for the build output.
      */
-    public buildTarget: UnityBuildTarget = UnityBuildTarget.standalone;
+    buildTarget: string;
 
     /**
-     * Gets or sets the full path to the Unity project to build.
+     * Path to the Unity project to build, relative to repository root.
      */
-    public projectPath: string = '';
+    projectPath: string;
 
     /**
-     * Gets or sets the output filename, which will be used when constructing
-     * the appropriate platform's extension (i.e. drop.exe, drop.app, drop.apk).
+     * Build output path. This can be relative to repository root or fully qualified.
      */
-    public outputFileName: string = '';
+    outputPath: string;
+
+    /**
+     * Output filename, used e.g as drop.exe, drop.app, drop.apk.
+     */
+    outputFileName: string;
 }

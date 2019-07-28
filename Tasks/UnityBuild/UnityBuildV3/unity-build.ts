@@ -2,7 +2,6 @@ import path = require('path');
 import tl = require('azure-pipelines-task-lib/task');
 import fs = require('fs-extra');
 import { isNullOrUndefined } from 'util';
-import { UnityBuildTarget } from './unity-build-target.enum';
 import { UnityBuildScriptHelper } from './unity-build-script.helper';
 import { UnityBuildConfiguration } from './unity-build-configuration.model';
 
@@ -19,20 +18,14 @@ async function run() {
             : path.join(`${unityEditorsPath}`, `${unityBuildConfiguration.unityVersion}`);
         tl.checkPath(unityEditorDirectory, 'Unity Editor Directory');
 
-        // Build the output path where Unity output should be saved to
-        const repositoryLocalPath = tl.getVariable('Build.Repository.LocalPath');
-        const buildOutputDir = UnityBuildScriptHelper.getBuildOutputDirectory(unityBuildConfiguration.buildTarget);
-        const fullBuildOutputPath = path.join(`${unityBuildConfiguration.projectPath}`, `${buildOutputDir}`)
-
         // If clean was specified by the user, delete the existing output directory, if it exists
         if (tl.getVariable('Build.Repository.Clean') === 'true') {
-            fs.removeSync(fullBuildOutputPath);
+            fs.removeSync(unityBuildConfiguration.outputPath);
         }
 
         // No matter if clean build or not, make sure the output diretory exists
-        tl.mkdirP(fullBuildOutputPath);
-        tl.checkPath(fullBuildOutputPath, 'Build Output Directory');
-        tl.setVariable('buildOutputPath', fullBuildOutputPath.substr(repositoryLocalPath.length + 1));
+        tl.mkdirP(unityBuildConfiguration.outputPath);
+        tl.checkPath(unityBuildConfiguration.outputPath, 'Build Output Directory');
 
         // Build Unity executable path depending on agent OS
         const unityExecutablePath = process.platform === 'win32' ? path.join(`${unityEditorDirectory}`, 'Unity.exe')
@@ -41,7 +34,7 @@ async function run() {
         // Build the base Unity command to execute
         const unityCmd = tl.tool(unityExecutablePath)
             .arg('-batchmode')
-            .arg('-buildTarget').arg(UnityBuildTarget[unityBuildConfiguration.buildTarget])
+            .arg('-buildTarget').arg(unityBuildConfiguration.buildTarget)
             .arg('-projectPath').arg(unityBuildConfiguration.projectPath);
 
         const additionalArgs = tl.getInput('additionalCmdArgs');
@@ -78,19 +71,19 @@ async function run() {
 
         // Execute build
         const result = unityCmd.execSync();
-        setResultSucceeded(`Unity Build finished successfully with exit code ${result.code}`);
+        tl.setResult(tl.TaskResult.Succeeded, `Unity Build finished successfully with exit code ${result.code}`);
     } catch (err) {
-        setResultFailed(err.message);
+        tl.setResult(tl.TaskResult.Failed, err.message);
     }
 }
 
 function getBuildConfiguration(): UnityBuildConfiguration {
-    const unityBuildConfiguration: UnityBuildConfiguration = new UnityBuildConfiguration();
-    unityBuildConfiguration.outputFileName = tl.getInput('outputFileName');
-    unityBuildConfiguration.buildTarget = (<any>UnityBuildTarget)[tl.getInput('buildTarget', true)];
-    unityBuildConfiguration.projectPath = tl.getPathInput('unityProjectPath');
+    const outputFileName = tl.getInput('outputFileName');
+    const buildTarget = tl.getInput('buildTarget', true);
+    const projectPath = tl.getPathInput('unityProjectPath');
+    const outputPath = tl.getPathInput('outputPath');
 
-    let unityVersion = fs.readFileSync(path.join(`${unityBuildConfiguration.projectPath}`, 'ProjectSettings', 'ProjectVersion.txt'), 'utf8')
+    let unityVersion = fs.readFileSync(path.join(`${projectPath}`, 'ProjectSettings', 'ProjectVersion.txt'), 'utf8')
         .toString()
         .split(':')[1]
         .trim();
@@ -101,17 +94,17 @@ function getBuildConfiguration(): UnityBuildConfiguration {
         unityVersion = unityVersion.substr(0, revisionVersionIndex).trim();
     }
 
-    unityBuildConfiguration.unityVersion = unityVersion;
-
-    if (isNullOrUndefined(unityBuildConfiguration.unityVersion) || unityBuildConfiguration.unityVersion === '') {
+    if (!unityVersion) {
         throw Error('Failed to get project version from ProjectVersion.txt file.');
     }
 
-    if (process.platform !== 'win32' && unityBuildConfiguration.buildTarget === UnityBuildTarget.WindowsStoreApps) {
-        throw Error('Cannot build an UWP project on a Mac.');
+    return {
+        buildTarget: buildTarget,
+        outputFileName: outputFileName,
+        outputPath: outputPath,
+        projectPath: projectPath,
+        unityVersion: unityVersion
     }
-
-    return unityBuildConfiguration;
 }
 
 function getUnityEditorsPath(): string {
@@ -137,14 +130,6 @@ function getUnityEditorsPath(): string {
 
         return customPath;
     }
-}
-
-function setResultFailed(msg: string): void {
-    tl.setResult(tl.TaskResult.Failed, msg);
-}
-
-function setResultSucceeded(msg: string = ''): void {
-    tl.setResult(tl.TaskResult.Succeeded, msg);
 }
 
 run();

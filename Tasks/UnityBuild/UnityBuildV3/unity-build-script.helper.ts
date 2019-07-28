@@ -1,15 +1,6 @@
-import path = require('path');
-import { UnityBuildTarget } from "./unity-build-target.enum";
 import { UnityBuildConfiguration } from "./unity-build-configuration.model";
 
 export class UnityBuildScriptHelper {
-
-    /**
-     * Gets the directory path where build artifacts can be found.
-     */
-    public static getBuildOutputDirectory(buildTarget: UnityBuildTarget): string {
-        return path.join('Build', `${UnityBuildTarget[buildTarget]}`)
-    }
 
     /**
      * Generates a C# script to start a Unity build with the specified options.
@@ -31,7 +22,7 @@ export class UnityBuildScriptHelper {
         public class AzureDevOps
         {
             private static string outputFileName = @"${config.outputFileName}";
-            private static string locationPathName = @"${this.getBuildOutputDirectory(config.buildTarget)}";
+            private static string locationPathName = @"${config.outputPath}";
 
             public static void PerformBuild()
             {
