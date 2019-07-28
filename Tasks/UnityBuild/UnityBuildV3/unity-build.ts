@@ -6,7 +6,7 @@ import { UnityBuildConfiguration } from './unity-build-configuration.model';
 
 tl.setResourcePath(path.join(__dirname, 'task.json'));
 
-function run() {
+async function run() {
     try {
         const unityBuildConfiguration = getBuildConfiguration();
         const unityEditorsPath = getUnityEditorsPath();
@@ -67,13 +67,12 @@ function run() {
         }
 
         // Execute build
-        unityCmd.exec().then((exitCode) => {
-            if (exitCode === 0) {
-                tl.setResult(tl.TaskResult.Succeeded, `Unity Build finished successfully with exit code ${exitCode}`);
-            } else {
-                tl.setResult(tl.TaskResult.Failed, `Unity Build failed with exit code ${exitCode}`)
-            }
-        });
+        const exitCode = await unityCmd.exec();
+        if (exitCode === 0) {
+            tl.setResult(tl.TaskResult.Succeeded, `Unity Build finished successfully with exit code ${exitCode}`);
+        } else {
+            tl.setResult(tl.TaskResult.Failed, `Unity Build failed with exit code ${exitCode}`)
+        }
     } catch (err) {
         tl.setResult(tl.TaskResult.Failed, err.message);
     }
