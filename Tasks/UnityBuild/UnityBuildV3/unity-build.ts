@@ -70,8 +70,8 @@ async function run() {
         }
 
         // Execute build
-        const result = unityCmd.execSync();
-        tl.setResult(tl.TaskResult.Succeeded, `Unity Build finished successfully with exit code ${result.code}`);
+        const exitCode = await unityCmd.exec();
+        tl.setResult(tl.TaskResult.Succeeded, `Unity Build finished successfully with exit code ${exitCode}`);
     } catch (err) {
         tl.setResult(tl.TaskResult.Failed, err.message);
     }
