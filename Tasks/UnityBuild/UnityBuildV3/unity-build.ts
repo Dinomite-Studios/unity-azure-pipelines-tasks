@@ -1,7 +1,6 @@
 import path = require('path');
 import tl = require('azure-pipelines-task-lib/task');
 import fs = require('fs-extra');
-import { isNullOrUndefined } from 'util';
 import { UnityBuildScriptHelper } from './unity-build-script.helper';
 import { UnityBuildConfiguration } from './unity-build-configuration.model';
 
@@ -122,14 +121,14 @@ function getUnityEditorsPath(): string {
         return unityHubPath;
     } else if (editorsPathMode === 'environmentVariable') {
         const environmentVariablePath = process.env.UNITYHUB_EDITORS_FOLDER_LOCATION as string;
-        if (isNullOrUndefined(environmentVariablePath) || environmentVariablePath === '') {
+        if (!environmentVariablePath) {
             throw Error('Expected UNITYHUB_EDITORS_FOLDER_LOCATION environment variable to be set!');
         }
 
         return environmentVariablePath;
     } else {
         const customPath = tl.getInput('customUnityEditorsPath');
-        if (isNullOrUndefined(customPath) || customPath === '') {
+        if (!customPath) {
             throw Error('Expected custom editors folder location to be set. Please the task configuration.');
         }
 
