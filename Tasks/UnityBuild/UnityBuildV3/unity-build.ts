@@ -1,11 +1,10 @@
 import path = require('path');
-import taskLib = require('azure-pipelines-task-lib/task');
-import fileSystem = require('fs-extra');
-import nodeChildProcess = require('child_process');
+import tl = require('azure-pipelines-task-lib/task');
+import fs = require('fs-extra');
 import { UnityBuildScriptHelper } from './unity-build-script.helper';
 import { UnityBuildConfiguration } from './unity-build-configuration.model';
 
-taskLib.setResourcePath(path.join(__dirname, 'task.json'));
+tl.setResourcePath(path.join(__dirname, 'task.json'));
 
 async function run() {
     try {
@@ -16,34 +15,34 @@ async function run() {
         const unityEditorDirectory = process.platform === 'win32' ?
             path.join(`${unityEditorsPath}`, `${unityBuildConfiguration.unityVersion}`, 'Editor')
             : path.join(`${unityEditorsPath}`, `${unityBuildConfiguration.unityVersion}`);
-        taskLib.checkPath(unityEditorDirectory, 'Unity Editor Directory');
+        tl.checkPath(unityEditorDirectory, 'Unity Editor Directory');
 
         // If clean was specified by the user, delete the existing output directory, if it exists
-        if (taskLib.getVariable('Build.Repository.Clean') === 'true') {
-            fileSystem.removeSync(unityBuildConfiguration.outputPath);
+        if (tl.getVariable('Build.Repository.Clean') === 'true') {
+            fs.removeSync(unityBuildConfiguration.outputPath);
         }
 
         // No matter if clean build or not, make sure the output diretory exists
-        taskLib.mkdirP(unityBuildConfiguration.outputPath);
-        taskLib.checkPath(unityBuildConfiguration.outputPath, 'Build Output Directory');
+        tl.mkdirP(unityBuildConfiguration.outputPath);
+        tl.checkPath(unityBuildConfiguration.outputPath, 'Build Output Directory');
 
         // Build Unity executable path depending on agent OS
         const unityExecutablePath = process.platform === 'win32' ? path.join(`${unityEditorDirectory}`, 'Unity.exe')
             : path.join(`${unityEditorDirectory}`, 'Unity.app', 'Contents', 'MacOS', 'Unity');
 
         // Build the base Unity command to execute
-        const unityCmd = taskLib.tool(unityExecutablePath)
+        const unityCmd = tl.tool(unityExecutablePath)
             .arg('-batchmode')
             .arg('-buildTarget').arg(unityBuildConfiguration.buildTarget)
             .arg('-projectPath').arg(unityBuildConfiguration.projectPath);
 
-        const additionalArgs = taskLib.getInput('additionalCmdArgs');
+        const additionalArgs = tl.getInput('additionalCmdArgs');
         if (additionalArgs !== '') {
             unityCmd.line(additionalArgs);
         }
 
         // Perform setup depending on build script type selected
-        const buildScriptType = taskLib.getInput('buildScriptType');
+        const buildScriptType = tl.getInput('buildScriptType');
         if (buildScriptType === 'default' || buildScriptType === 'inline') {
             // For default or inline selection we need to make sure to place our default or the user's
             // entered build script inside the Untiy project.
@@ -52,42 +51,40 @@ async function run() {
             // Create a C# script file in a Editor folder at the root Assets directory level. Then write
             // the default or the user's script into it. Unity will then compile it on launch and make sure it's available.
             const projectAssetsEditorFolderPath = path.join(`${unityBuildConfiguration.projectPath}`, 'Assets', 'Editor');
-            taskLib.mkdirP(projectAssetsEditorFolderPath);
-            taskLib.cd(projectAssetsEditorFolderPath);
-            taskLib.writeFile('AzureDevOps.cs', isDefault
+            tl.mkdirP(projectAssetsEditorFolderPath);
+            tl.cd(projectAssetsEditorFolderPath);
+            tl.writeFile('AzureDevOps.cs', isDefault
                 ? UnityBuildScriptHelper.getUnityEditorBuildScriptContent(unityBuildConfiguration)
-                : taskLib.getInput('inlineBuildScript'));
-            taskLib.cd(unityBuildConfiguration.projectPath);
+                : tl.getInput('inlineBuildScript'));
+            tl.cd(unityBuildConfiguration.projectPath);
 
             // Tell Unity which method to execute for build.
-            unityCmd.arg('-executeMethod').arg(isDefault ? 'AzureDevOps.PerformBuild' : taskLib.getInput('scriptExecuteMethod'));
+            unityCmd.arg('-executeMethod').arg(isDefault ? 'AzureDevOps.PerformBuild' : tl.getInput('scriptExecuteMethod'));
         } else {
             // Must be build script type "existing".
             // If the user already has an existing build script we only need the method to execute.
-            unityCmd.arg('-executeMethod').arg(taskLib.getInput('scriptExecuteMethod'));
+            unityCmd.arg('-executeMethod').arg(tl.getInput('scriptExecuteMethod'));
         }
 
         // Execute build
-        const child = nodeChildProcess.spawn(unityCmd);
-        child.on('exit', (code: number, signal: string) => {
-            if (code === 0) {
-                taskLib.setResult(taskLib.TaskResult.Succeeded, `Unity Build finished successfully with exit code ${code}`);
-            } else {
-                taskLib.setResult(taskLib.TaskResult.Failed, `Unity Build failed with exit code ${code}`)
-            }
-        });
+        const exitCode = await unityCmd.exec();
+        if (exitCode === 0) {
+            tl.setResult(tl.TaskResult.Succeeded, `Unity Build finished successfully with exit code ${exitCode}`);
+        } else {
+            tl.setResult(tl.TaskResult.Failed, `Unity Build failed with exit code ${exitCode}`)
+        }
     } catch (err) {
-        taskLib.setResult(taskLib.TaskResult.Failed, err.message);
+        tl.setResult(tl.TaskResult.Failed, err.message);
     }
 }
 
 function getBuildConfiguration(): UnityBuildConfiguration {
-    const outputFileName = taskLib.getInput('outputFileName');
-    const buildTarget = taskLib.getInput('buildTarget', true);
-    const projectPath = taskLib.getPathInput('unityProjectPath');
-    const outputPath = taskLib.getPathInput('outputPath');
+    const outputFileName = tl.getInput('outputFileName');
+    const buildTarget = tl.getInput('buildTarget', true);
+    const projectPath = tl.getPathInput('unityProjectPath');
+    const outputPath = tl.getPathInput('outputPath');
 
-    let unityVersion = fileSystem.readFileSync(path.join(`${projectPath}`, 'ProjectSettings', 'ProjectVersion.txt'), 'utf8')
+    let unityVersion = fs.readFileSync(path.join(`${projectPath}`, 'ProjectSettings', 'ProjectVersion.txt'), 'utf8')
         .toString()
         .split(':')[1]
         .trim();
@@ -112,7 +109,7 @@ function getBuildConfiguration(): UnityBuildConfiguration {
 }
 
 function getUnityEditorsPath(): string {
-    const editorsPathMode = taskLib.getInput('unityEditorsPathMode', true);
+    const editorsPathMode = tl.getInput('unityEditorsPathMode', true);
     if (editorsPathMode === 'unityHub') {
         const unityHubPath = process.platform === 'win32' ?
             path.join('C:', 'Program Files', 'Unity', 'Hub', 'Editor')
@@ -127,7 +124,7 @@ function getUnityEditorsPath(): string {
 
         return environmentVariablePath;
     } else {
-        const customPath = taskLib.getInput('customUnityEditorsPath');
+        const customPath = tl.getInput('customUnityEditorsPath');
         if (!customPath) {
             throw Error('Expected custom editors folder location to be set. Please check the task configuration.');
         }
