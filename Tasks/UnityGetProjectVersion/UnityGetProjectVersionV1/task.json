@@ -12,7 +12,7 @@
   "version": {
     "Major": "1",
     "Minor": "0",
-    "Patch": "3"
+    "Patch": "4"
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityGetProjectVersion/UnityGetProjectVersionV1/CHANGELOG.md)",
   "minimumAgentVersion": "1.95.0",
@@ -38,5 +38,14 @@
       "target": "unity-get-project-version.js",
       "argumentFormat": ""
     }
+  },
+  "messages": {
+    "SuccessFoundProjectVersion": "Successfully found project version: ",
+    "FailedToReadVersion": "Failed to get project version from ProjectVersion.txt file.",
+    "DebugProjectPath": "Project Path:",
+    "DebugProjectVersionFilePath": "ProjectVersion.txt File Path:",
+    "DebugProjectVersionFileContent": "ProjectVersion.txt File Content:",
+    "DebugProjectVersion": "Project Version Found:",
+    "DebugRevisionVersion": "ProjectVersion.txt contains revision version."
   }
 }
