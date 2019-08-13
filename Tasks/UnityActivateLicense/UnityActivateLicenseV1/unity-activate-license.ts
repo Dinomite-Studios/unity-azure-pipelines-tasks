@@ -12,7 +12,7 @@ async function run() {
         const password = tl.getInput('password', true);
         const serial = tl.getInput('serial', true);
         const unityEditorsPath = getUnityEditorsPath();
-        const unityVersion = getUnityProjectVersion(tl.getInput('unityProjectPath'));
+        const unityVersion = await getProjectVersion();
 
         const unityEditorDirectory = process.platform === 'win32' ?
             path.join(`${unityEditorsPath}`, `${unityVersion}`, 'Editor')
@@ -62,19 +62,29 @@ async function waitForResult(): Promise<void> {
     }
 }
 
-function getUnityProjectVersion(projectPath: string): string {
-    let unityVersion = fs.readFileSync(path.join(`${projectPath}`, 'ProjectSettings', 'ProjectVersion.txt'), 'utf8')
-        .toString()
-        .split(':')[1]
-        .trim();
+async function getProjectVersion(): Promise<string> {
+    const projectPath = tl.getPathInput('unityProjectPath');
+    const projectVersionFilePath = path.join(`${projectPath}`, 'ProjectSettings', 'ProjectVersion.txt');
+    tl.debug(`${tl.loc('DebugProjectPath')} ${projectPath}`);
+    tl.debug(`${tl.loc('DebugProjectVersionFilePath')} ${projectVersionFilePath}`);
 
-    const revisionVersionIndex = unityVersion.indexOf('m_EditorVersionWithRevision');
+    const projectVersionFileContent = await fs.readFile(projectVersionFilePath, { encoding: 'utf8' });
+    tl.debug(`${tl.loc('DebugProjectVersionFileContent')} ${projectVersionFileContent}`);
+
+    let projectVersion = projectVersionFileContent.split(':')[1].trim();
+    tl.debug(`${tl.loc('DebugProjectVersion')} ${projectVersion}`);
+
+    const revisionVersionIndex = projectVersion.indexOf('m_EditorVersionWithRevision');
     if (revisionVersionIndex > -1) {
-        // The ProjectVersion.txt contains a revision version. We need to drop it.
-        unityVersion = unityVersion.substr(0, revisionVersionIndex).trim();
+        tl.debug(tl.loc('DebugRevisionVersion'));
+        projectVersion = projectVersion.substr(0, revisionVersionIndex).trim();
     }
 
-    return unityVersion;
+    if (projectVersion) {
+        return projectVersion;
+    }
+
+    throw new Error(tl.loc('FailedToReadVersion'));
 }
 
 function getUnityEditorsPath(): string {
