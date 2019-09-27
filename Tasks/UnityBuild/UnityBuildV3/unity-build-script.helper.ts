@@ -121,7 +121,7 @@ export class UnityBuildScriptHelper {
                     case BuildTarget.Switch:
                     case BuildTarget.NoTarget:
                     default:
-                        return string.Empty;
+                        return outputFileName;
                 }
             }
         }`;
