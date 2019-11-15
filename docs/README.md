@@ -1,4 +1,4 @@
-This Azure DevOps extension contains build and release tasks for use in Azure Pipelines to implement continuous intergration and delivery with Unity 3D projects. This documentation will guide you on how to setup your pipeilnes and get started using the extension.
+This Azure DevOps extension contains build, test and release tasks for use in Azure Pipelines to implement continuous intergration and delivery with Unity 3D projects. This documentation will guide you on how to setup your pipeilnes and get started using the extension.
 
 ## 1. Installing the extension
 Please install the extension ["Unity Tools for Azure DevOps"](https://marketplace.visualstudio.com/items?itemName=DinomiteStudios.64e90d50-a9c0-11e8-a356-d3eab7857116) for use in your Azure DevOps organization.
@@ -12,6 +12,7 @@ Now that you have installed the extension, you can use the following tasks in yo
 * [Unity Get Project Version](unity-get-project-version.md)
 * [Unity Activate License](unity-activate-license.md)
 * [Unity Build](unity-build.md)
+* [Unity Test](unity-test.md)
 
 ## 2. Supported Build Agents
 The extension supports Microsoft hosted agents as well as custom agents. Some of Unity's target build platforms are not supported on hosted agents, since they require manual configuration of SDKs & Tools, which we can't do on hosted agents. For full control over the tools and software, we recommend using your own build agent. This table illustrates the supported platforms on either agent:

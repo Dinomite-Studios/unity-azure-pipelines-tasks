@@ -1,0 +1,178 @@
+{
+  "id": "85e57e6f-cb59-4d1d-979f-dd830b51f2fa",
+  "name": "UnityTestTask",
+  "friendlyName": "Unity Test",
+  "description": "Tests a Unity project and produce the results in NUnit compatible files.",
+  "helpMarkDown": "Tests a Unity project and produce the results in NUnit compatible files. [More Information](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks)",
+  "category": "Azure Pipelines",
+  "visibility": [
+    "Build"
+  ],
+  "author": "Dinomite Studios",
+  "version": {
+    "Major": "1",
+    "Minor": "0",
+    "Patch": "0"
+  },
+  "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityTest/UnityTestV1/CHANGELOG.md)",
+  "minimumAgentVersion": "1.95.0",
+  "instanceNameFormat": "Unity Test $(buildTarget)",
+  "groups": [
+    {
+      "name": "advancedGroup",
+      "displayName": "Advanced",
+      "isExpanded": false
+    }
+  ],
+  "inputs": [
+    {
+      "name": "testMode",
+      "type": "pickList",
+      "label": "Test Mode",
+      "defaultValue": "EditMode",
+      "required": true,
+      "helpMarkDown": "The mode you want to run tests in. Available platforms are EditMode and PlayMode.",
+      "options": {
+        "EditMode": "Edit Mode",
+        "PlayMode": "Play Mode"
+      }
+    },
+    {
+      "name": "unityEditorsPathMode",
+      "type": "pickList",
+      "label": "Unity Editors Location",
+      "defaultValue": "unityHub",
+      "required": true,
+      "helpMarkDown": "Define where to look for Unity installations on the agent.",
+      "options": {
+        "unityHub": "Unity Hub default installation path",
+        "environmentVariable": "Use UNITYHUB_EDITORS_FOLDER_LOCATION environment variable on agent",
+        "specify": "Specify path"
+      }
+    },
+    {
+      "name": "customUnityEditorsPath",
+      "type": "string",
+      "label": "Editors Folder Location",
+      "required": false,
+      "defaultValue": "",
+      "visibleRule": "unityEditorsPathMode == specify",
+      "helpMarkDown": "Specify where to look for Unity Editor versions on the agent."
+    },
+    {
+      "name": "unityProjectPath",
+      "type": "filePath",
+      "label": "Unity Project Path",
+      "defaultValue": "",
+      "required": false,
+      "helpMarkDown": "(Optional) Enter the directory path to the Unity project. If no value is entered, the root of the repository will be used."
+    },
+    {
+      "name": "commandLineArgumentsMode",
+      "type": "pickList",
+      "label": "Command Line Arguments",
+      "defaultValue": "default",
+      "groupName": "advancedGroup",
+      "required": true,
+      "helpMarkDown": "Use the task's default set of command line arguments or specify custom arguments.",
+      "options": {
+        "default": "Default",
+        "custom": "Custom"
+      }
+    },
+    {
+      "name": "testCategory",
+      "type": "string",
+      "label": "Test Category",
+      "helpMarkDown": "(Optional) A semicolon-separated list of test categories to include in the run. If using both testFilter and testCategory, then tests only run that matches both.",
+      "groupName": "advancedGroup",
+      "visibleRule": "commandLineArgumentsMode == default",
+      "required": false
+    },
+    {
+      "name": "testFilter",
+      "type": "string",
+      "label": "Test Filter",
+      "helpMarkDown": "(Optional) A semicolon-separated list of test names to run, or a regular expression pattern to match tests by their full name.",
+      "groupName": "advancedGroup",
+      "visibleRule": "commandLineArgumentsMode == default",
+      "required": false
+    },
+    {
+      "name": "acceptApiUpdate",
+      "type": "boolean",
+      "label": "Run API Updater",
+      "helpMarkDown": "(Optional) Use this option to specify that Unity API Updater should run before building the project.",
+      "groupName": "advancedGroup",
+      "visibleRule": "commandLineArgumentsMode == default",
+      "defaultValue": false,
+      "required": false
+    },
+    {
+      "name": "noPackageManager",
+      "type": "boolean",
+      "label": "Disable Unity Package Manager",
+      "helpMarkDown": "(Optional) Disables the Unity Package Manager.",
+      "groupName": "advancedGroup",
+      "visibleRule": "commandLineArgumentsMode == default",
+      "defaultValue": false,
+      "required": false
+    },
+    {
+      "name": "customCommandLineArguments",
+      "type": "string",
+      "label": "Arguments",
+      "required": false,
+      "defaultValue": "",
+      "groupName": "advancedGroup",
+      "visibleRule": "commandLineArgumentsMode == custom",
+      "helpMarkDown": "Specify your custom command line arguments, see the [documentation](https://docs.unity3d.com/Manual/CommandLineArguments.html) for more info."
+    },
+    {
+      "name": "testResultsPath",
+      "type": "string",
+      "label": "Test Results",
+      "helpMarkDown": "(Optional) The path where Unity should save the result file. By default, Unity saves it in the Project’s root folder.",
+      "groupName": "advancedGroup",
+      "visibleRule": "commandLineArgumentsMode == default",
+      "required": false,
+      "defaultValue": "test-results"
+    },
+    {
+      "name": "specifyLogFile",
+      "type": "boolean",
+      "label": "Specify Log File",
+      "helpMarkDown": "(Optional) Enables settings to specify a logfile name. The logfile can then be used to find build errors. You can find the logfile after the build in the build output directory. Use the `buildOutputPath` output variable to find it.",
+      "groupName": "advancedGroup",
+      "visibleRule": "commandLineArgumentsMode == default",
+      "defaultValue": false,
+      "required": false
+    },
+    {
+      "name": "logFileName",
+      "type": "string",
+      "label": "Logfile Name",
+      "helpMarkDown": "Enter the output filename to be used when constructing the platform-appropriate output.  For instance, if you want the output to be 'thegame.exe' on Windows Standalone, enter 'thegame'",
+      "groupName": "advancedGroup",
+      "required": false,
+      "defaultValue": "Editor.log",
+      "visibleRule": "commandLineArgumentsMode == default && specifyLogFile == true"
+    }
+  ],
+  "OutputVariables": [
+    {
+      "name": "testResultsOutputPathAndFileName",
+      "description": "Path and FileName of the results in XML format. Path is relative to repository root."
+    },
+    {
+      "name": "editorLogFilePath",
+      "description": "Path to the Unity editor log file. Path is relative to repository root. Only set, if `Specify Log File` enabled."
+    }
+  ],
+  "execution": {
+    "Node": {
+      "target": "unity-test.js",
+      "argumentFormat": ""
+    }
+  }
+}
