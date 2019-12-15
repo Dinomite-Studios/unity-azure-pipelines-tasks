@@ -71,6 +71,9 @@
         },
         {
             "path": "Tasks/UnityActivateLicense/UnityActivateLicenseV1"
+        },
+        {
+            "path": "Tasks/UnityTest/UnityTestV1"
         }
     ],
     "branding": {
@@ -120,6 +123,16 @@
             ],
             "properties": {
                 "name": "Tasks/UnityActivateLicense"
+            }
+        },
+        {
+            "id": "custom-unity-test-task",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "Tasks/UnityTest"
             }
         }
     ]
