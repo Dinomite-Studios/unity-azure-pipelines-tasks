@@ -101,7 +101,7 @@ function getBuildConfiguration(): UnityBuildConfiguration {
 
     return {
         buildTarget: buildTarget,
-        outputFileName: outputFileName,
+        outputFileName: outputFileName ? outputFileName : 'drop',
         outputPath: outputPath,
         projectPath: projectPath,
         unityVersion: unityVersion

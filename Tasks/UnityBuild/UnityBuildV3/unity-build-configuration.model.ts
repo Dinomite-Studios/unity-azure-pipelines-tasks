@@ -12,13 +12,15 @@ export interface UnityBuildConfiguration {
 
     /**
      * Path to the Unity project to build, relative to repository root.
+     * If empty or undefined, defaults to repository root.
      */
-    projectPath: string;
+    projectPath: string | undefined;
 
     /**
      * Build output path. This can be relative to repository root or fully qualified.
+     * If empty or undefined, defaults to repository root.
      */
-    outputPath: string;
+    outputPath: string | undefined;
 
     /**
      * Output filename, used e.g as drop.exe, drop.app, drop.apk.
