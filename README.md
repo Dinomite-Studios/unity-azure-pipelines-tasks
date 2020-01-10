@@ -5,7 +5,8 @@ CI / CD for your projects.
 
 ![Build status](https://dev.azure.com/dinomite/Unity%20Tools%20for%20Azure%20DevOps/_apis/build/status/Unity%20Tools%20for%20Azure%20DevOps%20-%20CI)
 
-The `release/marketplace` branch is automatically built and deployed to the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=DinomiteStudios.64e90d50-a9c0-11e8-a356-d3eab7857116).
+## How to install
+Install the extension to your Azure DevOps organization from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=DinomiteStudios.64e90d50-a9c0-11e8-a356-d3eab7857116).
 
 ## Included Build / Release Tasks
 
