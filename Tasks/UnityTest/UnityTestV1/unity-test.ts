@@ -24,7 +24,7 @@ async function run() {
         const cleanBuild = tl.getVariable('Build.Repository.Clean');
         const repositoryLocalPath = tl.getVariable('Build.Repository.LocalPath');
 
-        const testResultsFileName = unityTestConfiguration.testMode === UnityTestMode.EditMode ? 'EditMode.xml': 'PlayMode.xml';
+        const testResultsFileName = unityTestConfiguration.testMode === UnityTestMode.EditMode ? 'EditMode.xml' : 'PlayMode.xml';
         const testResultsPath = unityTestConfiguration.testResults;
         const testResultsPathAndFileName = path.join(`${testResultsPath}`, `${testResultsFileName}`);
 
@@ -66,11 +66,11 @@ async function run() {
             if (unityTestConfiguration.testCategory && unityTestConfiguration.testCategory.length > 0) {
                 unityCmd.arg('-testCategory').arg(unityTestConfiguration.testCategory);
             }
-    
+
             if (unityTestConfiguration.testFilter && unityTestConfiguration.testFilter.length > 0) {
                 unityCmd.arg('-testFilter').arg(unityTestConfiguration.testFilter);
             }
-    
+
             // Optionally add a logfile definition to the command and output the logfile to the build output directory.
             if (tl.getInput('specifyLogFile')) {
                 const logFileName = tl.getInput('logFileName');
