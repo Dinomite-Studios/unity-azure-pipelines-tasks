@@ -3,12 +3,13 @@ import tl = require('azure-pipelines-task-lib/task');
 import fs = require('fs-extra');
 import { UnityBuildScriptHelper } from './unity-build-script.helper';
 import { UnityBuildConfiguration } from './unity-build-configuration.model';
+import { ProjectVersionService } from '../../Common/ProjectVersion/project-version.service'
 
 tl.setResourcePath(path.join(__dirname, 'task.json'));
 
 async function run() {
     try {
-        const unityBuildConfiguration = getBuildConfiguration();
+        const unityBuildConfiguration = await getBuildConfiguration();
         const unityEditorsPath = getUnityEditorsPath();
 
         // Make sure the selected editor exists
@@ -78,33 +79,19 @@ async function run() {
     }
 }
 
-function getBuildConfiguration(): UnityBuildConfiguration {
+async function getBuildConfiguration(): Promise<UnityBuildConfiguration> {
     const outputFileName = tl.getInput('outputFileName');
     const buildTarget = tl.getInput('buildTarget', true);
     const projectPath = tl.getPathInput('unityProjectPath');
     const outputPath = tl.getPathInput('outputPath');
-
-    let unityVersion = fs.readFileSync(path.join(`${projectPath}`, 'ProjectSettings', 'ProjectVersion.txt'), 'utf8')
-        .toString()
-        .split(':')[1]
-        .trim();
-
-    const revisionVersionIndex = unityVersion.indexOf('m_EditorVersionWithRevision');
-    if (revisionVersionIndex > -1) {
-        // The ProjectVersion.txt contains a revision version. We need to drop it.
-        unityVersion = unityVersion.substr(0, revisionVersionIndex).trim();
-    }
-
-    if (!unityVersion) {
-        throw Error('Failed to get project version from ProjectVersion.txt file.');
-    }
+    const unityVersion = await ProjectVersionService.determineProjectVersion(projectPath);
 
     return {
         buildTarget: buildTarget,
         outputFileName: outputFileName ? outputFileName : 'drop',
         outputPath: outputPath,
         projectPath: projectPath,
-        unityVersion: unityVersion
+        unityVersion: unityVersion!.version
     }
 }
 

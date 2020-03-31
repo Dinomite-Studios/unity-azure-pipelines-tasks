@@ -1,0 +1,35 @@
+{
+    "name": "unity-azure-devops-common-project-version",
+    "version": "1.0.0",
+    "description": "Helper package for determining a project's Unity editor version.",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "tsc"
+    },
+    "keywords": [
+        "unity",
+        "version",
+        "project"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks"
+    },
+    "bugs": {
+        "url": "https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/issues"
+    },
+    "homepage": "https://dinomite-studios.github.io/unity-azure-pipelines-tasks/",
+    "author": "Dinomite Studios",
+    "license": "MIT",
+    "dependencies": {
+        "@types/fs-extra": "^8.1.0",
+        "fs-extra": "^8.1.0",
+        "azure-pipelines-task-lib": "^2.9.3"
+    },
+    "devDependencies": {
+        "typescript": "3.1.5",
+        "@types/node": "^9.4.6"
+    }
+}
