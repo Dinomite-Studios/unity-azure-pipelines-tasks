@@ -86,6 +86,10 @@ async function getBuildConfiguration(): Promise<UnityBuildConfiguration> {
     const outputPath = tl.getPathInput('outputPath');
     const unityVersion = await ProjectVersionService.determineProjectVersion(projectPath);
 
+    if (!unityVersion) {
+        throw new Error('Failed to determine the project Unity editor version.');
+    }
+
     return {
         buildTarget: buildTarget,
         outputFileName: outputFileName ? outputFileName : 'drop',

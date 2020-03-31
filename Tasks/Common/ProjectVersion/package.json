@@ -1,6 +1,6 @@
 {
     "name": "unity-project-version",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Helper package for determining a project's Unity editor version.",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
@@ -25,8 +25,7 @@
     "license": "MIT",
     "dependencies": {
         "@types/fs-extra": "^8.1.0",
-        "fs-extra": "^8.1.0",
-        "azure-pipelines-task-lib": "^2.9.3"
+        "fs-extra": "^8.1.0"
     },
     "devDependencies": {
         "typescript": "3.1.5",
