@@ -1,5 +1,5 @@
 {
-    "name": "unity-azure-devops-common-project-version",
+    "name": "unity-project-version",
     "version": "1.0.0",
     "description": "Helper package for determining a project's Unity editor version.",
     "main": "dist/index.js",

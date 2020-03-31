@@ -27,8 +27,8 @@ export class ProjectVersionService {
             }
         }
 
-        // Failed to determine projec version. Most likely
-        // Unity changed the version specification in ProjectVersion.txt.
+        // Failed to determine project version. Most likely
+        // Unity changed the version specification syntax in ProjectVersion.txt.
         // Requires update.
         return null;
     }
