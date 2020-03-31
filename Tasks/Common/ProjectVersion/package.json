@@ -1,7 +1,7 @@
 {
-    "name": "unity-project-version",
-    "version": "1.0.1",
-    "description": "Helper package for determining a project's Unity editor version.",
+    "name": "@dinomite-studios/unity-project-version",
+    "version": "1.0.0",
+    "description": "Utility package for determining a project's Unity editor version.",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "scripts": {
@@ -25,10 +25,10 @@
     "license": "MIT",
     "dependencies": {
         "@types/fs-extra": "^8.1.0",
-        "fs-extra": "^8.1.0"
+        "fs-extra": "^9.0.0"
     },
     "devDependencies": {
-        "typescript": "3.1.5",
-        "@types/node": "^9.4.6"
+        "typescript": "3.8.3",
+        "@types/node": "^13.9.8"
     }
 }
