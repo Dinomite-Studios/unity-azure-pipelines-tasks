@@ -4,12 +4,15 @@ import { UnityProjectVersion } from '..';
 
 export class ProjectVersionService {
 
+    private static readonly projectSettingsFolder = 'ProjectSettings';
+    private static readonly projectVersionFile = 'ProjectVersion.txt';
+
     /**
      * Gets a Unity project's last used Unity editor version.
-     * @param projectRootPath Full path to the Unity project's root folder.
+     * @param projectRootPath Relative path to the Unity project's root folder from the current working directory.
      */
     public static async determineProjectVersion(projectRootPath: string): Promise<UnityProjectVersion | null | undefined> {
-        const projectVersionFilePath = path.join(projectRootPath, 'ProjectSettings', 'ProjectVersion.txt');
+        const projectVersionFilePath = path.join(projectRootPath, ProjectVersionService.projectSettingsFolder, ProjectVersionService.projectVersionFile);
         const projectVersionFileContent = await fs.readFile(projectVersionFilePath, { encoding: 'utf8' });
 
         let projectVersion = projectVersionFileContent.split(':')[1].trim();

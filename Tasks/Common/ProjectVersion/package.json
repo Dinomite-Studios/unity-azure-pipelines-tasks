@@ -1,6 +1,6 @@
 {
     "name": "@dinomite-studios/unity-project-version",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Utility package for determining a project's Unity editor version.",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",

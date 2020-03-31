@@ -1,6 +1,6 @@
 {
   "name": "unitygetprojectversiontask",
-  "version": "1.0.5",
+  "version": "1.0.8",
   "description": "Azure Pipelines task to get the project version of a Unity project.",
   "main": "dist/unity-get-project-version.js",
   "scripts": {
@@ -14,9 +14,7 @@
   "author": "Dinomite Studios",
   "license": "MIT",
   "dependencies": {
-    "@types/fs-extra": "^8.1.0",
     "azure-pipelines-task-lib": "^2.9.3",
-    "fs-extra": "^9.0.0",
     "@dinomite-studios/unity-project-version": "1.0.0"
   },
   "devDependencies": {

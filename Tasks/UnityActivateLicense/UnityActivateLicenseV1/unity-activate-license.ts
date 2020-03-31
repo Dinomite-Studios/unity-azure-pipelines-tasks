@@ -3,7 +3,7 @@ import tl = require('azure-pipelines-task-lib/task');
 import fs = require('fs-extra');
 import { isNullOrUndefined } from 'util';
 import { UnityProcessMonitor } from './unity-process-monitor';
-import { ProjectVersionService } from './node_modules/unity-project-version';
+import { ProjectVersionService } from '@dinomite-studios/unity-project-version';
 
 tl.setResourcePath(path.join(__dirname, 'task.json'));
 
@@ -16,10 +16,7 @@ async function run() {
 
         // Find Project Unity Editor Version
         let projectPath = tl.getPathInput('unityProjectPath');
-        if (!projectPath) {
-            projectPath = tl.getVariable('Build.Repository.LocalPath')!
-        }
-        const unityVersion = await ProjectVersionService.determineProjectVersion(projectPath);
+        const unityVersion = await ProjectVersionService.determineProjectVersion(projectPath ? projectPath : '');
         if (!unityVersion) {
             throw new Error(tl.loc('FailedToReadVersion'));
         } else {
