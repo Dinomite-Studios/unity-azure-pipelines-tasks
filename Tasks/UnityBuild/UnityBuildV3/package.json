@@ -16,7 +16,8 @@
   "dependencies": {
     "@types/fs-extra": "^8.0.0",
     "azure-pipelines-task-lib": "^2.8.0",
-    "fs-extra": "^8.1.0"
+    "fs-extra": "^8.1.0",
+    "unity-project-version": "file:../../Common/ProjectVersion"
   },
   "devDependencies": {
     "@types/node": "^13.1.4",

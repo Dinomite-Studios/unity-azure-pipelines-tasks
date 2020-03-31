@@ -3,7 +3,7 @@ import tl = require('azure-pipelines-task-lib/task');
 import fs = require('fs-extra');
 import { UnityBuildScriptHelper } from './unity-build-script.helper';
 import { UnityBuildConfiguration } from './unity-build-configuration.model';
-import { ProjectVersionService } from '../../Common/ProjectVersion/project-version.service'
+import { ProjectVersionService } from './node_modules/unity-project-version';
 
 tl.setResourcePath(path.join(__dirname, 'task.json'));
 
