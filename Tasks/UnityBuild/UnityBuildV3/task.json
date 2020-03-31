@@ -141,7 +141,7 @@
   ],
   "execution": {
     "Node": {
-      "target": "unity-build.js",
+      "target": "dist/unity-build.js",
       "argumentFormat": ""
     }
   }

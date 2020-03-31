@@ -2,7 +2,7 @@
   "name": "unitybuildtask",
   "version": "2.3.0",
   "description": "An Azure Pipelines task to build Unity projects.",
-  "main": "unity-build.js",
+  "main": "dist/unity-build.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc"
