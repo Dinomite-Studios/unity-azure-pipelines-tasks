@@ -3,20 +3,26 @@ import tl = require('azure-pipelines-task-lib/task');
 import fs = require('fs-extra');
 import { isNullOrUndefined } from 'util';
 import { UnityProcessMonitor } from './unity-process-monitor';
+import { ProjectVersionService } from './node_modules/unity-project-version';
 
 tl.setResourcePath(path.join(__dirname, 'task.json'));
 
 async function run() {
     try {
-        const username = tl.getInput('username', true);
-        const password = tl.getInput('password', true);
-        const serial = tl.getInput('serial', true);
+        const username = tl.getInput('username', true)!;
+        const password = tl.getInput('password', true)!;
+        const serial = tl.getInput('serial', true)!;
         const unityEditorsPath = getUnityEditorsPath();
-        const unityVersion = await getProjectVersion();
+
+        let projectPath = tl.getPathInput('unityProjectPath');
+        if (!projectPath) {
+            projectPath = tl.getVariable('Build.Repository.LocalPath')!
+        }
+        const unityVersion = await ProjectVersionService.determineProjectVersion(projectPath);
 
         const unityEditorDirectory = process.platform === 'win32' ?
-            path.join(`${unityEditorsPath}`, `${unityVersion}`, 'Editor')
-            : path.join(`${unityEditorsPath}`, `${unityVersion}`);
+            path.join(`${unityEditorsPath}`, `${unityVersion!.version}`, 'Editor')
+            : path.join(`${unityEditorsPath}`, `${unityVersion!.version}`);
         tl.checkPath(unityEditorDirectory, 'Unity Editor Directory');
 
         const unityExecutablePath = process.platform === 'win32' ? path.join(`${unityEditorDirectory}`, 'Unity.exe')
@@ -29,7 +35,7 @@ async function run() {
             .arg('-password').arg(password)
             .arg('-serial ').arg(serial);
 
-        const logFilePath = path.join(tl.getVariable('Build.Repository.LocalPath'), 'UnityActivationLog.log');
+        const logFilePath = path.join(tl.getVariable('Build.Repository.LocalPath')!, 'UnityActivationLog.log');
         unityCmd.arg('-logfile');
         unityCmd.arg(logFilePath);
         tl.setVariable('logFilePath', logFilePath);
@@ -60,31 +66,6 @@ async function waitForResult(): Promise<void> {
         console.log('Unity process has finished.');
         tl.setResult(tl.TaskResult.Succeeded, '');
     }
-}
-
-async function getProjectVersion(): Promise<string> {
-    const projectPath = tl.getPathInput('unityProjectPath');
-    const projectVersionFilePath = path.join(`${projectPath}`, 'ProjectSettings', 'ProjectVersion.txt');
-    tl.debug(`${tl.loc('DebugProjectPath')} ${projectPath}`);
-    tl.debug(`${tl.loc('DebugProjectVersionFilePath')} ${projectVersionFilePath}`);
-
-    const projectVersionFileContent = await fs.readFile(projectVersionFilePath, { encoding: 'utf8' });
-    tl.debug(`${tl.loc('DebugProjectVersionFileContent')} ${projectVersionFileContent}`);
-
-    let projectVersion = projectVersionFileContent.split(':')[1].trim();
-    tl.debug(`${tl.loc('DebugProjectVersion')} ${projectVersion}`);
-
-    const revisionVersionIndex = projectVersion.indexOf('m_EditorVersionWithRevision');
-    if (revisionVersionIndex > -1) {
-        tl.debug(tl.loc('DebugRevisionVersion'));
-        projectVersion = projectVersion.substr(0, revisionVersionIndex).trim();
-    }
-
-    if (projectVersion) {
-        return projectVersion;
-    }
-
-    throw new Error(tl.loc('FailedToReadVersion'));
 }
 
 function getUnityEditorsPath(): string {

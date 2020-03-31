@@ -81,13 +81,13 @@
   ],
   "execution": {
     "Node": {
-      "target": "unity-activate-license.js",
+      "target": "dist/unity-activate-license.js",
       "argumentFormat": ""
     }
   },
   "postjobexecution": {
     "Node": {
-      "target": "post-unity-activate-license.js",
+      "target": "dist/post-unity-activate-license.js",
       "argumentFormat": ""
     }
   },

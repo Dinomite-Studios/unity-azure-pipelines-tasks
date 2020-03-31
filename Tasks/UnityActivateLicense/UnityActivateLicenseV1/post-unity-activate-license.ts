@@ -2,13 +2,19 @@ import path = require('path');
 import tl = require('azure-pipelines-task-lib/task');
 import fs = require('fs-extra');
 import { isNullOrUndefined } from 'util';
+import { ProjectVersionService } from './node_modules/unity-project-version';
 
 tl.setResourcePath(path.join(__dirname, 'task.json'));
 
 async function run() {
     try {
         const unityEditorsPath = getUnityEditorsPath();
-        const unityVersion = await getProjectVersion();
+
+        let projectPath = tl.getPathInput('unityProjectPath');
+        if (!projectPath) {
+            projectPath = tl.getVariable('Build.Repository.LocalPath')!
+        }
+        const unityVersion = await ProjectVersionService.determineProjectVersion(projectPath);
 
         const unityEditorDirectory = process.platform === 'win32' ?
             path.join(`${unityEditorsPath}`, `${unityVersion}`, 'Editor')
@@ -29,31 +35,6 @@ async function run() {
 }
 
 run();
-
-async function getProjectVersion(): Promise<string> {
-    const projectPath = tl.getPathInput('unityProjectPath');
-    const projectVersionFilePath = path.join(`${projectPath}`, 'ProjectSettings', 'ProjectVersion.txt');
-    tl.debug(`${tl.loc('DebugProjectPath')} ${projectPath}`);
-    tl.debug(`${tl.loc('DebugProjectVersionFilePath')} ${projectVersionFilePath}`);
-
-    const projectVersionFileContent = await fs.readFile(projectVersionFilePath, { encoding: 'utf8' });
-    tl.debug(`${tl.loc('DebugProjectVersionFileContent')} ${projectVersionFileContent}`);
-
-    let projectVersion = projectVersionFileContent.split(':')[1].trim();
-    tl.debug(`${tl.loc('DebugProjectVersion')} ${projectVersion}`);
-
-    const revisionVersionIndex = projectVersion.indexOf('m_EditorVersionWithRevision');
-    if (revisionVersionIndex > -1) {
-        tl.debug(tl.loc('DebugRevisionVersion'));
-        projectVersion = projectVersion.substr(0, revisionVersionIndex).trim();
-    }
-
-    if (projectVersion) {
-        return projectVersion;
-    }
-
-    throw new Error(tl.loc('FailedToReadVersion'));
-}
 
 function getUnityEditorsPath(): string {
     const editorsPathMode = tl.getInput('unityEditorsPathMode', true);
