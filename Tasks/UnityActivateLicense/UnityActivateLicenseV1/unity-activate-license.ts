@@ -14,11 +14,17 @@ async function run() {
         const serial = tl.getInput('serial', true)!;
         const unityEditorsPath = getUnityEditorsPath();
 
+        // Find Project Unity Editor Version
         let projectPath = tl.getPathInput('unityProjectPath');
         if (!projectPath) {
             projectPath = tl.getVariable('Build.Repository.LocalPath')!
         }
         const unityVersion = await ProjectVersionService.determineProjectVersion(projectPath);
+        if (!unityVersion) {
+            throw new Error(tl.loc('FailedToReadVersion'));
+        } else {
+            console.log(tl.loc('SuccessFoundProjectVersion') + unityVersion.version);
+        }
 
         const unityEditorDirectory = process.platform === 'win32' ?
             path.join(`${unityEditorsPath}`, `${unityVersion!.version}`, 'Editor')
