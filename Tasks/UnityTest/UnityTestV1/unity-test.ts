@@ -78,7 +78,7 @@ async function run() {
                     throw Error('Expected log file name to be set. Disable the Specify Log File setting or enter a logfile name.');
                 }
 
-                const logFilePath = path.join(repositoryLocalPath, logFileName);
+                const logFilePath = path.join(repositoryLocalPath!, logFileName);
                 unityCmd.arg('-logfile');
                 unityCmd.arg(logFilePath);
                 tl.setVariable('editorLogFilePath', logFilePath);
@@ -86,7 +86,8 @@ async function run() {
         } else {
             // The user has configured to use his own custom command line arguments.
             // In this case, just append them to the mandatory set of arguments and we're done.
-            unityCmd.line(tl.getInput('customCommandLineArguments'));
+            const customCmd = tl.getInput('customCommandLineArguments');
+            unityCmd.line(customCmd ? customCmd : '');
         }
 
         // Now we are ready to execute the Unity command line.
@@ -131,11 +132,19 @@ async function waitForResult(path: string): Promise<void> {
 
 function getTestConfiguration(): UnityTestConfiguration {
     const unityTestConfiguration: UnityTestConfiguration = new UnityTestConfiguration();
-    unityTestConfiguration.testMode = (<any>UnityTestMode)[tl.getInput('testMode', true)];
-    unityTestConfiguration.projectPath = tl.getPathInput('unityProjectPath');
-    unityTestConfiguration.testCategory = tl.getInput('testCategory');
-    unityTestConfiguration.testFilter = tl.getInput('testFilter');
-    unityTestConfiguration.testResults = tl.getInput('testResults') ? tl.getInput('testResults') : 'test-results';
+    unityTestConfiguration.testMode = (<any>UnityTestMode)[tl.getInput('testMode', true)!];
+
+    const projectPath = tl.getPathInput('unityProjectPath');
+    unityTestConfiguration.projectPath = projectPath ? projectPath : '';
+
+    const testCategory = tl.getInput('testCategory');
+    unityTestConfiguration.testCategory = testCategory ? testCategory : '';
+
+    const testFilter = tl.getInput('testFilter');
+    unityTestConfiguration.testFilter = testFilter ? testFilter : '';
+
+    const testResultsPath = tl.getInput('testResultsPath');
+    unityTestConfiguration.testResults = testResultsPath ? testResultsPath : 'test-results';
 
     let unityVersion = fs.readFileSync(path.join(`${unityTestConfiguration.projectPath}`, 'ProjectSettings', 'ProjectVersion.txt'), 'utf8')
         .toString()
