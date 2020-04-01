@@ -1,8 +1,8 @@
 import path = require('path');
 import tl = require('azure-pipelines-task-lib/task');
 import fs = require('fs-extra');
-import tail = require('tail');
 import { ProjectVersionService } from '@dinomite-studios/unity-project-version';
+import { UnityLogStreamer } from './unity-log-streamer';
 
 tl.setResourcePath(path.join(__dirname, 'task.json'));
 
@@ -40,32 +40,16 @@ async function run() {
         unityCmd.arg(logFilePath);
         tl.setVariable('logFilePath', logFilePath);
 
+        const logStreamer = new UnityLogStreamer(logFilePath);
         let execResult = unityCmd.exec();
         while (execResult.isPending && !fs.existsSync(logFilePath)) {
-            await sleep(1000);
+            await logStreamer.sleep(1000);
         }
 
-        console.log("================================ UNITY LOG ===================================")
-
-        var logTail = new tail.Tail(logFilePath, {
-            fromBeginning: true, follow: true,
-            logger: console, useWatchFile: true,
-            fsWatchOptions: { interval: 1009 }
-        });
-
-        logTail.on("line", function (data) { console.log(data); });
-        logTail.on("error", function (error) { console.log('ERROR: ', error); });
-
+        logStreamer.open();
         await execResult;
-        var size = fs.statSync(logFilePath).size;
-
-        while (size > getTailPos(logTail) || getTailQueueLength(logTail) > 0) {
-            await sleep(2000);
-        }
-
-        logTail.unwatch();
-
-        console.log("=============================== UNITY LOG END ================================");
+        logStreamer.stream();
+        logStreamer.close();
 
         tl.setResult(tl.TaskResult.Succeeded, tl.loc('SuccessLicenseActivated'));
     } catch (e) {
@@ -75,18 +59,6 @@ async function run() {
             tl.setResult(tl.TaskResult.Failed, e);
         }
     }
-}
-
-function sleep(milliseconds: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, milliseconds));
-}
-
-function getTailPos(t: any): number {
-    return t.pos;
-}
-
-function getTailQueueLength(t: any): number {
-    return t.queue.length;
 }
 
 function getUnityEditorsPath(): string {
