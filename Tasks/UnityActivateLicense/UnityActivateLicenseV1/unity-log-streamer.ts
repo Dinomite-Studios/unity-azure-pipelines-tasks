@@ -22,7 +22,7 @@ export class UnityLogStreamer {
     }
 
     public async stream(): Promise<void> {
-        var logTail = new tail.Tail(this.logFilePath, {
+        const logTail = new tail.Tail(this.logFilePath, {
             fromBeginning: true, follow: true,
             logger: console, useWatchFile: true,
             fsWatchOptions: { interval: 1009 }
@@ -31,10 +31,10 @@ export class UnityLogStreamer {
         logTail.on("line", function (data) { console.log(data); });
         logTail.on("error", function (error) { console.log('ERROR: ', error); });
 
-        var size = fs.statSync(this.logFilePath).size;
+        let size = fs.statSync(this.logFilePath).size;
 
         while (size > this.getTailPos(logTail) || this.getTailQueueLength(logTail) > 0) {
-            await this.sleep(2000);
+            await this.sleep(2089);
         }
 
         logTail.unwatch();

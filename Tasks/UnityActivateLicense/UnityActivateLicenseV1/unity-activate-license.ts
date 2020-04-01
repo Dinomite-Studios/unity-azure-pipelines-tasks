@@ -21,24 +21,24 @@ async function run() {
         }
 
         const unityEditorDirectory = process.platform === 'win32' ?
-            path.join(`${unityEditorsPath}`, `${unityVersion!.version}`, 'Editor')
-            : path.join(`${unityEditorsPath}`, `${unityVersion!.version}`);
+            path.join(`${unityEditorsPath}`, `${unityVersion.version}`, 'Editor')
+            : path.join(`${unityEditorsPath}`, `${unityVersion.version}`);
         tl.checkPath(unityEditorDirectory, 'Unity Editor Directory');
 
         const unityExecutablePath = process.platform === 'win32' ? path.join(`${unityEditorDirectory}`, 'Unity.exe')
             : path.join(`${unityEditorDirectory}`, 'Unity.app', 'Contents', 'MacOS', 'Unity');
+
+        const logFilePath = path.join(tl.getVariable('Build.Repository.LocalPath')!, 'UnityActivationLog.log');
+        tl.setVariable('logFilePath', logFilePath);
+
         const unityCmd = tl.tool(unityExecutablePath)
             .arg('-batchmode')
             .arg('-quit')
             .arg('-nographics')
             .arg('-username').arg(username)
             .arg('-password').arg(password)
-            .arg('-serial ').arg(serial);
-
-        const logFilePath = path.join(tl.getVariable('Build.Repository.LocalPath')!, 'UnityActivationLog.log');
-        unityCmd.arg('-logfile');
-        unityCmd.arg(logFilePath);
-        tl.setVariable('logFilePath', logFilePath);
+            .arg('-serial ').arg(serial)
+            .arg('-logfile').arg(logFilePath);
 
         const logStreamer = new UnityLogStreamer(logFilePath);
         let execResult = unityCmd.exec();
@@ -48,7 +48,7 @@ async function run() {
 
         logStreamer.open();
         await execResult;
-        logStreamer.stream();
+        await logStreamer.stream();
         logStreamer.close();
 
         tl.setResult(tl.TaskResult.Succeeded, tl.loc('SuccessLicenseActivated'));

@@ -12,7 +12,7 @@
   "version": {
     "Major": "1",
     "Minor": "0",
-    "Patch": "7"
+    "Patch": "8"
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityActivateLicense/UnityActivateLicenseV1/CHANGELOG.md)",
   "minimumAgentVersion": "1.95.0",
