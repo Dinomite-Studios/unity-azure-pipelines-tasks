@@ -94,6 +94,7 @@
   "messages": {
     "EditorsPathEnvironmentVariableNotSet": "Expected UNITYHUB_EDITORS_FOLDER_LOCATION environment variable to be set.",
     "EditorsPathCustomPathNotSet": "Expected custom editors folder location to be set. Please check the task configuration.",
+    "SuccessLicenseActivated": "Unity editor activated.",
     "FailedToReadVersion": "Failed to get project version from ProjectVersion.txt file."
   }
 }
