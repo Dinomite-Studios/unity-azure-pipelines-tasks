@@ -1,7 +1,5 @@
 import path = require('path');
 import tl = require('azure-pipelines-task-lib/task');
-import fs = require('fs-extra');
-import { isNullOrUndefined } from 'util';
 import { ProjectVersionService } from '@dinomite-studios/unity-project-version';
 
 tl.setResourcePath(path.join(__dirname, 'task.json'));
@@ -11,12 +9,10 @@ async function run() {
         const unityEditorsPath = getUnityEditorsPath();
 
         // Find Project Unity Editor Version
-        let projectPath = tl.getPathInput('unityProjectPath');
-        const unityVersion = await ProjectVersionService.determineProjectVersion(projectPath ? projectPath : '');
-        if (!unityVersion) {
-            throw new Error(tl.loc('FailedToReadVersion'));
-        } else {
-            console.log(tl.loc('SuccessFoundProjectVersion') + unityVersion.version);
+        let projectPath = tl.getPathInput('unityProjectPath') || '';
+        const unityVersion = await ProjectVersionService.determineProjectVersionFromFile(projectPath);
+        if (unityVersion.error) {
+            throw new Error(`${tl.loc('FailedToReadVersion')} | ${unityVersion.error}`);
         }
 
         const unityEditorDirectory = process.platform === 'win32' ?
@@ -32,8 +28,14 @@ async function run() {
             .arg('-returnlicense');
 
         unityCmd.execSync();
-    } catch (err) {
-        tl.setResult(tl.TaskResult.Failed, err);
+
+        tl.setResult(tl.TaskResult.Succeeded, tl.loc('SuccessLicenseReleased'));
+    } catch (e) {
+        if (e instanceof Error) {
+            tl.setResult(tl.TaskResult.Failed, e.message);
+        } else {
+            tl.setResult(tl.TaskResult.Failed, e);
+        }
     }
 }
 
@@ -49,14 +51,14 @@ function getUnityEditorsPath(): string {
         return unityHubPath;
     } else if (editorsPathMode === 'environmentVariable') {
         const environmentVariablePath = process.env.UNITYHUB_EDITORS_FOLDER_LOCATION as string;
-        if (isNullOrUndefined(environmentVariablePath) || environmentVariablePath === '') {
+        if (!environmentVariablePath) {
             throw Error(tl.loc('EditorsPathEnvironmentVariableNotSet'));
         }
 
         return environmentVariablePath;
     } else {
         const customPath = tl.getInput('customUnityEditorsPath');
-        if (isNullOrUndefined(customPath) || customPath === '') {
+        if (!customPath) {
             throw Error(tl.loc('EditorsPathCustomPathNotSet'));
         }
 
