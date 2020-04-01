@@ -45,7 +45,7 @@ async function run() {
             await sleep(1000);
         }
 
-        console.log("========= UNITY BUILD LOG ==========")
+        console.log("================================ UNITY LOG ===================================")
 
         var logTail = new tail.Tail(logFilePath, {
             fromBeginning: true, follow: true,
@@ -65,7 +65,7 @@ async function run() {
 
         logTail.unwatch();
 
-        console.log("======== UNITY BUILD LOG END ========");
+        console.log("=============================== UNITY LOG END ================================");
 
         tl.setResult(tl.TaskResult.Succeeded, tl.loc('SuccessLicenseActivated'));
     } catch (e) {
