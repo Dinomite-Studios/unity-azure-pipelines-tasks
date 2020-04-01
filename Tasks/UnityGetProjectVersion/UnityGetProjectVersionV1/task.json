@@ -12,7 +12,7 @@
   "version": {
     "Major": "1",
     "Minor": "0",
-    "Patch": "8"
+    "Patch": "15"
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityGetProjectVersion/UnityGetProjectVersionV1/CHANGELOG.md)",
   "minimumAgentVersion": "1.95.0",
@@ -35,7 +35,7 @@
   ],
   "execution": {
     "Node": {
-      "target": "dist/unity-get-project-version.js",
+      "target": "unity-get-project-version.js",
       "argumentFormat": ""
     }
   },

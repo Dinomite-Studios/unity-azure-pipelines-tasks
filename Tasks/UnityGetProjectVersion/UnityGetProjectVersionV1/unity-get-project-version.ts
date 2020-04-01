@@ -7,18 +7,20 @@ tl.setResourcePath(path.join(__dirname, 'task.json'));
 async function run() {
     try {
         // Find Project Unity Editor Version
-        let projectPath = tl.getPathInput('unityProjectPath');
-        const unityVersion = await ProjectVersionService.determineProjectVersion(projectPath ? projectPath : '');
-        if (!unityVersion) {
-            throw new Error(tl.loc('FailedToReadVersion'));
-        } else {
-            console.log(tl.loc('SuccessFoundProjectVersion') + unityVersion.version);
+        let projectPath = tl.getPathInput('unityProjectPath') || '';
+        const unityVersion = await ProjectVersionService.determineProjectVersionFromFile(projectPath);
+        if (unityVersion.error) {
+            throw new Error(`${tl.loc('FailedToReadVersion')} | ${unityVersion.error}`);
         }
 
-        tl.setVariable('projectVersion', unityVersion!.version);
-        tl.setResult(tl.TaskResult.Succeeded, `${tl.loc('SuccessFoundProjectVersion')} ${unityVersion!.version}`);
-    } catch (err) {
-        tl.setResult(tl.TaskResult.Failed, err.message);
+        tl.setVariable('projectVersion', unityVersion.version);
+        tl.setResult(tl.TaskResult.Succeeded, `${tl.loc('SuccessFoundProjectVersion')} | ${unityVersion}`);
+    } catch (e) {
+        if (e instanceof Error) {
+            tl.setResult(tl.TaskResult.Failed, e.message);
+        } else {
+            tl.setResult(tl.TaskResult.Failed, e);
+        }
     }
 }
 
