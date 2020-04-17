@@ -17,7 +17,7 @@ async function run() {
             throw new Error(error);
         }
 
-        let successLog = `${tl.loc('SuccessFoundProjectVersion')} | ${unityVersion.version} | Alpha ${unityVersion.isAlpha} | Beta ${unityVersion.isBeta}`;
+        let successLog = `${tl.loc('SuccessGetUnityEditorVersion')} | ${unityVersion.version} | Alpha ${unityVersion.isAlpha} | Beta ${unityVersion.isBeta}`;
         console.log(successLog);
         if (unityVersion.isAlpha || unityVersion.isBeta) {
             console.warn(tl.loc('WarningAlphaBetaVersion'));
