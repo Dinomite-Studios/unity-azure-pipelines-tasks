@@ -6,25 +6,24 @@ tl.setResourcePath(path.join(__dirname, 'task.json'));
 
 async function run() {
     try {
-        // Find Project Unity Editor Version
-        let projectPath = tl.getPathInput('unityProjectPath') || '';
+        const projectPath = tl.getPathInput('unityProjectPath') || '';
         console.log(`${tl.loc('ProjectPathInfo')} ${projectPath}`);
 
         const unityVersion = await ProjectVersionService.determineProjectVersionFromFile(projectPath);
         if (unityVersion.error) {
-            let error = `${tl.loc('FailGetUnityEditorVersion')} | ${unityVersion.error}`;
+            const error = `${tl.loc('FailGetUnityEditorVersion')} | ${unityVersion.error}`;
             console.error(error);
             throw new Error(error);
         }
 
-        let successLog = `${tl.loc('SuccessGetUnityEditorVersion')} | ${unityVersion.version} | Alpha ${unityVersion.isAlpha} | Beta ${unityVersion.isBeta}`;
-        console.log(successLog);
+        const successGetVersionLog = `${tl.loc('SuccessGetUnityEditorVersion')} | ${unityVersion.version} | Alpha ${unityVersion.isAlpha} | Beta ${unityVersion.isBeta}`;
+        console.log(successGetVersionLog);
         if (unityVersion.isAlpha || unityVersion.isBeta) {
             console.warn(tl.loc('WarningAlphaBetaVersion'));
         }
 
         tl.setVariable('projectVersion', unityVersion.version);
-        tl.setResult(tl.TaskResult.Succeeded, successLog);
+        tl.setResult(tl.TaskResult.Succeeded, successGetVersionLog);
     } catch (e) {
         if (e instanceof Error) {
             tl.setResult(tl.TaskResult.Failed, e.message);
