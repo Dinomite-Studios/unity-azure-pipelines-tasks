@@ -63,6 +63,6 @@ export function getUnityExecutableFullPath(unityEditorsPath: string, unityVersio
     const unityExecutablePath = process.platform === 'win32' ? path.join(`${unityEditorDirectory}`, 'Unity.exe')
         : path.join(`${unityEditorDirectory}`, 'Unity.app', 'Contents', 'MacOS', 'Unity');
 
-    tl.loc(`${tl.loc('UsedEditorExecutablePathInfo')} ${unityExecutablePath}`);
+    console.log(`${tl.loc('UsedEditorExecutablePathInfo')} ${unityExecutablePath}`);
     return unityExecutablePath;
 }

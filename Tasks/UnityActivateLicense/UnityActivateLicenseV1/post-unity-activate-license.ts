@@ -6,8 +6,8 @@ tl.setResourcePath(path.join(__dirname, 'task.json'));
 
 async function run() {
     try {
-        const unityEditorsPath = getUnityEditorsPath();
         const unityVersion = await getUnityEditorVersion();
+        const unityEditorsPath = getUnityEditorsPath();
         const unityExecutablePath = getUnityExecutableFullPath(unityEditorsPath, unityVersion);
 
         const unityCmd = tl.tool(unityExecutablePath)

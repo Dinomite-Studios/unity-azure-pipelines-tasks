@@ -11,8 +11,8 @@ async function run() {
         const username = tl.getInput('username', true)!;
         const password = tl.getInput('password', true)!;
         const serial = tl.getInput('serial', true)!;
-        const unityEditorsPath = getUnityEditorsPath();
         const unityVersion = await getUnityEditorVersion();
+        const unityEditorsPath = getUnityEditorsPath();
         const unityExecutablePath = getUnityExecutableFullPath(unityEditorsPath, unityVersion);
 
         const logFilePath = path.join(tl.getVariable('Build.Repository.LocalPath')!, 'UnityActivationLog.log');
@@ -34,8 +34,7 @@ async function run() {
         }
 
         logStreamer.open();
-        await execResult;
-        await logStreamer.stream();
+        await logStreamer.stream(execResult);
         logStreamer.close();
 
         tl.setResult(tl.TaskResult.Succeeded, tl.loc('SuccessLicenseActivated'));

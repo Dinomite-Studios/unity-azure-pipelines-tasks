@@ -21,7 +21,7 @@ export class UnityLogStreamer {
         console.log("================================ UNITY LOG ===================================")
     }
 
-    public async stream(): Promise<void> {
+    public async stream(execResult: Q.Promise<number>): Promise<void> {
         const logTail = new tail.Tail(this.logFilePath, {
             fromBeginning: true, follow: true,
             logger: console, useWatchFile: true,
@@ -32,6 +32,7 @@ export class UnityLogStreamer {
         logTail.on("error", function (error) { console.log('ERROR: ', error); });
 
         let size = fs.statSync(this.logFilePath).size;
+        await execResult;
 
         while (size > this.getTailPos(logTail) || this.getTailQueueLength(logTail) > 0) {
             await this.sleep(2089);
