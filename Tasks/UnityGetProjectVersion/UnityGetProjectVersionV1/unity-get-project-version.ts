@@ -8,13 +8,23 @@ async function run() {
     try {
         // Find Project Unity Editor Version
         let projectPath = tl.getPathInput('unityProjectPath') || '';
+        console.log(`${tl.loc('ProjectPathInfo')} ${projectPath}`);
+
         const unityVersion = await ProjectVersionService.determineProjectVersionFromFile(projectPath);
         if (unityVersion.error) {
-            throw new Error(`${tl.loc('FailedToReadVersion')} | ${unityVersion.error}`);
+            let error = `${tl.loc('FailGetUnityEditorVersion')} | ${unityVersion.error}`;
+            console.error(error);
+            throw new Error(error);
+        }
+
+        let successLog = `${tl.loc('SuccessFoundProjectVersion')} | ${unityVersion.version} | Alpha ${unityVersion.isAlpha} | Beta ${unityVersion.isBeta}`;
+        console.log(successLog);
+        if (unityVersion.isAlpha || unityVersion.isBeta) {
+            console.warn(tl.loc('WarningAlphaBetaVersion'));
         }
 
         tl.setVariable('projectVersion', unityVersion.version);
-        tl.setResult(tl.TaskResult.Succeeded, `${tl.loc('SuccessFoundProjectVersion')} | ${unityVersion}`);
+        tl.setResult(tl.TaskResult.Succeeded, successLog);
     } catch (e) {
         if (e instanceof Error) {
             tl.setResult(tl.TaskResult.Failed, e.message);
