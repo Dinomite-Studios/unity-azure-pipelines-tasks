@@ -2,7 +2,7 @@ import path = require('path');
 import tl = require('azure-pipelines-task-lib/task');
 import fs = require('fs-extra');
 import { UnityLogStreamer } from './unity-log-streamer';
-import { getUnityEditorVersion, getUnityEditorsPath } from './unity-activate-license-shared';
+import { getUnityEditorVersion, getUnityEditorsPath, getUnityExecutableFullPath } from './unity-activate-license-shared';
 
 tl.setResourcePath(path.join(__dirname, 'task.json'));
 
@@ -13,14 +13,7 @@ async function run() {
         const serial = tl.getInput('serial', true)!;
         const unityEditorsPath = getUnityEditorsPath();
         const unityVersion = await getUnityEditorVersion();
-
-        const unityEditorDirectory = process.platform === 'win32' ?
-            path.join(`${unityEditorsPath}`, `${unityVersion.version}`, 'Editor')
-            : path.join(`${unityEditorsPath}`, `${unityVersion.version}`);
-        tl.checkPath(unityEditorDirectory, 'Unity Editor Directory');
-
-        const unityExecutablePath = process.platform === 'win32' ? path.join(`${unityEditorDirectory}`, 'Unity.exe')
-            : path.join(`${unityEditorDirectory}`, 'Unity.app', 'Contents', 'MacOS', 'Unity');
+        const unityExecutablePath = getUnityExecutableFullPath(unityEditorsPath, unityVersion);
 
         const logFilePath = path.join(tl.getVariable('Build.Repository.LocalPath')!, 'UnityActivationLog.log');
         tl.setVariable('logFilePath', logFilePath);

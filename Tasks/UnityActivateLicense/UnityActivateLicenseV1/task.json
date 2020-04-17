@@ -92,7 +92,8 @@
     }
   },
   "messages": {
-    "UsedEditorsPathInfo": "Looking for editor executable at",
+    "UsedEditorsPathInfo": "Looking for editor instances at",
+    "UsedEditorExecutablePathInfo": "Looking for editor executable at",
     "EditorsPathEnvironmentVariableNotSet": "Expected UNITYHUB_EDITORS_FOLDER_LOCATION environment variable to be set.",
     "EditorsPathCustomPathNotSet": "Expected custom editors folder location to be set. Please check the task configuration.",
     "SuccessLicenseActivated": "Unity editor license activated",

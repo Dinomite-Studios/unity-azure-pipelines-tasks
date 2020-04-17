@@ -53,3 +53,16 @@ export function getUnityEditorsPath(): string {
         return customPath;
     }
 }
+
+export function getUnityExecutableFullPath(unityEditorsPath: string, unityVersion: UnityProjectVersion): string {
+    const unityEditorDirectory = process.platform === 'win32' ?
+        path.join(`${unityEditorsPath}`, `${unityVersion.version}`, 'Editor')
+        : path.join(`${unityEditorsPath}`, `${unityVersion.version}`);
+    tl.checkPath(unityEditorDirectory, 'Unity Editor Directory');
+
+    const unityExecutablePath = process.platform === 'win32' ? path.join(`${unityEditorDirectory}`, 'Unity.exe')
+        : path.join(`${unityEditorDirectory}`, 'Unity.app', 'Contents', 'MacOS', 'Unity');
+
+    tl.loc(`${tl.loc('UsedEditorExecutablePathInfo')} ${unityExecutablePath}`);
+    return unityExecutablePath;
+}
