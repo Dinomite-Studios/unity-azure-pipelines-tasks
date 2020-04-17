@@ -1,3 +1,4 @@
+import tail = require('tail');
 import path = require('path');
 import tl = require('azure-pipelines-task-lib/task');
 import fs = require('fs-extra');
@@ -9,7 +10,21 @@ import { UnityProcessMonitor } from './unity-process-monitor';
 
 tl.setResourcePath(path.join(__dirname, 'task.json'));
 
+function getTailPos(t:any) : number {
+    return t.pos;
+}
+function getTailQueueLength(t:any) : number {
+    return t.queue.length;
+}
+
+function sleep(ms: number)
+{
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 async function run() {
+    var logTail = null
+
     try {
         const unityBuildConfiguration = getBuildConfiguration();
         const unityEditorsPath = getUnityEditorsPath();
@@ -33,8 +48,8 @@ async function run() {
 
         tl.mkdirP(fullBuildOutputPath);
         tl.checkPath(fullBuildOutputPath, 'Build Output Directory');
+        console.log("Building command" + fullBuildOutputPath);
         tl.setVariable('buildOutputPath', fullBuildOutputPath.substr(repositoryLocalPath.length + 1));
-
         // Mandatory set of command line arguments for Unity.
         // -batchmode will open Unity without UI
         // -buildTarget sets the configured target platform
@@ -45,6 +60,10 @@ async function run() {
             .arg('-batchmode')
             .arg('-buildTarget').arg(UnityBuildTarget[unityBuildConfiguration.buildTarget])
             .arg('-projectPath').arg(unityBuildConfiguration.projectPath);
+
+        
+        var logFilePath = "";
+        
 
         if (tl.getInput('commandLineArgumentsMode', true) === 'default') {
             if (tl.getBoolInput('noPackageManager')) {
@@ -78,7 +97,7 @@ async function run() {
                     throw Error('Expected log file name to be set. Disable the Specify Log File setting or enter a logfile name.');
                 }
 
-                const logFilePath = path.join(repositoryLocalPath, logFileName);
+                logFilePath = path.join(repositoryLocalPath, logFileName);
                 unityCmd.arg('-logfile');
                 unityCmd.arg(logFilePath);
                 tl.setVariable('editorLogFilePath', logFilePath);
@@ -89,19 +108,64 @@ async function run() {
             unityCmd.line(tl.getInput('customCommandLineArguments'));
         }
 
-        // Now we are ready to execute the Unity command line.
-        // Unfortuntely, the command line will return before the unity build has actually finished, and eventually
-        // give us a false positive. The solution is currently to observe whether the Unity process is still running,
-        // and when done, check whether there are output files.
-        unityCmd.execSync();
 
-        // The build is now running. Start observing the output directory.
-        // Check every minute whether the Unity process is still running and if not,
-        // whether there is build output.
-        setTimeout(() => {
-            waitForResult(fullBuildOutputPath);
-        }, 30000);
+
+        var execResult = unityCmd.exec();
+
+        // wait for log file to be created
+        while (execResult.isPending && !fs.existsSync(logFilePath)) {
+            await sleep(1000);
+        }
+    
+        console.log("========= UNITY BUILD LOG ==========")
+    
+        logTail = new tail.Tail(logFilePath, { fromBeginning: true, follow: true,
+                    logger: console, useWatchFile: true,
+                    fsWatchOptions: { interval: 1009 } });
+    
+        logTail.on("line", function(data) { console.log(data); });
+        logTail.on("error", function(error) { console.log('ERROR: ', error); });
+    
+        console.log("========= WAIT FOR FINISH ==========")
+        var result = await execResult;
+        
+        var size = 0;
+        
+        if(fs.existsSync(logFilePath))
+        {
+            console.log("========= GET FILE SIZE ==========")
+            size = fs.statSync(logFilePath).size;
+        }
+        else
+        {
+            console.log("========= LOG FILE HAS BEEN DELETED ==========")
+        }
+    
+        console.log("========= MAKE SURE THE TAIL HAS FINISHED ==========")
+        while (size > getTailPos(logTail) || getTailQueueLength(logTail) > 0) {
+            await sleep(2089);
+        }
+    
+        console.log("========= UNWATCH ==========")
+        logTail.unwatch();
+    
+        console.log("======== UNITY BUILD LOG END ========");
+
+        if (result === 0) {
+            tl.setResult(tl.TaskResult.Succeeded, `Unity Build finished successfully with exit code ${result}`);
+        } else {
+            tl.setResult(tl.TaskResult.Failed, `Unity Build failed with exit code ${result}`)
+        }
     } catch (err) {
+
+        // Clean up tail.
+        if(logTail != null)
+        {
+            console.log("Unwatching tail");
+            logTail.unwatch();
+        }
+
+        console.log("========= FAILING BUILD =================")
         setResultFailed(err.message);
     }
 }
@@ -163,6 +227,7 @@ function getBuildConfiguration(): UnityBuildConfiguration {
 
 function getUnityEditorsPath(): string {
     const editorsPathMode = tl.getInput('unityEditorsPathMode', true);
+    console.log(editorsPathMode);
     if (editorsPathMode === 'unityHub') {
         const unityHubPath = process.platform === 'win32' ?
             path.join('C:', 'Program Files', 'Unity', 'Hub', 'Editor')
