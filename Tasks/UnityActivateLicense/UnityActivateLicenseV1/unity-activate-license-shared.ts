@@ -13,7 +13,7 @@ export async function getUnityEditorVersion(): Promise<UnityProjectVersion> {
         throw new Error(error);
     }
 
-    const successGetVersionLog = `${tl.loc('SuccessGetUnityEditorVersion')} | ${unityVersion.version} | Alpha ${unityVersion.isAlpha} | Beta ${unityVersion.isBeta}`;
+    const successGetVersionLog = `${tl.loc('SuccessGetUnityEditorVersion')} ${unityVersion.version}, alpha=${unityVersion.isAlpha}, beta=${unityVersion.isBeta}`;
     console.log(successGetVersionLog);
     if (unityVersion.isAlpha || unityVersion.isBeta) {
         console.warn(tl.loc('WarningAlphaBetaVersion'));
