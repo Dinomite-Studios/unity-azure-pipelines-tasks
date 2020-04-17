@@ -5,7 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased 1.0.x]
+## [1.0.x]
+
+### Added
+
+- Added log output while running the task
 
 ### Changed
 
@@ -14,21 +18,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.4]
 
+### Added
+
+- Added debugging messages (set debug flag to see in log).
+
 ### Changed
 
 - Changed project version detection code.
 - Updated node packages.
-- Added debugging messages (set debug flag to see in log).
 
 ## [1.0.2]
 
-### Changed
+### Fixed
 
 - Applied same fix as in v1.0.1 to the post activation task.
 
 ## [1.0.1]
 
-### Changed
+### Fixed
 
 - Fixed issue where project version would not correctly be determined if the ProjectVersion.txt contains a revision editor version.
 

@@ -1,19 +1,13 @@
 import path = require('path');
 import tl = require('azure-pipelines-task-lib/task');
-import { ProjectVersionService } from '@dinomite-studios/unity-project-version';
+import { getUnityEditorsPath, getUnityEditorVersion } from './unity-activate-license-shared';
 
 tl.setResourcePath(path.join(__dirname, 'task.json'));
 
 async function run() {
     try {
         const unityEditorsPath = getUnityEditorsPath();
-
-        // Find Project Unity Editor Version
-        let projectPath = tl.getPathInput('unityProjectPath') || '';
-        const unityVersion = await ProjectVersionService.determineProjectVersionFromFile(projectPath);
-        if (unityVersion.error) {
-            throw new Error(`${tl.loc('FailedToReadVersion')} | ${unityVersion.error}`);
-        }
+        const unityVersion = await getUnityEditorVersion();
 
         const unityEditorDirectory = process.platform === 'win32' ?
             path.join(`${unityEditorsPath}`, `${unityVersion}`, 'Editor')
@@ -40,28 +34,3 @@ async function run() {
 }
 
 run();
-
-function getUnityEditorsPath(): string {
-    const editorsPathMode = tl.getInput('unityEditorsPathMode', true);
-    if (editorsPathMode === 'unityHub') {
-        const unityHubPath = process.platform === 'win32' ?
-            path.join('C:', 'Program Files', 'Unity', 'Hub', 'Editor')
-            : path.join('/', 'Applications', 'Unity', 'Hub', 'Editor');
-
-        return unityHubPath;
-    } else if (editorsPathMode === 'environmentVariable') {
-        const environmentVariablePath = process.env.UNITYHUB_EDITORS_FOLDER_LOCATION as string;
-        if (!environmentVariablePath) {
-            throw Error(tl.loc('EditorsPathEnvironmentVariableNotSet'));
-        }
-
-        return environmentVariablePath;
-    } else {
-        const customPath = tl.getInput('customUnityEditorsPath');
-        if (!customPath) {
-            throw Error(tl.loc('EditorsPathCustomPathNotSet'));
-        }
-
-        return customPath;
-    }
-}
