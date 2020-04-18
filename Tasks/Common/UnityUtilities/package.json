@@ -25,10 +25,14 @@
     "license": "MIT",
     "dependencies": {
         "@types/fs-extra": "^8.0.0",
-        "fs-extra": "^8.1.0"
+        "@types/tail": "^2.0.0",
+        "azure-pipelines-task-lib": "^2.9.3",
+        "fs-extra": "^8.1.0",
+        "tail": "^2.0.3"
     },
     "devDependencies": {
         "typescript": "3.8.3",
-        "@types/node": "^13.9.8"
+        "@types/node": "^13.9.8",
+        "@types/q": "^1.5.2"
     }
 }
