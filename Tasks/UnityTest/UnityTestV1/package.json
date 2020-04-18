@@ -2,7 +2,7 @@
   "name": "unitytesttask",
   "version": "1.0.0",
   "description": "An Azure Pipelines task to test Unity projects.",
-  "main": "dist/unity-test.js",
+  "main": "unity-test.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc"

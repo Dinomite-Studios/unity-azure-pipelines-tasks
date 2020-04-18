@@ -171,7 +171,7 @@
   ],
   "execution": {
     "Node": {
-      "target": "dist/unity-test.js",
+      "target": "unity-test.js",
       "argumentFormat": ""
     }
   }

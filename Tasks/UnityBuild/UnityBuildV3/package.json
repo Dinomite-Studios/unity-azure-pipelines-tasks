@@ -1,11 +1,12 @@
 {
-  "name": "unitybuildtask",
-  "version": "2.3.0",
+  "name": "@dinomite-studios/unity-build-task",
+  "version": "3.0.1",
   "description": "An Azure Pipelines task to build Unity projects.",
-  "main": "dist/unity-build.js",
+  "main": "unity-build.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc"
+    "build": "tsc",
+    "upload": "tfx build tasks upload --task-path ./",
+    "dev-upload": "npm run build && npm run upload"
   },
   "repository": {
     "type": "git",
@@ -15,12 +16,12 @@
   "license": "MIT",
   "dependencies": {
     "@types/fs-extra": "^8.0.0",
-    "azure-pipelines-task-lib": "^2.8.0",
+    "azure-pipelines-task-lib": "^2.9.3",
     "fs-extra": "^8.1.0",
-    "unity-project-version": "file:../../Common/ProjectVersion"
+    "@dinomite-studios/unity-project-version": "^1.0.4"
   },
   "devDependencies": {
-    "@types/node": "^13.1.4",
+    "@types/node": "^13.13.0",
     "@types/q": "^1.5.2"
   }
 }
