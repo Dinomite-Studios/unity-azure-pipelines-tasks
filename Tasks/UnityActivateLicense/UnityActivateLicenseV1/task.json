@@ -97,7 +97,7 @@
     "EditorsPathEnvironmentVariableNotSet": "Expected UNITYHUB_EDITORS_FOLDER_LOCATION environment variable to be set.",
     "EditorsPathCustomPathNotSet": "Expected custom editors folder location to be set. Please check the task configuration.",
     "SuccessLicenseActivated": "Unity editor license activated",
-    "SuccessLicenseReleased": "Unity editor license released",
+    "SuccessLicenseReturned": "Unity editor license returned",
     "FailUnity": "The Unity process failed with exit code",
     "WarningAlphaBetaVersion": "You are using a Unity Alpha/Beta version. It may not be supported by the extension!",
     "ProjectPathInfo": "Determining Unity editor version for project at",

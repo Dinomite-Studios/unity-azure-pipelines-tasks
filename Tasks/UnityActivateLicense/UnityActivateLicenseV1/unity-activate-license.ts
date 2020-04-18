@@ -37,14 +37,20 @@ async function run() {
         UnityLogStreamer.printClose();
 
         if (result === 0) {
-            tl.setResult(tl.TaskResult.Succeeded, tl.loc('SuccessLicenseActivated'));
+            const activateLicenseSuccessLog = tl.loc('SuccessLicenseActivated');
+            console.log(activateLicenseSuccessLog);
+            tl.setResult(tl.TaskResult.Succeeded, activateLicenseSuccessLog);
         } else {
-            tl.setResult(tl.TaskResult.Failed, `${tl.loc('FailUnity')} ${result}`);
+            const activateLicenseFailLog = `${tl.loc('FailUnity')} ${result}`;
+            console.log(activateLicenseFailLog);
+            tl.setResult(tl.TaskResult.Failed, activateLicenseFailLog);
         }
     } catch (e) {
         if (e instanceof Error) {
+            console.error(e.message);
             tl.setResult(tl.TaskResult.Failed, e.message);
         } else {
+            console.error(e);
             tl.setResult(tl.TaskResult.Failed, e);
         }
     }
