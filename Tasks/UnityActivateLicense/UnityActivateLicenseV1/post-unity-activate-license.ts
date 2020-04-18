@@ -1,8 +1,7 @@
 import path = require('path');
 import tl = require('azure-pipelines-task-lib/task');
-import fs = require('fs-extra');
 import { getUnityEditorsPath, getUnityEditorVersion, getUnityExecutableFullPath } from './unity-activate-license-shared';
-import { UnityLogStreamer } from './unity-log-streamer';
+import { UnityToolRunner } from './unity-tool-runner';
 
 tl.setResourcePath(path.join(__dirname, 'task.json'));
 
@@ -13,7 +12,7 @@ async function run() {
         const unityExecutablePath = getUnityExecutableFullPath(unityEditorsPath, unityVersion);
 
         const logFilePath = path.join(tl.getVariable('Build.Repository.LocalPath')!, 'UnityReturnLicenseLog.log');
-        // tl.setVariable('logFilePath', logFilePath);
+        tl.setVariable('releaseLicenseLogFilePath', logFilePath);
 
         const unityCmd = tl.tool(unityExecutablePath)
             .arg('-batchmode')
@@ -21,14 +20,7 @@ async function run() {
             .arg('-returnlicense')
             .arg('-logfile').arg(logFilePath);
 
-        let execResult = unityCmd.exec();
-        while (execResult.isPending && !fs.existsSync(logFilePath)) {
-            await UnityLogStreamer.sleep(1000);
-        }
-
-        UnityLogStreamer.printOpen();
-        const result = await UnityLogStreamer.stream(logFilePath, execResult);
-        UnityLogStreamer.printClose();
+        const result = await UnityToolRunner.run(unityCmd, logFilePath);
 
         if (result === 0) {
             const returnLicenseSuccessLog = tl.loc('SuccessLicenseReturned');

@@ -20,8 +20,10 @@ export class UnityLogStreamer {
         logTail.on("line", function (data) { console.log(data); });
         logTail.on("error", function (error) { console.log('ERROR: ', error); });
 
+        let result = 0;
+
         try {
-            const result = await execResult;
+            result = await execResult;
 
             let size = 0;
             if (fs.existsSync(logFilePath)) {
@@ -40,7 +42,11 @@ export class UnityLogStreamer {
                 logTail.unwatch();
             }
 
-            throw error;
+            if (result !== 0) {
+                return result;
+            } else {
+                throw error;
+            }
         }
     }
 

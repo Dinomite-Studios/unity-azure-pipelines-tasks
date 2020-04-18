@@ -26,8 +26,10 @@ async function run() {
         tl.setResult(tl.TaskResult.Succeeded, successGetVersionLog);
     } catch (e) {
         if (e instanceof Error) {
+            console.error(e.message);
             tl.setResult(tl.TaskResult.Failed, e.message);
         } else {
+            console.error(e);
             tl.setResult(tl.TaskResult.Failed, e);
         }
     }
