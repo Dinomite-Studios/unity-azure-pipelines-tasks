@@ -20,7 +20,7 @@ export class UnityLogStreamer {
         logTail.on("line", function (data) { console.log(data); });
         logTail.on("error", function (error) { console.log('ERROR: ', error); });
 
-        let result = 0;
+        let result = -1;
 
         try {
             result = await execResult;
@@ -30,23 +30,34 @@ export class UnityLogStreamer {
                 size = fs.statSync(logFilePath).size;
             }
 
-            while (size > this.getTailPos(logTail) || this.getTailQueueLength(logTail) > 0) {
-                await UnityLogStreamer.sleep(2089);
+            while (size > UnityLogStreamer.getTailPos(logTail) || UnityLogStreamer.getTailQueueLength(logTail) > 0) {
+                UnityLogStreamer.sleep(2089);
             }
 
             logTail.unwatch();
 
             return result;
-        } catch (error) {
+        } catch (e) {
             if (logTail != null) {
                 logTail.unwatch();
             }
 
-            if (result !== 0) {
-                return result;
-            } else {
-                throw error;
+            // WORKAROUND for license activation
+            // The unity exe might return the error code 3221225477 and throw an
+            // error because it can't write the license file on the agent, due to
+            // missing access right. Nontheless the Unity process has finished
+            // its operation at this point and can we ignore this specific error,
+            // since the licnse is going to get released anyways after the pipeline
+            // has finished.
+            if (e instanceof Error && e.message.includes('exit code 3221225477')) {
+                result = 0;
             }
+
+            if (result === 0) {
+                return result;
+            }
+
+            throw e;
         }
     }
 
@@ -62,7 +73,7 @@ export class UnityLogStreamer {
         return t.queue.length;
     }
 
-    public static sleep(ms: number): Promise<void> {
-        return new Promise(resolve => setTimeout(resolve, ms));
+    public static sleep(ms: number): void {
+        Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
     }
 }

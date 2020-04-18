@@ -1,6 +1,6 @@
 {
   "name": "@dinomite-studios/unity-activate-license-task",
-  "version": "1.0.14",
+  "version": "1.0.17",
   "description": "Azure Pipelines task to activate a Unity Pro license prior to building a project.",
   "main": "unity-activate-license.js",
   "scripts": {

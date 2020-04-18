@@ -7,7 +7,7 @@ export class UnityToolRunner {
     public static async run(tool: ToolRunner, logFilePath: string): Promise<number> {
         let execResult = tool.exec();
         while (execResult.isPending && !fs.existsSync(logFilePath)) {
-            await UnityLogStreamer.sleep(1000);
+            UnityLogStreamer.sleep(1000);
         }
 
         UnityLogStreamer.printOpen();
