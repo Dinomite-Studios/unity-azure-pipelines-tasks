@@ -27,17 +27,20 @@ async function run() {
             .arg('-serial ').arg(serial)
             .arg('-logfile').arg(logFilePath);
 
-        const logStreamer = new UnityLogStreamer(logFilePath);
         let execResult = unityCmd.exec();
         while (execResult.isPending && !fs.existsSync(logFilePath)) {
-            await logStreamer.sleep(1000);
+            await UnityLogStreamer.sleep(1000);
         }
 
-        logStreamer.open();
-        await logStreamer.stream(execResult);
-        logStreamer.close();
+        UnityLogStreamer.printOpen();
+        const result = await UnityLogStreamer.stream(logFilePath, execResult);
+        UnityLogStreamer.printClose();
 
-        tl.setResult(tl.TaskResult.Succeeded, tl.loc('SuccessLicenseActivated'));
+        if (result === 0) {
+            tl.setResult(tl.TaskResult.Succeeded, tl.loc('SuccessLicenseActivated'));
+        } else {
+            tl.setResult(tl.TaskResult.Failed, `${tl.loc('FailUnity')} ${result}`);
+        }
     } catch (e) {
         if (e instanceof Error) {
             tl.setResult(tl.TaskResult.Failed, e.message);

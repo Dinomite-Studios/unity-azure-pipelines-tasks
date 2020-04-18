@@ -6,23 +6,12 @@ import fs = require('fs-extra');
  */
 export class UnityLogStreamer {
 
-    /**
-     * Creates a new instance of the log streamer
-     * to watch specified logfile and stream its content
-     * to the console.
-     */
-    constructor(logFilePath: string) {
-        this.logFilePath = logFilePath;
-    }
-
-    private readonly logFilePath: string;
-
-    public open(): void {
+    public static printOpen(): void {
         console.log("================================ UNITY LOG ===================================")
     }
 
-    public async stream(execResult: Q.Promise<number>): Promise<void> {
-        const logTail = new tail.Tail(this.logFilePath, {
+    public static async stream(logFilePath: string, execResult: Q.Promise<number>): Promise<number> {
+        const logTail = new tail.Tail(logFilePath, {
             fromBeginning: true, follow: true,
             logger: console, useWatchFile: true,
             fsWatchOptions: { interval: 1009 }
@@ -31,29 +20,43 @@ export class UnityLogStreamer {
         logTail.on("line", function (data) { console.log(data); });
         logTail.on("error", function (error) { console.log('ERROR: ', error); });
 
-        let size = fs.statSync(this.logFilePath).size;
-        await execResult;
+        try {
+            const result = await execResult;
 
-        while (size > this.getTailPos(logTail) || this.getTailQueueLength(logTail) > 0) {
-            await this.sleep(2089);
+            let size = 0;
+            if (fs.existsSync(logFilePath)) {
+                size = fs.statSync(logFilePath).size;
+            }
+
+            while (size > this.getTailPos(logTail) || this.getTailQueueLength(logTail) > 0) {
+                await UnityLogStreamer.sleep(2089);
+            }
+
+            logTail.unwatch();
+
+            return result;
+        } catch (error) {
+            if (logTail != null) {
+                logTail.unwatch();
+            }
+
+            throw error;
         }
-
-        logTail.unwatch();
     }
 
-    public close(): void {
+    public static printClose(): void {
         console.log("=============================== UNITY LOG END ================================");
     }
 
-    private getTailPos(t: any): number {
+    private static getTailPos(t: any): number {
         return t.pos;
     }
 
-    private getTailQueueLength(t: any): number {
+    private static getTailQueueLength(t: any): number {
         return t.queue.length;
     }
 
-    public sleep(milliseconds: number): Promise<void> {
-        return new Promise(resolve => setTimeout(resolve, milliseconds));
+    public static sleep(ms: number): Promise<void> {
+        return new Promise(resolve => setTimeout(resolve, ms));
     }
 }

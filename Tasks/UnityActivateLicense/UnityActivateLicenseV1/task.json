@@ -12,7 +12,7 @@
   "version": {
     "Major": "1",
     "Minor": "0",
-    "Patch": "11"
+    "Patch": "12"
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityActivateLicense/UnityActivateLicenseV1/CHANGELOG.md)",
   "minimumAgentVersion": "1.95.0",
@@ -98,6 +98,7 @@
     "EditorsPathCustomPathNotSet": "Expected custom editors folder location to be set. Please check the task configuration.",
     "SuccessLicenseActivated": "Unity editor license activated",
     "SuccessLicenseReleased": "Unity editor license released",
+    "FailUnity": "The Unity process failed with exit code",
     "WarningAlphaBetaVersion": "You are using a Unity Alpha/Beta version. It may not be supported by the extension!",
     "ProjectPathInfo": "Determining Unity editor version for project at",
     "SuccessGetUnityEditorVersion": "Success, Unity editor version found",
