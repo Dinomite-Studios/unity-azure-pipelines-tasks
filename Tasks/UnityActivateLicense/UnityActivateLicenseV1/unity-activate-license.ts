@@ -1,7 +1,7 @@
 import path = require('path');
 import tl = require('azure-pipelines-task-lib/task');
 import { getUnityEditorVersion, getUnityEditorsPath, getUnityExecutableFullPath } from './unity-activate-license-shared';
-import { UnityToolRunner } from './unity-tool-runner';
+import { UnityToolRunner } from '@dinomite-studios/unity-utilities';
 
 tl.setResourcePath(path.join(__dirname, 'task.json'));
 

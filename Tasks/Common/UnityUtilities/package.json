@@ -1,6 +1,6 @@
 {
     "name": "@dinomite-studios/unity-utilities",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "Utility package for DevOps operations related to the Unity engine.",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
