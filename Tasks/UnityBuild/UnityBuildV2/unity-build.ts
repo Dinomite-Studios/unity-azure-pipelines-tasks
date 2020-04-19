@@ -1,4 +1,3 @@
-import tail = require('tail');
 import path = require('path');
 import tl = require('azure-pipelines-task-lib/task');
 import fs = require('fs-extra');
@@ -6,25 +5,11 @@ import { isNullOrUndefined } from 'util';
 import { UnityBuildTarget } from './unity-build-target.enum';
 import { UnityBuildScriptHelper } from './unity-build-script.helper';
 import { UnityBuildConfiguration } from './unity-build-configuration.model';
-import { UnityProcessMonitor } from './unity-process-monitor';
+import { UnityToolRunner } from '@dinomite-studios/unity-utilities';
 
 tl.setResourcePath(path.join(__dirname, 'task.json'));
 
-function getTailPos(t:any) : number {
-    return t.pos;
-}
-function getTailQueueLength(t:any) : number {
-    return t.queue.length;
-}
-
-function sleep(ms: number)
-{
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 async function run() {
-    var logTail = null
-
     try {
         const unityBuildConfiguration = getBuildConfiguration();
         const unityEditorsPath = getUnityEditorsPath();
@@ -61,9 +46,8 @@ async function run() {
             .arg('-buildTarget').arg(UnityBuildTarget[unityBuildConfiguration.buildTarget])
             .arg('-projectPath').arg(unityBuildConfiguration.projectPath);
 
-        
+
         var logFilePath = "";
-        
 
         if (tl.getInput('commandLineArgumentsMode', true) === 'default') {
             if (tl.getBoolInput('noPackageManager')) {
@@ -105,90 +89,27 @@ async function run() {
         } else {
             // The user has configured to use his own custom command line arguments.
             // In this case, just append them to the mandatory set of arguments and we're done.
-            unityCmd.line(tl.getInput('customCommandLineArguments'));
+            unityCmd.line(tl.getInput('customCommandLineArguments')!);
         }
 
-
-
-        var execResult = unityCmd.exec();
-
-        // wait for log file to be created
-        while (execResult.isPending && !fs.existsSync(logFilePath)) {
-            await sleep(1000);
-        }
-    
-        console.log("========= UNITY BUILD LOG ==========")
-    
-        logTail = new tail.Tail(logFilePath, { fromBeginning: true, follow: true,
-                    logger: console, useWatchFile: true,
-                    fsWatchOptions: { interval: 1009 } });
-    
-        logTail.on("line", function(data) { console.log(data); });
-        logTail.on("error", function(error) { console.log('ERROR: ', error); });
-    
-        console.log("========= WAIT FOR FINISH ==========")
-        var result = await execResult;
-        
-        var size = 0;
-        
-        if(fs.existsSync(logFilePath))
-        {
-            console.log("========= GET FILE SIZE ==========")
-            size = fs.statSync(logFilePath).size;
-        }
-        else
-        {
-            console.log("========= LOG FILE HAS BEEN DELETED ==========")
-        }
-    
-        console.log("========= MAKE SURE THE TAIL HAS FINISHED ==========")
-        while (size > getTailPos(logTail) || getTailQueueLength(logTail) > 0) {
-            await sleep(2089);
-        }
-    
-        console.log("========= UNWATCH ==========")
-        logTail.unwatch();
-    
-        console.log("======== UNITY BUILD LOG END ========");
+        const result = await UnityToolRunner.run(unityCmd, logFilePath);
 
         if (result === 0) {
-            tl.setResult(tl.TaskResult.Succeeded, `Unity Build finished successfully with exit code ${result}`);
+            const buildSuccessLog = tl.loc('BuildSuccess');
+            console.log(buildSuccessLog);
+            tl.setResult(tl.TaskResult.Succeeded, buildSuccessLog);
         } else {
-            tl.setResult(tl.TaskResult.Failed, `Unity Build failed with exit code ${result}`)
+            const buildFailLog = `${tl.loc('BuildFailed')} ${result}`;
+            console.log(buildFailLog);
+            tl.setResult(tl.TaskResult.Failed, buildFailLog);
         }
-    } catch (err) {
-
-        // Clean up tail.
-        if(logTail != null)
-        {
-            console.log("Unwatching tail");
-            logTail.unwatch();
-        }
-
-        console.log("========= FAILING BUILD =================")
-        setResultFailed(err.message);
-    }
-}
-
-async function waitForResult(path: string): Promise<void> {
-    console.log('Checking whether Unity process is still running...');
-    const unityStillRunning = await UnityProcessMonitor.isUnityStillRunning();
-
-    if (unityStillRunning) {
-        console.log('Unity process still running. Will check again in 30 seconds...')
-
-        // Check every minute whether the unity process is still running.
-        setTimeout(() => {
-            waitForResult(path);
-        }, 30000);
-    } else {
-        console.log(`Unity process has finished. Checking for build output in ${path}`);
-        if (isFolderNotEmpty(path)) {
-            // If there is build output, the build succeeded.
-            setResultSucceeded(`Unity Build task completed successfully.`);
+    } catch (e) {
+        if (e instanceof Error) {
+            console.error(e.message);
+            tl.setResult(tl.TaskResult.Failed, e.message);
         } else {
-            // We don't know what happened at this point but the build failed most likely.
-            setResultFailed('The Unity build task finished without results. Check editor logs for details.');
+            console.error(e);
+            tl.setResult(tl.TaskResult.Failed, e);
         }
     }
 }
@@ -249,19 +170,6 @@ function getUnityEditorsPath(): string {
 
         return customPath;
     }
-}
-
-function isFolderNotEmpty(path: string): boolean {
-    const files: string[] = fs.readdirSync(path);
-    return !isNullOrUndefined(files) && files.length > 0;
-}
-
-function setResultFailed(msg: string): void {
-    tl.setResult(tl.TaskResult.Failed, msg);
-}
-
-function setResultSucceeded(msg: string): void {
-    tl.setResult(tl.TaskResult.Succeeded, msg);
 }
 
 run();
