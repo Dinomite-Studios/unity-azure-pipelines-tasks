@@ -1,15 +1,15 @@
 import path = require('path');
 import tl = require('azure-pipelines-task-lib/task');
-import { getUnityEditorsPath, getUnityEditorVersion, getUnityExecutableFullPath } from './unity-activate-license-shared';
-import { UnityToolRunner } from '@dinomite-studios/unity-utilities';
+import { getUnityEditorVersion } from './unity-activate-license-shared';
+import { UnityToolRunner, UnityPathTools } from '@dinomite-studios/unity-utilities';
 
 tl.setResourcePath(path.join(__dirname, 'task.json'));
 
 async function run() {
     try {
         const unityVersion = await getUnityEditorVersion();
-        const unityEditorsPath = getUnityEditorsPath();
-        const unityExecutablePath = getUnityExecutableFullPath(unityEditorsPath, unityVersion);
+        const unityEditorsPath = UnityPathTools.getUnityEditorsPath(tl.getInput('unityEditorsPathMode', true)!, tl.getInput('customUnityEditorsPath'))
+        const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(unityEditorsPath, unityVersion);
 
         const logFilePath = path.join(tl.getVariable('Build.Repository.LocalPath')!, 'UnityReturnLicenseLog.log');
         tl.setVariable('releaseLicenseLogFilePath', logFilePath);
