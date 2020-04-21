@@ -12,7 +12,7 @@
   "version": {
     "Major": "1",
     "Minor": "0",
-    "Patch": "22"
+    "Patch": "23"
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityActivateLicense/UnityActivateLicenseV1/CHANGELOG.md)",
   "minimumAgentVersion": "1.95.0",
@@ -75,12 +75,8 @@
   ],
   "OutputVariables": [
     {
-      "name": "activateLicenseLogFilePath",
-      "description": "Path to the Unity editor log file for the license activation process."
-    },
-    {
-      "name": "releaseLicenseLogFilePath",
-      "description": "Path to the Unity editor log file for the release license process."
+      "name": "logsOutputPath",
+      "description": "Path to the Unity editor log files generated."
     }
   ],
   "execution": {

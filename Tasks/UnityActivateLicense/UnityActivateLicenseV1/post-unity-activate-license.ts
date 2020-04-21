@@ -11,8 +11,9 @@ async function run() {
         const unityEditorsPath = UnityPathTools.getUnityEditorsPath(tl.getInput('unityEditorsPathMode', true)!, tl.getInput('customUnityEditorsPath'))
         const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(unityEditorsPath, unityVersion);
 
-        const logFilePath = path.join(tl.getVariable('Build.Repository.LocalPath')!, 'UnityReturnLicenseLog.log');
-        tl.setVariable('releaseLicenseLogFilePath', logFilePath);
+        const logFilesDirectory = path.join(tl.getVariable('Build.Repository.LocalPath')!, 'Logs');
+        const logFilePath = path.join(logFilesDirectory, 'UnityReturnLicenseLog.log');
+        tl.setVariable('logsOutputPath', logFilesDirectory);
 
         const unityCmd = tl.tool(unityExecutablePath)
             .arg('-batchmode')
