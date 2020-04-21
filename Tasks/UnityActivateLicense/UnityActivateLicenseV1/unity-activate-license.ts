@@ -1,7 +1,7 @@
 import path = require('path');
 import tl = require('azure-pipelines-task-lib/task');
 import { getUnityEditorVersion } from './unity-activate-license-shared';
-import { UnityToolRunner, UnityPathTools } from '@dinomite-studios/unity-utilities';
+import { UnityToolRunner, UnityPathTools, UnityLogTools } from '@dinomite-studios/unity-utilities';
 
 tl.setResourcePath(path.join(__dirname, 'task.json'));
 
@@ -15,7 +15,7 @@ async function run() {
         const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(unityEditorsPath, unityVersion);
 
         const logFilesDirectory = path.join(tl.getVariable('Build.Repository.LocalPath')!, 'Logs');
-        const logFilePath = path.join(logFilesDirectory, `UnityActivationLog_${Date.now()}.log`);
+        const logFilePath = path.join(logFilesDirectory, `UnityActivationLog_${UnityLogTools.getLogFileNameTimeStamp()}.log`);
         tl.setVariable('logsOutputPath', logFilesDirectory);
 
         const unityCmd = tl.tool(unityExecutablePath)
