@@ -12,7 +12,7 @@ async function run() {
         const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(unityEditorsPath, unityVersion);
 
         const logFilesDirectory = path.join(tl.getVariable('Build.Repository.LocalPath')!, 'Logs');
-        const logFilePath = path.join(logFilesDirectory, 'UnityReturnLicenseLog.log');
+        const logFilePath = path.join(logFilesDirectory, `UnityReturnLicenseLog_${Date.now()}.log`);
         tl.setVariable('logsOutputPath', logFilesDirectory);
 
         const unityCmd = tl.tool(unityExecutablePath)

@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added timestamp to generated log files
 - Added log output while running the task
 - Added output variable `logsOutputPath` pointing to the directory containing all generated logs
 
