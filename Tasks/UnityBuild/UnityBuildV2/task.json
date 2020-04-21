@@ -155,26 +155,6 @@
       "visibleRule": "commandLineArgumentsMode == default",
       "required": false,
       "defaultValue": "drop"
-    },
-    {
-      "name": "specifyLogFile",
-      "type": "boolean",
-      "label": "Specify Log File",
-      "helpMarkDown": "(Optional) Enables settings to specify a logfile name. The logfile can then be used to find build errors. You can find the logfile after the build in the build output directory. Use the `buildOutputPath` output variable to find it.",
-      "groupName": "advancedGroup",
-      "visibleRule": "commandLineArgumentsMode == default",
-      "defaultValue": false,
-      "required": false
-    },
-    {
-      "name": "logFileName",
-      "type": "string",
-      "label": "Logfile Name",
-      "helpMarkDown": "Enter the output filename to be used when constructing the platform-appropriate output.  For instance, if you want the output to be 'thegame.exe' on Windows Standalone, enter 'thegame'",
-      "groupName": "advancedGroup",
-      "required": false,
-      "defaultValue": "Editor.log",
-      "visibleRule": "commandLineArgumentsMode == default && specifyLogFile == true"
     }
   ],
   "OutputVariables": [
@@ -183,7 +163,7 @@
       "description": "Path to the directory containing Unity build output files. Path is relative to repository root."
     },
     {
-      "name": "editorLogFilePath",
+      "name": "buildLogFilePath",
       "description": "Path to the Unity editor log file. Path is relative to repository root. Only set, if `Specify Log File` enabled."
     }
   ],

@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+## Changed
+
+- Changed `editorLogFilePath` output variable to `buildLogFilePath`
+
+## Removed
+
+- Removed `specifyLogFile` option. A log file is now always created and used to stream log to the DevOps console
+- Removed `logFileName` option. The file's name is now always `UnityBuildLog.log`
+
 ## [2.4.5]
 
 ### Changed
