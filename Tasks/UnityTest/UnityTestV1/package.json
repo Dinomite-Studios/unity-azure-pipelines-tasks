@@ -1,11 +1,12 @@
 {
-  "name": "unitytesttask",
-  "version": "1.0.0",
+  "name": "@dinomite-studios/unity-test-task",
+  "version": "1.1.0",
   "description": "An Azure Pipelines task to test Unity projects.",
   "main": "unity-test.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc"
+    "build": "tsc",
+    "upload": "tfx build tasks upload --task-path ./",
+    "dev-upload": "npm run build && npm run upload"
   },
   "repository": {
     "type": "git",
@@ -14,13 +15,14 @@
   "author": "Dinomite Studios",
   "license": "MIT",
   "dependencies": {
-    "@types/fs-extra": "^8.1.0",
     "azure-pipelines-task-lib": "^2.9.3",
-    "find-process": "^1.4.3",
-    "fs-extra": "^9.0.0"
+    "fs-extra": "^8.1.0",
+    "@types/fs-extra": "^8.0.0",
+    "@dinomite-studios/unity-project-version": "^1.0.4",
+    "@dinomite-studios/unity-utilities": "1.2.5"
   },
   "devDependencies": {
-    "@types/node": "^13.9.8",
+    "@types/node": "^13.13.0",
     "@types/q": "^1.5.2"
   }
 }
