@@ -5,7 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased 2.7.0]
+## [2.7.0]
+
+*Please refer to the task changelogs for details in changes to specific tasks*
+
+### Added
+
+- Added Unity CMD task to run Unity via command line and specify own arguments
+
+### Changed
+
+- All the tasks will now stream Unity log output to the DevOps console for better debugging
+- Optimized all the tasks and did some housekeeping
 
 ## [2.6.1]
 
