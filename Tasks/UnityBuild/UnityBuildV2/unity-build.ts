@@ -44,35 +44,28 @@ async function run() {
             .arg('-projectPath').arg(unityBuildConfiguration.projectPath)
             .arg('-logfile').arg(logFilePath);
 
-        if (tl.getInput('commandLineArgumentsMode', true) === 'default') {
-            if (tl.getBoolInput('noPackageManager')) {
-                unityCmd.arg('-noUpm');
-            }
-
-            if (tl.getBoolInput('acceptApiUpdate')) {
-                unityCmd.arg('-accept-apiupdate');
-            }
-
-            if (tl.getBoolInput('noGraphics')) {
-                unityCmd.arg('-nographics');
-            }
-
-            // When using the default command line arguments set, we rely on having a C# script
-            // in the Unity project to trigger the build. This C# script is generated here based on the
-            // tasks configuration and then "injected" into the project before Unity launches. This way it will
-            // be available to us and we can Invoke it using the command line.
-            const projectAssetsEditorFolderPath = path.join(`${unityBuildConfiguration.projectPath}`, 'Assets', 'Editor');
-            tl.mkdirP(projectAssetsEditorFolderPath);
-            tl.cd(projectAssetsEditorFolderPath);
-            tl.writeFile('AzureDevOps.cs', UnityBuildScriptHelper.getUnityEditorBuildScriptContent(unityBuildConfiguration));
-            tl.cd(unityBuildConfiguration.projectPath);
-            unityCmd.arg('-executeMethod');
-            unityCmd.arg('AzureDevOps.PerformBuild');
-        } else {
-            // The user has configured to use his own custom command line arguments.
-            // In this case, just append them to the mandatory set of arguments and we're done.
-            unityCmd.line(tl.getInput('customCommandLineArguments')!);
+        if (tl.getBoolInput('noPackageManager')) {
+            unityCmd.arg('-noUpm');
         }
+
+        if (tl.getBoolInput('acceptApiUpdate')) {
+            unityCmd.arg('-accept-apiupdate');
+        }
+
+        if (tl.getBoolInput('noGraphics')) {
+            unityCmd.arg('-nographics');
+        }
+
+        // We rely on having a C# script in the Unity project to trigger the build. This C# script
+        // is generated here based on the tasks configuration and then "injected" into the project
+        // before Unity launches. This way it will be available to us and we can Invoke it using the command line.
+        const projectAssetsEditorFolderPath = path.join(`${unityBuildConfiguration.projectPath}`, 'Assets', 'Editor');
+        tl.mkdirP(projectAssetsEditorFolderPath);
+        tl.cd(projectAssetsEditorFolderPath);
+        tl.writeFile('AzureDevOps.cs', UnityBuildScriptHelper.getUnityEditorBuildScriptContent(unityBuildConfiguration));
+        tl.cd(unityBuildConfiguration.projectPath);
+        unityCmd.arg('-executeMethod');
+        unityCmd.arg('AzureDevOps.PerformBuild');
 
         const result = await UnityToolRunner.run(unityCmd, logFilePath);
 
