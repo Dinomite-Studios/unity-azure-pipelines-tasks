@@ -11,8 +11,8 @@
   "author": "Dinomite Studios",
   "version": {
     "Major": "2",
-    "Minor": "4",
-    "Patch": "6"
+    "Minor": "5",
+    "Patch": "0"
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityBuild/UnityBuildV2/CHANGELOG.md)",
   "minimumAgentVersion": "1.95.0",
@@ -163,8 +163,8 @@
       "description": "Path to the directory containing Unity build output files. Path is relative to repository root."
     },
     {
-      "name": "buildLogFilePath",
-      "description": "Path to the Unity editor log file. Path is relative to repository root. Only set, if `Specify Log File` enabled."
+      "name": "logsOutputPath",
+      "description": "Path to the Unity editor log files generated."
     }
   ],
   "execution": {
@@ -174,10 +174,6 @@
     }
   },
   "messages": {
-    "UsedEditorsPathInfo": "Looking for editor instances at",
-    "UsedEditorExecutablePathInfo": "Looking for editor executable at",
-    "EditorsPathEnvironmentVariableNotSet": "Expected UNITYHUB_EDITORS_FOLDER_LOCATION environment variable to be set.",
-    "EditorsPathCustomPathNotSet": "Expected custom editors folder location to be set. Please check the task configuration.",
     "BuildSuccess": "The Unity build completed successfully",
     "BuildFailed": "The Unity build failed with exit code",
     "WarningAlphaBetaVersion": "You are using a Unity Alpha/Beta version. It may not be supported by the extension!",

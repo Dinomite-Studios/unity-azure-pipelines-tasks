@@ -5,8 +5,8 @@ import { isNullOrUndefined } from 'util';
 import { UnityBuildTarget } from './unity-build-target.enum';
 import { UnityBuildScriptHelper } from './unity-build-script.helper';
 import { UnityBuildConfiguration } from './unity-build-configuration.model';
-import { UnityToolRunner, UnityPathTools } from '@dinomite-studios/unity-utilities';
-import { UnityProjectVersion, ProjectVersionService } from '@dinomite-studios/unity-project-version';
+import { UnityToolRunner, UnityPathTools, UnityLogTools } from '@dinomite-studios/unity-utilities';
+import { getUnityEditorVersion } from './unity-build-shared';
 
 tl.setResourcePath(path.join(__dirname, 'task.json'));
 
@@ -20,7 +20,10 @@ async function run() {
         const repositoryLocalPath = tl.getVariable('Build.Repository.LocalPath')!;
         const buildOutputDir = UnityBuildScriptHelper.getBuildOutputDirectory(unityBuildConfiguration.buildTarget);
         const fullBuildOutputPath = path.join(`${unityBuildConfiguration.projectPath}`, `${buildOutputDir}`)
-        const logFilePath = path.join(repositoryLocalPath, 'UnityBuildLog.log');
+
+        const logFilesDirectory = path.join(repositoryLocalPath!, 'Logs');
+        const logFilePath = path.join(logFilesDirectory, `UnityBuildLog_${UnityLogTools.getLogFileNameTimeStamp()}.log`);
+        tl.setVariable('logsOutputPath', logFilesDirectory);
 
         if (cleanBuild === 'true') {
             fs.removeSync(fullBuildOutputPath);
@@ -95,11 +98,11 @@ async function run() {
 
 function getBuildConfiguration(): UnityBuildConfiguration {
     const unityBuildConfiguration: UnityBuildConfiguration = new UnityBuildConfiguration();
-    unityBuildConfiguration.outputFileName = tl.getInput('outputFileName');
+    unityBuildConfiguration.outputFileName = tl.getInput('outputFileName') || 'drop';
     unityBuildConfiguration.developmentBuild = tl.getBoolInput('developmentBuild');
-    unityBuildConfiguration.buildScenes = tl.getInput('buildScenes');
-    unityBuildConfiguration.buildTarget = (<any>UnityBuildTarget)[tl.getInput('buildTarget', true)];
-    unityBuildConfiguration.projectPath = tl.getPathInput('unityProjectPath');
+    unityBuildConfiguration.buildScenes = tl.getInput('buildScenes') || '';
+    unityBuildConfiguration.buildTarget = (<any>UnityBuildTarget)[tl.getInput('buildTarget', true)!];
+    unityBuildConfiguration.projectPath = tl.getPathInput('unityProjectPath') || '';
 
     let unityVersion = fs.readFileSync(path.join(`${unityBuildConfiguration.projectPath}`, 'ProjectSettings', 'ProjectVersion.txt'), 'utf8')
         .toString()
@@ -123,26 +126,6 @@ function getBuildConfiguration(): UnityBuildConfiguration {
     }
 
     return unityBuildConfiguration;
-}
-
-async function getUnityEditorVersion(): Promise<UnityProjectVersion> {
-    const projectPath = tl.getPathInput('unityProjectPath') || '';
-    console.log(`${tl.loc('ProjectPathInfo')} ${projectPath}`);
-
-    const unityVersion = await ProjectVersionService.determineProjectVersionFromFile(projectPath);
-    if (unityVersion.error) {
-        const error = `${tl.loc('FailGetUnityEditorVersion')} | ${unityVersion.error}`;
-        console.error(error);
-        throw new Error(error);
-    }
-
-    const successGetVersionLog = `${tl.loc('SuccessGetUnityEditorVersion')} ${unityVersion.version}, alpha=${unityVersion.isAlpha}, beta=${unityVersion.isBeta}`;
-    console.log(successGetVersionLog);
-    if (unityVersion.isAlpha || unityVersion.isBeta) {
-        console.warn(tl.loc('WarningAlphaBetaVersion'));
-    }
-
-    return unityVersion;
 }
 
 run();
