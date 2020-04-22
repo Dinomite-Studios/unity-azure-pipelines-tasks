@@ -1,11 +1,6 @@
 export interface UnityBuildConfiguration {
 
     /**
-     * Unity Editor version to use for the build.
-     */
-    unityVersion: string;
-
-    /**
      * The target build platform for the build output.
      */
     buildTarget: string;
