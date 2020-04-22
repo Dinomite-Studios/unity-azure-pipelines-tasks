@@ -1,42 +1,38 @@
 import path = require('path');
 import tl = require('azure-pipelines-task-lib/task');
-import fs = require('fs-extra');
+import { ProjectVersionService } from '@dinomite-studios/unity-project-version';
 
 tl.setResourcePath(path.join(__dirname, 'task.json'));
 
 async function run() {
     try {
-        const projectVersion = await getProjectVersion();
-        tl.setVariable('projectVersion', projectVersion);
-        tl.setResult(tl.TaskResult.Succeeded, `${tl.loc('SuccessFoundProjectVersion')} ${projectVersion}`);
-    } catch (err) {
-        tl.setResult(tl.TaskResult.Failed, err.message);
+        const projectPath = tl.getPathInput('unityProjectPath') || '';
+        console.log(`${tl.loc('ProjectPathInfo')} ${projectPath}`);
+
+        const unityVersion = await ProjectVersionService.determineProjectVersionFromFile(projectPath);
+        if (unityVersion.error) {
+            const error = `${tl.loc('FailGetUnityEditorVersion')} | ${unityVersion.error}`;
+            console.error(error);
+            throw new Error(error);
+        }
+
+        const successGetVersionLog = `${tl.loc('SuccessGetUnityEditorVersion')} ${unityVersion.version}, alpha=${unityVersion.isAlpha}, beta=${unityVersion.isBeta}`;
+        console.log(successGetVersionLog);
+        if (unityVersion.isAlpha || unityVersion.isBeta) {
+            console.warn(tl.loc('WarningAlphaBetaVersion'));
+        }
+
+        tl.setVariable('projectVersion', unityVersion.version);
+        tl.setResult(tl.TaskResult.Succeeded, successGetVersionLog);
+    } catch (e) {
+        if (e instanceof Error) {
+            console.error(e.message);
+            tl.setResult(tl.TaskResult.Failed, e.message);
+        } else {
+            console.error(e);
+            tl.setResult(tl.TaskResult.Failed, e);
+        }
     }
-}
-
-async function getProjectVersion(): Promise<string> {
-    const projectPath = tl.getPathInput('unityProjectPath');
-    const projectVersionFilePath = path.join(`${projectPath}`, 'ProjectSettings', 'ProjectVersion.txt');
-    tl.debug(`${tl.loc('DebugProjectPath')} ${projectPath}`);
-    tl.debug(`${tl.loc('DebugProjectVersionFilePath')} ${projectVersionFilePath}`);
-
-    const projectVersionFileContent = await fs.readFile(projectVersionFilePath, { encoding: 'utf8' });
-    tl.debug(`${tl.loc('DebugProjectVersionFileContent')} ${projectVersionFileContent}`);
-
-    let projectVersion = projectVersionFileContent.split(':')[1].trim();
-    tl.debug(`${tl.loc('DebugProjectVersion')} ${projectVersion}`);
-
-    const revisionVersionIndex = projectVersion.indexOf('m_EditorVersionWithRevision');
-    if (revisionVersionIndex > -1) {
-        tl.debug(tl.loc('DebugRevisionVersion'));
-        projectVersion = projectVersion.substr(0, revisionVersionIndex).trim();
-    }
-
-    if (projectVersion) {
-        return projectVersion;
-    }
-
-    throw new Error(tl.loc('FailedToReadVersion'));
 }
 
 run();

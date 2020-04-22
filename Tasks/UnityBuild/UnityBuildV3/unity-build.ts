@@ -3,22 +3,26 @@ import tl = require('azure-pipelines-task-lib/task');
 import fs = require('fs-extra');
 import { UnityBuildScriptHelper } from './unity-build-script.helper';
 import { UnityBuildConfiguration } from './unity-build-configuration.model';
+import { UnityToolRunner, UnityPathTools, UnityLogTools } from '@dinomite-studios/unity-utilities';
+import { getUnityEditorVersion } from './unity-build-shared';
 
 tl.setResourcePath(path.join(__dirname, 'task.json'));
 
 async function run() {
     try {
-        const unityBuildConfiguration = getBuildConfiguration();
-        const unityEditorsPath = getUnityEditorsPath();
+        const unityBuildConfiguration = await getBuildConfiguration();
+        const unityEditorsPath = UnityPathTools.getUnityEditorsPath(tl.getInput('unityEditorsPathMode', true)!, tl.getInput('customUnityEditorsPath'))
+        const unityVersion = await getUnityEditorVersion();
+        const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(unityEditorsPath, unityVersion);
+        const cleanBuild = tl.getVariable('Build.Repository.Clean');
+        const repositoryLocalPath = tl.getVariable('Build.Repository.LocalPath')!;
 
-        // Make sure the selected editor exists
-        const unityEditorDirectory = process.platform === 'win32' ?
-            path.join(`${unityEditorsPath}`, `${unityBuildConfiguration.unityVersion}`, 'Editor')
-            : path.join(`${unityEditorsPath}`, `${unityBuildConfiguration.unityVersion}`);
-        tl.checkPath(unityEditorDirectory, 'Unity Editor Directory');
+        const logFilesDirectory = path.join(repositoryLocalPath!, 'Logs');
+        const logFilePath = path.join(logFilesDirectory, `UnityBuildLog_${UnityLogTools.getLogFileNameTimeStamp()}.log`);
+        tl.setVariable('logsOutputPath', logFilesDirectory);
 
         // If clean was specified by the user, delete the existing output directory, if it exists
-        if (tl.getVariable('Build.Repository.Clean') === 'true') {
+        if (cleanBuild === 'true') {
             fs.removeSync(unityBuildConfiguration.outputPath);
         }
 
@@ -26,17 +30,14 @@ async function run() {
         tl.mkdirP(unityBuildConfiguration.outputPath);
         tl.checkPath(unityBuildConfiguration.outputPath, 'Build Output Directory');
 
-        // Build Unity executable path depending on agent OS
-        const unityExecutablePath = process.platform === 'win32' ? path.join(`${unityEditorDirectory}`, 'Unity.exe')
-            : path.join(`${unityEditorDirectory}`, 'Unity.app', 'Contents', 'MacOS', 'Unity');
-
         // Build the base Unity command to execute
         const unityCmd = tl.tool(unityExecutablePath)
             .arg('-batchmode')
             .arg('-buildTarget').arg(unityBuildConfiguration.buildTarget)
-            .arg('-projectPath').arg(unityBuildConfiguration.projectPath);
+            .arg('-projectPath').arg(unityBuildConfiguration.projectPath)
+            .arg('-logfile').arg(logFilePath);
 
-        const additionalArgs = tl.getInput('additionalCmdArgs');
+        const additionalArgs = tl.getInput('additionalCmdArgs') || '';
         if (additionalArgs !== '') {
             unityCmd.line(additionalArgs);
         }
@@ -55,82 +56,51 @@ async function run() {
             tl.cd(projectAssetsEditorFolderPath);
             tl.writeFile('AzureDevOps.cs', isDefault
                 ? UnityBuildScriptHelper.getUnityEditorBuildScriptContent(unityBuildConfiguration)
-                : tl.getInput('inlineBuildScript'));
+                : tl.getInput('inlineBuildScript')!);
             tl.cd(unityBuildConfiguration.projectPath);
 
             // Tell Unity which method to execute for build.
-            unityCmd.arg('-executeMethod').arg(isDefault ? 'AzureDevOps.PerformBuild' : tl.getInput('scriptExecuteMethod'));
+            unityCmd.arg('-executeMethod').arg(isDefault ? 'AzureDevOps.PerformBuild' : tl.getInput('scriptExecuteMethod')!);
         } else {
             // Must be build script type "existing".
             // If the user already has an existing build script we only need the method to execute.
-            unityCmd.arg('-executeMethod').arg(tl.getInput('scriptExecuteMethod'));
+            unityCmd.arg('-executeMethod').arg(tl.getInput('scriptExecuteMethod')!);
         }
 
-        // Execute build
-        const exitCode = await unityCmd.exec();
-        if (exitCode === 0) {
-            tl.setResult(tl.TaskResult.Succeeded, `Unity Build finished successfully with exit code ${exitCode}`);
+        const result = await UnityToolRunner.run(unityCmd, logFilePath);
+
+        if (result === 0) {
+            const buildSuccessLog = tl.loc('BuildSuccess');
+            console.log(buildSuccessLog);
+            tl.setResult(tl.TaskResult.Succeeded, buildSuccessLog);
         } else {
-            tl.setResult(tl.TaskResult.Failed, `Unity Build failed with exit code ${exitCode}`)
+            const buildFailLog = `${tl.loc('BuildFailed')} ${result}`;
+            console.log(buildFailLog);
+            tl.setResult(tl.TaskResult.Failed, buildFailLog);
         }
-    } catch (err) {
-        tl.setResult(tl.TaskResult.Failed, err.message);
+    } catch (e) {
+        if (e instanceof Error) {
+            console.error(e.message);
+            tl.setResult(tl.TaskResult.Failed, e.message);
+        } else {
+            console.error(e);
+            tl.setResult(tl.TaskResult.Failed, e);
+        }
     }
 }
 
-function getBuildConfiguration(): UnityBuildConfiguration {
+async function getBuildConfiguration(): Promise<UnityBuildConfiguration> {
     const outputFileName = tl.getInput('outputFileName');
-    const buildTarget = tl.getInput('buildTarget', true);
-    const projectPath = tl.getPathInput('unityProjectPath');
-    const outputPath = tl.getPathInput('outputPath');
-
-    let unityVersion = fs.readFileSync(path.join(`${projectPath}`, 'ProjectSettings', 'ProjectVersion.txt'), 'utf8')
-        .toString()
-        .split(':')[1]
-        .trim();
-
-    const revisionVersionIndex = unityVersion.indexOf('m_EditorVersionWithRevision');
-    if (revisionVersionIndex > -1) {
-        // The ProjectVersion.txt contains a revision version. We need to drop it.
-        unityVersion = unityVersion.substr(0, revisionVersionIndex).trim();
-    }
-
-    if (!unityVersion) {
-        throw Error('Failed to get project version from ProjectVersion.txt file.');
-    }
+    const buildTarget = tl.getInput('buildTarget', true)!;
+    const projectPath = tl.getPathInput('unityProjectPath') || '';
+    const outputPath = tl.getPathInput('outputPath') || '';
 
     return {
         buildTarget: buildTarget,
-        outputFileName: outputFileName,
+        outputFileName: outputFileName ? outputFileName : 'drop',
         outputPath: outputPath,
-        projectPath: projectPath,
-        unityVersion: unityVersion
-    }
-}
-
-function getUnityEditorsPath(): string {
-    const editorsPathMode = tl.getInput('unityEditorsPathMode', true);
-    if (editorsPathMode === 'unityHub') {
-        const unityHubPath = process.platform === 'win32' ?
-            path.join('C:', 'Program Files', 'Unity', 'Hub', 'Editor')
-            : path.join('/', 'Applications', 'Unity', 'Hub', 'Editor');
-
-        return unityHubPath;
-    } else if (editorsPathMode === 'environmentVariable') {
-        const environmentVariablePath = process.env.UNITYHUB_EDITORS_FOLDER_LOCATION as string;
-        if (!environmentVariablePath) {
-            throw Error('Expected UNITYHUB_EDITORS_FOLDER_LOCATION environment variable to be set!');
-        }
-
-        return environmentVariablePath;
-    } else {
-        const customPath = tl.getInput('customUnityEditorsPath');
-        if (!customPath) {
-            throw Error('Expected custom editors folder location to be set. Please check the task configuration.');
-        }
-
-        return customPath;
-    }
+        projectPath: projectPath
+    };
 }
 
 run();

@@ -4,5 +4,10 @@
     "module": "commonjs",
     "strict": true,
     "esModuleInterop": true
-  }
+  },
+  "exclude": [
+    "node_modules",
+    "dist",
+    "test"
+  ]
 }
