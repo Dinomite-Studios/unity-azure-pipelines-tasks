@@ -74,6 +74,9 @@
         },
         {
             "path": "Tasks/UnityTest/UnityTestV1"
+        },
+        {
+            "path": "Tasks/UnityCMD/UnityCMDV1"
         }
     ],
     "branding": {
@@ -133,6 +136,16 @@
             ],
             "properties": {
                 "name": "Tasks/UnityTest"
+            }
+        },
+        {
+            "id": "custom-unity-cmd-task",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "Tasks/UnityCMD"
             }
         }
     ]
