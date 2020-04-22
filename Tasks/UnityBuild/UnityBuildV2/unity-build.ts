@@ -1,7 +1,6 @@
 import path = require('path');
 import tl = require('azure-pipelines-task-lib/task');
 import fs = require('fs-extra');
-import { isNullOrUndefined } from 'util';
 import { UnityBuildTarget } from './unity-build-target.enum';
 import { UnityBuildScriptHelper } from './unity-build-script.helper';
 import { UnityBuildConfiguration } from './unity-build-configuration.model';
@@ -96,23 +95,6 @@ function getBuildConfiguration(): UnityBuildConfiguration {
     unityBuildConfiguration.buildScenes = tl.getInput('buildScenes') || '';
     unityBuildConfiguration.buildTarget = (<any>UnityBuildTarget)[tl.getInput('buildTarget', true)!];
     unityBuildConfiguration.projectPath = tl.getPathInput('unityProjectPath') || '';
-
-    let unityVersion = fs.readFileSync(path.join(`${unityBuildConfiguration.projectPath}`, 'ProjectSettings', 'ProjectVersion.txt'), 'utf8')
-        .toString()
-        .split(':')[1]
-        .trim();
-
-    const revisionVersionIndex = unityVersion.indexOf('m_EditorVersionWithRevision');
-    if (revisionVersionIndex > -1) {
-        // The ProjectVersion.txt contains a revision version. We need to drop it.
-        unityVersion = unityVersion.substr(0, revisionVersionIndex).trim();
-    }
-
-    unityBuildConfiguration.unityVersion = unityVersion;
-
-    if (isNullOrUndefined(unityBuildConfiguration.unityVersion) || unityBuildConfiguration.unityVersion === '') {
-        throw Error('Failed to get project version from ProjectVersion.txt file.');
-    }
 
     if (process.platform !== 'win32' && unityBuildConfiguration.buildTarget === UnityBuildTarget.WindowsStoreApps) {
         throw Error('Cannot build an UWP project on a Mac.');
