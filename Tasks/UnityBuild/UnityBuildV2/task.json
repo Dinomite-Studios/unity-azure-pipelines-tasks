@@ -11,8 +11,8 @@
   "author": "Dinomite Studios",
   "version": {
     "Major": "2",
-    "Minor": "4",
-    "Patch": "5"
+    "Minor": "5",
+    "Patch": "1"
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityBuild/UnityBuildV2/CHANGELOG.md)",
   "minimumAgentVersion": "1.95.0",
@@ -75,25 +75,11 @@
       "helpMarkDown": "(Optional) Enter the directory path to the Unity project. If no value is entered, the root of the repository will be used."
     },
     {
-      "name": "commandLineArgumentsMode",
-      "type": "pickList",
-      "label": "Command Line Arguments",
-      "defaultValue": "default",
-      "groupName": "advancedGroup",
-      "required": true,
-      "helpMarkDown": "Use the task's default set of command line arguments or specify custom arguments.",
-      "options": {
-        "default": "Default",
-        "custom": "Custom"
-      }
-    },
-    {
       "name": "developmentBuild",
       "type": "boolean",
       "label": "Development Build",
       "helpMarkDown": "(Optional) Build a development version of the player.",
       "groupName": "advancedGroup",
-      "visibleRule": "commandLineArgumentsMode == default",
       "defaultValue": false,
       "required": false
     },
@@ -103,7 +89,6 @@
       "label": "Run API Updater",
       "helpMarkDown": "(Optional) Use this option to specify that Unity API Updater should run before building the project.",
       "groupName": "advancedGroup",
-      "visibleRule": "commandLineArgumentsMode == default",
       "defaultValue": false,
       "required": false
     },
@@ -113,7 +98,6 @@
       "label": "Disable Unity Package Manager",
       "helpMarkDown": "(Optional) Disables the Unity Package Manager.",
       "groupName": "advancedGroup",
-      "visibleRule": "commandLineArgumentsMode == default",
       "defaultValue": false,
       "required": false
     },
@@ -123,7 +107,6 @@
       "label": "No Graphics Device",
       "helpMarkDown": "(Optional) Do not initialize the graphics device at all. This makes it possible to run your automated workflows on machines that don’t even have a GPU (automated workflows only work when you have a window in focus, otherwise you can’t send simulated input commands). Note that -nographics does not allow you to bake GI, because Enlighten requires GPU acceleration.",
       "groupName": "advancedGroup",
-      "visibleRule": "commandLineArgumentsMode == default",
       "defaultValue": false,
       "required": false
     },
@@ -133,18 +116,7 @@
       "label": "Build Scenes",
       "helpMarkDown": "(Optional) Enter a comma separated list of scene paths to include in the build. If no value is entered, the project's pre-configured scenes will be included.",
       "groupName": "advancedGroup",
-      "visibleRule": "commandLineArgumentsMode == default",
       "required": false
-    },
-    {
-      "name": "customCommandLineArguments",
-      "type": "string",
-      "label": "Arguments",
-      "required": false,
-      "defaultValue": "",
-      "groupName": "advancedGroup",
-      "visibleRule": "commandLineArgumentsMode == custom",
-      "helpMarkDown": "Specify your custom command line arguments, see the [documentation](https://docs.unity3d.com/Manual/CommandLineArguments.html) for more info."
     },
     {
       "name": "outputFileName",
@@ -152,29 +124,8 @@
       "label": "Output Filename",
       "helpMarkDown": "(Optional) Enter the output filename to be used when constructing the platform-appropriate output.  For instance, if you want the output to be 'thegame.exe' on Windows Standalone, enter 'thegame'",
       "groupName": "advancedGroup",
-      "visibleRule": "commandLineArgumentsMode == default",
       "required": false,
       "defaultValue": "drop"
-    },
-    {
-      "name": "specifyLogFile",
-      "type": "boolean",
-      "label": "Specify Log File",
-      "helpMarkDown": "(Optional) Enables settings to specify a logfile name. The logfile can then be used to find build errors. You can find the logfile after the build in the build output directory. Use the `buildOutputPath` output variable to find it.",
-      "groupName": "advancedGroup",
-      "visibleRule": "commandLineArgumentsMode == default",
-      "defaultValue": false,
-      "required": false
-    },
-    {
-      "name": "logFileName",
-      "type": "string",
-      "label": "Logfile Name",
-      "helpMarkDown": "Enter the output filename to be used when constructing the platform-appropriate output.  For instance, if you want the output to be 'thegame.exe' on Windows Standalone, enter 'thegame'",
-      "groupName": "advancedGroup",
-      "required": false,
-      "defaultValue": "Editor.log",
-      "visibleRule": "commandLineArgumentsMode == default && specifyLogFile == true"
     }
   ],
   "OutputVariables": [
@@ -183,8 +134,8 @@
       "description": "Path to the directory containing Unity build output files. Path is relative to repository root."
     },
     {
-      "name": "editorLogFilePath",
-      "description": "Path to the Unity editor log file. Path is relative to repository root. Only set, if `Specify Log File` enabled."
+      "name": "logsOutputPath",
+      "description": "Path to the Unity editor log files generated."
     }
   ],
   "execution": {
@@ -192,5 +143,13 @@
       "target": "unity-build.js",
       "argumentFormat": ""
     }
+  },
+  "messages": {
+    "BuildSuccess": "The Unity build completed successfully",
+    "BuildFailed": "The Unity build failed with exit code",
+    "WarningAlphaBetaVersion": "You are using a Unity Alpha/Beta version. It may not be supported by the extension!",
+    "ProjectPathInfo": "Determining Unity editor version for project at",
+    "SuccessGetUnityEditorVersion": "Success, Unity editor version found",
+    "FailGetUnityEditorVersion": "Fail, Unity editor version not found"
   }
 }

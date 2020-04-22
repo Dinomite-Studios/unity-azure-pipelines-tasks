@@ -1,0 +1,138 @@
+{
+  "id": "85e57e6f-cb59-4d1d-979f-dd830b51f2fa",
+  "name": "UnityTestTask",
+  "friendlyName": "Unity Test",
+  "description": "Tests a Unity project and produce the results in NUnit compatible files.",
+  "helpMarkDown": "Tests a Unity project and produce the results in NUnit compatible files. [More Information](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks)",
+  "category": "Azure Pipelines",
+  "visibility": [
+    "Build"
+  ],
+  "author": "Dinomite Studios",
+  "version": {
+    "Major": "1",
+    "Minor": "1",
+    "Patch": "0"
+  },
+  "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityTest/UnityTestV1/CHANGELOG.md)",
+  "minimumAgentVersion": "1.95.0",
+  "instanceNameFormat": "Unity Test $(buildTarget)",
+  "groups": [
+    {
+      "name": "advancedGroup",
+      "displayName": "Advanced",
+      "isExpanded": false
+    }
+  ],
+  "inputs": [
+    {
+      "name": "testMode",
+      "type": "pickList",
+      "label": "Test Mode",
+      "defaultValue": "EditMode",
+      "required": true,
+      "helpMarkDown": "The mode you want to run tests in. Available platforms are EditMode and PlayMode.",
+      "options": {
+        "EditMode": "Edit Mode",
+        "PlayMode": "Play Mode"
+      }
+    },
+    {
+      "name": "unityEditorsPathMode",
+      "type": "pickList",
+      "label": "Unity Editors Location",
+      "defaultValue": "unityHub",
+      "required": true,
+      "helpMarkDown": "Define where to look for Unity installations on the agent.",
+      "options": {
+        "unityHub": "Unity Hub default installation path",
+        "environmentVariable": "Use UNITYHUB_EDITORS_FOLDER_LOCATION environment variable on agent",
+        "specify": "Specify path"
+      }
+    },
+    {
+      "name": "customUnityEditorsPath",
+      "type": "string",
+      "label": "Editors Folder Location",
+      "required": false,
+      "defaultValue": "",
+      "visibleRule": "unityEditorsPathMode == specify",
+      "helpMarkDown": "Specify where to look for Unity Editor versions on the agent."
+    },
+    {
+      "name": "unityProjectPath",
+      "type": "filePath",
+      "label": "Unity Project Path",
+      "defaultValue": "",
+      "required": false,
+      "helpMarkDown": "(Optional) Enter the directory path to the Unity project. If no value is entered, the root of the repository will be used."
+    },
+    {
+      "name": "testCategory",
+      "type": "string",
+      "label": "Test Category",
+      "helpMarkDown": "(Optional) A semicolon-separated list of test categories to include in the run. If using both testFilter and testCategory, then tests only run that matches both.",
+      "groupName": "advancedGroup",
+      "required": false
+    },
+    {
+      "name": "testFilter",
+      "type": "string",
+      "label": "Test Filter",
+      "helpMarkDown": "(Optional) A semicolon-separated list of test names to run, or a regular expression pattern to match tests by their full name.",
+      "groupName": "advancedGroup",
+      "required": false
+    },
+    {
+      "name": "acceptApiUpdate",
+      "type": "boolean",
+      "label": "Run API Updater",
+      "helpMarkDown": "(Optional) Use this option to specify that Unity API Updater should run before building the project.",
+      "groupName": "advancedGroup",
+      "defaultValue": false,
+      "required": false
+    },
+    {
+      "name": "noPackageManager",
+      "type": "boolean",
+      "label": "Disable Unity Package Manager",
+      "helpMarkDown": "(Optional) Disables the Unity Package Manager.",
+      "groupName": "advancedGroup",
+      "defaultValue": false,
+      "required": false
+    },
+    {
+      "name": "testResultsPath",
+      "type": "string",
+      "label": "Test Results",
+      "helpMarkDown": "(Optional) The path where Unity should save the result file. By default, Unity saves it in the Project’s root folder.",
+      "groupName": "advancedGroup",
+      "required": false,
+      "defaultValue": "test-results"
+    }
+  ],
+  "OutputVariables": [
+    {
+      "name": "testResultsOutputPathAndFileName",
+      "description": "Path and FileName of the results in XML format. Path is relative to repository root."
+    },
+    {
+      "name": "logsOutputPath",
+      "description": "Path to the Unity editor log files generated."
+    }
+  ],
+  "execution": {
+    "Node": {
+      "target": "unity-test.js",
+      "argumentFormat": ""
+    }
+  },
+  "messages": {
+    "TestSuccess": "The Unity test run completed successfully",
+    "TestFailed": "The Unity test run failed with exit code",
+    "WarningAlphaBetaVersion": "You are using a Unity Alpha/Beta version. It may not be supported by the extension!",
+    "ProjectPathInfo": "Determining Unity editor version for project at",
+    "SuccessGetUnityEditorVersion": "Success, Unity editor version found",
+    "FailGetUnityEditorVersion": "Fail, Unity editor version not found"
+  }
+}

@@ -1,15 +1,18 @@
-# About this task
+# About
 
-This Unity task will get the project's needed Unity editor version for use in subsequent tasks in your pipeline.
-It's part of the [Unity Tools for Azure DevOps](https://marketplace.visualstudio.com/items?itemName=DinomiteStudios.64e90d50-a9c0-11e8-a356-d3eab7857116) extension in the Visual Studio Marketplace.
+This Unity task will get the project's needed Unity editor version for use in subsequent tasks in your pipeline. It's part of the [Unity Tools for Azure DevOps](https://marketplace.visualstudio.com/items?itemName=DinomiteStudios.64e90d50-a9c0-11e8-a356-d3eab7857116) extension at the Azure DevOps Marketplace.
 
-## Compiling the task yourself
+## How to use
 
-- Check out the repository
-- Open a terminal in the repository's root folder and execute `tsc Tasks\UnityGetProjectVersion\UnityGetProjectVersionV1\unity-get-project-version.ts --lib es6`
+### Inputs
 
-## Uploading the task to your organization
+**Unity Project Path**
 
-- Open a terminal in the repository's root folder and execute `tfx build tasks upload --task-path Tasks\UnityGetProjectVersion\UnityGetProjectVersionV1`
+Optionally specify the path to the Unity project root directory. That is the directory containing the assets folder of your project.
+Path is relative to the repository root. If not specified, the Unity project is assumed to be at the repository root.
 
-*Note*: You can't upload the same version twice. Either change the version or delete the task before uploading it using `tfx build tasks delete --task-id 38ec98bf-601a-4390-9f2e-23d43dd6dbba`.
+### Outputs
+
+**projectVersion**
+
+Output variable with the found Unity editor version for the project, e.g. 2019.3.7f1.

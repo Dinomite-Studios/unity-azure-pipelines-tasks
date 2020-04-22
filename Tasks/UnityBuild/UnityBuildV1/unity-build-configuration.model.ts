@@ -4,16 +4,6 @@ import { isNullOrUndefined } from "util";
 export class UnityBuildConfiguration {
 
     /**
-     * Unity Editor version to use for the build.
-     */
-    public unityVersion: string = '';
-
-    /**
-     * Gets or sets the path to the folder containing all Unity editors on the agent.
-     */
-    public unityHubEditorFolderLocation: string = '';
-
-    /**
      * Gets or sets whether a development build will be created.
      * A development build will include the DEBUG flag and include debugging symbols.
      */

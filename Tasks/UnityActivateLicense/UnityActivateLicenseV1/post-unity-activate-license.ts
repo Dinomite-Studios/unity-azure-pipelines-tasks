@@ -1,71 +1,46 @@
 import path = require('path');
 import tl = require('azure-pipelines-task-lib/task');
-import fs = require('fs-extra');
-import { isNullOrUndefined } from 'util';
+import { getUnityEditorVersion } from './unity-activate-license-shared';
+import { UnityToolRunner, UnityPathTools, UnityLogTools } from '@dinomite-studios/unity-utilities';
 
 tl.setResourcePath(path.join(__dirname, 'task.json'));
 
 async function run() {
     try {
-        const unityEditorsPath = getUnityEditorsPath();
-        const unityVersion = getUnityProjectVersion(tl.getInput('unityProjectPath'));
+        const unityVersion = await getUnityEditorVersion();
+        const unityEditorsPath = UnityPathTools.getUnityEditorsPath(tl.getInput('unityEditorsPathMode', true)!, tl.getInput('customUnityEditorsPath'))
+        const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(unityEditorsPath, unityVersion);
 
-        const unityEditorDirectory = process.platform === 'win32' ?
-            path.join(`${unityEditorsPath}`, `${unityVersion}`, 'Editor')
-            : path.join(`${unityEditorsPath}`, `${unityVersion}`);
-        tl.checkPath(unityEditorDirectory, 'Unity Editor Directory');
+        const logFilesDirectory = path.join(tl.getVariable('Build.Repository.LocalPath')!, 'Logs');
+        const logFilePath = path.join(logFilesDirectory, `UnityReturnLicenseLog_${UnityLogTools.getLogFileNameTimeStamp()}.log`);
+        tl.setVariable('logsOutputPath', logFilesDirectory);
 
-        const unityExecutablePath = process.platform === 'win32' ? path.join(`${unityEditorDirectory}`, 'Unity.exe')
-            : path.join(`${unityEditorDirectory}`, 'Unity.app', 'Contents', 'MacOS', 'Unity');
         const unityCmd = tl.tool(unityExecutablePath)
             .arg('-batchmode')
             .arg('-quit')
-            .arg('-returnlicense');
+            .arg('-returnlicense')
+            .arg('-logfile').arg(logFilePath);
 
-        unityCmd.execSync();
-    } catch (err) {
-        tl.setResult(tl.TaskResult.Failed, err);
+        const result = await UnityToolRunner.run(unityCmd, logFilePath);
+
+        if (result === 0) {
+            const returnLicenseSuccessLog = tl.loc('SuccessLicenseReturned');
+            console.log(returnLicenseSuccessLog);
+            tl.setResult(tl.TaskResult.Succeeded, returnLicenseSuccessLog);
+        } else {
+            const returnLicenseFailLog = `${tl.loc('FailUnity')} ${result}`;
+            console.error(returnLicenseFailLog);
+            tl.setResult(tl.TaskResult.Failed, returnLicenseFailLog);
+        }
+    } catch (e) {
+        if (e instanceof Error) {
+            console.error(e.message);
+            tl.setResult(tl.TaskResult.Failed, e.message);
+        } else {
+            console.error(e);
+            tl.setResult(tl.TaskResult.Failed, e);
+        }
     }
 }
 
 run();
-
-function getUnityProjectVersion(projectPath: string): string {
-    let unityVersion = fs.readFileSync(path.join(`${projectPath}`, 'ProjectSettings', 'ProjectVersion.txt'), 'utf8')
-        .toString()
-        .split(':')[1]
-        .trim();
-
-    const revisionVersionIndex = unityVersion.indexOf('m_EditorVersionWithRevision');
-    if (revisionVersionIndex > -1) {
-        // The ProjectVersion.txt contains a revision version. We need to drop it.
-        unityVersion = unityVersion.substr(0, revisionVersionIndex).trim();
-    }
-
-    return unityVersion;
-}
-
-function getUnityEditorsPath(): string {
-    const editorsPathMode = tl.getInput('unityEditorsPathMode', true);
-    if (editorsPathMode === 'unityHub') {
-        const unityHubPath = process.platform === 'win32' ?
-            path.join('C:', 'Program Files', 'Unity', 'Hub', 'Editor')
-            : path.join('/', 'Applications', 'Unity', 'Hub', 'Editor');
-
-        return unityHubPath;
-    } else if (editorsPathMode === 'environmentVariable') {
-        const environmentVariablePath = process.env.UNITYHUB_EDITORS_FOLDER_LOCATION as string;
-        if (isNullOrUndefined(environmentVariablePath) || environmentVariablePath === '') {
-            throw Error(tl.loc('EditorsPathEnvironmentVariableNotSet'));
-        }
-
-        return environmentVariablePath;
-    } else {
-        const customPath = tl.getInput('customUnityEditorsPath');
-        if (isNullOrUndefined(customPath) || customPath === '') {
-            throw Error(tl.loc('EditorsPathCustomPathNotSet'));
-        }
-
-        return customPath;
-    }
-}

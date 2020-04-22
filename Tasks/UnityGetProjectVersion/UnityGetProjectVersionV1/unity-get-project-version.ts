@@ -1,32 +1,37 @@
 import path = require('path');
 import tl = require('azure-pipelines-task-lib/task');
-import fs = require('fs-extra');
-import { isNullOrUndefined } from 'util';
+import { ProjectVersionService } from '@dinomite-studios/unity-project-version';
 
 tl.setResourcePath(path.join(__dirname, 'task.json'));
 
 async function run() {
     try {
-        const projectPath = tl.getPathInput('unityProjectPath');
-        let projectVersion = fs.readFileSync(path.join(`${projectPath}`, 'ProjectSettings', 'ProjectVersion.txt'), 'utf8')
-            .toString()
-            .split(':')[1]
-            .trim();
+        const projectPath = tl.getPathInput('unityProjectPath') || '';
+        console.log(`${tl.loc('ProjectPathInfo')} ${projectPath}`);
 
-        const revisionVersionIndex = projectVersion.indexOf('m_EditorVersionWithRevision');
-        if (revisionVersionIndex > -1) {
-            // The ProjectVersion.txt contains a revision version. We need to drop it.
-            projectVersion = projectVersion.substr(0, revisionVersionIndex).trim();
+        const unityVersion = await ProjectVersionService.determineProjectVersionFromFile(projectPath);
+        if (unityVersion.error) {
+            const error = `${tl.loc('FailGetUnityEditorVersion')} | ${unityVersion.error}`;
+            console.error(error);
+            throw new Error(error);
         }
 
-        if (!isNullOrUndefined(projectVersion) && projectVersion !== '') {
-            tl.setVariable('projectVersion', projectVersion);
-            tl.setResult(tl.TaskResult.Succeeded, `Found project version: ${projectVersion}`);
+        const successGetVersionLog = `${tl.loc('SuccessGetUnityEditorVersion')} ${unityVersion.version}, alpha=${unityVersion.isAlpha}, beta=${unityVersion.isBeta}`;
+        console.log(successGetVersionLog);
+        if (unityVersion.isAlpha || unityVersion.isBeta) {
+            console.warn(tl.loc('WarningAlphaBetaVersion'));
+        }
+
+        tl.setVariable('projectVersion', unityVersion.version);
+        tl.setResult(tl.TaskResult.Succeeded, successGetVersionLog);
+    } catch (e) {
+        if (e instanceof Error) {
+            console.error(e.message);
+            tl.setResult(tl.TaskResult.Failed, e.message);
         } else {
-            tl.setResult(tl.TaskResult.Failed, 'Failed to get project version from ProjectVersion.txt file.');
+            console.error(e);
+            tl.setResult(tl.TaskResult.Failed, e);
         }
-    } catch (err) {
-        tl.setResult(tl.TaskResult.Failed, err.message);
     }
 }
 

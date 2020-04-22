@@ -1,10 +1,12 @@
 {
-  "name": "unitygetprojectversiontask",
-  "version": "1.0.0",
+  "name": "@dinomite-studios/unity-get-project-version-task",
+  "version": "1.0.22",
   "description": "Azure Pipelines task to get the project version of a Unity project.",
   "main": "unity-get-project-version.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "upload": "tfx build tasks upload --task-path ./",
+    "dev-upload": "npm run build && npm run upload"
   },
   "repository": {
     "type": "git",
@@ -13,12 +15,11 @@
   "author": "Dinomite Studios",
   "license": "MIT",
   "dependencies": {
-    "@types/fs-extra": "^5.0.4",
-    "azure-pipelines-task-lib": "^2.7.7",
-    "fs-extra": "^7.0.1"
+    "azure-pipelines-task-lib": "^2.9.3",
+    "@dinomite-studios/unity-project-version": "^1.0.4"
   },
   "devDependencies": {
-    "@types/node": "^10.12.14",
-    "@types/q": "^1.5.1"
+    "@types/node": "^13.13.0",
+    "@types/q": "^1.5.2"
   }
 }
