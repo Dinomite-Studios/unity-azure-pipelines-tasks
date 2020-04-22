@@ -10,8 +10,14 @@ CI / CD for your projects.
 - Unity Get Project Version
 - Unity Activate License
 - Unity Build
+- Unity Test
+- Unity CMD
 
 ## How to use
 
-- Install the extension, which you can find in the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=DinomiteStudios.64e90d50-a9c0-11e8-a356-d3eab7857116)
+- Install the extension to your organization. You can find it in the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=DinomiteStudios.64e90d50-a9c0-11e8-a356-d3eab7857116)
 - Visit the [documentation](https://dinomite-studios.github.io/unity-azure-pipelines-tasks/) for instructions on how to setup your Unity pipelines and configure your agents
+
+## Contributions
+
+Contributions to the project are welcome. Please target your Pull Requests against the `develop` branch.
