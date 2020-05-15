@@ -7,35 +7,32 @@ tl.setResourcePath(path.join(__dirname, 'task.json'));
 
 async function run() {
     try {
-        const activationMode = tl.getInput('activationMode', false) ?? "Plus/Pro";
-
-        if (activationMode != 'Plus/Pro')
-            return; // No need to return manual license.
-
         const unityVersion = await getUnityEditorVersion();
         const unityEditorsPath = UnityPathTools.getUnityEditorsPath(tl.getInput('unityEditorsPathMode', true)!, tl.getInput('customUnityEditorsPath'))
         const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(unityEditorsPath, unityVersion);
 
         const logFilesDirectory = path.join(tl.getVariable('Build.Repository.LocalPath')!, 'Logs');
-        const logFilePath = path.join(logFilesDirectory, `UnityReturnLicenseLog_${UnityLogTools.getLogFileNameTimeStamp()}.log`);
+        const logFilePath = path.join(logFilesDirectory, `UnityActivationLog_${UnityLogTools.getLogFileNameTimeStamp()}.log`);
         tl.setVariable('logsOutputPath', logFilesDirectory);
+        tl.setVariable('activationFile', 'Unity_v' + unityVersion + '.alf');
 
-        const unityCmd = tl.tool(unityExecutablePath)
+        let unityCmd = tl.tool(unityExecutablePath)
             .arg('-batchmode')
             .arg('-quit')
-            .arg('-returnlicense')
+            .arg('-createManualActivationFile')
             .arg('-logfile').arg(logFilePath);
 
         const result = await UnityToolRunner.run(unityCmd, logFilePath);
 
         if (result === 0) {
-            const returnLicenseSuccessLog = tl.loc('SuccessLicenseReturned');
-            console.log(returnLicenseSuccessLog);
-            tl.setResult(tl.TaskResult.Succeeded, returnLicenseSuccessLog);
+            const activateLicenseSuccessLog = tl.loc('SuccessLicenseActivated');
+            console.log(activateLicenseSuccessLog);
+            tl.setResult(tl.TaskResult.Succeeded, activateLicenseSuccessLog);
+            tl.setResult(tl.TaskResult.Succeeded, activateLicenseSuccessLog);
         } else {
-            const returnLicenseFailLog = `${tl.loc('FailUnity')} ${result}`;
-            console.error(returnLicenseFailLog);
-            tl.setResult(tl.TaskResult.Failed, returnLicenseFailLog);
+            const activateLicenseFailLog = `${tl.loc('FailUnity')} ${result}`;
+            console.log(activateLicenseFailLog);
+            tl.setResult(tl.TaskResult.Failed, activateLicenseFailLog);
         }
     } catch (e) {
         if (e instanceof Error) {
