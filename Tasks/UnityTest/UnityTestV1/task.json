@@ -11,7 +11,7 @@
   "author": "Dinomite Studios",
   "version": {
     "Major": "1",
-    "Minor": "1",
+    "Minor": "2",
     "Patch": "0"
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityTest/UnityTestV1/CHANGELOG.md)",
@@ -81,6 +81,15 @@
       "label": "Test Filter",
       "helpMarkDown": "(Optional) A semicolon-separated list of test names to run, or a regular expression pattern to match tests by their full name.",
       "groupName": "advancedGroup",
+      "required": false
+    },
+	{
+      "name": "batchMode",
+      "type": "boolean",
+      "label": "Batch Mode",
+      "helpMarkDown": "(Optional) Indicate whether Unity executes in batch mode. Note: When testing UnityUI functionality, you cannot use batch mode.",
+      "groupName": "advancedGroup",
+      "defaultValue": true,
       "required": false
     },
     {
