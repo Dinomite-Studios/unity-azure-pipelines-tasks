@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "@types/node": "^13.13.0",
-    "@types/q": "^1.5.2"
+    "@types/q": "^1.5.2",
+    "typescript": "^3.9.7"
   }
 }
