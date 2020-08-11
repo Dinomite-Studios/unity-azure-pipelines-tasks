@@ -42,13 +42,16 @@ async function run() {
         // -testResults tells Unity where to put the NUnit compatible results file
         const unityCmd = tl.tool(unityExecutablePath)
             .arg('-runTests')
-            .arg('-batchmode')
             .arg('-testPlatform').arg(UnityTestMode[unityTestConfiguration.testMode])
             .arg('-projectPath').arg(unityTestConfiguration.projectPath)
             .arg('-testResults').arg(testResultsPathAndFileName);
 
         unityCmd.arg('-noGraphics')
             .arg('-forgetProjectPath');
+
+		if (tl.getBoolInput('batchMode')) {
+			unityCmd.arg('-batchmode');
+		}
 
         if (tl.getBoolInput('noPackageManager')) {
             unityCmd.arg('-noUpm');
