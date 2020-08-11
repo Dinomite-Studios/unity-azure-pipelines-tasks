@@ -45,7 +45,8 @@ async function run() {
             .arg('-batchmode')
             .arg('-testPlatform').arg(UnityTestMode[unityTestConfiguration.testMode])
             .arg('-projectPath').arg(unityTestConfiguration.projectPath)
-            .arg('-testResults').arg(testResultsPathAndFileName);
+            .arg('-testResults').arg(testResultsPathAndFileName)
+            .arg('-logfile').arg(logFilePath);
 
         unityCmd.arg('-noGraphics')
             .arg('-forgetProjectPath');
@@ -64,19 +65,6 @@ async function run() {
 
         if (unityTestConfiguration.testFilter && unityTestConfiguration.testFilter.length > 0) {
             unityCmd.arg('-testFilter').arg(unityTestConfiguration.testFilter);
-        }
-
-        // Optionally add a logfile definition to the command and output the logfile to the build output directory.
-        if (tl.getInput('specifyLogFile')) {
-            const logFileName = tl.getInput('logFileName');
-            if (isNullOrUndefined(logFileName) || logFileName === '') {
-                throw Error('Expected log file name to be set. Disable the Specify Log File setting or enter a logfile name.');
-            }
-
-            const logFilePath = path.join(repositoryLocalPath!, logFileName);
-            unityCmd.arg('-logfile');
-            unityCmd.arg(logFilePath);
-            tl.setVariable('editorLogFilePath', logFilePath);
         }
 
         const result = await UnityToolRunner.run(unityCmd, logFilePath);
