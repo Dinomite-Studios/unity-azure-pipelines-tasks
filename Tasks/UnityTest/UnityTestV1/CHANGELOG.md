@@ -7,7 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.2.0]
 
-- Added option for batch mode
+### Added
+
+- Option to disable `-batchmode` flag when running the test task. This is useful for Unity UI testing
+
+### Fixed
+
+- Fixed test task running endlessley because no log is created
 
 ## [1.1.0]
 
