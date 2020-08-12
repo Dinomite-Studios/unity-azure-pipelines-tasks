@@ -3,7 +3,7 @@
 This extension adds tools for use in Azure Pipelines with Unity 3D. Use these tools to build a Unity project and configure
 CI / CD for your projects.
 
-![Build Status](https://dev.azure.com/dinomite/Unity%20Tools%20for%20Azure%20DevOps/_apis/build/status/ci-develop-with-analysis)
+![Build Status](https://dev.azure.com/dinomite/Unity%20Tools%20for%20Azure%20DevOps/_apis/build/status/Dinomite-Studios.unity-azure-pipelines-tasks?branchName=master)
 
 ## Included Build / Release Tasks
 
