@@ -20,4 +20,4 @@ CI / CD for your projects.
 
 ## Contributions
 
-Contributions to the project are welcome. Please target your Pull Requests against the `develop` branch.
+Contributions to the project are welcome. Please target your Pull Requests against the `master` branch.
