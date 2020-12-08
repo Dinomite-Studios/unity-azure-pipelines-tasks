@@ -125,6 +125,7 @@
       "label": "Arguments",
       "required": false,
       "defaultValue": "",
+      "groupName": "advancedGroup",
       "helpMarkDown": "(Optional) Specify additional command line arguments, see the [documentation](https://docs.unity3d.com/Packages/com.unity.test-framework@latest) for more info."
     }
   ],
