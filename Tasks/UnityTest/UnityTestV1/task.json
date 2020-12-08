@@ -118,6 +118,14 @@
       "groupName": "advancedGroup",
       "required": false,
       "defaultValue": "test-results"
+    },
+    {
+      "name": "additionalCmdArgs",
+      "type": "string",
+      "label": "Arguments",
+      "required": false,
+      "defaultValue": "",
+      "helpMarkDown": "(Optional) Specify additional command line arguments, see the [documentation](https://docs.unity3d.com/Packages/com.unity.test-framework@latest) for more info."
     }
   ],
   "OutputVariables": [

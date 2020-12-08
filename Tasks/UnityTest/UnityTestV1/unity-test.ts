@@ -70,6 +70,11 @@ async function run() {
             unityCmd.arg('-testFilter').arg(unityTestConfiguration.testFilter);
         }
 
+        const additionalArgs = tl.getInput('additionalCmdArgs') || '';
+        if (additionalArgs !== '') {
+            unityCmd.line(additionalArgs);
+        }
+
         const result = await UnityToolRunner.run(unityCmd, logFilePath);
 
         if (result === 0) {
