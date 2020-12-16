@@ -12,7 +12,7 @@
   "version": {
     "Major": "1",
     "Minor": "0",
-    "Patch": "26"
+    "Patch": "27"
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityActivateLicense/UnityActivateLicenseV1/CHANGELOG.md)",
   "minimumAgentVersion": "1.95.0",
@@ -92,12 +92,12 @@
     }
   },
   "messages": {
-    "SuccessLicenseActivated": "Unity editor license activated",
-    "SuccessLicenseReturned": "Unity editor license returned",
-    "FailUnity": "The Unity process failed with exit code",
-    "ProjectPathInfo": "Determining Unity editor version for project at",
-    "WarningAlphaBetaVersion": "You are using a Unity Alpha/Beta version. It may not be supported by the extension!",
-    "SuccessGetUnityEditorVersion": "Success, Unity editor version found",
-    "FailGetUnityEditorVersion": "Fail, Unity editor version not found"
+    "successLicenseActivated": "Unity editor license activated",
+    "successLicenseReturned": "Unity editor license returned",
+    "failUnity": "The Unity process failed with exit code",
+    "projectPathInfo": "Determining Unity editor version for project at",
+    "warningAlphaBetaVersion": "You are using a Unity Alpha/Beta version. It may not be supported by the extension!",
+    "successGetUnityEditorVersion": "Success, Unity editor version found",
+    "failGetUnityEditorVersion": "Fail, Unity editor version not found"
   }
 }
