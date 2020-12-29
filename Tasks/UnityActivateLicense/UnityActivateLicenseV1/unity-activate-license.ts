@@ -14,6 +14,7 @@ async function run() {
         const username = tl.getInput('username', true)!;
         const password = tl.getInput('password', true)!;
         const serial = tl.getInput('serial', true)!;
+        const activationMode = tl.getInput('activationMode', false) ?? "Plus/Pro";
         const unityVersion = await getUnityEditorVersion();
         const unityEditorsPath = UnityPathTools.getUnityEditorsPath(tl.getInput('unityEditorsPathMode', true)!, tl.getInput('customUnityEditorsPath'))
         const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(unityEditorsPath, unityVersion);
@@ -22,14 +23,21 @@ async function run() {
         const logFilePath = path.join(logFilesDirectory, `UnityActivationLog_${UnityLogTools.getLogFileNameTimeStamp()}.log`);
         tl.setVariable('logsOutputPath', logFilesDirectory);
 
-        const unityCmd = tl.tool(unityExecutablePath)
+        let unityCmd = tl.tool(unityExecutablePath)
             .arg('-batchmode')
             .arg('-quit')
             .arg('-nographics')
-            .arg('-username').arg(username)
-            .arg('-password').arg(password)
-            .arg('-serial ').arg(serial)
             .arg('-logfile').arg(logFilePath);
+
+        if (activationMode == 'Plus/Pro') {
+            unityCmd = unityCmd
+                .arg('-username').arg(username)
+                .arg('-password').arg(password)
+                .arg('-serial ').arg(serial);
+        } else {
+            unityCmd = unityCmd
+                .arg('-manualLicenseFile').arg(serial);
+        }
 
         const result = await UnityToolRunner.run(unityCmd, logFilePath);
 

@@ -1,0 +1,26 @@
+{
+  "name": "@dinomite-studios/unity-request-manual-activation-license-task",
+  "version": "1.0.26",
+  "description": "Azure Pipelines task to request a manual Unity Personal license.",
+  "main": "unity-request-manual-activation-license.js",
+  "scripts": {
+    "build": "tsc",
+    "upload": "tfx build tasks upload --task-path ./",
+    "dev-upload": "npm run build && npm run upload"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks"
+  },
+  "author": "Dinomite Studios",
+  "license": "MIT",
+  "dependencies": {
+    "@dinomite-studios/unity-project-version": "^1.0.4",
+    "@dinomite-studios/unity-utilities": "1.2.5",
+    "azure-pipelines-task-lib": "^2.9.3"
+  },
+  "devDependencies": {
+    "@types/node": "^13.13.0",
+    "@types/q": "^1.5.2"
+  }
+}

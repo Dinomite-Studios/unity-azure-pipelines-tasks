@@ -40,7 +40,19 @@
       "label": "Serial",
       "defaultValue": "",
       "required": true,
-      "helpMarkDown": "Serial key used to activate the Unity Editor. The serial key must be assigned to the user defined by username and password above."
+      "helpMarkDown": "Serial key used to activate the Unity Editor. The serial key must be assigned to the user defined by username and password above. If using manual activation mode, this should be the Unity personal license file path."
+    },
+    {
+      "name": "activationMode",
+      "type": "pickList",
+      "label": "Activation Mode",
+      "defaultValue": "Plus/Pro",
+      "required": false,
+      "helpMarkDown": "The activation mode to use when activating the unity license.",
+      "options": {
+        "Plus/Pro": "When using Unity Plus or Unity Pro licenses.",
+        "Personal": "When using Unity Personal license."
+      }
     },
     {
       "name": "unityEditorsPathMode",
