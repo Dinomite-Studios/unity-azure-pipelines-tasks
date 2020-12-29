@@ -1,7 +1,11 @@
 import path = require('path');
 import tl = require('azure-pipelines-task-lib/task');
 import { getUnityEditorVersion } from './unity-activate-license-shared';
-import { UnityToolRunner, UnityPathTools, UnityLogTools } from '@dinomite-studios/unity-utilities';
+import {
+    UnityToolRunner,
+    UnityPathTools,
+    UnityLogTools
+} from '@dinomite-studios/unity-utilities';
 
 tl.setResourcePath(path.join(__dirname, 'task.json'));
 
@@ -29,11 +33,11 @@ async function run() {
         const result = await UnityToolRunner.run(unityCmd, logFilePath);
 
         if (result === 0) {
-            const returnLicenseSuccessLog = tl.loc('SuccessLicenseReturned');
+            const returnLicenseSuccessLog = tl.loc('successLicenseReturned');
             console.log(returnLicenseSuccessLog);
             tl.setResult(tl.TaskResult.Succeeded, returnLicenseSuccessLog);
         } else {
-            const returnLicenseFailLog = `${tl.loc('FailUnity')} ${result}`;
+            const returnLicenseFailLog = `${tl.loc('failUnity')} ${result}`;
             console.error(returnLicenseFailLog);
             tl.setResult(tl.TaskResult.Failed, returnLicenseFailLog);
         }

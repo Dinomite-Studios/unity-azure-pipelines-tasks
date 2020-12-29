@@ -11,7 +11,7 @@
   "author": "Dinomite Studios",
   "version": {
     "Major": "1",
-    "Minor": "1",
+    "Minor": "3",
     "Patch": "0"
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityTest/UnityTestV1/CHANGELOG.md)",
@@ -29,12 +29,12 @@
       "name": "testMode",
       "type": "pickList",
       "label": "Test Mode",
-      "defaultValue": "EditMode",
+      "defaultValue": "editMode",
       "required": true,
-      "helpMarkDown": "The mode you want to run tests in. Available platforms are EditMode and PlayMode.",
+      "helpMarkDown": "The mode you want to run tests in. Available platforms are Edit Mode and Play Mode.",
       "options": {
-        "EditMode": "Edit Mode",
-        "PlayMode": "Play Mode"
+        "editMode": "Edit Mode",
+        "playMode": "Play Mode"
       }
     },
     {
@@ -84,6 +84,15 @@
       "required": false
     },
     {
+      "name": "batchMode",
+      "type": "boolean",
+      "label": "Batch Mode",
+      "helpMarkDown": "(Optional) Indicate whether Unity executes in batch mode. Note: When testing Unity UI functionality, you cannot use batch mode.",
+      "groupName": "advancedGroup",
+      "defaultValue": true,
+      "required": false
+    },
+    {
       "name": "acceptApiUpdate",
       "type": "boolean",
       "label": "Run API Updater",
@@ -109,6 +118,15 @@
       "groupName": "advancedGroup",
       "required": false,
       "defaultValue": "test-results"
+    },
+    {
+      "name": "additionalCmdArgs",
+      "type": "string",
+      "label": "Arguments",
+      "required": false,
+      "defaultValue": "",
+      "groupName": "advancedGroup",
+      "helpMarkDown": "(Optional) Specify additional command line arguments, see the [documentation](https://docs.unity3d.com/Packages/com.unity.test-framework@latest) for more info."
     }
   ],
   "OutputVariables": [

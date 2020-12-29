@@ -1,6 +1,6 @@
 ## Build a Unity project using a Microsoft hosted agent
 
-The process for building on a hosted agent is basically the same as with custom agents. There is only one thing we need to keep in mind: The Unity version required by our project might not be installed on the agent. You can always check out the software and tools intalled on hosted agents [here](https://github.com/Microsoft/azure-pipelines-image-generation#image-contents). Let's get started.
+The process for building on a hosted agent is basically the same as with custom agents. There is only one thing we need to keep in mind: The Unity version required by our project might not be installed on the agent. You can always check out the software and tools intalled on hosted agents [here](https://github.com/actions/virtual-environments). Let's get started.
 
 ### Create a new build pipeline
 
