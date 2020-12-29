@@ -18,7 +18,7 @@
     "azure-pipelines-task-lib": "^2.11.4",
     "fs-extra": "^8.1.0",
     "@types/fs-extra": "^8.0.0",
-    "@dinomite-studios/unity-project-version": "^1.0.4",
+    "@dinomite-studios/unity-project-version": "^1.1.1",
     "@dinomite-studios/unity-utilities": "1.2.7"
   },
   "devDependencies": {

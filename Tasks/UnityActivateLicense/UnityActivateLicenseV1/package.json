@@ -15,7 +15,7 @@
   "author": "Dinomite Studios",
   "license": "MIT",
   "dependencies": {
-    "@dinomite-studios/unity-project-version": "^1.0.4",
+    "@dinomite-studios/unity-project-version": "^1.1.1",
     "@dinomite-studios/unity-utilities": "1.2.7",
     "azure-pipelines-task-lib": "^2.12.0"
   },

@@ -31,6 +31,10 @@
     {
       "name": "projectVersion",
       "description": "The project version found by the task for the specified Unity project."
+    },
+    {
+      "name": "projectVersionRevision",
+      "description": "The Unity editor version revision found by the task for the specified Unity project."
     }
   ],
   "execution": {
