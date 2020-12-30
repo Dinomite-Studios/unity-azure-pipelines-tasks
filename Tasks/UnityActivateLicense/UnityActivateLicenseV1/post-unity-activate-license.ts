@@ -11,11 +11,6 @@ tl.setResourcePath(path.join(__dirname, 'task.json'));
 
 async function run() {
     try {
-        const activationMode = tl.getInput('activationMode', false) ?? "Plus/Pro";
-
-        if (activationMode != 'Plus/Pro')
-            return; // No need to return manual license.
-
         const unityVersion = await getUnityEditorVersion();
         const unityEditorsPath = UnityPathTools.getUnityEditorsPath(tl.getInput('unityEditorsPathMode', true)!, tl.getInput('customUnityEditorsPath'))
         const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(unityEditorsPath, unityVersion);
