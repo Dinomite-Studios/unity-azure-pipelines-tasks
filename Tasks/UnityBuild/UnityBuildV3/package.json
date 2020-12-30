@@ -1,6 +1,6 @@
 {
   "name": "@dinomite-studios/unity-build-task",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "description": "An Azure Pipelines task to build Unity projects.",
   "main": "unity-build.js",
   "scripts": {
@@ -16,15 +16,15 @@
   "author": "Dinomite Studios",
   "license": "MIT",
   "dependencies": {
-    "azure-pipelines-task-lib": "^2.9.3",
-    "fs-extra": "^8.1.0",
-    "@types/fs-extra": "^8.0.0",
+    "azure-pipelines-task-lib": "^2.12.0",
+    "fs-extra": "^9.0.1",
     "@dinomite-studios/unity-project-version": "^1.1.1",
-    "@dinomite-studios/unity-utilities": "1.2.6"
+    "@dinomite-studios/unity-utilities": "1.2.7"
   },
   "devDependencies": {
-    "@types/node": "^13.13.0",
-    "@types/q": "^1.5.2",
-    "typescript": "^3.9.7"
+    "@types/fs-extra": "^9.0.6",
+    "@types/node": "^14.14.16",
+    "@types/q": "^1.5.4",
+    "typescript": "^4.1.3"
   }
 }
