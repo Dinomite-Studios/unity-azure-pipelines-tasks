@@ -23,7 +23,11 @@ async function run() {
         }
 
         tl.setVariable('projectVersion', unityVersion.version);
-        tl.setVariable('projectVersionRevision', unityVersion.revision);
+
+        if (unityVersion.revision) {
+            tl.setVariable('projectVersionRevision', unityVersion.revision);
+        }
+
         tl.setResult(tl.TaskResult.Succeeded, successGetVersionLog);
     } catch (e) {
         if (e instanceof Error) {

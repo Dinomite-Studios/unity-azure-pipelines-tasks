@@ -7,7 +7,7 @@
     "publisher": "DinomiteStudios",
     "public": true,
     "icons": {
-        "default": "images/extensionIcon.png"
+        "default": "images/icon.png"
     },
     "content": {
         "details": {
@@ -77,9 +77,6 @@
         },
         {
             "path": "Tasks/UnityCMD/UnityCMDV1"
-        },
-        {
-            "path": "Tasks/UnityRequestManualActivationLicense"
         }
     ],
     "branding": {
@@ -88,16 +85,16 @@
     },
     "screenshots": [
         {
-            "path": "images/screen1.PNG"
+            "path": "images/screenshot-1.png"
         },
         {
-            "path": "images/screen2.PNG"
+            "path": "images/screenshot-2.png"
         },
         {
-            "path": "images/screen3.PNG"
+            "path": "images/screenshot-3.png"
         },
         {
-            "path": "images/screen4.PNG"
+            "path": "images/screenshot-4.png"
         }
     ],
     "contributions": [
@@ -149,16 +146,6 @@
             ],
             "properties": {
                 "name": "Tasks/UnityCMD"
-            }
-        },
-        {
-            "id": "custom-unity-request-manual-activation-license-task",
-            "type": "ms.vss-distributed-task.task",
-            "targets": [
-                "ms.vss-distributed-task.tasks"
-            ],
-            "properties": {
-                "name": "Tasks/UnityRequestManualActivationLicense"
             }
         }
     ]

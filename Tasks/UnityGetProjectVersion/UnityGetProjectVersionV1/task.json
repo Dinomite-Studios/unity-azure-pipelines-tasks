@@ -12,7 +12,7 @@
   "version": {
     "Major": "1",
     "Minor": "0",
-    "Patch": "22"
+    "Patch": "23"
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityGetProjectVersion/UnityGetProjectVersionV1/CHANGELOG.md)",
   "minimumAgentVersion": "1.95.0",
@@ -31,6 +31,10 @@
     {
       "name": "projectVersion",
       "description": "The project version found by the task for the specified Unity project."
+    },
+    {
+      "name": "projectVersionRevision",
+      "description": "The Unity editor version revision found by the task for the specified Unity project."
     }
   ],
   "execution": {
