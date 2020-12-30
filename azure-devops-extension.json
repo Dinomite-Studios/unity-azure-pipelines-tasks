@@ -77,9 +77,6 @@
         },
         {
             "path": "Tasks/UnityCMD/UnityCMDV1"
-        },
-        {
-            "path": "Tasks/UnityRequestManualActivationLicense"
         }
     ],
     "branding": {
@@ -149,16 +146,6 @@
             ],
             "properties": {
                 "name": "Tasks/UnityCMD"
-            }
-        },
-        {
-            "id": "custom-unity-request-manual-activation-license-task",
-            "type": "ms.vss-distributed-task.task",
-            "targets": [
-                "ms.vss-distributed-task.tasks"
-            ],
-            "properties": {
-                "name": "Tasks/UnityRequestManualActivationLicense"
             }
         }
     ]
