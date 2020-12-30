@@ -15,7 +15,7 @@ async function run() {
         const password = tl.getInput('password', true)!;
         const serial = tl.getInput('serial', true)!;
         const unityVersion = await getUnityEditorVersion();
-        const unityEditorsPath = UnityPathTools.getUnityEditorsPath(tl.getInput('unityEditorsPathMode', true)!, tl.getInput('customUnityEditorsPath'));
+        const unityEditorsPath = UnityPathTools.getUnityEditorsPath(tl.getInput('unityEditorsPathMode', true)!, tl.getInput('customUnityEditorsPath'))
         const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(unityEditorsPath, unityVersion);
 
         const logFilesDirectory = path.join(tl.getVariable('Build.Repository.LocalPath')!, 'Logs');
@@ -26,10 +26,10 @@ async function run() {
             .arg('-batchmode')
             .arg('-quit')
             .arg('-nographics')
-            .arg('-logfile').arg(logFilePath)
             .arg('-username').arg(username)
             .arg('-password').arg(password)
-            .arg('-serial ').arg(serial);
+            .arg('-serial ').arg(serial)
+            .arg('-logfile').arg(logFilePath);
 
         const result = await UnityToolRunner.run(unityCmd, logFilePath);
 
