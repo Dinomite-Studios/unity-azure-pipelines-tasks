@@ -7,7 +7,7 @@
     "publisher": "DinomiteStudios",
     "public": true,
     "icons": {
-        "default": "images/extensionIcon.png"
+        "default": "images/icon.png"
     },
     "content": {
         "details": {
@@ -88,16 +88,16 @@
     },
     "screenshots": [
         {
-            "path": "images/screen1.PNG"
+            "path": "images/screenshot-1.png"
         },
         {
-            "path": "images/screen2.PNG"
+            "path": "images/screenshot-2.png"
         },
         {
-            "path": "images/screen3.PNG"
+            "path": "images/screenshot-3.png"
         },
         {
-            "path": "images/screen4.PNG"
+            "path": "images/screenshot-4.png"
         }
     ],
     "contributions": [
