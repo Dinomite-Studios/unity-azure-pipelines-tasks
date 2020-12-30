@@ -1,0 +1,82 @@
+{
+  "id": "13159b9a-b7ba-4977-922c-2b5cb63c90df",
+  "name": "UnityRequestManualActivationLicense",
+  "friendlyName": "Unity Request Manual Activation License",
+  "description": "Requests a manual activation file for Unity Personal.",
+  "helpMarkDown": "Requests a manual activation file for Unity Personal. [More Information](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks)",
+  "category": "Azure Pipelines",
+  "visibility": [
+    "Build"
+  ],
+  "author": "Dinomite Studios",
+  "version": {
+    "Major": "1",
+    "Minor": "0",
+    "Patch": "0"
+  },
+  "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityRequestManualActivationLicense/UnityRequestManualActivationLicense/CHANGELOG.md)",
+  "minimumAgentVersion": "1.95.0",
+  "instanceNameFormat": "Unity Request Manual Activation License",
+  "inputs": [
+    {
+      "name": "unityEditorsPathMode",
+      "type": "pickList",
+      "label": "Unity Editors Location",
+      "defaultValue": "unityHub",
+      "required": true,
+      "helpMarkDown": "Define where to look for Unity installations on the agent.",
+      "options": {
+        "unityHub": "Unity Hub default installation path",
+        "environmentVariable": "Use UNITYHUB_EDITORS_FOLDER_LOCATION environment variable on agent",
+        "specify": "Specify path"
+      }
+    },
+    {
+      "name": "customUnityEditorsPath",
+      "type": "string",
+      "label": "Editors Folder Location",
+      "required": false,
+      "defaultValue": "",
+      "visibleRule": "unityEditorsPathMode == specify",
+      "helpMarkDown": "Specify where to look for Unity Editor versions on the agent."
+    },
+    {
+      "name": "unityProjectPath",
+      "type": "filePath",
+      "label": "Unity Project Path",
+      "defaultValue": "",
+      "required": false,
+      "helpMarkDown": "(Optional) Enter the directory path to the Unity project. If no value is entered, the root of the repository will be used."
+    }
+  ],
+  "OutputVariables": [
+    {
+      "name": "logsOutputPath",
+      "description": "Path to the Unity editor log files generated."
+    },
+    {
+      "name": "activationFile",
+      "description": "The file path of the generated activation license."
+    }
+  ],
+  "execution": {
+    "Node": {
+      "target": "unity-activate-license.js",
+      "argumentFormat": ""
+    }
+  },
+  "postjobexecution": {
+    "Node": {
+      "target": "post-unity-activate-license.js",
+      "argumentFormat": ""
+    }
+  },
+  "messages": {
+    "SuccessLicenseActivated": "Unity editor personal license generated",
+    "FailUnity": "The Unity process failed with exit code",
+    "ProjectPathInfo": "Determining Unity editor version for project at",
+    "WarningAlphaBetaVersion": "You are using a Unity Alpha/Beta version. It may not be supported by the extension!",
+    "SuccessGetUnityEditorVersion": "Success, Unity editor version found",
+    "FailGetUnityEditorVersion": "Fail, Unity editor version not found"
+  }
+}
