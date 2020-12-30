@@ -6,6 +6,7 @@
   "scripts": {
     "build": "tsc",
     "upload": "tfx build tasks upload --task-path ./",
+    "dev-delete": "tfx build tasks delete --task-id 85e57e6f-cb59-4d1d-979f-dd830b51f2fa",
     "dev-upload": "npm run build && npm run upload"
   },
   "repository": {
