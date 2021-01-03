@@ -14,14 +14,14 @@ const projectVersionRevisionOutputVariableName = 'projectVersionRevision';
 /**
  * Main task runner. Executes the task and sets the result status for the task.
  */
-async function run() {
+function run() {
     try {
         // Setup and read inputs.
         const projectPath = tl.getPathInput(unityProjectPathInputVariableName) || '';
         console.log(`${tl.loc('projectPathInfo')} ${projectPath}`);
 
         // Determine the project's last used Unity editor version.
-        const unityVersion = await ProjectVersionService.determineProjectVersionFromFile(projectPath);
+        const unityVersion = ProjectVersionService.determineProjectVersionFromFile(projectPath);
         if (unityVersion.error) {
             const error = `${tl.loc('failGetUnityEditorVersion')} | ${unityVersion.error}`;
             console.error(error);
