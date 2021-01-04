@@ -34,15 +34,12 @@ async function run() {
         // Set output variable values.
         tl.setVariable(logsOutputPathOutputVariableName, logFilesDirectory);
 
-        // Mandatory set of command line arguments for Unity.
-        // -logfile tells Unity where to put the operation log
+        // Execute Unity command line.
         const unityCmd = tl.tool(unityExecutablePath)
             .arg('-batchmode')
             .arg('-projectPath').arg(projectPath)
             .arg('-logfile').arg(logFilePath)
             .line(tl.getInput(cmdArgsInputVariableName)!);
-
-        // Execute Unity command line.
         const result = await UnityToolRunner.run(unityCmd, logFilePath);
 
         // Unity process has finished. Set task result.
