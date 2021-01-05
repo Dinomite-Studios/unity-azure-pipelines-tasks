@@ -55,7 +55,7 @@ async function run() {
         tl.mkdirP(outputPath);
         tl.checkPath(outputPath, 'Build Output Directory');
 
-        // Build the base Unity command to execute
+        // Execute Unity command line.
         const unityCmd = tl.tool(unityExecutablePath)
             .arg('-batchmode')
             .arg('-buildTarget').arg(buildTarget)
@@ -96,11 +96,11 @@ async function run() {
 
         // Unity process has finished. Set task result.
         if (result === 0) {
-            const buildSuccessLog = tl.loc('BuildSuccess');
+            const buildSuccessLog = tl.loc('buildSuccess');
             console.log(buildSuccessLog);
             tl.setResult(tl.TaskResult.Succeeded, buildSuccessLog);
         } else {
-            const buildFailLog = `${tl.loc('BuildFailed')} ${result}`;
+            const buildFailLog = `${tl.loc('buildFailed')} ${result}`;
             console.log(buildFailLog);
             tl.setResult(tl.TaskResult.Failed, buildFailLog);
         }

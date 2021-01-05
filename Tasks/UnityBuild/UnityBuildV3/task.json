@@ -3,7 +3,7 @@
   "name": "UnityBuildTask",
   "friendlyName": "Unity Build",
   "description": "Build a Unity project and get the exported output files.",
-  "helpMarkDown": "Builds a Unity project to supported build target platforms. [More Information](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks)",
+  "helpMarkDown": "Use this task to build your Unity project and generate the target platform's output files. [More Information](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks)",
   "category": "Azure Pipelines",
   "preview": false,
   "visibility": [
@@ -23,9 +23,8 @@
     {
       "name": "buildTarget",
       "type": "pickList",
-      "label": "Build Target",
+      "label": "Build target",
       "defaultValue": "standalone",
-      "required": false,
       "helpMarkDown": "Build platform to build the Unity project for.",
       "options": {
         "standalone": "Standalone (agent-based)",
@@ -51,9 +50,8 @@
     {
       "name": "unityEditorsPathMode",
       "type": "pickList",
-      "label": "Unity Editors Location",
+      "label": "Unity editors location",
       "defaultValue": "unityHub",
-      "required": false,
       "helpMarkDown": "Define where to look for Unity installations on the agent.",
       "options": {
         "unityHub": "Unity Hub default installation path",
@@ -64,7 +62,8 @@
     {
       "name": "customUnityEditorsPath",
       "type": "string",
-      "label": "Editors Folder Location",
+      "label": "Editors folder location",
+      "defaultValue": "",
       "required": true,
       "visibleRule": "unityEditorsPathMode == specify",
       "helpMarkDown": "Specify where to look for Unity Editor versions on the agent."
@@ -72,7 +71,7 @@
     {
       "name": "unityProjectPath",
       "type": "filePath",
-      "label": "Unity Project Path",
+      "label": "Unity project path",
       "defaultValue": "",
       "required": false,
       "helpMarkDown": "(Optional) Enter the directory path to the Unity project. If no value is entered, the root of the repository will be used."
@@ -80,8 +79,7 @@
     {
       "name": "buildScriptType",
       "type": "radio",
-      "label": "Build Script Type",
-      "required": false,
+      "label": "Build script type",
       "defaultValue": "default",
       "helpMarkDown": "Build script type: Use `Default` to use a built-in simple script which will perform a build without additional options. Use `Existing` if you already have a build script in your source and only need to specify the method to execute on build. Or use `Inline` to define the script inline, please make sure it's valid C#.",
       "options": {
@@ -94,7 +92,7 @@
       "name": "outputPath",
       "type": "filePath",
       "helpMarkDown": "Specify the build output path relative to the repository root or fully qualified.",
-      "label": "Output Path",
+      "label": "Output path",
       "required": true,
       "defaultValue": "$(Build.BinariesDirectory)",
       "visibleRule": "buildScriptType = default"
@@ -102,7 +100,7 @@
     {
       "name": "outputFileName",
       "type": "string",
-      "label": "Output Filename",
+      "label": "Output filename",
       "helpMarkDown": "Enter the output filename to be used when constructing the platform-appropriate output.  For instance, if you want the output to be 'thegame.exe' on Windows Standalone, enter 'thegame'",
       "required": true,
       "defaultValue": "drop"
@@ -110,7 +108,7 @@
     {
       "name": "inlineBuildScript",
       "type": "multiLine",
-      "label": "Inline Build Script",
+      "label": "Inline build script",
       "visibleRule": "buildScriptType = inline",
       "required": true,
       "defaultValue": "/* Write your C# build script here. Define a class and make sure to define a public static method to execute for the build. You'll want to verify your script actually works on your local computer.\n\nExample:\npublic class MyClass {\npublic static void PerformBuild() {\n...\n}\n}\n */",
@@ -124,7 +122,7 @@
     {
       "name": "scriptExecuteMethod",
       "type": "string",
-      "label": "Build Script Execute Method",
+      "label": "Build script execute method",
       "visibleRule": "buildScriptType = inline || buildScriptType = existing",
       "required": true,
       "defaultValue": "",
@@ -134,7 +132,6 @@
       "name": "additionalCmdArgs",
       "type": "string",
       "label": "Arguments",
-      "required": false,
       "defaultValue": "",
       "helpMarkDown": "(Optional) Specify additional command line arguments, see the [documentation](https://docs.unity3d.com/Manual/CommandLineArguments.html) for more info."
     }
@@ -152,11 +149,11 @@
     }
   },
   "messages": {
-    "BuildSuccess": "The Unity build completed successfully",
-    "BuildFailed": "The Unity build failed with exit code",
-    "WarningAlphaBetaVersion": "You are using a Unity Alpha/Beta version. It may not be supported by the extension!",
-    "ProjectPathInfo": "Determining Unity editor version for project at",
-    "SuccessGetUnityEditorVersion": "Success, Unity editor version found",
-    "FailGetUnityEditorVersion": "Fail, Unity editor version not found"
+    "buildSuccess": "The Unity build completed successfully",
+    "buildFailed": "The Unity build failed with exit code",
+    "warningAlphaBetaVersion": "You are using a Unity Alpha/Beta version. It may not be supported by the extension!",
+    "projectPathInfo": "Determining Unity editor version for project at",
+    "successGetUnityEditorVersion": "Success, Unity editor version found",
+    "failGetUnityEditorVersion": "Fail, Unity editor version not found"
   }
 }
