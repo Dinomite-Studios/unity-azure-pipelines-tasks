@@ -40,7 +40,7 @@ const testResultsOutputPathAndFileNameOutputVariableName = 'testResultsOutputPat
 async function run() {
     try {
         // Setup and read inputs.
-        const testMode = (<any>UnityTestMode)[tl.getInput(testModeInputVariableName, true)!];
+        const testMode: UnityTestMode = (<any>UnityTestMode)[tl.getInput(testModeInputVariableName, true)!];
         const projectPath = tl.getPathInput(unityProjectPathInputVariableName) || '';
         const testCategory = tl.getInput(testCategoryInputVariableName) || '';
         const testFilter = tl.getInput(testFilterInputVariableName) || '';
@@ -56,7 +56,7 @@ async function run() {
         const noPackageManager = tl.getBoolInput(noPackageManagerInputVariableName);
         const additionalCmdArgs = tl.getInput(additionalCmdArgsInputVariableName) || '';
         const repositoryLocalPath = tl.getVariable(localPathInputVariableName)!;
-        const testResultsFileName = testMode === UnityTestMode.EditMode ? editModeResultsFileName : playModeResultsFileName;
+        const testResultsFileName = testMode === UnityTestMode.editMode ? editModeResultsFileName : playModeResultsFileName;
         const testResultsPathAndFileName = path.join(`${testResultsPath}`, `${testResultsFileName}`);
         const logFilesDirectory = path.join(repositoryLocalPath!, 'Logs');
         const logFilePath = path.join(logFilesDirectory, `UnityTestLog_${UnityLogTools.getLogFileNameTimeStamp()}.log`);
@@ -76,7 +76,7 @@ async function run() {
         // Execute Unity command line.
         const unityCmd = tl.tool(unityExecutablePath)
             .arg('-runTests')
-            .arg('-testPlatform').arg(UnityTestMode[testMode])
+            .arg('-testPlatform').arg(testMode === UnityTestMode.editMode ? 'EditMode' : 'PlayMode')
             .arg('-projectPath').arg(projectPath)
             .arg('-testResults').arg(testResultsPathAndFileName)
             .arg('-logfile').arg(logFilePath)
