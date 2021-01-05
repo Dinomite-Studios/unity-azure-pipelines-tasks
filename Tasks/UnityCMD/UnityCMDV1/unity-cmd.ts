@@ -1,6 +1,10 @@
 import path = require('path');
 import tl = require('azure-pipelines-task-lib/task');
-import { UnityToolRunner, UnityPathTools, UnityLogTools } from '@dinomite-studios/unity-utilities';
+import {
+    UnityToolRunner,
+    UnityPathTools,
+    UnityLogTools
+} from '@dinomite-studios/unity-utilities';
 import { getUnityEditorVersion } from './unity-build-shared';
 
 tl.setResourcePath(path.join(__dirname, 'task.json'));
