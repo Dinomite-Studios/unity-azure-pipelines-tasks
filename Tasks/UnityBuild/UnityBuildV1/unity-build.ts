@@ -26,7 +26,6 @@ async function run() {
 
             unityVersion = {
                 version: customUnityVersion,
-                versionWithRevision: '',
                 isAlpha: false,
                 isBeta: false
             }
