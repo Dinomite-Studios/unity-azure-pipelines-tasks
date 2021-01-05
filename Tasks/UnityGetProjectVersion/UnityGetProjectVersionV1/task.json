@@ -27,7 +27,7 @@
       "helpMarkDown": "(Optional) Enter the directory path to the Unity project. If no value is entered, the root of the repository will be used."
     }
   ],
-  "OutputVariables": [
+  "outputVariables": [
     {
       "name": "projectVersion",
       "description": "The project version found by the task for the specified Unity project."

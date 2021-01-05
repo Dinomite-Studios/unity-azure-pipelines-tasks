@@ -136,7 +136,7 @@
       "helpMarkDown": "(Optional) Specify additional command line arguments, see the [documentation](https://docs.unity3d.com/Manual/CommandLineArguments.html) for more info."
     }
   ],
-  "OutputVariables": [
+  "outputVariables": [
     {
       "name": "logsOutputPath",
       "description": "Path to the Unity editor log files generated."

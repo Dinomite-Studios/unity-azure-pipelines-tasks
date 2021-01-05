@@ -120,7 +120,7 @@
       "helpMarkDown": "(Optional) Specify additional command line arguments, see the [documentation](https://docs.unity3d.com/Packages/com.unity.test-framework@latest) for more info."
     }
   ],
-  "OutputVariables": [
+  "outputVariables": [
     {
       "name": "testResultsOutputPathAndFileName",
       "description": "Path and FileName of the results in XML format. Path is relative to repository root."
