@@ -131,7 +131,7 @@
     {
       "name": "additionalCmdArgs",
       "type": "string",
-      "label": "Arguments",
+      "label": "Command line arguments",
       "defaultValue": "",
       "helpMarkDown": "(Optional) Specify additional command line arguments, see the [documentation](https://docs.unity3d.com/Manual/CommandLineArguments.html) for more info."
     }
