@@ -101,7 +101,7 @@
       "name": "outputFileName",
       "type": "string",
       "label": "Output filename",
-      "helpMarkDown": "Enter the output filename to be used when constructing the platform-appropriate output.  For instance, if you want the output to be 'thegame.exe' on Windows Standalone, enter 'thegame'",
+      "helpMarkDown": "Enter the output filename to be used when constructing the platform-appropriate output. For instance, if you want the output to be 'thegame.exe' on Windows Standalone, enter 'thegame'",
       "required": true,
       "defaultValue": "drop"
     },
