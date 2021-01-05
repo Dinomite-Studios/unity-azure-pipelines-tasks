@@ -29,6 +29,7 @@ const logsOutputPathOutputVariableName = 'logsOutputPath';
  */
 async function run() {
     try {
+        // Setup and read inputs.
         const outputFileName = tl.getInput(outputFileNameInputVariableName) || 'drop';
         const buildTarget = tl.getInput(buildTargetInputVariableName, true)!;
         const projectPath = tl.getPathInput(unityProjectPathInputVariableName) || '';
