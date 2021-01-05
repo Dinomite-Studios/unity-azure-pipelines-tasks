@@ -12,18 +12,19 @@ import { getUnityEditorVersion } from './unity-build-shared';
 tl.setResourcePath(path.join(__dirname, 'task.json'));
 
 // Input variables.
-const outputFileNameInputVariableName = 'outputFileName';
-const buildTargetInputVariableName = 'buildTarget';
-const outputPathInputVariableName = 'outputPath';
 const testModeInputVariableName = 'testMode';
-const testCategoryInputVariableName = 'testCategory';
-const testFilterInputVariableName = 'testFilter';
-const testResultsPathInputVariableName = 'testResultsPath';
-const unityProjectPathInputVariableName = 'unityProjectPath';
 const unityEditorsPathModeInputVariableName = 'unityEditorsPathMode';
 const customUnityEditorsPathInputVariableName = 'customUnityEditorsPath';
+const unityProjectPathInputVariableName = 'unityProjectPath';
+const testCategoryInputVariableName = 'testCategory';
+const testFilterInputVariableName = 'testFilter';
+const batchModeInputVariableName = 'batchMode';
+const acceptApiUpdateInputVariableName = 'acceptApiUpdate';
+const noPackageManagerInputVariableName = 'noPackageManager';
+const testResultsPathInputVariableName = 'testResultsPath';
 const localPathInputVariableName = 'Build.Repository.LocalPath';
 const cleanBuildInputVariableName = 'Build.Repository.Clean';
+const additionalCmdArgsInputVariableName = 'additionalCmdArgs';
 
 // Constants
 const editModeResultsFileName = 'EditMode.xml';
@@ -50,6 +51,10 @@ async function run() {
         const unityVersion = getUnityEditorVersion();
         const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(unityEditorsPath, unityVersion);
         const cleanBuild = tl.getVariable(cleanBuildInputVariableName);
+        const batchMode = tl.getBoolInput(batchModeInputVariableName);
+        const acceptApiUpdate = tl.getBoolInput(acceptApiUpdateInputVariableName);
+        const noPackageManager = tl.getBoolInput(noPackageManagerInputVariableName);
+        const additionalCmdArgs = tl.getInput(additionalCmdArgsInputVariableName) || '';
         const repositoryLocalPath = tl.getVariable(localPathInputVariableName)!;
         const testResultsFileName = testMode === UnityTestMode.EditMode ? editModeResultsFileName : playModeResultsFileName;
         const testResultsPathAndFileName = path.join(`${testResultsPath}`, `${testResultsFileName}`);
@@ -78,15 +83,15 @@ async function run() {
             .arg('-noGraphics')
             .arg('-forgetProjectPath');
 
-        if (tl.getBoolInput('batchMode')) {
+        if (batchMode) {
             unityCmd.arg('-batchmode');
         }
 
-        if (tl.getBoolInput('noPackageManager')) {
+        if (noPackageManager) {
             unityCmd.arg('-noUpm');
         }
 
-        if (tl.getBoolInput('acceptApiUpdate')) {
+        if (acceptApiUpdate) {
             unityCmd.arg('-accept-apiupdate');
         }
 
@@ -98,9 +103,8 @@ async function run() {
             unityCmd.arg('-testFilter').arg(testFilter);
         }
 
-        const additionalArgs = tl.getInput('additionalCmdArgs') || '';
-        if (additionalArgs !== '') {
-            unityCmd.line(additionalArgs);
+        if (additionalCmdArgs !== '') {
+            unityCmd.line(additionalCmdArgs);
         }
 
         const result = await UnityToolRunner.run(unityCmd, logFilePath);

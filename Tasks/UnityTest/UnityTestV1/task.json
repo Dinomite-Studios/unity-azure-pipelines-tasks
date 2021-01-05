@@ -3,7 +3,7 @@
   "name": "UnityTestTask",
   "friendlyName": "Unity Test",
   "description": "Tests a Unity project and produce the results in NUnit compatible files.",
-  "helpMarkDown": "Tests a Unity project and produce the results in NUnit compatible files. [More Information](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks)",
+  "helpMarkDown": "Use this task to run tests on a Unity project. [More Information](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks)",
   "category": "Azure Pipelines",
   "visibility": [
     "Build"
@@ -16,7 +16,7 @@
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityTest/UnityTestV1/CHANGELOG.md)",
   "minimumAgentVersion": "1.95.0",
-  "instanceNameFormat": "Unity Test $(buildTarget)",
+  "instanceNameFormat": "Unity Test",
   "groups": [
     {
       "name": "advancedGroup",
@@ -28,9 +28,8 @@
     {
       "name": "testMode",
       "type": "pickList",
-      "label": "Test Mode",
+      "label": "Test mode",
       "defaultValue": "editMode",
-      "required": true,
       "helpMarkDown": "The mode you want to run tests in. Available platforms are Edit Mode and Play Mode.",
       "options": {
         "editMode": "Edit Mode",
@@ -40,9 +39,8 @@
     {
       "name": "unityEditorsPathMode",
       "type": "pickList",
-      "label": "Unity Editors Location",
+      "label": "Unity editors location",
       "defaultValue": "unityHub",
-      "required": true,
       "helpMarkDown": "Define where to look for Unity installations on the agent.",
       "options": {
         "unityHub": "Unity Hub default installation path",
@@ -53,16 +51,16 @@
     {
       "name": "customUnityEditorsPath",
       "type": "string",
-      "label": "Editors Folder Location",
-      "required": false,
+      "label": "Editors folder location",
       "defaultValue": "",
+      "required": true,
       "visibleRule": "unityEditorsPathMode == specify",
       "helpMarkDown": "Specify where to look for Unity Editor versions on the agent."
     },
     {
       "name": "unityProjectPath",
       "type": "filePath",
-      "label": "Unity Project Path",
+      "label": "Unity project path",
       "defaultValue": "",
       "required": false,
       "helpMarkDown": "(Optional) Enter the directory path to the Unity project. If no value is entered, the root of the repository will be used."
@@ -70,60 +68,53 @@
     {
       "name": "testCategory",
       "type": "string",
-      "label": "Test Category",
+      "label": "Test category",
       "helpMarkDown": "(Optional) A semicolon-separated list of test categories to include in the run. If using both testFilter and testCategory, then tests only run that matches both.",
-      "groupName": "advancedGroup",
-      "required": false
+      "groupName": "advancedGroup"
     },
     {
       "name": "testFilter",
       "type": "string",
-      "label": "Test Filter",
+      "label": "Test filter",
       "helpMarkDown": "(Optional) A semicolon-separated list of test names to run, or a regular expression pattern to match tests by their full name.",
-      "groupName": "advancedGroup",
-      "required": false
+      "groupName": "advancedGroup"
     },
     {
       "name": "batchMode",
       "type": "boolean",
-      "label": "Batch Mode",
+      "label": "Batch mode",
       "helpMarkDown": "(Optional) Indicate whether Unity executes in batch mode. Note: When testing Unity UI functionality, you cannot use batch mode.",
       "groupName": "advancedGroup",
-      "defaultValue": true,
-      "required": false
+      "defaultValue": true
     },
     {
       "name": "acceptApiUpdate",
       "type": "boolean",
-      "label": "Run API Updater",
+      "label": "Run API updater",
       "helpMarkDown": "(Optional) Use this option to specify that Unity API Updater should run before building the project.",
       "groupName": "advancedGroup",
-      "defaultValue": false,
-      "required": false
+      "defaultValue": false
     },
     {
       "name": "noPackageManager",
       "type": "boolean",
-      "label": "Disable Unity Package Manager",
+      "label": "Disable Unity package manager",
       "helpMarkDown": "(Optional) Disables the Unity Package Manager.",
       "groupName": "advancedGroup",
-      "defaultValue": false,
-      "required": false
+      "defaultValue": false
     },
     {
       "name": "testResultsPath",
       "type": "string",
-      "label": "Test Results",
+      "label": "Test results output path",
       "helpMarkDown": "(Optional) The path where Unity should save the result file. By default, Unity saves it in the Project’s root folder.",
       "groupName": "advancedGroup",
-      "required": false,
-      "defaultValue": "test-results"
+      "defaultValue": "Test Results"
     },
     {
       "name": "additionalCmdArgs",
       "type": "string",
-      "label": "Arguments",
-      "required": false,
+      "label": "Command line arguments",
       "defaultValue": "",
       "groupName": "advancedGroup",
       "helpMarkDown": "(Optional) Specify additional command line arguments, see the [documentation](https://docs.unity3d.com/Packages/com.unity.test-framework@latest) for more info."
