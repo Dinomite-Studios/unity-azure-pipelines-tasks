@@ -1,43 +1,58 @@
 import path = require('path');
 import tl = require('azure-pipelines-task-lib/task');
-import fs = require('fs-extra');
-import { UnityToolRunner, UnityPathTools, UnityLogTools } from '@dinomite-studios/unity-utilities';
+import {
+    UnityToolRunner,
+    UnityPathTools,
+    UnityLogTools
+} from '@dinomite-studios/unity-utilities';
 import { getUnityEditorVersion } from './unity-build-shared';
 
 tl.setResourcePath(path.join(__dirname, 'task.json'));
 
+// Input variables.
+const unityProjectPathInputVariableName = 'unityProjectPath';
+const unityEditorsPathModeInputVariableName = 'unityEditorsPathMode';
+const customUnityEditorsPathInputVariableName = 'customUnityEditorsPath';
+const cmdArgsInputVariableName = 'cmdArgs';
+const localPathInputVariableName = 'Build.Repository.LocalPath';
+
+// Output variables.
+const logsOutputPathOutputVariableName = 'logsOutputPath';
+
+/**
+ * Main task runner. Executes the task and sets the result status for the task.
+ */
 async function run() {
     try {
-        const projectPath = tl.getPathInput('unityProjectPath') || '';
-        const buildTarget = tl.getInput('buildTarget', true)!;
-        const unityEditorsPath = UnityPathTools.getUnityEditorsPath(tl.getInput('unityEditorsPathMode', true)!, tl.getInput('customUnityEditorsPath'))
-        const unityVersion = await getUnityEditorVersion();
+        // Setup and read inputs.
+        const projectPath = tl.getPathInput(unityProjectPathInputVariableName) || '';
+        const unityEditorsPath = UnityPathTools.getUnityEditorsPath(
+            tl.getInput(unityEditorsPathModeInputVariableName, true)!,
+            tl.getInput(customUnityEditorsPathInputVariableName));
+        const unityVersion = getUnityEditorVersion();
         const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(unityEditorsPath, unityVersion);
-        const repositoryLocalPath = tl.getVariable('Build.Repository.LocalPath')!;
-
+        const repositoryLocalPath = tl.getVariable(localPathInputVariableName)!;
         const logFilesDirectory = path.join(repositoryLocalPath!, 'Logs');
         const logFilePath = path.join(logFilesDirectory, `UnityCMDLog_${UnityLogTools.getLogFileNameTimeStamp()}.log`);
-        tl.setVariable('logsOutputPath', logFilesDirectory);
 
-        // Mandatory set of command line arguments for Unity.
-        // -logfile tells Unity where to put the operation log
+        // Set output variable values.
+        tl.setVariable(logsOutputPathOutputVariableName, logFilesDirectory);
+
+        // Execute Unity command line.
         const unityCmd = tl.tool(unityExecutablePath)
             .arg('-batchmode')
             .arg('-projectPath').arg(projectPath)
-            .arg('-buildTarget').arg(buildTarget)
-            .arg('-logfile').arg(logFilePath);
-
-        // Add the user's custom cmd arguments.
-        unityCmd.line(tl.getInput('cmdArgs')!);
-
+            .arg('-logfile').arg(logFilePath)
+            .line(tl.getInput(cmdArgsInputVariableName)!);
         const result = await UnityToolRunner.run(unityCmd, logFilePath);
 
+        // Unity process has finished. Set task result.
         if (result === 0) {
-            const buildSuccessLog = tl.loc('ExecuteSuccess');
+            const buildSuccessLog = tl.loc('executeSuccess');
             console.log(buildSuccessLog);
             tl.setResult(tl.TaskResult.Succeeded, buildSuccessLog);
         } else {
-            const buildFailLog = `${tl.loc('ExecuteFailed')} ${result}`;
+            const buildFailLog = `${tl.loc('executeFailed')} ${result}`;
             console.log(buildFailLog);
             tl.setResult(tl.TaskResult.Failed, buildFailLog);
         }

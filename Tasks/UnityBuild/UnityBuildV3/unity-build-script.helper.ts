@@ -1,12 +1,10 @@
-import { UnityBuildConfiguration } from "./unity-build-configuration.model";
-
 export class UnityBuildScriptHelper {
 
     /**
      * Generates a C# script to start a Unity build with the specified options.
      * @param config Build configuration values.
      */
-    public static getUnityEditorBuildScriptContent(config: UnityBuildConfiguration): string {
+    public static getUnityEditorBuildScriptContent(outputPath: string, outputFileName: string): string {
 
         // Finally put it all together.
         return `
@@ -21,8 +19,8 @@ export class UnityBuildScriptHelper {
         
         public class AzureDevOps
         {
-            private static string outputFileName = @"${config.outputFileName}";
-            private static string locationPathName = @"${config.outputPath}";
+            private static string outputFileName = @"${outputFileName}";
+            private static string locationPathName = @"${outputPath}";
 
             public static void PerformBuild()
             {

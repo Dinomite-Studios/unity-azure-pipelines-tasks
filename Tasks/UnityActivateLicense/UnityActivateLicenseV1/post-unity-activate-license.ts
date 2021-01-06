@@ -1,6 +1,6 @@
 import path = require('path');
 import tl = require('azure-pipelines-task-lib/task');
-import { getUnityEditorVersion } from './unity-activate-license-shared';
+import { getUnityEditorVersion } from './unity-build-shared';
 import {
     UnityToolRunner,
     UnityPathTools,
@@ -9,24 +9,36 @@ import {
 
 tl.setResourcePath(path.join(__dirname, 'task.json'));
 
+// Input variables.
+const unityEditorsPathModeInputVariableName = 'unityEditorsPathMode';
+const customUnityEditorsPathInputVariableName = 'customUnityEditorsPath';
+const localPathInputVariableName = 'Build.Repository.LocalPath';
+
+/**
+ * Main task runner. Executes the task and sets the result status for the task.
+ */
 async function run() {
     try {
-        const unityVersion = await getUnityEditorVersion();
-        const unityEditorsPath = UnityPathTools.getUnityEditorsPath(tl.getInput('unityEditorsPathMode', true)!, tl.getInput('customUnityEditorsPath'))
+        const unityVersion = getUnityEditorVersion();
+        const unityEditorsPath = UnityPathTools.getUnityEditorsPath(
+            tl.getInput(unityEditorsPathModeInputVariableName, true)!,
+            tl.getInput(customUnityEditorsPathInputVariableName));
         const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(unityEditorsPath, unityVersion);
-
-        const logFilesDirectory = path.join(tl.getVariable('Build.Repository.LocalPath')!, 'Logs');
+        const logFilesDirectory = path.join(tl.getVariable(localPathInputVariableName)!, 'Logs');
         const logFilePath = path.join(logFilesDirectory, `UnityReturnLicenseLog_${UnityLogTools.getLogFileNameTimeStamp()}.log`);
+
+        // Set output variable values.
         tl.setVariable('logsOutputPath', logFilesDirectory);
 
+        // Execute Unity command line.
         const unityCmd = tl.tool(unityExecutablePath)
             .arg('-batchmode')
             .arg('-quit')
             .arg('-returnlicense')
             .arg('-logfile').arg(logFilePath);
-
         const result = await UnityToolRunner.run(unityCmd, logFilePath);
 
+        // Unity process has finished. Set task result.
         if (result === 0) {
             const returnLicenseSuccessLog = tl.loc('successLicenseReturned');
             console.log(returnLicenseSuccessLog);

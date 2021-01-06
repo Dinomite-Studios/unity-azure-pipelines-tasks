@@ -2,39 +2,65 @@ import path = require('path');
 import tl = require('azure-pipelines-task-lib/task');
 import fs = require('fs-extra');
 import { UnityBuildScriptHelper } from './unity-build-script.helper';
-import { UnityBuildConfiguration } from './unity-build-configuration.model';
-import { UnityToolRunner, UnityPathTools, UnityLogTools } from '@dinomite-studios/unity-utilities';
+import {
+    UnityToolRunner,
+    UnityPathTools,
+    UnityLogTools
+} from '@dinomite-studios/unity-utilities';
 import { getUnityEditorVersion } from './unity-build-shared';
 
 tl.setResourcePath(path.join(__dirname, 'task.json'));
 
+// Input variables.
+const outputFileNameInputVariableName = 'outputFileName';
+const buildTargetInputVariableName = 'buildTarget';
+const outputPathInputVariableName = 'outputPath';
+const unityProjectPathInputVariableName = 'unityProjectPath';
+const unityEditorsPathModeInputVariableName = 'unityEditorsPathMode';
+const customUnityEditorsPathInputVariableName = 'customUnityEditorsPath';
+const localPathInputVariableName = 'Build.Repository.LocalPath';
+const cleanBuildInputVariableName = 'Build.Repository.Clean';
+
+// Output variables.
+const logsOutputPathOutputVariableName = 'logsOutputPath';
+
+/**
+ * Main task runner. Executes the task and sets the result status for the task.
+ */
 async function run() {
     try {
-        const unityBuildConfiguration = await getBuildConfiguration();
-        const unityEditorsPath = UnityPathTools.getUnityEditorsPath(tl.getInput('unityEditorsPathMode', true)!, tl.getInput('customUnityEditorsPath'))
-        const unityVersion = await getUnityEditorVersion();
+        // Setup and read inputs.
+        const outputFileName = tl.getInput(outputFileNameInputVariableName) || 'drop';
+        const buildTarget = tl.getInput(buildTargetInputVariableName, true)!;
+        const projectPath = tl.getPathInput(unityProjectPathInputVariableName) || '';
+        const outputPath = tl.getPathInput(outputPathInputVariableName) || '';
+        const unityEditorsPath = UnityPathTools.getUnityEditorsPath(
+            tl.getInput(unityEditorsPathModeInputVariableName, true)!,
+            tl.getInput(customUnityEditorsPathInputVariableName));
+        const unityVersion = getUnityEditorVersion();
         const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(unityEditorsPath, unityVersion);
-        const cleanBuild = tl.getVariable('Build.Repository.Clean');
-        const repositoryLocalPath = tl.getVariable('Build.Repository.LocalPath')!;
-
+        const cleanBuild = tl.getVariable(cleanBuildInputVariableName);
+        const repositoryLocalPath = tl.getVariable(localPathInputVariableName)!;
         const logFilesDirectory = path.join(repositoryLocalPath!, 'Logs');
         const logFilePath = path.join(logFilesDirectory, `UnityBuildLog_${UnityLogTools.getLogFileNameTimeStamp()}.log`);
-        tl.setVariable('logsOutputPath', logFilesDirectory);
+
+        // Set output variable values.
+        tl.setVariable(logsOutputPathOutputVariableName, logFilesDirectory);
 
         // If clean was specified by the user, delete the existing output directory, if it exists
         if (cleanBuild === 'true') {
-            fs.removeSync(unityBuildConfiguration.outputPath);
+            fs.removeSync(outputPath);
         }
 
         // No matter if clean build or not, make sure the output diretory exists
-        tl.mkdirP(unityBuildConfiguration.outputPath);
-        tl.checkPath(unityBuildConfiguration.outputPath, 'Build Output Directory');
+        tl.mkdirP(outputPath);
+        tl.checkPath(outputPath, 'Build Output Directory');
 
-        // Build the base Unity command to execute
+        // Execute Unity command line.
         const unityCmd = tl.tool(unityExecutablePath)
             .arg('-batchmode')
-            .arg('-buildTarget').arg(unityBuildConfiguration.buildTarget)
-            .arg('-projectPath').arg(unityBuildConfiguration.projectPath)
+            .arg('-buildTarget').arg(buildTarget)
+            .arg('-projectPath').arg(projectPath)
             .arg('-logfile').arg(logFilePath);
 
         const additionalArgs = tl.getInput('additionalCmdArgs') || '';
@@ -51,13 +77,13 @@ async function run() {
 
             // Create a C# script file in a Editor folder at the root Assets directory level. Then write
             // the default or the user's script into it. Unity will then compile it on launch and make sure it's available.
-            const projectAssetsEditorFolderPath = path.join(`${unityBuildConfiguration.projectPath}`, 'Assets', 'Editor');
+            const projectAssetsEditorFolderPath = path.join(`${projectPath}`, 'Assets', 'Editor');
             tl.mkdirP(projectAssetsEditorFolderPath);
             tl.cd(projectAssetsEditorFolderPath);
             tl.writeFile('AzureDevOps.cs', isDefault
-                ? UnityBuildScriptHelper.getUnityEditorBuildScriptContent(unityBuildConfiguration)
+                ? UnityBuildScriptHelper.getUnityEditorBuildScriptContent(outputPath, outputFileName)
                 : tl.getInput('inlineBuildScript')!);
-            tl.cd(unityBuildConfiguration.projectPath);
+            tl.cd(projectPath);
 
             // Tell Unity which method to execute for build.
             unityCmd.arg('-executeMethod').arg(isDefault ? 'AzureDevOps.PerformBuild' : tl.getInput('scriptExecuteMethod')!);
@@ -69,12 +95,13 @@ async function run() {
 
         const result = await UnityToolRunner.run(unityCmd, logFilePath);
 
+        // Unity process has finished. Set task result.
         if (result === 0) {
-            const buildSuccessLog = tl.loc('BuildSuccess');
+            const buildSuccessLog = tl.loc('buildSuccess');
             console.log(buildSuccessLog);
             tl.setResult(tl.TaskResult.Succeeded, buildSuccessLog);
         } else {
-            const buildFailLog = `${tl.loc('BuildFailed')} ${result}`;
+            const buildFailLog = `${tl.loc('buildFailed')} ${result}`;
             console.log(buildFailLog);
             tl.setResult(tl.TaskResult.Failed, buildFailLog);
         }
@@ -87,20 +114,6 @@ async function run() {
             tl.setResult(tl.TaskResult.Failed, e);
         }
     }
-}
-
-async function getBuildConfiguration(): Promise<UnityBuildConfiguration> {
-    const outputFileName = tl.getInput('outputFileName');
-    const buildTarget = tl.getInput('buildTarget', true)!;
-    const projectPath = tl.getPathInput('unityProjectPath') || '';
-    const outputPath = tl.getPathInput('outputPath') || '';
-
-    return {
-        buildTarget: buildTarget,
-        outputFileName: outputFileName ? outputFileName : 'drop',
-        outputPath: outputPath,
-        projectPath: projectPath
-    };
 }
 
 run();

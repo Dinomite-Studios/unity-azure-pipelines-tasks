@@ -128,7 +128,7 @@
       "defaultValue": "drop"
     }
   ],
-  "OutputVariables": [
+  "outputVariables": [
     {
       "name": "buildOutputPath",
       "description": "Path to the directory containing Unity build output files. Path is relative to repository root."

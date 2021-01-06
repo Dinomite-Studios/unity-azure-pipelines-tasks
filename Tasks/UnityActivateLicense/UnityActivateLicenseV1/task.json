@@ -3,7 +3,7 @@
   "name": "UnityActivateLicenseTask",
   "friendlyName": "Unity Activate License",
   "description": "Activates a Unity license on the agent.",
-  "helpMarkDown": "Activates a Unity license on the agent. [More Information](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks)",
+  "helpMarkDown": "Use this task to activate a Unity Plus/Pro license on the executing agent machine. [More Information](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks)",
   "category": "Azure Pipelines",
   "visibility": [
     "Build"
@@ -12,7 +12,7 @@
   "version": {
     "Major": "1",
     "Minor": "0",
-    "Patch": "30"
+    "Patch": "40"
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityActivateLicense/UnityActivateLicenseV1/CHANGELOG.md)",
   "minimumAgentVersion": "1.95.0",
@@ -45,9 +45,8 @@
     {
       "name": "unityEditorsPathMode",
       "type": "pickList",
-      "label": "Unity Editors Location",
+      "label": "Unity editors location",
       "defaultValue": "unityHub",
-      "required": true,
       "helpMarkDown": "Define where to look for Unity installations on the agent.",
       "options": {
         "unityHub": "Unity Hub default installation path",
@@ -58,22 +57,22 @@
     {
       "name": "customUnityEditorsPath",
       "type": "string",
-      "label": "Editors Folder Location",
-      "required": false,
+      "label": "Editors folder location",
       "defaultValue": "",
+      "required": true,
       "visibleRule": "unityEditorsPathMode == specify",
       "helpMarkDown": "Specify where to look for Unity Editor versions on the agent."
     },
     {
       "name": "unityProjectPath",
       "type": "filePath",
-      "label": "Unity Project Path",
+      "label": "Unity project path",
       "defaultValue": "",
       "required": false,
       "helpMarkDown": "(Optional) Enter the directory path to the Unity project. If no value is entered, the root of the repository will be used."
     }
   ],
-  "OutputVariables": [
+  "outputVariables": [
     {
       "name": "logsOutputPath",
       "description": "Path to the Unity editor log files generated."
