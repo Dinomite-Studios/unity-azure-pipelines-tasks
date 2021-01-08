@@ -6,6 +6,6 @@
  * https://docs.unity3d.com/Packages/com.unity.test-framework@1.1/manual/reference-command-line.html
  */
 export enum UnityTestMode {
-    EditMode,
-    PlayMode
+    editMode,
+    playMode
 }

@@ -3,7 +3,7 @@
   "name": "UnityGetProjectVersionTask",
   "friendlyName": "Unity Get Project Version",
   "description": "Gets the project version of a Unity project.",
-  "helpMarkDown": "Gets the project version of a Unity project. [More Information](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks)",
+  "helpMarkDown": "Use this task to find the last used Unity Editor version of a project. An output variable containing the found version is provided. [More Information](https://unitydevops.com/docs/unity-get-project-version-task).",
   "category": "Azure Pipelines",
   "visibility": [
     "Build"
@@ -12,7 +12,7 @@
   "version": {
     "Major": "1",
     "Minor": "0",
-    "Patch": "23"
+    "Patch": "30"
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityGetProjectVersion/UnityGetProjectVersionV1/CHANGELOG.md)",
   "minimumAgentVersion": "1.95.0",
@@ -21,13 +21,13 @@
     {
       "name": "unityProjectPath",
       "type": "filePath",
-      "label": "Unity Project Path",
+      "label": "Unity project path",
       "defaultValue": "",
       "required": false,
       "helpMarkDown": "(Optional) Enter the directory path to the Unity project. If no value is entered, the root of the repository will be used."
     }
   ],
-  "OutputVariables": [
+  "outputVariables": [
     {
       "name": "projectVersion",
       "description": "The project version found by the task for the specified Unity project."
@@ -44,9 +44,9 @@
     }
   },
   "messages": {
-    "WarningAlphaBetaVersion": "You are using a Unity Alpha/Beta version. It may not be supported by the extension!",
-    "ProjectPathInfo": "Determining Unity editor version for project at",
-    "SuccessGetUnityEditorVersion": "Success, Unity editor version found",
-    "FailGetUnityEditorVersion": "Fail, Unity editor version not found"
+    "warningAlphaBetaVersion": "You are using a Unity Alpha/Beta version. It may not be supported by the extension!",
+    "projectPathInfo": "Determining Unity editor version for project at",
+    "successGetUnityEditorVersion": "Success, Unity editor version found",
+    "failGetUnityEditorVersion": "Fail, Unity editor version not found"
   }
 }

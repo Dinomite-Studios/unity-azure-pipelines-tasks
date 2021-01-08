@@ -7,7 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.3.1]
 
-Maintenance release
+### Fixed
+
+- Fixed Edit Mode / Play Mode selection not applied correctly
 
 ## [1.3.0]
 

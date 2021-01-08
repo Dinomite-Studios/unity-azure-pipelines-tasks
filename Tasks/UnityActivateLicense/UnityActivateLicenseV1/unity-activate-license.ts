@@ -1,6 +1,6 @@
 import path = require('path');
 import tl = require('azure-pipelines-task-lib/task');
-import { getUnityEditorVersion } from './unity-activate-license-shared';
+import { getUnityEditorVersion } from './unity-build-shared';
 import {
     UnityToolRunner,
     UnityPathTools,
@@ -9,19 +9,35 @@ import {
 
 tl.setResourcePath(path.join(__dirname, 'task.json'));
 
+// Input variables.
+const usernameInputVariableName = 'username';
+const passwordInputVariableName = 'password';
+const serialInputVariableName = 'serial';
+const unityEditorsPathModeInputVariableName = 'unityEditorsPathMode';
+const customUnityEditorsPathInputVariableName = 'customUnityEditorsPath';
+const localPathInputVariableName = 'Build.Repository.LocalPath';
+
+/**
+ * Main task runner. Executes the task and sets the result status for the task.
+ */
 async function run() {
     try {
-        const username = tl.getInput('username', true)!;
-        const password = tl.getInput('password', true)!;
-        const serial = tl.getInput('serial', true)!;
-        const unityVersion = await getUnityEditorVersion();
-        const unityEditorsPath = UnityPathTools.getUnityEditorsPath(tl.getInput('unityEditorsPathMode', true)!, tl.getInput('customUnityEditorsPath'))
+        // Setup and read inputs.
+        const username = tl.getInput(usernameInputVariableName, true)!;
+        const password = tl.getInput(passwordInputVariableName, true)!;
+        const serial = tl.getInput(serialInputVariableName, true)!;
+        const unityVersion = getUnityEditorVersion();
+        const unityEditorsPath = UnityPathTools.getUnityEditorsPath(
+            tl.getInput(unityEditorsPathModeInputVariableName, true)!,
+            tl.getInput(customUnityEditorsPathInputVariableName));
         const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(unityEditorsPath, unityVersion);
-
-        const logFilesDirectory = path.join(tl.getVariable('Build.Repository.LocalPath')!, 'Logs');
+        const logFilesDirectory = path.join(tl.getVariable(localPathInputVariableName)!, 'Logs');
         const logFilePath = path.join(logFilesDirectory, `UnityActivationLog_${UnityLogTools.getLogFileNameTimeStamp()}.log`);
+
+        // Set output variable values.
         tl.setVariable('logsOutputPath', logFilesDirectory);
 
+        // Execute Unity command line.
         const unityCmd = tl.tool(unityExecutablePath)
             .arg('-batchmode')
             .arg('-quit')
@@ -30,9 +46,9 @@ async function run() {
             .arg('-password').arg(password)
             .arg('-serial ').arg(serial)
             .arg('-logfile').arg(logFilePath);
-
         const result = await UnityToolRunner.run(unityCmd, logFilePath);
 
+        // Unity process has finished. Set task result.
         if (result === 0) {
             const activateLicenseSuccessLog = tl.loc('successLicenseActivated');
             console.log(activateLicenseSuccessLog);

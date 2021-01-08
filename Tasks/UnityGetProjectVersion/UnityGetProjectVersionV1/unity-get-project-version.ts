@@ -4,30 +4,44 @@ import { ProjectVersionService } from '@dinomite-studios/unity-project-version';
 
 tl.setResourcePath(path.join(__dirname, 'task.json'));
 
-async function run() {
-    try {
-        const projectPath = tl.getPathInput('unityProjectPath') || '';
-        console.log(`${tl.loc('ProjectPathInfo')} ${projectPath}`);
+// Input variables.
+const unityProjectPathInputVariableName = 'unityProjectPath';
 
-        const unityVersion = await ProjectVersionService.determineProjectVersionFromFile(projectPath);
+// Output variables.
+const projectVersionOutputVariableName = 'projectVersion';
+const projectVersionRevisionOutputVariableName = 'projectVersionRevision';
+
+/**
+ * Main task runner. Executes the task and sets the result status for the task.
+ */
+function run() {
+    try {
+        // Setup and read inputs.
+        const projectPath = tl.getPathInput(unityProjectPathInputVariableName) || '';
+        console.log(`${tl.loc('projectPathInfo')} ${projectPath}`);
+
+        // Determine the project's last used Unity editor version.
+        const unityVersion = ProjectVersionService.determineProjectVersionFromFile(projectPath);
         if (unityVersion.error) {
-            const error = `${tl.loc('FailGetUnityEditorVersion')} | ${unityVersion.error}`;
+            const error = `${tl.loc('failGetUnityEditorVersion')} | ${unityVersion.error}`;
             console.error(error);
             throw new Error(error);
         }
 
-        const successGetVersionLog = `${tl.loc('SuccessGetUnityEditorVersion')} ${unityVersion.version}, alpha=${unityVersion.isAlpha}, beta=${unityVersion.isBeta}`;
+        // Log findings.
+        const successGetVersionLog = `${tl.loc('successGetUnityEditorVersion')} ${unityVersion.version}${unityVersion.revision ? `, revision=${unityVersion.revision}` : ''}, alpha=${unityVersion.isAlpha}, beta=${unityVersion.isBeta}`;
         console.log(successGetVersionLog);
         if (unityVersion.isAlpha || unityVersion.isBeta) {
-            console.warn(tl.loc('WarningAlphaBetaVersion'));
+            console.warn(tl.loc('warningAlphaBetaVersion'));
         }
 
-        tl.setVariable('projectVersion', unityVersion.version);
-
+        // Set output variable values.
+        tl.setVariable(projectVersionOutputVariableName, unityVersion.version);
         if (unityVersion.revision) {
-            tl.setVariable('projectVersionRevision', unityVersion.revision);
+            tl.setVariable(projectVersionRevisionOutputVariableName, unityVersion.revision);
         }
 
+        // Set task result succeeded.
         tl.setResult(tl.TaskResult.Succeeded, successGetVersionLog);
     } catch (e) {
         if (e instanceof Error) {
