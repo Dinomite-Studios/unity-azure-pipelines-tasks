@@ -3,7 +3,7 @@
   "name": "UnityTestTask",
   "friendlyName": "Unity Test",
   "description": "Tests a Unity project and produce the results in NUnit compatible files.",
-  "helpMarkDown": "Use this task to run tests on a Unity project. [More Information](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks)",
+  "helpMarkDown": "Use this task to run tests on a Unity project. [More Information](https://unitydevops.com/docs/unity-test-task)",
   "category": "Azure Pipelines",
   "visibility": [
     "Build"

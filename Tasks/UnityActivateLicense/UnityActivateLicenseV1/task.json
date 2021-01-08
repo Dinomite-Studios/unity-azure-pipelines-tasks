@@ -3,7 +3,7 @@
   "name": "UnityActivateLicenseTask",
   "friendlyName": "Unity Activate License",
   "description": "Activates a Unity license on the agent.",
-  "helpMarkDown": "Use this task to activate a Unity Plus/Pro license on the executing agent machine. [More Information](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks)",
+  "helpMarkDown": "Use this task to activate a Unity Plus/Pro license on the executing agent machine. [More Information](https://unitydevops.com/docs/unity-activate-license-task)",
   "category": "Azure Pipelines",
   "visibility": [
     "Build"

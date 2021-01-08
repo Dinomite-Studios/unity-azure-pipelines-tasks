@@ -3,7 +3,7 @@
   "name": "UnityGetProjectVersionTask",
   "friendlyName": "Unity Get Project Version",
   "description": "Gets the project version of a Unity project.",
-  "helpMarkDown": "Use this task to find the last used Unity Editor version of a project. An output variable containing the found version is provided. [More Information](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks).",
+  "helpMarkDown": "Use this task to find the last used Unity Editor version of a project. An output variable containing the found version is provided. [More Information](https://unitydevops.com/docs/unity-get-project-version-task).",
   "category": "Azure Pipelines",
   "visibility": [
     "Build"
