@@ -3,7 +3,7 @@
   "name": "UnityBuildTask",
   "friendlyName": "Unity Build",
   "description": "Build a Unity project and get the exported output files.",
-  "helpMarkDown": "Builds a Unity project to supported build target platforms. [More Information](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks)",
+  "helpMarkDown": "Builds a Unity project to supported build target platforms. [More Information](https://unitydevops.com/docs/unity-build-task)",
   "category": "Azure Pipelines",
   "visibility": [
     "Build"

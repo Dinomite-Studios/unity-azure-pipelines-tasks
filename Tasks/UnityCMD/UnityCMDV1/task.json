@@ -3,7 +3,7 @@
   "name": "UnityCMDTask",
   "friendlyName": "Unity CMD",
   "description": "Execute a Unity editor via command line.",
-  "helpMarkDown": "Use this task for full control over the arguments passed to the Untiy command line. With this task you are free to implement any custom behaviour needed. [More Information](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks).",
+  "helpMarkDown": "Use this task for full control over the arguments passed to the Untiy command line. With this task you are free to implement any custom behaviour needed. [More Information](https://unitydevops.com/docs/unity-cmd-task).",
   "category": "Azure Pipelines",
   "visibility": [
     "Build"
