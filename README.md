@@ -4,6 +4,8 @@ This extension adds CI/CD tooling for use in Azure Pipelines on Azure DevOps whe
 
 # Get Started
 
+[![Documentation](./images/docs-preview.png)](https://www.unitydevops.com)
+
 Documentation for the extension can be found at [www.unitydevops.com](https://www.unitydevops.com).
 
 ## Branches
