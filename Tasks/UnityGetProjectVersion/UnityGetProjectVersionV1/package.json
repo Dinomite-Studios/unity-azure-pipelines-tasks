@@ -1,6 +1,6 @@
 {
   "name": "@dinomite-studios/unity-get-project-version-task",
-  "version": "1.0.30",
+  "version": "1.0.31",
   "description": "Azure Pipelines task to get the project version of a Unity project.",
   "main": "unity-get-project-version.js",
   "scripts": {
