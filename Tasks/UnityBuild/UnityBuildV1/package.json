@@ -1,6 +1,6 @@
 {
   "name": "@dinomite-studios/unity-build-task",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "An Azure Pipelines task to build Unity projects.",
   "main": "unity-build.js",
   "scripts": {
