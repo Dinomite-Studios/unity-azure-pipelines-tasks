@@ -12,7 +12,7 @@
   "version": {
     "Major": "1",
     "Minor": "4",
-    "Patch": "0"
+    "Patch": "1"
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityTest/UnityTestV1/CHANGELOG.md)",
   "minimumAgentVersion": "1.95.0",
