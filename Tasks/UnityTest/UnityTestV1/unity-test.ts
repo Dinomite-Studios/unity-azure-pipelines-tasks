@@ -30,6 +30,8 @@ const additionalCmdArgsInputVariableName = 'additionalCmdArgs';
 // Constants
 const editModeResultsFileName = 'EditMode.xml';
 const playModeResultsFileName = 'PlayMode.xml';
+const testSuccessNoTestsFailed = 0;
+const testSuccessTestsFailed = 2;
 
 // Output variables.
 const logsOutputPathOutputVariableName = 'logsOutputPath';
@@ -115,7 +117,7 @@ async function run() {
         const result = await UnityToolRunner.run(unityCmd, logFilePath);
 
         // Unity process has finished. Set task result.
-        if (result === 0) {
+        if (result === testSuccessNoTestsFailed || result === testSuccessTestsFailed) {
             const buildSuccessLog = tl.loc('testSuccess');
             console.log(buildSuccessLog);
             tl.setResult(tl.TaskResult.Succeeded, buildSuccessLog);
