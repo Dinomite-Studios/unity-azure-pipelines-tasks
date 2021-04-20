@@ -18,6 +18,7 @@ const customUnityEditorsPathInputVariableName = 'customUnityEditorsPath';
 const unityProjectPathInputVariableName = 'unityProjectPath';
 const testCategoryInputVariableName = 'testCategory';
 const testFilterInputVariableName = 'testFilter';
+const noGraphicsInputVariableName = 'noGraphics';
 const batchModeInputVariableName = 'batchMode';
 const acceptApiUpdateInputVariableName = 'acceptApiUpdate';
 const noPackageManagerInputVariableName = 'noPackageManager';
@@ -52,6 +53,7 @@ async function run() {
         const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(unityEditorsPath, unityVersion);
         const cleanBuild = tl.getVariable(cleanBuildInputVariableName);
         const batchMode = tl.getBoolInput(batchModeInputVariableName);
+        const noGraphics = tl.getBoolInput(noGraphicsInputVariableName);
         const acceptApiUpdate = tl.getBoolInput(acceptApiUpdateInputVariableName);
         const noPackageManager = tl.getBoolInput(noPackageManagerInputVariableName);
         const additionalCmdArgs = tl.getInput(additionalCmdArgsInputVariableName) || '';
@@ -80,8 +82,11 @@ async function run() {
             .arg('-projectPath').arg(projectPath)
             .arg('-testResults').arg(testResultsPathAndFileName)
             .arg('-logfile').arg(logFilePath)
-            .arg('-noGraphics')
             .arg('-forgetProjectPath');
+
+        if (noGraphics) {
+            unityCmd.arg('-noGraphics');
+        }
 
         if (batchMode) {
             unityCmd.arg('-batchmode');

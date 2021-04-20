@@ -2,6 +2,8 @@
 
 This extension adds CI/CD tooling for use in Azure Pipelines on Azure DevOps when working with [Unity](https://www.unity3d.com) projects.
 
+[![Discord](https://img.shields.io/discord/541963006649696256.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/RpHSpxkEP6)
+
 # Get Started
 
 [![Documentation](./images/docs-preview.png)](https://www.unitydevops.com)
@@ -17,5 +19,4 @@ Documentation for the extension can be found at [www.unitydevops.com](https://ww
 
 ## Contributions
 
-Found and fixed a bug or improved on something? Contributions are welcome! Please target your pull request
-against the `development` branch.
+Found and fixed a bug or improved on something? Contributions are welcome! Please target your pull request against the `development` branch or file an issue on [GitHub](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/issues) so someone else can try and implement or fix it. You are also welcome to join our [Discord](https://discord.gg/RpHSpxkEP6) for help and discussions.

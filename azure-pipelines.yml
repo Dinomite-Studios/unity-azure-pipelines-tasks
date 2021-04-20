@@ -1,113 +1,113 @@
 trigger:
-- main
-- development
+  - main
+  - development
 
 jobs:
   - job:
-    displayName: 'Build and Publish'
+    displayName: "Build and Publish"
     pool:
-      vmImage: 'ubuntu-latest'
+      vmImage: "ubuntu-latest"
 
     steps:
-    - task: NodeTool@0
-      inputs:
-        versionSpec: '12.x'
-      displayName: 'Install Node.js'
-    
-    - task: Npm@1
-      displayName: 'npm install UnityActivateLicenseV1'
-      inputs:
-        workingDir: Tasks/UnityActivateLicense/UnityActivateLicenseV1
-        verbose: false
-    
-    - task: Npm@1
-      displayName: 'npm run build UnityActivateLicenseV1'
-      inputs:
-        command: custom
-        workingDir: Tasks/UnityActivateLicense/UnityActivateLicenseV1
-        verbose: false
-        customCommand: 'run build'
-    
-    - task: Npm@1
-      displayName: 'npm install UnityBuildV1'
-      inputs:
-        workingDir: Tasks/UnityBuild/UnityBuildV1
-        verbose: false
-    
-    - task: Npm@1
-      displayName: 'npm run build UnityBuildV1'
-      inputs:
-        command: custom
-        workingDir: Tasks/UnityBuild/UnityBuildV1
-        verbose: false
-        customCommand: 'run build'
-    
-    - task: Npm@1
-      displayName: 'npm install UnityBuildV2'
-      inputs:
-        workingDir: Tasks/UnityBuild/UnityBuildV2
-        verbose: false
-    
-    - task: Npm@1
-      displayName: 'npm run build UnityBuildV2'
-      inputs:
-        command: custom
-        workingDir: Tasks/UnityBuild/UnityBuildV2
-        verbose: false
-        customCommand: 'run build'
-    
-    - task: Npm@1
-      displayName: 'npm install UnityBuildV3'
-      inputs:
-        workingDir: Tasks/UnityBuild/UnityBuildV3
-        verbose: false
-    
-    - task: Npm@1
-      displayName: 'npm run build UnityBuildV3'
-      inputs:
-        command: custom
-        workingDir: Tasks/UnityBuild/UnityBuildV3
-        verbose: false
-        customCommand: 'run build'
-    
-    - task: Npm@1
-      displayName: 'npm install UnityCMDV1'
-      inputs:
-        workingDir: Tasks/UnityCMD/UnityCMDV1
-        verbose: false
-    
-    - task: Npm@1
-      displayName: 'npm run build UnityCMDV1'
-      inputs:
-        command: custom
-        workingDir: Tasks/UnityCMD/UnityCMDV1
-        verbose: false
-        customCommand: 'run build'
-    
-    - task: Npm@1
-      displayName: 'npm install UnityGetProjectVersionV1'
-      inputs:
-        workingDir: Tasks/UnityGetProjectVersion/UnityGetProjectVersionV1
-        verbose: false
-    
-    - task: Npm@1
-      displayName: 'npm run build UnityGetProjectVersionV1'
-      inputs:
-        command: custom
-        workingDir: Tasks/UnityGetProjectVersion/UnityGetProjectVersionV1
-        verbose: false
-        customCommand: 'run build'
-    
-    - task: Npm@1
-      displayName: 'npm install UnityTestV1'
-      inputs:
-        workingDir: Tasks/UnityTest/UnityTestV1
-        verbose: false
-    
-    - task: Npm@1
-      displayName: 'npm run build UnityTestV1'
-      inputs:
-        command: custom
-        workingDir: Tasks/UnityTest/UnityTestV1
-        verbose: false
-        customCommand: 'run build'
+      - task: NodeTool@0
+        inputs:
+          versionSpec: "12.x"
+        displayName: "Install Node.js"
+
+      - task: Npm@1
+        displayName: "npm install UnityActivateLicenseV1"
+        inputs:
+          workingDir: Tasks/UnityActivateLicense/UnityActivateLicenseV1
+          verbose: false
+
+      - task: Npm@1
+        displayName: "npm run build UnityActivateLicenseV1"
+        inputs:
+          command: custom
+          workingDir: Tasks/UnityActivateLicense/UnityActivateLicenseV1
+          verbose: false
+          customCommand: "run build"
+
+      - task: Npm@1
+        displayName: "npm install UnityBuildV1"
+        inputs:
+          workingDir: Tasks/UnityBuild/UnityBuildV1
+          verbose: false
+
+      - task: Npm@1
+        displayName: "npm run build UnityBuildV1"
+        inputs:
+          command: custom
+          workingDir: Tasks/UnityBuild/UnityBuildV1
+          verbose: false
+          customCommand: "run build"
+
+      - task: Npm@1
+        displayName: "npm install UnityBuildV2"
+        inputs:
+          workingDir: Tasks/UnityBuild/UnityBuildV2
+          verbose: false
+
+      - task: Npm@1
+        displayName: "npm run build UnityBuildV2"
+        inputs:
+          command: custom
+          workingDir: Tasks/UnityBuild/UnityBuildV2
+          verbose: false
+          customCommand: "run build"
+
+      - task: Npm@1
+        displayName: "npm install UnityBuildV3"
+        inputs:
+          workingDir: Tasks/UnityBuild/UnityBuildV3
+          verbose: false
+
+      - task: Npm@1
+        displayName: "npm run build UnityBuildV3"
+        inputs:
+          command: custom
+          workingDir: Tasks/UnityBuild/UnityBuildV3
+          verbose: false
+          customCommand: "run build"
+
+      - task: Npm@1
+        displayName: "npm install UnityCMDV1"
+        inputs:
+          workingDir: Tasks/UnityCMD/UnityCMDV1
+          verbose: false
+
+      - task: Npm@1
+        displayName: "npm run build UnityCMDV1"
+        inputs:
+          command: custom
+          workingDir: Tasks/UnityCMD/UnityCMDV1
+          verbose: false
+          customCommand: "run build"
+
+      - task: Npm@1
+        displayName: "npm install UnityGetProjectVersionV1"
+        inputs:
+          workingDir: Tasks/UnityGetProjectVersion/UnityGetProjectVersionV1
+          verbose: false
+
+      - task: Npm@1
+        displayName: "npm run build UnityGetProjectVersionV1"
+        inputs:
+          command: custom
+          workingDir: Tasks/UnityGetProjectVersion/UnityGetProjectVersionV1
+          verbose: false
+          customCommand: "run build"
+
+      - task: Npm@1
+        displayName: "npm install UnityTestV1"
+        inputs:
+          workingDir: Tasks/UnityTest/UnityTestV1
+          verbose: false
+
+      - task: Npm@1
+        displayName: "npm run build UnityTestV1"
+        inputs:
+          command: custom
+          workingDir: Tasks/UnityTest/UnityTestV1
+          verbose: false
+          customCommand: "run build"
