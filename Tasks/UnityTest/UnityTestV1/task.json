@@ -11,8 +11,8 @@
   "author": "Dinomite Studios",
   "version": {
     "Major": "1",
-    "Minor": "3",
-    "Patch": "3"
+    "Minor": "4",
+    "Patch": "0"
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityTest/UnityTestV1/CHANGELOG.md)",
   "minimumAgentVersion": "1.95.0",
@@ -84,6 +84,14 @@
       "type": "boolean",
       "label": "Batch mode",
       "helpMarkDown": "(Optional) Indicate whether Unity executes in batch mode. Note: When testing Unity UI functionality, you cannot use batch mode.",
+      "groupName": "advancedGroup",
+      "defaultValue": true
+    },
+    {
+      "name": "noGraphics",
+      "type": "boolean",
+      "label": "No graphics",
+      "helpMarkDown": "(Optional) When set, Unity does not initialize the graphics device. You can then run automated workflows on machines that don't have a GPU.",
       "groupName": "advancedGroup",
       "defaultValue": true
     },
