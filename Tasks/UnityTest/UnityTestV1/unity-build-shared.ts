@@ -1,22 +1,25 @@
 import tl = require('azure-pipelines-task-lib/task');
-import { ProjectVersionService, UnityProjectVersion } from '@dinomite-studios/unity-project-version';
+import {
+    UnityVersionTools,
+    UnityVersionInfo
+} from '@dinomite-studios/unity-azure-pipelines-tasks-lib';
 
-export function getUnityEditorVersion(): UnityProjectVersion {
+export function getUnityEditorVersion(): UnityVersionInfo {
     const projectPath = tl.getPathInput('unityProjectPath') || '';
     console.log(`${tl.loc('projectPathInfo')} ${projectPath}`);
 
-    const unityVersion = ProjectVersionService.determineProjectVersionFromFile(projectPath);
-    if (unityVersion.error) {
-        const error = `${tl.loc('failGetUnityEditorVersion')} | ${unityVersion.error}`;
+    const unityVersionResult = UnityVersionTools.determineProjectVersionFromFile(projectPath);
+    if (unityVersionResult.error || !unityVersionResult.info) {
+        const error = `${tl.loc('failGetUnityEditorVersion')} | ${unityVersionResult.error}`;
         console.error(error);
         throw new Error(error);
     }
 
-    const successGetVersionLog = `${tl.loc('successGetUnityEditorVersion')} ${unityVersion.version}${unityVersion.revision ? `, revision=${unityVersion.revision}` : ''}, alpha=${unityVersion.isAlpha}, beta=${unityVersion.isBeta}`;
+    const successGetVersionLog = `${tl.loc('successGetUnityEditorVersion')} ${unityVersionResult.info!.version}${unityVersionResult.info!.revision ? `, revision=${unityVersionResult.info!.revision}` : ''}, alpha=${unityVersionResult.info!.isAlpha}, beta=${unityVersionResult.info!.isBeta}`;
     console.log(successGetVersionLog);
-    if (unityVersion.isAlpha || unityVersion.isBeta) {
+    if (unityVersionResult.info!.isAlpha || unityVersionResult.info!.isBeta) {
         console.warn(tl.loc('warningAlphaBetaVersion'));
     }
 
-    return unityVersion;
+    return unityVersionResult.info!;
 }

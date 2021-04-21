@@ -5,8 +5,8 @@ import { UnityTestMode } from './unity-test-mode.enum';
 import {
     UnityToolRunner,
     UnityPathTools,
-    UnityLogTools
-} from '@dinomite-studios/unity-utilities';
+    Utilities
+} from '@dinomite-studios/unity-azure-pipelines-tasks-lib';
 import { getUnityEditorVersion } from './unity-build-shared';
 
 tl.setResourcePath(path.join(__dirname, 'task.json'));
@@ -63,7 +63,7 @@ async function run() {
         const testResultsFileName = testMode === UnityTestMode.editMode ? editModeResultsFileName : playModeResultsFileName;
         const testResultsPathAndFileName = path.join(`${testResultsPath}`, `${testResultsFileName}`);
         const logFilesDirectory = path.join(repositoryLocalPath!, 'Logs');
-        const logFilePath = path.join(logFilesDirectory, `UnityTestLog_${UnityLogTools.getLogFileNameTimeStamp()}.log`);
+        const logFilePath = path.join(logFilesDirectory, `UnityTestLog_${Utilities.getLogFileNameTimeStamp()}.log`);
 
         // Set output variable values.
         tl.setVariable(logsOutputPathOutputVariableName, logFilesDirectory);
