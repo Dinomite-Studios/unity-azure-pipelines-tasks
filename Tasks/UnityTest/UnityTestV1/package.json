@@ -1,6 +1,6 @@
 {
   "name": "@dinomite-studios/unity-test-task",
-  "version": "1.4.10",
+  "version": "1.4.16",
   "description": "An Azure Pipelines task to test a Unity project and produce the results in NUnit compatible files.",
   "main": "unity-test.js",
   "scripts": {
@@ -17,7 +17,7 @@
   "license": "MIT",
   "dependencies": {
     "azure-pipelines-task-lib": "^3.1.2",
-    "@dinomite-studios/unity-azure-pipelines-tasks-lib": "^0.9.2",
+    "@dinomite-studios/unity-azure-pipelines-tasks-lib": "^1.0.0",
     "fs-extra": "^8.1.0"
   },
   "devDependencies": {

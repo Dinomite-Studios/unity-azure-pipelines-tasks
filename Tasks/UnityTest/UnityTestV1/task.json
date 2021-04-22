@@ -12,7 +12,7 @@
   "version": {
     "Major": "1",
     "Minor": "4",
-    "Patch": "10"
+    "Patch": "16"
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityTest/UnityTestV1/CHANGELOG.md)",
   "minimumAgentVersion": "1.95.0",
@@ -64,6 +64,14 @@
       "defaultValue": "",
       "required": false,
       "helpMarkDown": "(Optional) Enter the directory path to the Unity project. If no value is entered, the root of the repository will be used."
+    },
+    {
+      "name": "failOnTestFail",
+      "type": "boolean",
+      "label": "Fails when at least one test has failed",
+      "helpMarkDown": "(Optional) When set, the pipeline step will fail when at least one of the tests executed has failed.",
+      "groupName": "advancedGroup",
+      "defaultValue": true
     },
     {
       "name": "testCategory",
@@ -136,6 +144,10 @@
     {
       "name": "logsOutputPath",
       "description": "Path to the Unity editor log files generated."
+    },
+    {
+      "name": "testsFailed",
+      "description": "\"true\", if at least one test has failed. \"false\" otherwise."
     }
   ],
   "execution": {
