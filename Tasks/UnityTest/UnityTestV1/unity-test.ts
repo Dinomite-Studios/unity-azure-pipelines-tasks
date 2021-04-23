@@ -5,8 +5,8 @@ import { UnityTestMode } from './unity-test-mode.enum';
 import {
     UnityToolRunner,
     UnityPathTools,
-    UnityLogTools
-} from '@dinomite-studios/unity-utilities';
+    Utilities
+} from '@dinomite-studios/unity-azure-pipelines-tasks-lib';
 import { getUnityEditorVersion } from './unity-build-shared';
 
 tl.setResourcePath(path.join(__dirname, 'task.json'));
@@ -18,6 +18,7 @@ const customUnityEditorsPathInputVariableName = 'customUnityEditorsPath';
 const unityProjectPathInputVariableName = 'unityProjectPath';
 const testCategoryInputVariableName = 'testCategory';
 const testFilterInputVariableName = 'testFilter';
+const failOnTestFailInputVariableName = 'failOnTestFail';
 const noGraphicsInputVariableName = 'noGraphics';
 const batchModeInputVariableName = 'batchMode';
 const acceptApiUpdateInputVariableName = 'acceptApiUpdate';
@@ -36,6 +37,7 @@ const testSuccessTestsFailed = 2;
 // Output variables.
 const logsOutputPathOutputVariableName = 'logsOutputPath';
 const testResultsOutputPathAndFileNameOutputVariableName = 'testResultsOutputPathAndFileName';
+const testsFailedOutputVariableName = 'testsFailed';
 
 /**
  * Main task runner. Executes the task and sets the result status for the task.
@@ -55,6 +57,7 @@ async function run() {
         const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(unityEditorsPath, unityVersion);
         const cleanBuild = tl.getVariable(cleanBuildInputVariableName);
         const batchMode = tl.getBoolInput(batchModeInputVariableName);
+        const failOnTestFail = tl.getBoolInput(failOnTestFailInputVariableName);
         const noGraphics = tl.getBoolInput(noGraphicsInputVariableName);
         const acceptApiUpdate = tl.getBoolInput(acceptApiUpdateInputVariableName);
         const noPackageManager = tl.getBoolInput(noPackageManagerInputVariableName);
@@ -63,7 +66,7 @@ async function run() {
         const testResultsFileName = testMode === UnityTestMode.editMode ? editModeResultsFileName : playModeResultsFileName;
         const testResultsPathAndFileName = path.join(`${testResultsPath}`, `${testResultsFileName}`);
         const logFilesDirectory = path.join(repositoryLocalPath!, 'Logs');
-        const logFilePath = path.join(logFilesDirectory, `UnityTestLog_${UnityLogTools.getLogFileNameTimeStamp()}.log`);
+        const logFilePath = path.join(logFilesDirectory, `UnityTestLog_${Utilities.getLogFileNameTimeStamp()}.log`);
 
         // Set output variable values.
         tl.setVariable(logsOutputPathOutputVariableName, logFilesDirectory);
@@ -114,15 +117,16 @@ async function run() {
             unityCmd.line(additionalCmdArgs);
         }
 
-        const result = await UnityToolRunner.run(unityCmd, logFilePath);
+        const exitCode = await UnityToolRunner.run(unityCmd, logFilePath);
 
         // Unity process has finished. Set task result.
-        if (result === testSuccessNoTestsFailed || result === testSuccessTestsFailed) {
+        tl.setVariable(testsFailedOutputVariableName, exitCode === testSuccessTestsFailed ? 'true' : 'false');
+        if (exitCode === testSuccessNoTestsFailed || (exitCode === testSuccessTestsFailed && !failOnTestFail)) {
             const buildSuccessLog = tl.loc('testSuccess');
             console.log(buildSuccessLog);
             tl.setResult(tl.TaskResult.Succeeded, buildSuccessLog);
         } else {
-            const buildFailLog = `${tl.loc('testFailed')} ${result}`;
+            const buildFailLog = `${tl.loc('testFailed')} ${exitCode}`;
             console.log(buildFailLog);
             tl.setResult(tl.TaskResult.Failed, buildFailLog);
         }
