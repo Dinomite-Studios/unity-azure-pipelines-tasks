@@ -4,7 +4,7 @@ export class UnityBuildScriptHelper {
      * Generates a C# script to start a Unity build with the specified options.
      * @param config Build configuration values.
      */
-    public static getUnityEditorBuildScriptContent(outputPath: string, outputFileName: string): string {
+    public static getUnityEditorBuildScriptContent(outputPath: string, outputFileName: string, buildAndroidAppBundle: boolean): string {
 
         // Finally put it all together.
         return `
@@ -85,7 +85,7 @@ export class UnityBuildScriptHelper {
                 switch (EditorUserBuildSettings.activeBuildTarget)
                 {
                     case BuildTarget.Android:
-                        return string.Format("{0}.apk", outputFileName);
+                        return buildAndroidAppBundle ? string.Format("{0}.aab", outputFileName) : string.Format("{0}.apk", outputFileName);
                     case BuildTarget.StandaloneWindows64:
                     case BuildTarget.StandaloneWindows:
                         return string.Format("{0}.exe", outputFileName);
