@@ -20,6 +20,7 @@ const unityEditorsPathModeInputVariableName = 'unityEditorsPathMode';
 const customUnityEditorsPathInputVariableName = 'customUnityEditorsPath';
 const localPathInputVariableName = 'Build.Repository.LocalPath';
 const cleanBuildInputVariableName = 'Build.Repository.Clean';
+const buildAndroidAppBundle = 'buildAndroidAppBundle';
 
 // Output variables.
 const logsOutputPathOutputVariableName = 'logsOutputPath';
@@ -43,6 +44,7 @@ async function run() {
         const repositoryLocalPath = tl.getVariable(localPathInputVariableName)!;
         const logFilesDirectory = path.join(repositoryLocalPath!, 'Logs');
         const logFilePath = path.join(logFilesDirectory, `UnityBuildLog_${UnityLogTools.getLogFileNameTimeStamp()}.log`);
+        const buildAppBundle = tl.getInput(buildAndroidAppBundle) || false;
 
         // Set output variable values.
         tl.setVariable(logsOutputPathOutputVariableName, logFilesDirectory);
@@ -81,7 +83,7 @@ async function run() {
             tl.mkdirP(projectAssetsEditorFolderPath);
             tl.cd(projectAssetsEditorFolderPath);
             tl.writeFile('AzureDevOps.cs', isDefault
-                ? UnityBuildScriptHelper.getUnityEditorBuildScriptContent(outputPath, outputFileName)
+                ? UnityBuildScriptHelper.getUnityEditorBuildScriptContent(outputPath, outputFileName, buildAppBundle)
                 : tl.getInput('inlineBuildScript')!);
             tl.cd(projectPath);
 
