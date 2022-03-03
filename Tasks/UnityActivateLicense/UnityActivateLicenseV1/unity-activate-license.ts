@@ -16,6 +16,7 @@ const serialInputVariableName = 'serial';
 const unityEditorsPathModeInputVariableName = 'unityEditorsPathMode';
 const customUnityEditorsPathInputVariableName = 'customUnityEditorsPath';
 const localPathInputVariableName = 'Build.Repository.LocalPath';
+const unityProjectPathInputVariableName = 'unityProjectPath';
 
 /**
  * Main task runner. Executes the task and sets the result status for the task.
@@ -26,6 +27,7 @@ async function run() {
         const username = tl.getInput(usernameInputVariableName, true)!;
         const password = tl.getInput(passwordInputVariableName, true)!;
         const serial = tl.getInput(serialInputVariableName, true)!;
+        const projectPath = tl.getPathInput(unityProjectPathInputVariableName) || '';
         const unityVersion = getUnityEditorVersion();
         const unityEditorsPath = UnityPathTools.getUnityEditorsPath(
             tl.getInput(unityEditorsPathModeInputVariableName, true)!,
@@ -45,6 +47,7 @@ async function run() {
             .arg('-username').arg(username)
             .arg('-password').arg(password)
             .arg('-serial ').arg(serial)
+            .arg('-projectPath').arg(projectPath)
             .arg('-logfile').arg(logFilePath);
         const result = await UnityToolRunner.run(unityCmd, logFilePath);
 
