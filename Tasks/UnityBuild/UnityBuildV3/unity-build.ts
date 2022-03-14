@@ -87,10 +87,11 @@ async function run() {
 
             // Tell Unity which method to execute for build.
             unityCmd.arg('-executeMethod').arg(isDefault ? 'AzureDevOps.PerformBuild' : tl.getInput('scriptExecuteMethod')!);
-        } else {
-            // Must be build script type "existing".
+        } else if (buildScriptType === 'existing') {
             // If the user already has an existing build script we only need the method to execute.
-            unityCmd.arg('-executeMethod').arg(tl.getInput('scriptExecuteMethod')!);
+            unityCmd.arg('-executeMethod').arg(tl.getInput('scriptExecuteMethod')!).arg('-quit');
+        } else {
+            throw `Unsupported build script type ${buildScriptType}`
         }
 
         const result = await UnityToolRunner.run(unityCmd, logFilePath);
