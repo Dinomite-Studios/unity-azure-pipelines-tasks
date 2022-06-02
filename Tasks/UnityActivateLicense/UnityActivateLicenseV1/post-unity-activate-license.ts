@@ -10,6 +10,9 @@ import {
 tl.setResourcePath(path.join(__dirname, 'task.json'));
 
 // Input variables.
+const usernameInputVariableName = 'username';
+const passwordInputVariableName = 'password';
+const serialInputVariableName = 'serial';
 const unityEditorsPathModeInputVariableName = 'unityEditorsPathMode';
 const customUnityEditorsPathInputVariableName = 'customUnityEditorsPath';
 const localPathInputVariableName = 'Build.Repository.LocalPath';
@@ -19,6 +22,9 @@ const localPathInputVariableName = 'Build.Repository.LocalPath';
  */
 async function run() {
     try {
+        const username = tl.getInput(usernameInputVariableName, true)!;
+        const password = tl.getInput(passwordInputVariableName, true)!;
+        const serial = tl.getInput(serialInputVariableName, true)!;
         const unityVersion = getUnityEditorVersion();
         const unityEditorsPath = UnityPathTools.getUnityEditorsPath(
             tl.getInput(unityEditorsPathModeInputVariableName, true)!,
@@ -34,6 +40,10 @@ async function run() {
         const unityCmd = tl.tool(unityExecutablePath)
             .arg('-batchmode')
             .arg('-quit')
+            .arg('-nographics')
+            .arg('-username').arg(username)
+            .arg('-password').arg(password)
+            .arg('-serial ').arg(serial)
             .arg('-returnlicense')
             .arg('-logfile').arg(logFilePath);
         const result = await UnityToolRunner.run(unityCmd, logFilePath);
