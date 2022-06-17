@@ -20,11 +20,11 @@
     "azure-pipelines-task-lib": "^2.9.3",
     "fs-extra": "^8.1.0",
     "@dinomite-studios/unity-project-version": "^1.1.1",
-    "@dinomite-studios/unity-utilities": "1.2.6"
+    "@dinomite-studios/unity-utilities": "1.2.6",
+    "@types/node": "^13.13.0",
+    "@types/q": "^1.5.2"
   },
   "devDependencies": {
-    "@types/node": "^13.13.0",
-    "@types/q": "^1.5.2",
     "typescript": "^3.9.7"
   }
 }
