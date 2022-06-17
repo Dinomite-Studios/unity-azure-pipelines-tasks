@@ -83,7 +83,7 @@ async function run() {
             tl.setResult(tl.TaskResult.Failed, e.message);
         } else {
             console.error(e);
-            tl.setResult(tl.TaskResult.Failed, e);
+            tl.setResult(tl.TaskResult.Failed, `${e}`);
         }
     }
 }
