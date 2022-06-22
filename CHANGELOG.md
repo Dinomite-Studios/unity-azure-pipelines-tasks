@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.9.0]
 
+### Changed
+
+- Updated UnityActivateLicense Task to v1.1.0 [Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/main/Tasks/UnityActivateLicense/UnityActivateLicenseV1/CHANGELOG.md)
+- Updated UnityBuild Task to v3.2.0 [Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/main/Tasks/UnityBuild/UnityBuildV3/CHANGELOG.md)
+
 ### Removed
 
 - Legacy Unity Build Task V1 is no longer shipped with the extension. Please use Unity Build V3

@@ -5,8 +5,8 @@ import { UnityBuildScriptHelper } from './unity-build-script.helper';
 import {
     UnityToolRunner,
     UnityPathTools,
-    UnityLogTools
-} from '@dinomite-studios/unity-utilities';
+    Utilities
+} from '@dinomite-studios/unity-azure-pipelines-tasks-lib';
 import { getUnityEditorVersion } from './unity-build-shared';
 
 tl.setResourcePath(path.join(__dirname, 'task.json'));
@@ -38,11 +38,11 @@ async function run() {
             tl.getInput(unityEditorsPathModeInputVariableName, true)!,
             tl.getInput(customUnityEditorsPathInputVariableName));
         const unityVersion = getUnityEditorVersion();
-        const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(unityEditorsPath, unityVersion);
+        const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(unityEditorsPath, unityVersion.info!);
         const cleanBuild = tl.getVariable(cleanBuildInputVariableName);
         const repositoryLocalPath = tl.getVariable(localPathInputVariableName)!;
         const logFilesDirectory = path.join(repositoryLocalPath!, 'Logs');
-        const logFilePath = path.join(logFilesDirectory, `UnityBuildLog_${UnityLogTools.getLogFileNameTimeStamp()}.log`);
+        const logFilePath = path.join(logFilesDirectory, `UnityBuildLog_${Utilities.getLogFileNameTimeStamp()}.log`);
 
         // Set output variable values.
         tl.setVariable(logsOutputPathOutputVariableName, logFilesDirectory);
