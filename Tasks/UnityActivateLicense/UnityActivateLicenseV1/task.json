@@ -11,8 +11,8 @@
   "author": "Dinomite Studios",
   "version": {
     "Major": "1",
-    "Minor": "0",
-    "Patch": "43"
+    "Minor": "1",
+    "Patch": "0"
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityActivateLicense/UnityActivateLicenseV1/CHANGELOG.md)",
   "minimumAgentVersion": "1.95.0",
