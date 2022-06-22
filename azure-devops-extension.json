@@ -58,12 +58,6 @@
             "addressable": true
         },
         {
-            "path": "Tasks/UnityBuild/UnityBuildV1"
-        },
-        {
-            "path": "Tasks/UnityBuild/UnityBuildV2"
-        },
-        {
             "path": "Tasks/UnityBuild/UnityBuildV3"
         },
         {
