@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Fixed activation task stuck endlessly
 
+### Changed
+
+- Use new shared library for common task features
+
 ## [1.0.42]
 
 Rerelease to fix broken build from previous release.
