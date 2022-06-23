@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [3.2.0]
 
+### Fixed
+
+- Unexpected token build fail issue (https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/issues/199)
+
 ### Changed
 
 - Use new shared library for common task features

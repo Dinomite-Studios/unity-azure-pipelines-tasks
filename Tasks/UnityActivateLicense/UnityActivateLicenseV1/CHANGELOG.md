@@ -9,7 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Fixed activation task stuck endlessly
+- UnityActivateLicenseV1 hangs at end of Unity batch mode (https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/issues/200)
+- Post-job: UnityActivateLicenseTask (https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/issues/194)
 
 ### Changed
 
