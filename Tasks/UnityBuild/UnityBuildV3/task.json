@@ -15,7 +15,7 @@
     "Minor": "2",
     "Patch": "0"
   },
-  "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityBuild/UnityBuildV2/CHANGELOG.md)",
+  "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityBuild/UnityBuildV3/CHANGELOG.md)",
   "minimumAgentVersion": "2.144.0",
   "instanceNameFormat": "Unity Build $(buildTarget)",
   "groups": [],
