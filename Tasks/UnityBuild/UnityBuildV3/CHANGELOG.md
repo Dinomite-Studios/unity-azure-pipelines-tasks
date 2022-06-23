@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Upgrade task to Node 10
 - Updated minimum required agent version to `2.144.0`
 - Use new shared library `@dinomite-studios/unity-azure-pipelines-tasks-lib` for common task features
 

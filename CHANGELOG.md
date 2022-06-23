@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Upgrade all tasks to Node 10
 - Updated minimum required agent version to `2.144.0`
 - Updated UnityTest Task to v1.5.0 [Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/main/Tasks/UnityTest/UnityTestV1/CHANGELOG.md)
 - Updated UnityGetProjectVersion Task to v1.1.0 [Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/main/Tasks/UnityGetProjectVersion/UnityGetProjectVersionV1/CHANGELOG.md)
