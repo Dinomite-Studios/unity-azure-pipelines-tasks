@@ -11,11 +11,11 @@
   "author": "Dinomite Studios",
   "version": {
     "Major": "1",
-    "Minor": "0",
-    "Patch": "32"
+    "Minor": "1",
+    "Patch": "0"
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityGetProjectVersion/UnityGetProjectVersionV1/CHANGELOG.md)",
-  "minimumAgentVersion": "1.95.0",
+  "minimumAgentVersion": "2.144.0",
   "instanceNameFormat": "Unity Get Project Version",
   "inputs": [
     {
@@ -38,7 +38,7 @@
     }
   ],
   "execution": {
-    "Node": {
+    "Node10": {
       "target": "unity-get-project-version.js",
       "argumentFormat": ""
     }

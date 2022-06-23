@@ -29,34 +29,6 @@ jobs:
           customCommand: "run build"
 
       - task: Npm@1
-        displayName: "npm install UnityBuildV1"
-        inputs:
-          workingDir: Tasks/UnityBuild/UnityBuildV1
-          verbose: false
-
-      - task: Npm@1
-        displayName: "npm run build UnityBuildV1"
-        inputs:
-          command: custom
-          workingDir: Tasks/UnityBuild/UnityBuildV1
-          verbose: false
-          customCommand: "run build"
-
-      - task: Npm@1
-        displayName: "npm install UnityBuildV2"
-        inputs:
-          workingDir: Tasks/UnityBuild/UnityBuildV2
-          verbose: false
-
-      - task: Npm@1
-        displayName: "npm run build UnityBuildV2"
-        inputs:
-          command: custom
-          workingDir: Tasks/UnityBuild/UnityBuildV2
-          verbose: false
-          customCommand: "run build"
-
-      - task: Npm@1
         displayName: "npm install UnityBuildV3"
         inputs:
           workingDir: Tasks/UnityBuild/UnityBuildV3
