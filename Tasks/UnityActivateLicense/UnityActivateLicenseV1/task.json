@@ -15,7 +15,7 @@
     "Patch": "0"
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityActivateLicense/UnityActivateLicenseV1/CHANGELOG.md)",
-  "minimumAgentVersion": "1.95.0",
+  "minimumAgentVersion": "2.144.0",
   "instanceNameFormat": "Unity Activate License",
   "inputs": [
     {
@@ -79,13 +79,13 @@
     }
   ],
   "execution": {
-    "Node": {
+    "Node10": {
       "target": "unity-activate-license.js",
       "argumentFormat": ""
     }
   },
   "postjobexecution": {
-    "Node": {
+    "Node10": {
       "target": "post-unity-activate-license.js",
       "argumentFormat": ""
     }

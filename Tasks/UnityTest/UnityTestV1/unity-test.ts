@@ -54,7 +54,7 @@ async function run() {
             tl.getInput(unityEditorsPathModeInputVariableName, true)!,
             tl.getInput(customUnityEditorsPathInputVariableName));
         const unityVersion = getUnityEditorVersion();
-        const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(unityEditorsPath, unityVersion);
+        const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(unityEditorsPath, unityVersion.info!);
         const cleanBuild = tl.getVariable(cleanBuildInputVariableName);
         const batchMode = tl.getBoolInput(batchModeInputVariableName);
         const failOnTestFail = tl.getBoolInput(failOnTestFailInputVariableName);

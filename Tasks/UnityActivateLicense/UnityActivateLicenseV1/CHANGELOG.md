@@ -9,12 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- UnityActivateLicenseV1 hangs at end of Unity batch mode (https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/issues/200)
-- Post-job: UnityActivateLicenseTask (https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/issues/194)
+- UnityActivateLicenseV1 hangs at end of Unity batch mode [GitHub Issue](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/issues/200)
+- Post-job: UnityActivateLicenseTask [GitHub Issue](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/issues/194)
+- This task uses Node 6 execution handler, which will be deprecated soon [GitHub Issue](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/issues/190)
 
 ### Changed
 
-- Use new shared library for common task features
+- Updated minimum required agent version to `2.144.0`
+- Use new shared library `@dinomite-studios/unity-azure-pipelines-tasks-lib` for common task features
 
 ## [1.0.42]
 
