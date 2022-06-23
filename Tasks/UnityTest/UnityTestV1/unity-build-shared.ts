@@ -1,7 +1,7 @@
 import tl = require('azure-pipelines-task-lib/task');
 import { UnityVersionInfoResult, UnityVersionTools } from '@dinomite-studios/unity-azure-pipelines-tasks-lib/';
 
-export function getUnityEditorVersion(): UnityVersionInfoResult  {
+export function getUnityEditorVersion(): UnityVersionInfoResult {
     const projectPath = tl.getPathInput('unityProjectPath') || '';
     console.log(`${tl.loc('projectPathInfo')} ${projectPath}`);
 
