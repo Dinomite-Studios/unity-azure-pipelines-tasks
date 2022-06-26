@@ -26,7 +26,7 @@ async function run() {
         // Setup and read inputs.
         const username = tl.getInput(usernameInputVariableName, true)!;
         const password = tl.getInput(passwordInputVariableName, true)!;
-        const serial = tl.getInput(serialInputVariableName, true)!;
+        const serial = tl.getInput(serialInputVariableName) || '';
         const projectPath = tl.getPathInput(unityProjectPathInputVariableName) || '';
         const unityVersion = getUnityEditorVersion();
         const unityEditorsPath = UnityPathTools.getUnityEditorsPath(
@@ -46,9 +46,13 @@ async function run() {
             .arg('-nographics')
             .arg('-username').arg(username)
             .arg('-password').arg(password)
-            .arg('-serial ').arg(serial)
             .arg('-projectPath').arg(projectPath)
             .arg('-logfile').arg(logFilePath);
+        
+        if (serial !== '') {
+            unityCmd.arg('-serial ').arg(serial);
+        }
+        
         const result = await UnityToolRunner.run(unityCmd, logFilePath);
 
         // Unity process has finished. Set task result.

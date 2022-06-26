@@ -12,7 +12,7 @@
   "version": {
     "Major": "1",
     "Minor": "1",
-    "Patch": "0"
+    "Patch": "1"
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityActivateLicense/UnityActivateLicenseV1/CHANGELOG.md)",
   "minimumAgentVersion": "2.144.0",
@@ -39,8 +39,8 @@
       "type": "string",
       "label": "Serial",
       "defaultValue": "",
-      "required": true,
-      "helpMarkDown": "Serial key used to activate the Unity Editor. The serial key must be assigned to the user defined by username and password above."
+      "required": false,
+      "helpMarkDown": "(Optional) Serial key used to activate the Unity Editor. The serial key must be assigned to the user defined by username and password above. If not set will try to activate Personal license with username and password"
     },
     {
       "name": "unityEditorsPathMode",
