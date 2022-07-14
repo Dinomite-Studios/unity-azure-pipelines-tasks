@@ -16,6 +16,7 @@ const outputFileNameInputVariableName = 'outputFileName';
 const buildTargetInputVariableName = 'buildTarget';
 const outputPathInputVariableName = 'outputPath';
 const unityProjectPathInputVariableName = 'unityProjectPath';
+const unityVersionInputVariableName = 'unityVersion';
 const unityEditorsPathModeInputVariableName = 'unityEditorsPathMode';
 const customUnityEditorsPathInputVariableName = 'customUnityEditorsPath';
 const localPathInputVariableName = 'Build.Repository.LocalPath';
@@ -37,7 +38,7 @@ async function run() {
         const unityEditorsPath = UnityPathTools.getUnityEditorsPath(
             tl.getInput(unityEditorsPathModeInputVariableName, true)!,
             tl.getInput(customUnityEditorsPathInputVariableName));
-        const unityVersion = getUnityEditorVersion();
+        const unityVersion = tl.getInput(unityVersionInputVariableName) || getUnityEditorVersion();
         const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(unityEditorsPath, unityVersion.info!);
         const cleanBuild = tl.getVariable(cleanBuildInputVariableName);
         const repositoryLocalPath = tl.getVariable(localPathInputVariableName)!;

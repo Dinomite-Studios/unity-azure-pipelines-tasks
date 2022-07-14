@@ -17,6 +17,7 @@ const unityEditorsPathModeInputVariableName = 'unityEditorsPathMode';
 const customUnityEditorsPathInputVariableName = 'customUnityEditorsPath';
 const localPathInputVariableName = 'Build.Repository.LocalPath';
 const unityProjectPathInputVariableName = 'unityProjectPath';
+const unityVersionInputVariableName = 'unityVersion';
 
 /**
  * Main task runner. Executes the task and sets the result status for the task.
@@ -28,7 +29,7 @@ async function run() {
         const password = tl.getInput(passwordInputVariableName, true)!;
         const serial = tl.getInput(serialInputVariableName, true)!;
         const projectPath = tl.getPathInput(unityProjectPathInputVariableName) || '';
-        const unityVersion = getUnityEditorVersion();
+        const unityVersion = tl.getInput(unityVersionInputVariableName) || getUnityEditorVersion();
         const unityEditorsPath = UnityPathTools.getUnityEditorsPath(
             tl.getInput(unityEditorsPathModeInputVariableName, true)!,
             tl.getInput(customUnityEditorsPathInputVariableName));

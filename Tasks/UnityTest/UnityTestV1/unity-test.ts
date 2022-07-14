@@ -16,6 +16,7 @@ const testModeInputVariableName = 'testMode';
 const unityEditorsPathModeInputVariableName = 'unityEditorsPathMode';
 const customUnityEditorsPathInputVariableName = 'customUnityEditorsPath';
 const unityProjectPathInputVariableName = 'unityProjectPath';
+const unityVersionInputVariableName = 'unityVersion';
 const testCategoryInputVariableName = 'testCategory';
 const testFilterInputVariableName = 'testFilter';
 const failOnTestFailInputVariableName = 'failOnTestFail';
@@ -53,7 +54,7 @@ async function run() {
         const unityEditorsPath = UnityPathTools.getUnityEditorsPath(
             tl.getInput(unityEditorsPathModeInputVariableName, true)!,
             tl.getInput(customUnityEditorsPathInputVariableName));
-        const unityVersion = getUnityEditorVersion();
+        const unityVersion = tl.getInput(unityVersionInputVariableName) || getUnityEditorVersion();
         const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(unityEditorsPath, unityVersion.info!);
         const cleanBuild = tl.getVariable(cleanBuildInputVariableName);
         const batchMode = tl.getBoolInput(batchModeInputVariableName);

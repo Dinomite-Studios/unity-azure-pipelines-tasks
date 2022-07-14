@@ -11,6 +11,7 @@ tl.setResourcePath(path.join(__dirname, 'task.json'));
 
 // Input variables.
 const unityProjectPathInputVariableName = 'unityProjectPath';
+const unityVersionInputVariableName = 'unityVersion';
 const unityEditorsPathModeInputVariableName = 'unityEditorsPathMode';
 const customUnityEditorsPathInputVariableName = 'customUnityEditorsPath';
 const cmdArgsInputVariableName = 'cmdArgs';
@@ -29,7 +30,7 @@ async function run() {
         const unityEditorsPath = UnityPathTools.getUnityEditorsPath(
             tl.getInput(unityEditorsPathModeInputVariableName, true)!,
             tl.getInput(customUnityEditorsPathInputVariableName));
-        const unityVersion = getUnityEditorVersion();
+        const unityVersion = tl.getInput(unityVersionInputVariableName) || getUnityEditorVersion();
         const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(unityEditorsPath, unityVersion.info!);
         const repositoryLocalPath = tl.getVariable(localPathInputVariableName)!;
         const logFilesDirectory = path.join(repositoryLocalPath!, 'Logs');
