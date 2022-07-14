@@ -77,6 +77,14 @@
       "helpMarkDown": "(Optional) Enter the directory path to the Unity project. If no value is entered, the root of the repository will be used."
     },
     {
+      "name": "unityVersion",
+      "type": "string",
+      "label": "Unity version",
+      "defaultValue": "",
+      "required": false,
+      "helpMarkDown": "(Optional) Enter the custom version of Unity. If no value is entered, it will be resolved automatically."
+    },
+    {
       "name": "buildScriptType",
       "type": "radio",
       "label": "Build script type",
