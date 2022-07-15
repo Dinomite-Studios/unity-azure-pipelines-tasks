@@ -4,6 +4,7 @@ import { getUnityEditorVersion } from './unity-build-shared';
 import {
     UnityToolRunner,
     UnityPathTools,
+    UnityVersionInfoResult,
     Utilities
 } from '@dinomite-studios/unity-azure-pipelines-tasks-lib';
 
@@ -29,7 +30,7 @@ async function run() {
         const password = tl.getInput(passwordInputVariableName, true)!;
         const serial = tl.getInput(serialInputVariableName, true)!;
         const projectPath = tl.getPathInput(unityProjectPathInputVariableName) || '';
-        const unityVersion = tl.getInput(unityVersionInputVariableName) || getUnityEditorVersion();
+        const unityVersion = { info: { version: tl.getInput(unityVersionInputVariableName) } } as UnityVersionInfoResult || getUnityEditorVersion();
         const unityEditorsPath = UnityPathTools.getUnityEditorsPath(
             tl.getInput(unityEditorsPathModeInputVariableName, true)!,
             tl.getInput(customUnityEditorsPathInputVariableName));
