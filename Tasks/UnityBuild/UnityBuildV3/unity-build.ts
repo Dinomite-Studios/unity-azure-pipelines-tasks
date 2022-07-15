@@ -5,6 +5,7 @@ import { UnityBuildScriptHelper } from './unity-build-script.helper';
 import {
     UnityToolRunner,
     UnityPathTools,
+    UnityVersionInfoResult,
     Utilities
 } from '@dinomite-studios/unity-azure-pipelines-tasks-lib';
 import { getUnityEditorVersion } from './unity-build-shared';
@@ -38,7 +39,7 @@ async function run() {
         const unityEditorsPath = UnityPathTools.getUnityEditorsPath(
             tl.getInput(unityEditorsPathModeInputVariableName, true)!,
             tl.getInput(customUnityEditorsPathInputVariableName));
-        const unityVersion = tl.getInput(unityVersionInputVariableName) || getUnityEditorVersion();
+        const unityVersion = { info: { version: tl.getInput(unityVersionInputVariableName) } } as UnityVersionInfoResult || getUnityEditorVersion();
         const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(unityEditorsPath, unityVersion.info!);
         const cleanBuild = tl.getVariable(cleanBuildInputVariableName);
         const repositoryLocalPath = tl.getVariable(localPathInputVariableName)!;
