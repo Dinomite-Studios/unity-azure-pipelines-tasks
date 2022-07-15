@@ -1,0 +1,58 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, development ]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 12
+
+      - name: npm install UnityActivateLicenseV1
+        run: npm install
+        working-directory: Tasks/UnityActivateLicense/UnityActivateLicenseV1
+
+      - name: npm run build UnityActivateLicenseV1
+        run: npm run build
+        working-directory: Tasks/UnityActivateLicense/UnityActivateLicenseV1
+
+      - name: npm install UnityBuildV3
+        run: npm install
+        working-directory: Tasks/UnityBuild/UnityBuildV3
+
+      - name: npm run build UnityBuildV3
+        run: npm run build
+        working-directory: Tasks/UnityBuild/UnityBuildV3
+
+      - name: npm install UnityCMDV1
+        run: npm install
+        working-directory: Tasks/UnityCMD/UnityCMDV1
+
+      - name: npm run build UnityCMDV1
+        run: npm run build
+        working-directory: Tasks/UnityCMD/UnityCMDV1
+
+      - name: npm install UnityGetProjectVersionV1
+        run: npm install
+        working-directory: Tasks/UnityGetProjectVersion/UnityGetProjectVersionV1
+
+      - name: npm run build UnityGetProjectVersionV1
+        run: npm run build
+        working-directory: Tasks/UnityGetProjectVersion/UnityGetProjectVersionV1
+
+      - name: npm install UnityTestV1
+        run: npm install
+        working-directory: Tasks/UnityTest/UnityTestV1
+
+      - name: npm run build UnityTestV1
+        run: npm run build
+        working-directory: Tasks/UnityTest/UnityTestV1
