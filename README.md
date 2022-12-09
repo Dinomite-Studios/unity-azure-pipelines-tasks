@@ -14,7 +14,7 @@ Documentation for the extension can be found at [www.unitydevops.com](https://ww
 
 | Branch      | Description                                                                                                                                                                        | Status                                                                                                                                                     |
 | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| main        | The main branch is build and deployed to the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=DinomiteStudios.64e90d50-a9c0-11e8-a356-d3eab7857116) | ![Build Status](https://dev.azure.com/dinomite/Unity%20Tools%20for%20Azure%20DevOps/_apis/build/status/unity-azure-pipelines-tasks?branchName=main)        |
+| main        | The main branch is build and deployed to the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=DinomiteStudios.64e90d50-a9c0-11e8-a356-d3eab7857116) | ![Build Status](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/actions/workflows/ci.yml/badge.svg)        |
 
 ## Contributions
 
