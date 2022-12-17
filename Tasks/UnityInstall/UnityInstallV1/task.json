@@ -48,6 +48,62 @@
       "required": true,
       "helpMarkDown": "The Unity editor version revision to install, e.g. value: `c7b5465681fb`.",
       "visibleRule": "versionSelectionMode == specify"
+    },
+    {
+      "name": "installAndroidModule",
+      "type": "boolean",
+      "label": "Android Build Support",
+      "defaultValue": false,
+      "required": false,
+      "helpMarkDown": "(Optional) Install the Android build module."
+    },
+    {
+      "name": "installIOSModule",
+      "type": "boolean",
+      "label": "iOS Build Support",
+      "defaultValue": false,
+      "required": false,
+      "helpMarkDown": "(Optional) Install the iOS build module."
+    },
+    {
+      "name": "installTVOSModule",
+      "type": "boolean",
+      "label": "tvOS Build Support",
+      "defaultValue": false,
+      "required": false,
+      "helpMarkDown": "(Optional) Install the tvOS build module."
+    },
+    {
+      "name": "installMacMonoModule",
+      "type": "boolean",
+      "label": "Mac Build Support (Mono)",
+      "defaultValue": false,
+      "required": false,
+      "helpMarkDown": "(Optional) Install the Mac (Mono) build module."
+    },
+    {
+      "name": "installWindowsIL2CPPModule",
+      "type": "boolean",
+      "label": "Windows Build Support (IL2CPP)",
+      "defaultValue": false,
+      "required": false,
+      "helpMarkDown": "(Optional) Install the Windows (IL2CPP) build module."
+    },
+    {
+      "name": "installUWPModule",
+      "type": "boolean",
+      "label": "Universal Windows Platform Build Support",
+      "defaultValue": false,
+      "required": false,
+      "helpMarkDown": "(Optional) Install the UWP build module."
+    },
+    {
+      "name": "installWebGLModule",
+      "type": "boolean",
+      "label": "WebGL Build Support",
+      "defaultValue": false,
+      "required": false,
+      "helpMarkDown": "(Optional) Install the WebGL build module."
     }
   ],
   "execution": {
