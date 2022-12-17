@@ -15,6 +15,7 @@ const revisionInputVariableName = 'revision';
 function run() {
     try {
         // Setup and read inputs.
+        const unityHubExecutablePath = 'C:\\Program Files\\Unity Hub\\Unity Hub.exe';
         const versionSelectionMode = tl.getInput(versionSelectionModeVariableName, true)!
         var version = '';
         var revision = '';
@@ -29,6 +30,16 @@ function run() {
         }
 
         console.log(`${tl.loc('installVersionInfo')} ${version} (${revision})`);
+
+        const unityHubCmd = tl.tool(unityHubExecutablePath)
+            .arg('--')
+            .arg('--headless')
+            .arg('install')
+            .arg('--version').arg(version)
+            .arg('--changeset').arg(revision);
+
+        console.log(`${unityHubCmd}`)
+        unityHubCmd.exec();
 
         // Set task result succeeded.
         tl.setResult(tl.TaskResult.Succeeded, tl.loc('successUnityInstall'));
