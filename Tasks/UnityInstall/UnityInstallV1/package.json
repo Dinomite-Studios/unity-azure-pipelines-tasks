@@ -17,7 +17,7 @@
   "license": "MIT",
   "dependencies": {
     "@dinomite-studios/unity-azure-pipelines-tasks-lib": "^1.0.0",
-    "azure-pipelines-task-lib": "^3.3.1"
+    "azure-pipelines-task-lib": "^4.1.0"
   },
   "devDependencies": {
     "typescript": "^4.7.4",
