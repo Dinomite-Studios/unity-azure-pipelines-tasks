@@ -5,6 +5,7 @@
   "description": "Azure Pipelines task to install Unity editors and modules on the executing machine.",
   "helpMarkDown": "Use this task to install Unity editors and modules required to build your project on the executing agent. [More Information](https://unitydevops.com/docs/unity-install-task).",
   "category": "Azure Pipelines",
+  "preview": true,
   "visibility": [
     "Build"
   ],
@@ -15,8 +16,8 @@
     "Patch": "0"
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityInstall/UnityInstallV1/CHANGELOG.md)",
-  "minimumAgentVersion": "1.95.0",
-  "instanceNameFormat": "Unity Install",
+  "minimumAgentVersion": "2.144.0",
+  "instanceNameFormat": "Unity Install $(buildTarget)",
   "inputs": [
     {
       "name": "versionSelectionMode",
