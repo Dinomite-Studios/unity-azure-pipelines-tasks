@@ -1,0 +1,63 @@
+{
+  "id": "de4be6e2-9c1e-4ae3-9a7e-6854f719bcc3",
+  "name": "UnityInstallTask",
+  "friendlyName": "Unity Install",
+  "description": "Azure Pipelines task to install Unity editors and modules on the executing machine.",
+  "helpMarkDown": "Use this task to install Unity editors and modules required to build your project on the executing agent. [More Information](https://unitydevops.com/docs/unity-install-task).",
+  "category": "Azure Pipelines",
+  "visibility": [
+    "Build"
+  ],
+  "author": "Dinomite Studios",
+  "version": {
+    "Major": "1",
+    "Minor": "0",
+    "Patch": "0"
+  },
+  "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityInstall/UnityInstallV1/CHANGELOG.md)",
+  "minimumAgentVersion": "1.95.0",
+  "instanceNameFormat": "Unity Install",
+  "inputs": [
+    {
+      "name": "versionSelectionMode",
+      "type": "pickList",
+      "label": "Unity version to install",
+      "required": true,
+      "helpMarkDown": "Select which Unity version to install. You can either use the project's version or specify a version yourself.",
+      "defaultValue": "project",
+      "options": {
+        "project": "Project Version",
+        "specify": "Specify"
+      }
+    },
+    {
+      "name": "version",
+      "type": "string",
+      "label": "Version",
+      "defaultValue": "",
+      "required": true,
+      "helpMarkDown": "The Unity editor version to install, e.g. value: `2020.3.1f1`.",
+      "visibleRule": "versionSelectionMode == specify"
+    },
+    {
+      "name": "revision",
+      "type": "string",
+      "label": "Revision",
+      "defaultValue": "",
+      "required": true,
+      "helpMarkDown": "The Unity editor version revision to install, e.g. value: `c7b5465681fb`.",
+      "visibleRule": "versionSelectionMode == specify"
+    }
+  ],
+  "execution": {
+    "Node": {
+      "target": "unity-install.js",
+      "argumentFormat": ""
+    }
+  },
+  "messages": {
+    "installVersionInfo": "Attempting to install:",
+    "successUnityInstall": "Successfully installed Unity editor / modules.",
+    "failUnityInstall": "Failed to install specified Unity editor / modules!"
+  }
+}
