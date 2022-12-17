@@ -59,6 +59,10 @@
   "messages": {
     "installVersionInfo": "Attempting to install:",
     "successUnityInstall": "Successfully installed Unity editor / modules.",
-    "failUnityInstall": "Failed to install specified Unity editor / modules!"
+    "failUnityInstall": "Failed to install specified Unity editor / modules!",
+    "warningAlphaBetaVersion": "You are using a Unity Alpha/Beta version. It may not be supported by the extension!",
+    "projectPathInfo": "Determining Unity editor version for project at",
+    "successGetUnityEditorVersion": "Success, Unity editor version found",
+    "failGetUnityEditorVersion": "Fail, Unity editor version not found"
   }
 }
