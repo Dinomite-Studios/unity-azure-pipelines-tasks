@@ -1,6 +1,6 @@
 import path = require('path');
 import tl = require('azure-pipelines-task-lib/task');
-import { getUnityEditorVersion } from './unity-build.shared';
+import { getUnityEditorVersion } from './unity-setup.shared';
 
 tl.setResourcePath(path.join(__dirname, 'task.json'));
 

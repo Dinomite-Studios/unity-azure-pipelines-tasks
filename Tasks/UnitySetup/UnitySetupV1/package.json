@@ -1,8 +1,8 @@
 {
-  "name": "@dinomite-studios/unity-install-task",
+  "name": "@dinomite-studios/unity-setup-task",
   "version": "1.0.0",
-  "description": "Azure Pipelines task to install Unity editors and modules on the executing machine.",
-  "main": "unity-install.js",
+  "description": "Azure Pipelines task to setup Unity editors and modules on the executing machine.",
+  "main": "unity-setup.js",
   "scripts": {
     "build": "tsc",
     "upload": "tfx build tasks upload --task-path ./",

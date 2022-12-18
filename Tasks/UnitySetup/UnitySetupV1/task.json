@@ -1,9 +1,9 @@
 {
   "id": "de4be6e2-9c1e-4ae3-9a7e-6854f719bcc3",
-  "name": "UnityInstallTask",
-  "friendlyName": "Unity Install",
-  "description": "Azure Pipelines task to install Unity editors and modules on the executing machine.",
-  "helpMarkDown": "Use this task to install Unity editors and modules required to build your project on the executing agent. [More Information](https://unitydevops.com/docs/unity-install-task).",
+  "name": "UnitySetupTask",
+  "friendlyName": "Unity Setup",
+  "description": "Azure Pipelines task to setup Unity editors and modules on the executing machine.",
+  "helpMarkDown": "Use this task to setup Unity editors and modules required to build your project on the executing agent. [More Information](https://unitydevops.com/docs/unity-setup-task).",
   "category": "Azure Pipelines",
   "preview": true,
   "visibility": [
@@ -15,9 +15,9 @@
     "Minor": "0",
     "Patch": "0"
   },
-  "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityInstall/UnityInstallV1/CHANGELOG.md)",
+  "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnitySetup/UnitySetupV1/CHANGELOG.md)",
   "minimumAgentVersion": "2.144.0",
-  "instanceNameFormat": "Unity Install $(buildTarget)",
+  "instanceNameFormat": "Unity Setup $(buildTarget)",
   "inputs": [
     {
       "name": "versionSelectionMode",

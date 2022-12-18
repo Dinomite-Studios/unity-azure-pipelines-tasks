@@ -71,6 +71,9 @@
         },
         {
             "path": "Tasks/UnityCMD/UnityCMDV1"
+        },
+        {
+            "path": "Tasks/UnitySetup/UnitySetupV1"
         }
     ],
     "branding": {
@@ -140,6 +143,16 @@
             ],
             "properties": {
                 "name": "Tasks/UnityCMD"
+            }
+        },
+        {
+            "id": "custom-unity-setup-task",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "Tasks/UnitySetup"
             }
         }
     ]
