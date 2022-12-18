@@ -53,7 +53,7 @@ function run() {
             .arg('install')
             .arg('--version').arg(version)
             .arg('--changeset').arg(revision);
-        installEditorCmd.exec();
+        installEditorCmd.execSync();
 
         // Step 2: If any additional modules are requested, install those as well.
         if (installAndroidModule ||
