@@ -24,6 +24,14 @@ function run() {
         // Setup and read inputs.
         const unityHubExecutablePath = 'C:\\Program Files\\Unity Hub\\Unity Hub.exe';
         const versionSelectionMode = tl.getInput(versionSelectionModeVariableName, true)!
+        const installAndroidModule = tl.getBoolInput(androidModuleInputVariableName, false) || false;
+        const installIOSModule = tl.getBoolInput(iOSModuleInputVariableName, false) || false;
+        const installTvOSModule = tl.getBoolInput(tvOSModuleInputVariableName, false) || false;
+        const installMacMonoModule = tl.getBoolInput(macMonoModuleInputVariableName, false) || false;
+        const installWindowsModule = tl.getBoolInput(windowsModuleInputVariableName, false) || false;
+        const installUwpModule = tl.getBoolInput(uwpModuleInputVariableName, false) || false;
+        const installWebGLModule = tl.getBoolInput(webGLModuleInputVariableName, false) || false;
+
         var version = '';
         var revision = '';
 
@@ -38,6 +46,7 @@ function run() {
 
         console.log(`${tl.loc('installVersionInfo')} ${version} (${revision})`);
 
+        // Step 1: Install the requested Unity editor.
         const installEditorCmd = tl.tool(unityHubExecutablePath)
             .arg('--')
             .arg('--headless')
@@ -46,34 +55,52 @@ function run() {
             .arg('--changeset').arg(revision);
         installEditorCmd.exec();
 
-        const installModulesCmd = tl.tool(unityHubExecutablePath)
-            .arg('--')
-            .arg('--headless')
-            .arg('install-modules')
-            .arg('--version').arg(version)
-            .arg('--childModules')
-            .arg('--module');
-        installModulesCmd.exec();
+        // Step 2: If any additional modules are requested, install those as well.
+        if (installAndroidModule ||
+            installIOSModule ||
+            installTvOSModule ||
+            installMacMonoModule ||
+            installWindowsModule ||
+            installUwpModule ||
+            installWebGLModule) {
+            const installModulesCmd = tl.tool(unityHubExecutablePath)
+                .arg('--')
+                .arg('--headless')
+                .arg('install-modules')
+                .arg('--version').arg(version)
+                .arg('--childModules')
+                .arg('--module');
 
-        //  Android Build Support: android
-        //           Android SDK & NDK Tools: android-sdk-ndk-tools
-        //           OpenJDK: android-open-jdk
-        //           Microsoft Visual Studio Community 2017/2019: visualstudio
-        //           iOS Build Support: ios
-        //           tvOS Build Support: appletv
-        //           Linux Build Support: linux
-        //           Linux Build Support (Mono): linux-mono
-        //           Linux Build Support (IL2CPP): linux-il2cpp
-        //           Mac Build Support (Mono): mac-mono
-        //           Windows Build Support (IL2CPP): windows-il2cpp
-        //           Universal Windows Platform Build Support: universal-windows-platform
-        //           UWP Build Support (IL2CPP): uwp-il2cpp
-        //           UWP Build Support (.NET): uwp-.net
-        //           WebGL Build Support: webgl
-        //           Lumin OS (Magic Leap) Build Support: lumin
-        //           Facebook Gameroom: facebookgameroom
-        //           Facebook Gameroom Build Support: facebook-games
-        //           Vuforia Augmented Reality Support: vuforia-ar
+            if (installAndroidModule) {
+                installModulesCmd.arg('android');
+            }
+
+            if (installIOSModule) {
+                installModulesCmd.arg('ios');
+            }
+
+            if (installTvOSModule) {
+                installModulesCmd.arg('appletv');
+            }
+
+            if (installMacMonoModule) {
+                installModulesCmd.arg('mac-mono');
+            }
+
+            if (installWindowsModule) {
+                installModulesCmd.arg('windows-il2cpp');
+            }
+
+            if (installUwpModule) {
+                installModulesCmd.arg('universal-windows-platform');
+            }
+
+            if (installWebGLModule) {
+                installModulesCmd.arg('webgl');
+            }
+
+            installModulesCmd.exec();
+        }
 
         // Set task result succeeded.
         tl.setResult(tl.TaskResult.Succeeded, tl.loc('successUnityInstall'));
