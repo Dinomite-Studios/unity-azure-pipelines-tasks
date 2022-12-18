@@ -108,7 +108,7 @@
   ],
   "execution": {
     "Node": {
-      "target": "unity-install.js",
+      "target": "unity-setup.js",
       "argumentFormat": ""
     }
   },
