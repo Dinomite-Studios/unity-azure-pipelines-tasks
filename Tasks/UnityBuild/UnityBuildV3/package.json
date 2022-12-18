@@ -1,6 +1,6 @@
 {
   "name": "@dinomite-studios/unity-build-task",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "description": "An Azure Pipelines task to build Unity projects.",
   "main": "unity-build.js",
   "scripts": {
@@ -21,9 +21,9 @@
     "fs-extra": "^8.1.0"
   },
   "devDependencies": {
-    "typescript": "^4.7.4",
+    "typescript": "^4.9.4",
     "@types/fs-extra": "^9.0.6",
-    "@types/node": "^18.0.0",
+    "@types/node": "^18.11.17",
     "@types/q": "^1.5.5"
   }
 }
