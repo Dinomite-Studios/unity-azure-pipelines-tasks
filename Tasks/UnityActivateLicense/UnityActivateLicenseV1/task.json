@@ -11,7 +11,7 @@
   "author": "Dinomite Studios",
   "version": {
     "Major": "1",
-    "Minor": "1",
+    "Minor": "2",
     "Patch": "0"
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityActivateLicense/UnityActivateLicenseV1/CHANGELOG.md)",
@@ -78,6 +78,14 @@
       "defaultValue": "",
       "required": false,
       "helpMarkDown": "(Optional) Enter the custom version of Unity. If no value is entered, it will be resolved automatically."
+    },
+    {
+      "name": "deactivateSeatOnComplete",
+      "type": "boolean",
+      "label": "Deactivate seat on complete",
+      "defaultValue": true,
+      "required": false,
+      "helpMarkDown": "By default the seat activation is released again after the pipeline has run. Uncheck this to keep the activation active."
     }
   ],
   "outputVariables": [
@@ -101,6 +109,7 @@
   "messages": {
     "successLicenseActivated": "Unity editor license activated",
     "successLicenseReturned": "Unity editor license returned",
+    "successSkipReturn": "The Unity editor license was not returned since disabled in task settings.",
     "failUnity": "The Unity process failed with exit code",
     "projectPathInfo": "Determining Unity editor version for project at",
     "warningAlphaBetaVersion": "You are using a Unity Alpha/Beta version. It may not be supported by the extension!",
