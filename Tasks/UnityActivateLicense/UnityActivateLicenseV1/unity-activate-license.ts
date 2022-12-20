@@ -8,8 +8,6 @@ import {
     Utilities
 } from '@dinomite-studios/unity-azure-pipelines-tasks-lib';
 
-tl.setResourcePath(path.join(__dirname, 'task.json'));
-
 // Input variables.
 const usernameInputVariableName = 'username';
 const passwordInputVariableName = 'password';
@@ -24,6 +22,9 @@ const unityVersionInputVariableName = 'unityVersion';
  */
 async function run() {
     try {
+        // Configure localization.
+        tl.setResourcePath(path.join(__dirname, 'task.json'));
+
         // Setup and read inputs.
         const username = tl.getInput(usernameInputVariableName, true)!;
         const password = tl.getInput(passwordInputVariableName, true)!;
