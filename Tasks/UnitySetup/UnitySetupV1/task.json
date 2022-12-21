@@ -18,6 +18,18 @@
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnitySetup/UnitySetupV1/CHANGELOG.md)",
   "minimumAgentVersion": "2.144.0",
   "instanceNameFormat": "Unity Setup $(buildTarget)",
+  "groups": [
+    {
+      "name": "moduleOptions",
+      "displayName": "Platforms",
+      "isExpanded": true
+    },
+    {
+      "name": "moduleDependencies",
+      "displayName": "Dependencies",
+      "isExpanded": true
+    }
+  ],
   "inputs": [
     {
       "name": "versionSelectionMode",
@@ -37,7 +49,7 @@
       "label": "Version",
       "defaultValue": "",
       "required": true,
-      "helpMarkDown": "The Unity editor version to install, e.g. value: `2020.3.1f1`.",
+      "helpMarkDown": "The Unity editor version to install, e.g. value: `2022.2.1f1`.",
       "visibleRule": "versionSelectionMode == specify"
     },
     {
@@ -55,6 +67,7 @@
       "label": "Android Build Support",
       "defaultValue": false,
       "required": false,
+      "groupName": "moduleOptions",
       "helpMarkDown": "(Optional) Install the Android build module."
     },
     {
@@ -63,6 +76,7 @@
       "label": "iOS Build Support",
       "defaultValue": false,
       "required": false,
+      "groupName": "moduleOptions",
       "helpMarkDown": "(Optional) Install the iOS build module."
     },
     {
@@ -71,6 +85,7 @@
       "label": "tvOS Build Support",
       "defaultValue": false,
       "required": false,
+      "groupName": "moduleOptions",
       "helpMarkDown": "(Optional) Install the tvOS build module."
     },
     {
@@ -79,6 +94,7 @@
       "label": "Mac Build Support (Mono)",
       "defaultValue": false,
       "required": false,
+      "groupName": "moduleOptions",
       "helpMarkDown": "(Optional) Install the Mac (Mono) build module."
     },
     {
@@ -87,6 +103,7 @@
       "label": "Windows Build Support (IL2CPP)",
       "defaultValue": false,
       "required": false,
+      "groupName": "moduleOptions",
       "helpMarkDown": "(Optional) Install the Windows (IL2CPP) build module."
     },
     {
@@ -95,6 +112,7 @@
       "label": "Universal Windows Platform Build Support",
       "defaultValue": false,
       "required": false,
+      "groupName": "moduleOptions",
       "helpMarkDown": "(Optional) Install the UWP build module."
     },
     {
@@ -103,6 +121,7 @@
       "label": "WebGL Build Support",
       "defaultValue": false,
       "required": false,
+      "groupName": "moduleOptions",
       "helpMarkDown": "(Optional) Install the WebGL build module."
     },
     {
@@ -111,6 +130,7 @@
       "label": "Install Child Modules",
       "defaultValue": true,
       "required": false,
+      "groupName": "moduleDependencies",
       "helpMarkDown": "(Optional) Installs all child modules, such as the Android SDK & NDK for a given module."
     }
   ],
