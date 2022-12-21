@@ -1,8 +1,6 @@
 import path = require('path');
 import tl = require('azure-pipelines-task-lib/task');
-import { getUnityEditorVersion } from './unity-setup.shared';
-
-tl.setResourcePath(path.join(__dirname, 'task.json'));
+import { UnityVersionInfoResult, UnityVersionTools } from '@dinomite-studios/unity-azure-pipelines-tasks-lib/';
 
 // Input variables.
 const versionSelectionModeVariableName = "versionSelectionMode";
@@ -15,12 +13,13 @@ const macMonoModuleInputVariableName = 'installMacMonoModule';
 const windowsModuleInputVariableName = 'installWindowsIL2CPPModule';
 const uwpModuleInputVariableName = 'installUWPModule';
 const webGLModuleInputVariableName = 'installWebGLModule';
+const installChildModulesInputVariableName = 'installChildModules';
 
-/**
- * Main task runner. Executes the task and sets the result status for the task.
- */
 function run() {
     try {
+        // Configure localization.
+        tl.setResourcePath(path.join(__dirname, 'task.json'));
+
         // Setup and read inputs.
         const unityHubExecutablePath = 'C:\\Program Files\\Unity Hub\\Unity Hub.exe';
         const versionSelectionMode = tl.getInput(versionSelectionModeVariableName, true)!
@@ -31,6 +30,7 @@ function run() {
         const installWindowsModule = tl.getBoolInput(windowsModuleInputVariableName, false) || false;
         const installUwpModule = tl.getBoolInput(uwpModuleInputVariableName, false) || false;
         const installWebGLModule = tl.getBoolInput(webGLModuleInputVariableName, false) || false;
+        const installChildModules = tl.getBoolInput(installChildModulesInputVariableName, false) || true;
 
         var version = '';
         var revision = '';
@@ -67,9 +67,13 @@ function run() {
                 .arg('--')
                 .arg('--headless')
                 .arg('install-modules')
-                .arg('--version').arg(version)
-                .arg('--childModules')
-                .arg('--module');
+                .arg('--version').arg(version);
+
+            if (installChildModules) {
+                installModulesCmd.arg('--childModules')
+            }
+
+            installModulesCmd.arg('--module');
 
             if (installAndroidModule) {
                 installModulesCmd.arg('android');
@@ -113,6 +117,27 @@ function run() {
             tl.setResult(tl.TaskResult.Failed, `${e}`);
         }
     }
+}
+
+function getUnityEditorVersion(): UnityVersionInfoResult {
+    const projectPath = tl.getPathInput('unityProjectPath') || '';
+    console.log(`${tl.loc('projectPathInfo')} ${projectPath}`);
+
+    const unityVersion = UnityVersionTools.determineProjectVersionFromFile(projectPath);
+    if (unityVersion.error) {
+        const error = `${tl.loc('failGetUnityEditorVersion')} | ${unityVersion.error}`;
+        console.error(error);
+        throw new Error(error);
+    }
+
+    const successGetVersionLog = `${tl.loc('successGetUnityEditorVersion')} ${unityVersion.info!.version}${unityVersion.info!.revision ? `, revision=${unityVersion.info!.revision}` : ''}, alpha=${unityVersion.info!.isAlpha}, beta=${unityVersion.info!.isBeta}`;
+    console.log(successGetVersionLog);
+
+    if (unityVersion.info!.isAlpha || unityVersion.info!.isBeta) {
+        console.warn(tl.loc('warningAlphaBetaVersion'));
+    }
+
+    return unityVersion;
 }
 
 run();

@@ -104,6 +104,14 @@
       "defaultValue": false,
       "required": false,
       "helpMarkDown": "(Optional) Install the WebGL build module."
+    },
+    {
+      "name": "installChildModules",
+      "type": "boolean",
+      "label": "Install Child Modules",
+      "defaultValue": true,
+      "required": false,
+      "helpMarkDown": "(Optional) Installs all child modules, such as the Android SDK & NDK for a given module."
     }
   ],
   "execution": {
