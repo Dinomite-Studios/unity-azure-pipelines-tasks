@@ -52,7 +52,7 @@
     {
       "name": "versionSelectionMode",
       "type": "pickList",
-      "label": "Unity version to install",
+      "label": "Unity version to use activate the license with",
       "required": true,
       "helpMarkDown": "Select which Unity version to install. You can either use the project's version or specify a version yourself.",
       "defaultValue": "project",
