@@ -25,9 +25,6 @@ const versionSelectionModeVariableName = "versionSelectionMode";
 // Output variables.
 const logsOutputPathOutputVariableName = 'logsOutputPath';
 
-/**
- * Main task runner. Executes the task and sets the result status for the task.
- */
 async function run() {
     try {
         // Configure localization.
