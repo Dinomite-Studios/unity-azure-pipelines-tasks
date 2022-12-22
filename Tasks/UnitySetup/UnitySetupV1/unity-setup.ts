@@ -36,8 +36,8 @@ function run() {
         var revision = '';
 
         if (versionSelectionMode === 'specify') {
-            version = tl.getPathInput(versionInputVariableName, true)!;
-            revision = tl.getPathInput(revisionInputVariableName, true)!;
+            version = tl.getInput(versionInputVariableName, true)!;
+            revision = tl.getInput(revisionInputVariableName, true)!;
         } else {
             const projectVersion = getUnityEditorVersion();
             version = projectVersion.info!.version;
