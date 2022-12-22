@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [3.2.1]
 
+### Fixed
+
+- Fixed undefined path issue when specifying a custom unity editor version to build with
+
 ### Changed
 
 - Updated dependencies
