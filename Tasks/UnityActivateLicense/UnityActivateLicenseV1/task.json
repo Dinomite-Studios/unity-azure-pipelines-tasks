@@ -17,6 +17,13 @@
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityActivateLicense/UnityActivateLicenseV1/CHANGELOG.md)",
   "minimumAgentVersion": "2.144.0",
   "instanceNameFormat": "Unity Activate License",
+  "groups": [
+    {
+      "name": "advanced",
+      "displayName": "Advanced",
+      "isExpanded": true
+    }
+  ],
   "inputs": [
     {
       "name": "username",
@@ -41,6 +48,27 @@
       "defaultValue": "",
       "required": true,
       "helpMarkDown": "Serial key used to activate the Unity Editor. The serial key must be assigned to the user defined by username and password above."
+    },
+    {
+      "name": "versionSelectionMode",
+      "type": "pickList",
+      "label": "Unity version to install",
+      "required": true,
+      "helpMarkDown": "Select which Unity version to install. You can either use the project's version or specify a version yourself.",
+      "defaultValue": "project",
+      "options": {
+        "project": "Project Version",
+        "specify": "Specify"
+      }
+    },
+    {
+      "name": "version",
+      "type": "string",
+      "label": "Version",
+      "defaultValue": "",
+      "required": true,
+      "helpMarkDown": "The Unity editor version to activate the license with, e.g. value: `2022.2.1f1`.",
+      "visibleRule": "versionSelectionMode == specify"
     },
     {
       "name": "unityEditorsPathMode",
@@ -72,19 +100,12 @@
       "helpMarkDown": "(Optional) Enter the directory path to the Unity project. If no value is entered, the root of the repository will be used."
     },
     {
-      "name": "unityVersion",
-      "type": "string",
-      "label": "Unity version",
-      "defaultValue": "",
-      "required": false,
-      "helpMarkDown": "(Optional) Enter the custom version of Unity. If no value is entered, it will be resolved automatically."
-    },
-    {
       "name": "deactivateSeatOnComplete",
       "type": "boolean",
       "label": "Deactivate seat on complete",
       "defaultValue": true,
       "required": false,
+      "groupName": "advanced",
       "helpMarkDown": "By default the seat activation is released again after the pipeline has run. Uncheck this to keep the activation active."
     }
   ],
