@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0]
+
+### Added
+
+- Add a setting to skip the seat deactivation once a pipeline has finished. This will keep the seat activated on the agent machine
+
+### Fixed
+
+- Revert project path set for activation command causing unnecessary long importing time when attemping to activate the seat on the agent
+
+### Changed
+
+- Update dependencies
+
 ## [1.1.0]
 
 ### Fixed

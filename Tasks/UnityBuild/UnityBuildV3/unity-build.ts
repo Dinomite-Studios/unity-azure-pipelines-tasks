@@ -6,40 +6,56 @@ import {
     UnityToolRunner,
     UnityPathTools,
     UnityVersionInfoResult,
-    Utilities
+    Utilities,
+    UnityVersionTools
 } from '@dinomite-studios/unity-azure-pipelines-tasks-lib';
-import { getUnityEditorVersion } from './unity-build-shared';
-
-tl.setResourcePath(path.join(__dirname, 'task.json'));
 
 // Input variables.
 const outputFileNameInputVariableName = 'outputFileName';
 const buildTargetInputVariableName = 'buildTarget';
 const outputPathInputVariableName = 'outputPath';
 const unityProjectPathInputVariableName = 'unityProjectPath';
-const unityVersionInputVariableName = 'unityVersion';
+const versionInputVariableName = 'version';
 const unityEditorsPathModeInputVariableName = 'unityEditorsPathMode';
 const customUnityEditorsPathInputVariableName = 'customUnityEditorsPath';
 const localPathInputVariableName = 'Build.Repository.LocalPath';
 const cleanBuildInputVariableName = 'Build.Repository.Clean';
+const versionSelectionModeVariableName = "versionSelectionMode";
 
 // Output variables.
 const logsOutputPathOutputVariableName = 'logsOutputPath';
 
-/**
- * Main task runner. Executes the task and sets the result status for the task.
- */
 async function run() {
     try {
+        // Configure localization.
+        tl.setResourcePath(path.join(__dirname, 'task.json'));
+
         // Setup and read inputs.
         const outputFileName = tl.getInput(outputFileNameInputVariableName) || 'drop';
         const buildTarget = tl.getInput(buildTargetInputVariableName, true)!;
         const projectPath = tl.getPathInput(unityProjectPathInputVariableName) || '';
+        const versionSelectionMode = tl.getInput(versionSelectionModeVariableName, true)!
         const outputPath = tl.getPathInput(outputPathInputVariableName) || '';
         const unityEditorsPath = UnityPathTools.getUnityEditorsPath(
             tl.getInput(unityEditorsPathModeInputVariableName, true)!,
             tl.getInput(customUnityEditorsPathInputVariableName));
-        const unityVersion = { info: { version: tl.getInput(unityVersionInputVariableName) } } as UnityVersionInfoResult || getUnityEditorVersion();
+
+        var unityVersion: UnityVersionInfoResult;
+        if (versionSelectionMode === 'specify') {
+            let customVersion = tl.getInput(versionInputVariableName, true)!;
+            unityVersion = {
+                info: {
+                    isAlpha: false,
+                    isBeta: false,
+                    version: customVersion,
+                    revision: undefined
+                },
+                error: undefined
+            }
+        } else {
+            unityVersion = getUnityEditorVersion();
+        }
+
         const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(unityEditorsPath, unityVersion.info!);
         const cleanBuild = tl.getVariable(cleanBuildInputVariableName);
         const repositoryLocalPath = tl.getVariable(localPathInputVariableName)!;
@@ -117,6 +133,27 @@ async function run() {
             tl.setResult(tl.TaskResult.Failed, `${e}`);
         }
     }
+}
+
+function getUnityEditorVersion(): UnityVersionInfoResult {
+    const projectPath = tl.getPathInput('unityProjectPath') || '';
+    console.log(`${tl.loc('projectPathInfo')} ${projectPath}`);
+
+    const unityVersion = UnityVersionTools.determineProjectVersionFromFile(projectPath);
+    if (unityVersion.error) {
+        const error = `${tl.loc('failGetUnityEditorVersion')} | ${unityVersion.error}`;
+        console.error(error);
+        throw new Error(error);
+    }
+
+    const successGetVersionLog = `${tl.loc('successGetUnityEditorVersion')} ${unityVersion.info!.version}${unityVersion.info!.revision ? `, revision=${unityVersion.info!.revision}` : ''}, alpha=${unityVersion.info!.isAlpha}, beta=${unityVersion.info!.isBeta}`;
+    console.log(successGetVersionLog);
+
+    if (unityVersion.info!.isAlpha || unityVersion.info!.isBeta) {
+        console.warn(tl.loc('warningAlphaBetaVersion'));
+    }
+
+    return unityVersion;
 }
 
 run();

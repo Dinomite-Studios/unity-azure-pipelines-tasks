@@ -13,7 +13,7 @@
   "version": {
     "Major": "3",
     "Minor": "2",
-    "Patch": "0"
+    "Patch": "1"
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityBuild/UnityBuildV3/CHANGELOG.md)",
   "minimumAgentVersion": "2.144.0",
@@ -77,12 +77,25 @@
       "helpMarkDown": "(Optional) Enter the directory path to the Unity project. If no value is entered, the root of the repository will be used."
     },
     {
-      "name": "unityVersion",
+      "name": "versionSelectionMode",
+      "type": "pickList",
+      "label": "Unity version to build with",
+      "required": true,
+      "helpMarkDown": "Select which Unity version to build the project with. You can either use the project's version or specify a version yourself.",
+      "defaultValue": "project",
+      "options": {
+        "project": "Project Version",
+        "specify": "Specify"
+      }
+    },
+    {
+      "name": "version",
       "type": "string",
-      "label": "Unity version",
+      "label": "Version",
       "defaultValue": "",
-      "required": false,
-      "helpMarkDown": "(Optional) Enter the custom version of Unity. If no value is entered, it will be resolved automatically."
+      "required": true,
+      "helpMarkDown": "The Unity editor version to activate the license with, e.g. value: `2022.2.1f1`.",
+      "visibleRule": "versionSelectionMode == specify"
     },
     {
       "name": "buildScriptType",

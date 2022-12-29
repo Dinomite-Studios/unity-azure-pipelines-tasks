@@ -1,7 +1,7 @@
 {
     "manifestVersion": 1,
     "id": "64e90d50-a9c0-11e8-a356-d3eab7857116",
-    "version": "2.9.0",
+    "version": "2.9.1",
     "name": "Unity Tools for Azure DevOps",
     "description": "The Unity Tools for Azure DevOps extension adds CI/CD tools for Unity 3D projects to your Azure DevOps organization.",
     "publisher": "DinomiteStudios",
@@ -71,6 +71,9 @@
         },
         {
             "path": "Tasks/UnityCMD/UnityCMDV1"
+        },
+        {
+            "path": "Tasks/UnitySetup/UnitySetupV1"
         }
     ],
     "branding": {
@@ -140,6 +143,16 @@
             ],
             "properties": {
                 "name": "Tasks/UnityCMD"
+            }
+        },
+        {
+            "id": "custom-unity-setup-task",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "Tasks/UnitySetup"
             }
         }
     ]

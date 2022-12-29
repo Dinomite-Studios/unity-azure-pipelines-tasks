@@ -1,0 +1,152 @@
+{
+  "id": "de4be6e2-9c1e-4ae3-9a7e-6854f719bcc3",
+  "name": "UnitySetupTask",
+  "friendlyName": "Unity Setup",
+  "description": "Azure Pipelines task to setup Unity editors and modules on the executing machine.",
+  "helpMarkDown": "Use this task to setup Unity editors and modules required to build your project on the executing agent. [More Information](https://unitydevops.com/docs/unity-setup-task).",
+  "category": "Azure Pipelines",
+  "preview": true,
+  "visibility": [
+    "Build"
+  ],
+  "author": "Dinomite Studios",
+  "version": {
+    "Major": "1",
+    "Minor": "0",
+    "Patch": "0"
+  },
+  "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnitySetup/UnitySetupV1/CHANGELOG.md)",
+  "minimumAgentVersion": "2.144.0",
+  "instanceNameFormat": "Unity Setup $(buildTarget)",
+  "groups": [
+    {
+      "name": "moduleOptions",
+      "displayName": "Platforms",
+      "isExpanded": true
+    },
+    {
+      "name": "moduleDependencies",
+      "displayName": "Dependencies",
+      "isExpanded": true
+    }
+  ],
+  "inputs": [
+    {
+      "name": "versionSelectionMode",
+      "type": "pickList",
+      "label": "Unity version to install",
+      "required": true,
+      "helpMarkDown": "Select which Unity version to install. You can either use the project's version or specify a version yourself.",
+      "defaultValue": "project",
+      "options": {
+        "project": "Project Version",
+        "specify": "Specify"
+      }
+    },
+    {
+      "name": "version",
+      "type": "string",
+      "label": "Version",
+      "defaultValue": "",
+      "required": true,
+      "helpMarkDown": "The Unity editor version to install, e.g. value: `2022.2.1f1`.",
+      "visibleRule": "versionSelectionMode == specify"
+    },
+    {
+      "name": "revision",
+      "type": "string",
+      "label": "Revision",
+      "defaultValue": "",
+      "required": true,
+      "helpMarkDown": "The Unity editor version revision to install, e.g. value: `c7b5465681fb`.",
+      "visibleRule": "versionSelectionMode == specify"
+    },
+    {
+      "name": "installAndroidModule",
+      "type": "boolean",
+      "label": "Android Build Support",
+      "defaultValue": false,
+      "required": false,
+      "groupName": "moduleOptions",
+      "helpMarkDown": "(Optional) Install the Android build module."
+    },
+    {
+      "name": "installIOSModule",
+      "type": "boolean",
+      "label": "iOS Build Support",
+      "defaultValue": false,
+      "required": false,
+      "groupName": "moduleOptions",
+      "helpMarkDown": "(Optional) Install the iOS build module."
+    },
+    {
+      "name": "installTVOSModule",
+      "type": "boolean",
+      "label": "tvOS Build Support",
+      "defaultValue": false,
+      "required": false,
+      "groupName": "moduleOptions",
+      "helpMarkDown": "(Optional) Install the tvOS build module."
+    },
+    {
+      "name": "installMacMonoModule",
+      "type": "boolean",
+      "label": "Mac Build Support (Mono)",
+      "defaultValue": false,
+      "required": false,
+      "groupName": "moduleOptions",
+      "helpMarkDown": "(Optional) Install the Mac (Mono) build module."
+    },
+    {
+      "name": "installWindowsIL2CPPModule",
+      "type": "boolean",
+      "label": "Windows Build Support (IL2CPP)",
+      "defaultValue": false,
+      "required": false,
+      "groupName": "moduleOptions",
+      "helpMarkDown": "(Optional) Install the Windows (IL2CPP) build module."
+    },
+    {
+      "name": "installUWPModule",
+      "type": "boolean",
+      "label": "Universal Windows Platform Build Support",
+      "defaultValue": false,
+      "required": false,
+      "groupName": "moduleOptions",
+      "helpMarkDown": "(Optional) Install the UWP build module."
+    },
+    {
+      "name": "installWebGLModule",
+      "type": "boolean",
+      "label": "WebGL Build Support",
+      "defaultValue": false,
+      "required": false,
+      "groupName": "moduleOptions",
+      "helpMarkDown": "(Optional) Install the WebGL build module."
+    },
+    {
+      "name": "installChildModules",
+      "type": "boolean",
+      "label": "Install Child Modules",
+      "defaultValue": true,
+      "required": false,
+      "groupName": "moduleDependencies",
+      "helpMarkDown": "(Optional) Installs all child modules, such as the Android SDK & NDK for a given module."
+    }
+  ],
+  "execution": {
+    "Node": {
+      "target": "unity-setup.js",
+      "argumentFormat": ""
+    }
+  },
+  "messages": {
+    "installVersionInfo": "Attempting to install:",
+    "successUnityInstall": "Successfully installed Unity editor / modules.",
+    "failUnityInstall": "Failed to install specified Unity editor / modules!",
+    "warningAlphaBetaVersion": "You are using a Unity Alpha/Beta version. It may not be supported by the extension!",
+    "projectPathInfo": "Determining Unity editor version for project at",
+    "successGetUnityEditorVersion": "Success, Unity editor version found",
+    "failGetUnityEditorVersion": "Fail, Unity editor version not found"
+  }
+}

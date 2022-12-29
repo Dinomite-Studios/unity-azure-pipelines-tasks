@@ -2,31 +2,53 @@ import path = require('path');
 import tl = require('azure-pipelines-task-lib/task');
 import { getUnityEditorVersion } from './unity-build-shared';
 import {
-    UnityToolRunner,
     UnityPathTools,
+    UnityVersionInfoResult,
     Utilities
 } from '@dinomite-studios/unity-azure-pipelines-tasks-lib';
+import {
+    customUnityEditorsPathInputVariableName,
+    localPathInputVariableName,
+    passwordInputVariableName,
+    unityEditorsPathModeInputVariableName,
+    usernameInputVariableName,
+    versionInputVariableName,
+    versionSelectionModeVariableName
+} from './unity-activate-license';
 
-tl.setResourcePath(path.join(__dirname, 'task.json'));
+// Input variable names.
+const deactivateSeatOnCompleteInputVariableName = 'deactivateSeatOnComplete';
 
-// Input variables.
-const usernameInputVariableName = 'username';
-const passwordInputVariableName = 'password';
-const unityEditorsPathModeInputVariableName = 'unityEditorsPathMode';
-const customUnityEditorsPathInputVariableName = 'customUnityEditorsPath';
-const localPathInputVariableName = 'Build.Repository.LocalPath';
-
-/**
- * Main task runner. Executes the task and sets the result status for the task.
- */
-async function run() {
+function run() {
     try {
+        // Configure localization.
+        tl.setResourcePath(path.join(__dirname, 'task.json'));
+
+        // Setup and read inputs.
         const username = tl.getInput(usernameInputVariableName, true)!;
         const password = tl.getInput(passwordInputVariableName, true)!;
-        const unityVersion = getUnityEditorVersion();
+        const versionSelectionMode = tl.getInput(versionSelectionModeVariableName, true)!
+        const deactivateSeatOnComplete = tl.getBoolInput(deactivateSeatOnCompleteInputVariableName, false) || true;
         const unityEditorsPath = UnityPathTools.getUnityEditorsPath(
             tl.getInput(unityEditorsPathModeInputVariableName, true)!,
             tl.getInput(customUnityEditorsPathInputVariableName));
+
+        var unityVersion: UnityVersionInfoResult;
+        if (versionSelectionMode === 'specify') {
+            let customVersion = tl.getInput(versionInputVariableName, true)!;
+            unityVersion = {
+                info: {
+                    isAlpha: false,
+                    isBeta: false,
+                    version: customVersion,
+                    revision: undefined
+                },
+                error: undefined
+            }
+        } else {
+            unityVersion = getUnityEditorVersion();
+        }
+
         const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(unityEditorsPath, unityVersion.info!);
         const logFilesDirectory = path.join(tl.getVariable(localPathInputVariableName)!, 'Logs');
         const logFilePath = path.join(logFilesDirectory, `UnityReturnLicenseLog_${Utilities.getLogFileNameTimeStamp()}.log`);
@@ -35,26 +57,31 @@ async function run() {
         tl.setVariable('logsOutputPath', logFilesDirectory);
 
         // Execute Unity command line.
-        const unityCmd = tl.tool(unityExecutablePath)
-            .arg('-batchmode')
-            .arg('-quit')
-            .arg('-nographics')
-            .arg('-username').arg(username)
-            .arg('-password').arg(password)
-            .arg('-returnlicense')
-            .arg('-logfile').arg(logFilePath);
-        const result = await UnityToolRunner.run(unityCmd, logFilePath);
+        if (deactivateSeatOnComplete) {
+            const unityCmd = tl.tool(unityExecutablePath)
+                .arg('-batchmode')
+                .arg('-quit')
+                .arg('-nographics')
+                .arg('-username').arg(username)
+                .arg('-password').arg(password)
+                .arg('-returnlicense')
+                .arg('-logfile').arg(logFilePath);
+            const result = unityCmd.execSync();
 
-        // Unity process has finished. Set task result.
-        if (result === 0) {
-            const returnLicenseSuccessLog = tl.loc('successLicenseReturned');
-            console.log(returnLicenseSuccessLog);
-            tl.setResult(tl.TaskResult.Succeeded, returnLicenseSuccessLog);
+            // Unity process has finished. Set task result.
+            if (result.code === 0) {
+                const returnLicenseSuccessLog = tl.loc('successLicenseReturned');
+                console.log(returnLicenseSuccessLog);
+                tl.setResult(tl.TaskResult.Succeeded, returnLicenseSuccessLog);
+            } else {
+                const returnLicenseFailLog = `${tl.loc('failUnity')} ${result}`;
+                console.error(returnLicenseFailLog);
+                tl.setResult(tl.TaskResult.Failed, returnLicenseFailLog);
+            }
         } else {
-            const returnLicenseFailLog = `${tl.loc('failUnity')} ${result}`;
-            console.error(returnLicenseFailLog);
-            tl.setResult(tl.TaskResult.Failed, returnLicenseFailLog);
+            tl.setResult(tl.TaskResult.Succeeded, tl.loc('successSkipReturn'));
         }
+
     } catch (e) {
         if (e instanceof Error) {
             console.error(e.message);
