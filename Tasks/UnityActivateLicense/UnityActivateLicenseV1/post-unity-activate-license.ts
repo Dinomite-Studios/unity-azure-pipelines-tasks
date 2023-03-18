@@ -28,7 +28,12 @@ function run() {
         const username = tl.getInput(usernameInputVariableName, true)!;
         const password = tl.getInput(passwordInputVariableName, true)!;
         const versionSelectionMode = tl.getInput(versionSelectionModeVariableName, true)!
-        const deactivateSeatOnComplete = tl.getBoolInput(deactivateSeatOnCompleteInputVariableName, false) || true;
+        var deactivateSeatOnComplete = true;
+        try
+        {
+            deactivateSeatOnComplete = tl.getBoolInput(deactivateSeatOnCompleteInputVariableName, true)!;
+        }
+        catch(err) { }
         const unityEditorsPath = UnityPathTools.getUnityEditorsPath(
             tl.getInput(unityEditorsPathModeInputVariableName, true)!,
             tl.getInput(customUnityEditorsPathInputVariableName));
