@@ -12,7 +12,7 @@
   "version": {
     "Major": "1",
     "Minor": "2",
-    "Patch": "0"
+    "Patch": "1"
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityActivateLicense/UnityActivateLicenseV1/CHANGELOG.md)",
   "minimumAgentVersion": "2.144.0",
@@ -104,7 +104,7 @@
       "type": "boolean",
       "label": "Deactivate seat on complete",
       "defaultValue": true,
-      "required": false,
+      "required": true,
       "groupName": "advanced",
       "helpMarkDown": "By default the seat activation is released again after the pipeline has run. Uncheck this to keep the activation active."
     }
