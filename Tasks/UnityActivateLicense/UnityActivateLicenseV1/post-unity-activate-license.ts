@@ -11,7 +11,7 @@ import {
     localPathInputVariableName,
     passwordInputVariableName,
     unityEditorsPathModeInputVariableName,
-    unityProjectPathInputVariable,
+    unityProjectPathInputVariableName,
     usernameInputVariableName,
     versionInputVariableName,
     versionSelectionModeVariableName
@@ -38,7 +38,7 @@ function run() {
         const unityEditorsPath = UnityPathTools.getUnityEditorsPath(
             tl.getInput(unityEditorsPathModeInputVariableName, true)!,
             tl.getInput(customUnityEditorsPathInputVariableName));
-        const unityProjectPath = tl.getPathInput(unityProjectPathInputVariable) || '';
+        const unityProjectPath = tl.getPathInput(unityProjectPathInputVariableName) || '';
 
         var unityVersion: UnityVersionInfoResult;
         if (versionSelectionMode === 'specify') {
