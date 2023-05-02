@@ -14,6 +14,7 @@ const windowsModuleInputVariableName = 'installWindowsIL2CPPModule';
 const uwpModuleInputVariableName = 'installUWPModule';
 const webGLModuleInputVariableName = 'installWebGLModule';
 const installChildModulesInputVariableName = 'installChildModules';
+const customUnityHubPathInputVariableName = 'customUnityHubPath';
 
 function run() {
     try {
@@ -21,7 +22,7 @@ function run() {
         tl.setResourcePath(path.join(__dirname, 'task.json'));
 
         // Setup and read inputs.
-        const unityHubExecutablePath = 'C:\\Program Files\\Unity Hub\\Unity Hub.exe';
+        const unityHubExecutablePath = tl.getPathInput(customUnityHubPathInputVariableName) || 'C:\\Program Files\\Unity Hub\\Unity Hub.exe'
         const versionSelectionMode = tl.getInput(versionSelectionModeVariableName, true)!
         const installAndroidModule = tl.getBoolInput(androidModuleInputVariableName, false) || false;
         const installIOSModule = tl.getBoolInput(iOSModuleInputVariableName, false) || false;
