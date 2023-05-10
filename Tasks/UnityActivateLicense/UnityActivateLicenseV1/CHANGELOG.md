@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Made `deactivateSeatOnComplete` a reuired parameter that defaults to `true`. Seat activation on the agent will be returned once the pipeline has completed. Set this value to `false`, to keep the seat activated on the agent
 
+### Fixed
+
+- Respect `unityProjectPath` in unity activate license tasks [GitHub Issue](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/issues/225)
+
 ## [1.2.0]
 
 ### Added

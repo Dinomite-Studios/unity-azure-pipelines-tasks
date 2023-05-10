@@ -13,6 +13,7 @@ export const passwordInputVariableName = 'password';
 export const versionInputVariableName = 'version';
 export const unityEditorsPathModeInputVariableName = 'unityEditorsPathMode';
 export const customUnityEditorsPathInputVariableName = 'customUnityEditorsPath';
+export const unityProjectPathInputVariableName = "unityProjectPath";
 export const localPathInputVariableName = 'Build.Repository.LocalPath';
 export const versionSelectionModeVariableName = "versionSelectionMode";
 const serialInputVariableName = 'serial';
@@ -30,6 +31,7 @@ function run() {
         const unityEditorsPath = UnityPathTools.getUnityEditorsPath(
             tl.getInput(unityEditorsPathModeInputVariableName, true)!,
             tl.getInput(customUnityEditorsPathInputVariableName));
+        const unityProjectPath = tl.getPathInput(unityProjectPathInputVariableName) || '';
 
         var unityVersion: UnityVersionInfoResult;
         if (versionSelectionMode === 'specify') {
@@ -58,6 +60,7 @@ function run() {
         const unityCmd = tl.tool(unityExecutablePath)
             .arg('-batchmode')
             .arg('-nographics')
+            .arg('-projectPath').arg(unityProjectPath)
             .arg('-username').arg(username)
             .arg('-password').arg(password)
             .arg('-serial ').arg(serial)
