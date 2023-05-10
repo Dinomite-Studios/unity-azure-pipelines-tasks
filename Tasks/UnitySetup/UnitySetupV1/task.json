@@ -82,7 +82,7 @@
       "defaultValue": "",
       "required": false,
       "groupName": "advanced",
-      "helpMarkDown": "(Optional) Specify where to look for Unity Hub the executable on the agent."
+      "helpMarkDown": "(Optional) Specify where to look for the Unity Hub executable on the agent."
     },
     {
       "name": "installAndroidModule",

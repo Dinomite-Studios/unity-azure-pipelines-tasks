@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Respect `unityProjectPath` in unity activate license tasks [GitHub Issue](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/issues/225)
+- [Respect unityProjectPath in unity activate license tasks](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/issues/225)
 
 ## [1.2.0]
 

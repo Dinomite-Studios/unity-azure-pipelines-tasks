@@ -13,11 +13,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [Allow custom Unity hub path setting for UnitySetup task](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/issues/227)
 
+### Changed
+
+#### UnityActivateLicenseTask
+
+- Made `deactivateSeatOnComplete` a reuired parameter that defaults to `true`. Seat activation on the agent will be returned once the pipeline has completed. Set this value to `false`, to keep the seat activated on the agent
+
 ### Fixed
 
 #### UnitySetupTask
 
 - [UnitySetupTask does not have a "ProjectPath" configuration option](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/issues/221)
+
+#### UnityActivateLicenseTask
+
+- [Respect unityProjectPath in unity activate license tasks](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/issues/225)
 
 ## [2.9.1]
 
