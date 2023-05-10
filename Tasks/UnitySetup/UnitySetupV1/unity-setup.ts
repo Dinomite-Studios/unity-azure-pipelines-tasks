@@ -23,7 +23,7 @@ function run() {
 
         // Setup and read inputs.
         let unityHubExecutablePath = tl.getPathInput(customUnityHubPathInputVariableName);
-        if (!!unityHubExecutablePath) {
+        if (!unityHubExecutablePath) {
             // TODO: Add default paths for macOS / Linux.
             unityHubExecutablePath = 'C:\\Program Files\\Unity Hub\\Unity Hub.exe';
         }
