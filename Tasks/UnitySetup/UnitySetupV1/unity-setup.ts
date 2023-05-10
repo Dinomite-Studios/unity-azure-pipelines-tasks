@@ -24,6 +24,7 @@ function run() {
         // Setup and read inputs.
         let unityHubExecutablePath = tl.getPathInput(customUnityHubPathInputVariableName);
         if (!!unityHubExecutablePath) {
+            // TODO: Add default paths for macOS / Linux.
             unityHubExecutablePath = 'C:\\Program Files\\Unity Hub\\Unity Hub.exe';
         }
 
@@ -52,7 +53,7 @@ function run() {
         console.log(`${tl.loc('installVersionInfo')} ${version} (${revision})`);
 
         // Step 1: Install the requested Unity editor.
-        const installEditorCmd = tl.tool(unityHubExecutablePath)
+        const installEditorCmd = tl.tool(unityHubExecutablePath!)
             .arg('--')
             .arg('--headless')
             .arg('install')
