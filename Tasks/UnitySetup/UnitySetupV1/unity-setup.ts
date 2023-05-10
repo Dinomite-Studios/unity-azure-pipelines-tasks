@@ -69,7 +69,7 @@ function run() {
             installWindowsModule ||
             installUwpModule ||
             installWebGLModule) {
-            const installModulesCmd = tl.tool(unityHubExecutablePath)
+            const installModulesCmd = tl.tool(unityHubExecutablePath!)
                 .arg('--')
                 .arg('--headless')
                 .arg('install-modules')
