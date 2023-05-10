@@ -28,6 +28,11 @@
       "name": "moduleDependencies",
       "displayName": "Dependencies",
       "isExpanded": true
+    },
+    {
+      "name": "advanced",
+      "displayName": "Advanced",
+      "isExpanded": false
     }
   ],
   "inputs": [
@@ -73,10 +78,11 @@
     {
       "name": "customUnityHubPath",
       "type": "string",
-      "label": "UnityHub location",
-      "defaultValue": "C:\\Program Files\\Unity Hub\\Unity Hub.exe",
+      "label": "Unity Hub Executable Path",
+      "defaultValue": "",
       "required": false,
-      "helpMarkDown": "Specify where to look for Unity Hub on the agent."
+      "groupName": "advanced",
+      "helpMarkDown": "Specify where to look for Unity Hub executable on the agent."
     },
     {
       "name": "installAndroidModule",
