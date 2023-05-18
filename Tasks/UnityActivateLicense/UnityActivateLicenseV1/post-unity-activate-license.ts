@@ -29,12 +29,7 @@ function run() {
         const username = tl.getInput(usernameInputVariableName, true)!;
         const password = tl.getInput(passwordInputVariableName, true)!;
         const versionSelectionMode = tl.getInput(versionSelectionModeVariableName, true)!
-        var deactivateSeatOnComplete = true;
-        try
-        {
-            deactivateSeatOnComplete = tl.getBoolInput(deactivateSeatOnCompleteInputVariableName, true)!;
-        }
-        catch(err) { }
+        const deactivateSeatOnComplete = tl.getBoolInput(deactivateSeatOnCompleteInputVariableName);
         const unityEditorsPath = UnityPathTools.getUnityEditorsPath(
             tl.getInput(unityEditorsPathModeInputVariableName, true)!,
             tl.getInput(customUnityEditorsPathInputVariableName));
@@ -67,13 +62,13 @@ function run() {
         if (deactivateSeatOnComplete) {
             const unityCmd = tl.tool(unityExecutablePath)
                 .arg('-batchmode')
-                .arg('-quit')
                 .arg('-nographics')
                 .arg('-projectPath').arg(unityProjectPath)
                 .arg('-username').arg(username)
                 .arg('-password').arg(password)
                 .arg('-returnlicense')
-                .arg('-logfile').arg(logFilePath);
+                .arg('-logfile').arg(logFilePath)
+                .arg('-quit');
             const result = unityCmd.execSync();
 
             // Unity process has finished. Set task result.
