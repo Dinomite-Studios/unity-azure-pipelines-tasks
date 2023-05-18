@@ -49,6 +49,14 @@ jobs:
         run: npm run build
         working-directory: Tasks/UnityGetProjectVersion/UnityGetProjectVersionV1
 
+      - name: npm install UnitySetupV1
+        run: npm install
+        working-directory: Tasks/UnityTest/UnitySetupV1
+
+      - name: npm run build UnitySetupV1
+        run: npm run build
+        working-directory: Tasks/UnityTest/UnitySetupV1
+
       - name: npm install UnityTestV1
         run: npm install
         working-directory: Tasks/UnityTest/UnityTestV1
