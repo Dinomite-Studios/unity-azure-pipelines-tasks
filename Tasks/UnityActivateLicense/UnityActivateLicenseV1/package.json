@@ -1,11 +1,12 @@
 {
   "name": "@dinomite-studios/unity-activate-license-task",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Azure Pipelines task to activate a Unity Pro license prior to building a project.",
   "main": "unity-activate-license.js",
   "scripts": {
     "build": "tsc",
     "upload": "tfx build tasks upload --task-path ./",
+    "dev-refresh": "npm run dev-delete && npm run dev-upload",
     "dev-delete": "tfx build tasks delete --task-id 13159b9a-b7ba-4977-922c-2b5cb63c90df",
     "dev-upload": "npm run build && npm run upload"
   },

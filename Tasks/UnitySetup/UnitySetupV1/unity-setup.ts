@@ -22,7 +22,12 @@ function run() {
         tl.setResourcePath(path.join(__dirname, 'task.json'));
 
         // Setup and read inputs.
-        const unityHubExecutablePath = tl.getPathInput(customUnityHubPathInputVariableName) || 'C:\\Program Files\\Unity Hub\\Unity Hub.exe'
+        let unityHubExecutablePath = tl.getPathInput(customUnityHubPathInputVariableName);
+        if (!unityHubExecutablePath) {
+            // TODO: Add default paths for macOS / Linux.
+            unityHubExecutablePath = 'C:\\Program Files\\Unity Hub\\Unity Hub.exe';
+        }
+
         const versionSelectionMode = tl.getInput(versionSelectionModeVariableName, true)!
         const installAndroidModule = tl.getBoolInput(androidModuleInputVariableName, false) || false;
         const installIOSModule = tl.getBoolInput(iOSModuleInputVariableName, false) || false;
@@ -48,7 +53,7 @@ function run() {
         console.log(`${tl.loc('installVersionInfo')} ${version} (${revision})`);
 
         // Step 1: Install the requested Unity editor.
-        const installEditorCmd = tl.tool(unityHubExecutablePath)
+        const installEditorCmd = tl.tool(unityHubExecutablePath!)
             .arg('--')
             .arg('--headless')
             .arg('install')
@@ -64,7 +69,7 @@ function run() {
             installWindowsModule ||
             installUwpModule ||
             installWebGLModule) {
-            const installModulesCmd = tl.tool(unityHubExecutablePath)
+            const installModulesCmd = tl.tool(unityHubExecutablePath!)
                 .arg('--')
                 .arg('--headless')
                 .arg('install-modules')

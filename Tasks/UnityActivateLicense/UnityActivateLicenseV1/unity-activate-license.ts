@@ -59,13 +59,13 @@ function run() {
         // Execute Unity command line.
         const unityCmd = tl.tool(unityExecutablePath)
             .arg('-batchmode')
-            .arg('-quit')
             .arg('-nographics')
             .arg('-projectPath').arg(unityProjectPath)
             .arg('-username').arg(username)
             .arg('-password').arg(password)
             .arg('-serial ').arg(serial)
-            .arg('-logfile').arg(logFilePath);
+            .arg('-logfile').arg(logFilePath)
+            .arg('-quit');
         const result = unityCmd.execSync();
 
         // Unity process has finished. Set task result.
