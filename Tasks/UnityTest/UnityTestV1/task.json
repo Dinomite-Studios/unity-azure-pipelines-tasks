@@ -70,7 +70,7 @@
       "type": "string",
       "label": "Unity version",
       "defaultValue": "",
-      "required": false,
+      "required": true,
       "helpMarkDown": "(Optional) Enter the custom version of Unity. If no value is entered, it will be resolved automatically."
     },
     {
