@@ -8,7 +8,7 @@ import {
 } from '@dinomite-studios/unity-azure-pipelines-tasks-lib';
 import {
     customUnityEditorsPathInputVariableName,
-    localPathInputVariableName,
+    tempDirectoryInputVariableName,
     passwordInputVariableName,
     unityEditorsPathModeInputVariableName,
     unityProjectPathInputVariableName,
@@ -52,7 +52,7 @@ function run() {
         }
 
         const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(unityEditorsPath, unityVersion.info!);
-        const logFilesDirectory = path.join(tl.getVariable(localPathInputVariableName)!, 'Logs');
+        const logFilesDirectory = path.join(tl.getVariable(tempDirectoryInputVariableName)!, 'Logs');
         const logFilePath = path.join(logFilesDirectory, `UnityReturnLicenseLog_${Utilities.getLogFileNameTimeStamp()}.log`);
 
         // Set output variable values.

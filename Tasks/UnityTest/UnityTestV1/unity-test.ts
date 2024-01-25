@@ -26,7 +26,7 @@ const batchModeInputVariableName = 'batchMode';
 const acceptApiUpdateInputVariableName = 'acceptApiUpdate';
 const noPackageManagerInputVariableName = 'noPackageManager';
 const testResultsPathInputVariableName = 'testResultsPath';
-const localPathInputVariableName = 'Build.Repository.LocalPath';
+const tempDirectoryInputVariableName = 'Agent.TempDirectory';
 const cleanBuildInputVariableName = 'Build.Repository.Clean';
 const additionalCmdArgsInputVariableName = 'additionalCmdArgs';
 
@@ -64,7 +64,7 @@ async function run() {
         const acceptApiUpdate = tl.getBoolInput(acceptApiUpdateInputVariableName);
         const noPackageManager = tl.getBoolInput(noPackageManagerInputVariableName);
         const additionalCmdArgs = tl.getInput(additionalCmdArgsInputVariableName) || '';
-        const repositoryLocalPath = tl.getVariable(localPathInputVariableName)!;
+        const repositoryLocalPath = tl.getVariable(tempDirectoryInputVariableName)!;
         const testResultsFileName = testMode === UnityTestMode.editMode ? editModeResultsFileName : playModeResultsFileName;
         const testResultsPathAndFileName = path.join(`${testResultsPath}`, `${testResultsFileName}`);
         const logFilesDirectory = path.join(repositoryLocalPath!, 'Logs');
