@@ -27,11 +27,14 @@ export class UnityBuildScriptHelper {
                 try
                 {
                     EditorBuildSettingsScene[] editorConfiguredBuildScenes = EditorBuildSettings.scenes;
-                    string[] includedScenes = new string[editorConfiguredBuildScenes.Length];
+                    List<string> includedScenes = new List<string>();
                 
                     for (int i = 0; i < editorConfiguredBuildScenes.Length; i++)
                     {
-                        includedScenes[i] = editorConfiguredBuildScenes[i].path;
+                        if(editorConfiguredBuildScenes[i].enabled == false)
+                            continue;
+                            
+                        includedScenes.Add(editorConfiguredBuildScenes[i].path);
                     }
 
         #if UNITY_2018_1_OR_NEWER
@@ -42,7 +45,7 @@ export class UnityBuildScriptHelper {
 
                     buildReport = BuildPipeline.BuildPlayer(new BuildPlayerOptions
                     {
-                        scenes = includedScenes,
+                        scenes = includedScenes.ToArray(),
                         target = EditorUserBuildSettings.activeBuildTarget,
                         locationPathName = Path.Combine(locationPathName, GetBuildTargetOutputFileNameAndExtension()),
                         targetGroup = EditorUserBuildSettings.selectedBuildTargetGroup,
