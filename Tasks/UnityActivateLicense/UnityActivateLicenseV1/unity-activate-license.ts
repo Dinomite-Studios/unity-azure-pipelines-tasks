@@ -14,7 +14,7 @@ export const versionInputVariableName = 'version';
 export const unityEditorsPathModeInputVariableName = 'unityEditorsPathMode';
 export const customUnityEditorsPathInputVariableName = 'customUnityEditorsPath';
 export const unityProjectPathInputVariableName = "unityProjectPath";
-export const localPathInputVariableName = 'Build.Repository.LocalPath';
+export const tempDirectoryInputVariableName = 'Agent.TempDirectory';
 export const versionSelectionModeVariableName = "versionSelectionMode";
 const serialInputVariableName = 'serial';
 
@@ -50,7 +50,7 @@ function run() {
         }
 
         const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(unityEditorsPath, unityVersion.info!);
-        const logFilesDirectory = path.join(tl.getVariable(localPathInputVariableName)!, 'Logs');
+        const logFilesDirectory = path.join(tl.getVariable(tempDirectoryInputVariableName)!, 'Logs');
         const logFilePath = path.join(logFilesDirectory, `UnityActivationLog_${Utilities.getLogFileNameTimeStamp()}.log`);
 
         // Set output variable values.
