@@ -40,6 +40,8 @@
         "WebStreamed": "Web Streamed",
         "WebGL": "WebGL",
         "XboxOne": "Xbox One",
+        "GameCoreXboxOne": "Game Core Xbox One",
+        "GameCoreXboxScarlett": "Game Core Xbox Scarlett",
         "PS4": "PS4",
         "WindowsStoreApps": "Windows Store Apps",
         "Switch": "Switch",
