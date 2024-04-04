@@ -15,69 +15,81 @@ steps:
   inputs:
     command: 'install'
     workingDir: 'Tasks/UnityActivateLicense/UnityActivateLicenseV1'
+  displayName: 'NPM Install UnityActivateLicenseV1'
 
 - task: Npm@1
   inputs:
     command: 'custom'
     workingDir: 'Tasks/UnityActivateLicense/UnityActivateLicenseV1'
     customCommand: 'run build'
+  displayName: 'Build UnityActivateLicenseV1'
 
 # Build UnityBuild
 - task: Npm@1
   inputs:
     command: 'install'
     workingDir: 'Tasks/UnityBuild/UnityBuildV3'
+  displayName: 'NPM Install UnityBuildV3'
 
 - task: Npm@1
   inputs:
     command: 'custom'
     workingDir: 'Tasks/UnityBuild/UnityBuildV3'
     customCommand: 'run build'
+  displayName: 'Build UnityBuildV3'
 
 # Build UnityCMD
 - task: Npm@1
   inputs:
     command: 'install'
     workingDir: 'Tasks/UnityCMD/UnityCMDV1'
+  displayName: 'NPM Install UnityCMDV1'
 
 - task: Npm@1
   inputs:
     command: 'custom'
     workingDir: 'Tasks/UnityCMD/UnityCMDV1'
     customCommand: 'run build'
+  displayName: 'Build UnityCMDV1'
 
 # Build UnityGetProjectVersion
 - task: Npm@1
   inputs:
     command: 'install'
     workingDir: 'Tasks/UnityGetProjectVersion/UnityGetProjectVersionV1'
+  displayName: 'NPM Install UnityGetProjectVersionV1'
 
 - task: Npm@1
   inputs:
     command: 'custom'
     workingDir: 'Tasks/UnityGetProjectVersion/UnityGetProjectVersionV1'
     customCommand: 'run build'
+  displayName: 'Build UnityGetProjectVersionV1'
 
 # Build UnitySetup
 - task: Npm@1
   inputs:
     command: 'install'
     workingDir: 'Tasks/UnitySetup/UnitySetupV1'
+  displayName: 'NPM Install UnitySetupV1'
 
 - task: Npm@1
   inputs:
     command: 'custom'
     workingDir: 'Tasks/UnitySetup/UnitySetupV1'
     customCommand: 'run build'
+  displayName: 'Build UnitySetupV1'
 
 # Build UnityTest
 - task: Npm@1
   inputs:
     command: 'install'
     workingDir: 'Tasks/UnityTest/UnityTestV1'
+  displayName: 'NPM Install UnityTestV1'
 
 - task: Npm@1
   inputs:
     command: 'custom'
     workingDir: 'Tasks/UnityTest/UnityTestV1'
     customCommand: 'run build'
+  displayName: 'Build UnityTestV1'
