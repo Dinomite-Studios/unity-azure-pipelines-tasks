@@ -1,0 +1,83 @@
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '10.x'
+  displayName: 'Install Node.js'
+
+# Build UnityActivateLicense
+- task: Npm@1
+  inputs:
+    command: 'install'
+    workingDir: 'Tasks/UnityActivateLicense/UnityActivateLicenseV1'
+
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    workingDir: 'Tasks/UnityActivateLicense/UnityActivateLicenseV1'
+    customCommand: 'run build'
+
+# Build UnityBuild
+- task: Npm@1
+  inputs:
+    command: 'install'
+    workingDir: 'Tasks/UnityBuild/UnityBuildV3'
+
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    workingDir: 'Tasks/UnityBuild/UnityBuildV3'
+    customCommand: 'run build'
+
+# Build UnityCMD
+- task: Npm@1
+  inputs:
+    command: 'install'
+    workingDir: 'Tasks/UnityCMD/UnityCMDV1'
+
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    workingDir: 'Tasks/UnityCMD/UnityCMDV1'
+    customCommand: 'run build'
+
+# Build UnityGetProjectVersion
+- task: Npm@1
+  inputs:
+    command: 'install'
+    workingDir: 'Tasks/UnityGetProjectVersion/UnityGetProjectVersionV1'
+
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    workingDir: 'Tasks/UnityGetProjectVersion/UnityGetProjectVersionV1'
+    customCommand: 'run build'
+
+# Build UnitySetup
+- task: Npm@1
+  inputs:
+    command: 'install'
+    workingDir: 'Tasks/UnitySetup/UnitySetupV1'
+
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    workingDir: 'Tasks/UnitySetup/UnitySetupV1'
+    customCommand: 'run build'
+
+# Build UnityTest
+- task: Npm@1
+  inputs:
+    command: 'install'
+    workingDir: 'Tasks/UnityTest/UnityTestV1'
+
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    workingDir: 'Tasks/UnityTest/UnityTestV1'
+    customCommand: 'run build'
