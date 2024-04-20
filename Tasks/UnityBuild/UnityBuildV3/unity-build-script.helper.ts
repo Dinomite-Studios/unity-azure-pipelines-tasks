@@ -16,9 +16,11 @@ export class UnityBuildScriptHelper {
         #if UNITY_2018_1_OR_NEWER
         using UnityEditor.Build.Reporting;
         #endif
-        
-        public class AzureDevOps
+        namespace Azure.Build
         {
+        #pragma warning disable CA1052
+         public class AzureDevOps
+         {
             private static string outputFileName = @"${outputFileName}";
             private static string locationPathName = @"${outputPath}";
 
@@ -76,7 +78,7 @@ export class UnityBuildScriptHelper {
                     }
         #endif
                 }
-                catch (Exception ex)
+                catch (Exception ex) when (ex is Exception)
                 {
                     Debug.Log("BUILD FAILED: " + ex.Message);
                     EditorApplication.Exit(1);
@@ -124,7 +126,9 @@ export class UnityBuildScriptHelper {
                     default:
                         return outputFileName;
                 }
-            }
+            }            
+         }
+         #pragma warning restore CA1052
         }`;
     }
 }
