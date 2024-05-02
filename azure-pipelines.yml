@@ -13,8 +13,9 @@ steps:
 # Build UnityActivateLicense
 - task: Npm@1
   inputs:
-    command: 'install'
+    command: 'custom'
     workingDir: 'Tasks/UnityActivateLicense/UnityActivateLicenseV1'
+    customCommand: 'install --omit=dev'
   displayName: 'NPM Install UnityActivateLicenseV1'
 
 - task: Npm@1
@@ -27,8 +28,9 @@ steps:
 # Build UnityBuild
 - task: Npm@1
   inputs:
-    command: 'install'
+    command: 'custom'
     workingDir: 'Tasks/UnityBuild/UnityBuildV3'
+    customCommand: 'install --omit=dev'
   displayName: 'NPM Install UnityBuildV3'
 
 - task: Npm@1
@@ -41,8 +43,9 @@ steps:
 # Build UnityCMD
 - task: Npm@1
   inputs:
-    command: 'install'
+    command: 'custom'
     workingDir: 'Tasks/UnityCMD/UnityCMDV1'
+    customCommand: 'install --omit=dev'
   displayName: 'NPM Install UnityCMDV1'
 
 - task: Npm@1
@@ -55,8 +58,9 @@ steps:
 # Build UnityGetProjectVersion
 - task: Npm@1
   inputs:
-    command: 'install'
+    command: 'custom'
     workingDir: 'Tasks/UnityGetProjectVersion/UnityGetProjectVersionV1'
+    customCommand: 'install --omit=dev'
   displayName: 'NPM Install UnityGetProjectVersionV1'
 
 - task: Npm@1
@@ -69,8 +73,9 @@ steps:
 # Build UnitySetup
 - task: Npm@1
   inputs:
-    command: 'install'
+    command: 'custom'
     workingDir: 'Tasks/UnitySetup/UnitySetupV1'
+    customCommand: 'install --omit=dev'
   displayName: 'NPM Install UnitySetupV1'
 
 - task: Npm@1
@@ -83,8 +88,9 @@ steps:
 # Build UnityTest
 - task: Npm@1
   inputs:
-    command: 'install'
+    command: 'custom'
     workingDir: 'Tasks/UnityTest/UnityTestV1'
+    customCommand: 'install --omit=dev'
   displayName: 'NPM Install UnityTestV1'
 
 - task: Npm@1
@@ -93,3 +99,29 @@ steps:
     workingDir: 'Tasks/UnityTest/UnityTestV1'
     customCommand: 'run build'
   displayName: 'Build UnityTestV1'
+
+# Install TFX CLI tools  
+- task: TfxInstaller@4
+  inputs:
+      version: 'v0.x'
+
+# Bundle the extension package
+- task: CmdLine@2
+  inputs:
+    script: 'tfx extension create --manifests azure-devops-extension.json'
+    failOnStderr: true
+
+# Copy artifact to staging directory
+- task: CopyFiles@2
+  inputs:
+    Contents: '*.vsix'
+    TargetFolder: '$(build.artifactstagingdirectory)'
+    CleanTargetFolder: true
+    OverWrite: true
+
+# Publish artifact
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
