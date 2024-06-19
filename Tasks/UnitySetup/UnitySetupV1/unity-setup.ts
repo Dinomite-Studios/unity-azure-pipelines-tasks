@@ -14,33 +14,40 @@ const windowsModuleInputVariableName = 'installWindowsIL2CPPModule';
 const uwpModuleInputVariableName = 'installUWPModule';
 const webGLModuleInputVariableName = 'installWebGLModule';
 const installChildModulesInputVariableName = 'installChildModules';
-const customUnityHubPathInputVariableName = 'customUnityHubPath';
+const unityHubExecutableLocationVariableName = 'unityHubExecutableLocation';
+const customUnityHubExecutableLocation = 'customUnityHubExecutableLocation';
 
 function run() {
     try {
         // Configure localization.
         tl.setResourcePath(path.join(__dirname, 'task.json'));
 
-        // Setup and read inputs.
-        let unityHubExecutablePath = tl.getPathInput(customUnityHubPathInputVariableName);
-        if (!unityHubExecutablePath) {
+        // We either use the default installation location of the Unity Hub or if the user
+        // decided to customize it, we use the user's specified location.
+        console.log(tl.loc('unityHubLookUpInfo'));
+        let unityHubExecutablePath: string | undefined = undefined;
+        const unityHubLookupOption = tl.getInput(unityHubExecutableLocationVariableName, true)!
+        if (unityHubLookupOption === 'specify') {
+            unityHubExecutablePath = tl.getPathInput(customUnityHubExecutableLocation);
+        } else {
             // TODO: Add default paths for macOS / Linux.
             unityHubExecutablePath = 'C:\\Program Files\\Unity Hub\\Unity Hub.exe';
         }
 
-        const versionSelectionMode = tl.getInput(versionSelectionModeVariableName, true)!
-        const installAndroidModule = tl.getBoolInput(androidModuleInputVariableName, false) || false;
-        const installIOSModule = tl.getBoolInput(iOSModuleInputVariableName, false) || false;
-        const installTvOSModule = tl.getBoolInput(tvOSModuleInputVariableName, false) || false;
-        const installMacMonoModule = tl.getBoolInput(macMonoModuleInputVariableName, false) || false;
-        const installWindowsModule = tl.getBoolInput(windowsModuleInputVariableName, false) || false;
-        const installUwpModule = tl.getBoolInput(uwpModuleInputVariableName, false) || false;
-        const installWebGLModule = tl.getBoolInput(webGLModuleInputVariableName, false) || false;
-        const installChildModules = tl.getBoolInput(installChildModulesInputVariableName, false) || true;
+        if (!unityHubExecutablePath) {
+            console.error(tl.loc('unityHubLocationNotSpecified'));
+            tl.setResult(tl.TaskResult.Failed, tl.loc('unityHubLocationNotSpecified'));
+        } else {
+            console.log(`${tl.loc('unityHubLocationInfo')} ${unityHubExecutablePath})`)
+        }
 
+        // Next up we need to know what version of the Unity editor to install.
+        // This can either be the version found in the project's settings or it can be a
+        // user specified version.
         var version = '';
         var revision = '';
 
+        const versionSelectionMode = tl.getInput(versionSelectionModeVariableName, true)!
         if (versionSelectionMode === 'specify') {
             version = tl.getInput(versionInputVariableName, true)!;
             revision = tl.getInput(revisionInputVariableName, true)!;
@@ -51,6 +58,15 @@ function run() {
         }
 
         console.log(`${tl.loc('installVersionInfo')} ${version} (${revision})`);
+
+        const installAndroidModule = tl.getBoolInput(androidModuleInputVariableName, false) || false;
+        const installIOSModule = tl.getBoolInput(iOSModuleInputVariableName, false) || false;
+        const installTvOSModule = tl.getBoolInput(tvOSModuleInputVariableName, false) || false;
+        const installMacMonoModule = tl.getBoolInput(macMonoModuleInputVariableName, false) || false;
+        const installWindowsModule = tl.getBoolInput(windowsModuleInputVariableName, false) || false;
+        const installUwpModule = tl.getBoolInput(uwpModuleInputVariableName, false) || false;
+        const installWebGLModule = tl.getBoolInput(webGLModuleInputVariableName, false) || false;
+        const installChildModules = tl.getBoolInput(installChildModulesInputVariableName, false) || true;
 
         // Step 1: Install the requested Unity editor.
         const installEditorCmd = tl.tool(unityHubExecutablePath!)
