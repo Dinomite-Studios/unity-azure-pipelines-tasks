@@ -19,7 +19,7 @@
   "dependencies": {
     "@types/node": "^18.0.0",
     "@types/q": "^1.5.5",
-    "@dinomite-studios/unity-azure-pipelines-tasks-lib": "^1.0.0",
+    "@dinomite-studios/unity-azure-pipelines-tasks-lib": "^1.0.3",
     "azure-pipelines-task-lib": "^4.1.0"
   },
   "devDependencies": {

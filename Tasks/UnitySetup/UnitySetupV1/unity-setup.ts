@@ -1,6 +1,6 @@
 import path = require('path');
 import tl = require('azure-pipelines-task-lib/task');
-import { UnityVersionInfoResult, UnityVersionTools } from '@dinomite-studios/unity-azure-pipelines-tasks-lib/';
+import { UnityPathTools, UnityVersionInfoResult, UnityVersionTools } from '@dinomite-studios/unity-azure-pipelines-tasks-lib/';
 
 // Input variables.
 const versionSelectionModeVariableName = "versionSelectionMode";
@@ -30,8 +30,7 @@ function run() {
         if (unityHubLookupOption === 'specify') {
             unityHubExecutablePath = tl.getPathInput(customUnityHubExecutableLocation);
         } else {
-            // TODO: Add default paths for macOS / Linux.
-            unityHubExecutablePath = 'C:\\Program Files\\Unity Hub\\Unity Hub.exe';
+            unityHubExecutablePath = UnityPathTools.getUnityHubPath();
         }
 
         if (!unityHubExecutablePath) {
