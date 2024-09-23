@@ -16,8 +16,10 @@ const tvOSModuleInputVariableName = 'installTVOSModule';
 const visionOSModuleInputVariableName = 'installVisionOSModule';
 const linuxMonoModuleInputVariableName = 'installLinuxMonoModule';
 const linuxIL2CPPModuleInputVariableName = 'installLinuxIL2CPPModule';
-const macMonoModuleInputVariableName = 'installMacMonoModule';
-const macIL2CPPModuleInputVariableName = 'installMacIL2CPPModule';
+const macMonoIntelModuleInputVariableName = 'installMacMonoIntelModule';
+const macIL2CPPIntelModuleInputVariableName = 'installMacIL2CPPIntelModule';
+const macMonoSiliconModuleInputVariableName = 'installMacMonoSiliconModule';
+const macIL2CPPSiliconModuleInputVariableName = 'installMacIL2CPPSiliconModule';
 const windowsModuleInputVariableName = 'installWindowsIL2CPPModule';
 const uwpModuleInputVariableName = 'installUWPModule';
 const webGLModuleInputVariableName = 'installWebGLModule';
@@ -73,8 +75,10 @@ function run() {
         const installVisionOSModule = tl.getBoolInput(visionOSModuleInputVariableName, false) || false;
         const installLinuxMonoModule = tl.getBoolInput(linuxMonoModuleInputVariableName, false) || false;
         const installLinuxIL2CPPModule = tl.getBoolInput(linuxIL2CPPModuleInputVariableName, false) || false;
-        const installMacMonoModule = tl.getBoolInput(macMonoModuleInputVariableName, false) || false;
-        const installMacIL2CPPModule = tl.getBoolInput(macIL2CPPModuleInputVariableName, false) || false;
+        const installMacMonoIntelModule = tl.getBoolInput(macMonoIntelModuleInputVariableName, false) || false;
+        const installMacIL2CPPIntelModule = tl.getBoolInput(macIL2CPPIntelModuleInputVariableName, false) || false;
+        const installMacMonoSiliconModule = tl.getBoolInput(macMonoSiliconModuleInputVariableName, false) || false;
+        const installMacIL2CPPSiliconModule = tl.getBoolInput(macIL2CPPSiliconModuleInputVariableName, false) || false;
         const installWindowsModule = tl.getBoolInput(windowsModuleInputVariableName, false) || false;
         const installUwpModule = tl.getBoolInput(uwpModuleInputVariableName, false) || false;
         const installWebGLModule = tl.getBoolInput(webGLModuleInputVariableName, false) || false;
@@ -86,13 +90,24 @@ function run() {
             .arg('install')
             .arg('--version').arg(version)
             .arg('--changeset').arg(revision);
+
+        if (installMacMonoSiliconModule || installMacIL2CPPSiliconModule) {
+            installEditorCmd.arg('--architecture arm64')
+        }
+
         installEditorCmd.execSync();
 
         // Step 2: If any additional modules are requested, install those as well.
         if (installAndroidModule ||
             installIOSModule ||
             installTvOSModule ||
-            installMacMonoModule ||
+            installVisionOSModule ||
+            installLinuxMonoModule ||
+            installLinuxIL2CPPModule ||
+            installMacMonoIntelModule ||
+            installMacIL2CPPIntelModule ||
+            installMacMonoSiliconModule ||
+            installMacIL2CPPSiliconModule ||
             installWindowsModule ||
             installUwpModule ||
             installWebGLModule) {
@@ -136,11 +151,11 @@ function run() {
                 installModulesCmd.arg('linux-il2cpp');
             }
 
-            if (installMacMonoModule) {
+            if (installMacMonoIntelModule || installMacMonoSiliconModule) {
                 installModulesCmd.arg('mac-mono');
             }
 
-            if (installMacIL2CPPModule) {
+            if (installMacIL2CPPIntelModule || installMacIL2CPPSiliconModule) {
                 installModulesCmd.arg('mac-il2cpp');
             }
 
