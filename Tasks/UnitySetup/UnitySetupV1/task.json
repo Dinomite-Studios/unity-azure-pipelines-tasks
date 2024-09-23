@@ -5,15 +5,15 @@
   "description": "Azure Pipelines task to setup Unity editors and modules on the build machine.",
   "helpMarkDown": "Use this task to setup Unity editors and modules required to build your project on the build agent. [More Information](https://unitydevops.com/docs/unity-setup-task).",
   "category": "Azure Pipelines",
-  "preview": true,
+  "preview": false,
   "visibility": [
     "Build"
   ],
-  "author": "Dinomite Studios",
+  "author": "Dinomite",
   "version": {
     "Major": "1",
     "Minor": "0",
-    "Patch": "2"
+    "Patch": "3"
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnitySetup/UnitySetupV1/CHANGELOG.md)",
   "minimumAgentVersion": "2.144.0",
@@ -93,15 +93,6 @@
       "helpMarkDown": "(Optional) Specify where to look for the Unity Hub executable on the agent."
     },
     {
-      "name": "installChildModules",
-      "type": "boolean",
-      "label": "Install Child Modules",
-      "defaultValue": true,
-      "required": false,
-      "groupName": "moduleOptions",
-      "helpMarkDown": "(Optional) Installs all child modules, such as the Android SDK & NDK for a given module."
-    },
-    {
       "name": "installAndroidModule",
       "type": "boolean",
       "label": "Android Build Support",
@@ -109,6 +100,26 @@
       "required": false,
       "groupName": "moduleOptions",
       "helpMarkDown": "(Optional) Install the Android build module."
+    },
+    {
+      "name": "installAndroidSDKNDKModule",
+      "type": "boolean",
+      "label": "Android SDK & NDK Tools",
+      "defaultValue": true,
+      "required": false,
+      "groupName": "moduleOptions",
+      "visibleRule": "installAndroidModule == true",
+      "helpMarkDown": "Installs Android SDK & NDK Tools."
+    },
+    {
+      "name": "installAndroidOpenJDKModule",
+      "type": "boolean",
+      "label": "OpenJDK",
+      "defaultValue": true,
+      "required": false,
+      "groupName": "moduleOptions",
+      "visibleRule": "installAndroidModule == true",
+      "helpMarkDown": "Installs OpenJDK tools."
     },
     {
       "name": "installIOSModule",
@@ -127,6 +138,15 @@
       "required": false,
       "groupName": "moduleOptions",
       "helpMarkDown": "(Optional) Install the tvOS build module."
+    },
+    {
+      "name": "installVisionOSModule",
+      "type": "boolean",
+      "label": "visionOS Build Support",
+      "defaultValue": false,
+      "required": false,
+      "groupName": "moduleOptions",
+      "helpMarkDown": "(Optional) Install the visionOS build module."
     },
     {
       "name": "installMacMonoModule",

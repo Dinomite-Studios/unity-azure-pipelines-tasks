@@ -1,6 +1,6 @@
 {
   "name": "@dinomite-studios/unity-setup-task",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Azure Pipelines task to setup Unity editors and modules on the executing machine.",
   "main": "unity-setup.js",
   "scripts": {
@@ -14,15 +14,15 @@
     "type": "git",
     "url": "https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks"
   },
-  "author": "Dinomite Studios",
+  "author": "Dinomite",
   "license": "MIT",
   "dependencies": {
-    "@types/node": "^18.0.0",
-    "@types/q": "^1.5.5",
-    "@dinomite-studios/unity-azure-pipelines-tasks-lib": "^1.0.4",
-    "azure-pipelines-task-lib": "^4.13.0"
+    "@types/node": "^22.5.5",
+    "@types/q": "^1.5.8",
+    "@dinomite-studios/unity-azure-pipelines-tasks-lib": "^1.0.6",
+    "azure-pipelines-task-lib": "^4.17.2"
   },
   "devDependencies": {
-    "typescript": "^4.0.2"
+    "typescript": "^5.6.2"
   }
 }

@@ -2,18 +2,22 @@ import path = require('path');
 import tl = require('azure-pipelines-task-lib/task');
 import { UnityPathTools, UnityVersionInfoResult, UnityVersionTools } from '@dinomite-studios/unity-azure-pipelines-tasks-lib/';
 
-// Input variables.
+// Input variables - General.
 const versionSelectionModeVariableName = "versionSelectionMode";
 const versionInputVariableName = 'version';
 const revisionInputVariableName = 'revision';
+
+// Input variables - Modules (Platforms)
 const androidModuleInputVariableName = 'installAndroidModule';
+const androidSDKNDKModuleInputVariableName = 'installAndroidSDKNDKModule';
+const androidOpenJDKModuleInputVariableName = 'installAndroidOpenJDKModule';
 const iOSModuleInputVariableName = 'installIOSModule';
 const tvOSModuleInputVariableName = 'installTVOSModule';
+const visionOSModuleInputVariableName = 'installVisionOSModule';
 const macMonoModuleInputVariableName = 'installMacMonoModule';
 const windowsModuleInputVariableName = 'installWindowsIL2CPPModule';
 const uwpModuleInputVariableName = 'installUWPModule';
 const webGLModuleInputVariableName = 'installWebGLModule';
-const installChildModulesInputVariableName = 'installChildModules';
 const unityHubExecutableLocationVariableName = 'unityHubExecutableLocation';
 const customUnityHubExecutableLocation = 'customUnityHubExecutableLocation';
 
@@ -59,13 +63,15 @@ function run() {
         console.log(`${tl.loc('installVersionInfo')} ${version} (${revision})`);
 
         const installAndroidModule = tl.getBoolInput(androidModuleInputVariableName, false) || false;
+        const installAndroidSDKNDK = tl.getBoolInput(androidSDKNDKModuleInputVariableName, false) || false;
+        const installAndroidOpenJDK = tl.getBoolInput(androidOpenJDKModuleInputVariableName, false) || false;
         const installIOSModule = tl.getBoolInput(iOSModuleInputVariableName, false) || false;
         const installTvOSModule = tl.getBoolInput(tvOSModuleInputVariableName, false) || false;
+        const installVisionOSModule = tl.getBoolInput(visionOSModuleInputVariableName, false) || false;
         const installMacMonoModule = tl.getBoolInput(macMonoModuleInputVariableName, false) || false;
         const installWindowsModule = tl.getBoolInput(windowsModuleInputVariableName, false) || false;
         const installUwpModule = tl.getBoolInput(uwpModuleInputVariableName, false) || false;
         const installWebGLModule = tl.getBoolInput(webGLModuleInputVariableName, false) || false;
-        const installChildModules = tl.getBoolInput(installChildModulesInputVariableName, false) || true;
 
         // Step 1: Install the requested Unity editor.
         const installEditorCmd = tl.tool(unityHubExecutablePath!)
@@ -90,14 +96,18 @@ function run() {
                 .arg('install-modules')
                 .arg('--version').arg(version);
 
-            if (installChildModules) {
-                installModulesCmd.arg('--childModules')
-            }
-
             installModulesCmd.arg('--module');
 
             if (installAndroidModule) {
                 installModulesCmd.arg('android');
+
+                if (installAndroidSDKNDK) {
+                    installModulesCmd.arg('android-sdk-ndk-tools');
+                }
+
+                if (installAndroidOpenJDK) {
+                    installModulesCmd.arg('android-open-jdk');
+                }
             }
 
             if (installIOSModule) {
@@ -106,6 +116,10 @@ function run() {
 
             if (installTvOSModule) {
                 installModulesCmd.arg('appletv');
+            }
+
+            if (installVisionOSModule) {
+                installModulesCmd.arg('visionOS');
             }
 
             if (installMacMonoModule) {

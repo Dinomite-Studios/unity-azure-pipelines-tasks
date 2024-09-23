@@ -14,7 +14,7 @@
     "type": "git",
     "url": "https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks"
   },
-  "author": "Dinomite Studios",
+  "author": "Dinomite",
   "license": "MIT",
   "dependencies": {
     "@types/node": "^18.0.0",
