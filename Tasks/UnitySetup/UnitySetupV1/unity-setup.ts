@@ -6,6 +6,8 @@ import { UnityPathTools, UnityVersionInfoResult, UnityVersionTools } from '@dino
 const versionSelectionModeVariableName = "versionSelectionMode";
 const versionInputVariableName = 'version';
 const revisionInputVariableName = 'revision';
+const unityHubExecutableLocationVariableName = 'unityHubExecutableLocation';
+const customUnityHubExecutableLocation = 'customUnityHubExecutableLocation';
 
 // Input variables - Modules (Platforms)
 const androidModuleInputVariableName = 'installAndroidModule';
@@ -23,8 +25,6 @@ const macIL2CPPSiliconModuleInputVariableName = 'installMacIL2CPPSiliconModule';
 const windowsModuleInputVariableName = 'installWindowsIL2CPPModule';
 const uwpModuleInputVariableName = 'installUWPModule';
 const webGLModuleInputVariableName = 'installWebGLModule';
-const unityHubExecutableLocationVariableName = 'unityHubExecutableLocation';
-const customUnityHubExecutableLocation = 'customUnityHubExecutableLocation';
 
 function run() {
     try {

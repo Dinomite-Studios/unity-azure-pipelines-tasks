@@ -3,7 +3,7 @@
   "name": "UnitySetupTask",
   "friendlyName": "Unity Setup",
   "description": "Azure Pipelines task to setup Unity editors and modules on the build machine.",
-  "helpMarkDown": "Use this task to setup Unity editors and modules required to build your project on the build agent. [More Information](https://unitydevops.com/docs/unity-setup-task).",
+  "helpMarkDown": "Use this task to install Unity editors and modules required to build your project on the build agent. [More Information](https://unitydevops.com/docs/unity-setup-task).",
   "category": "Azure Pipelines",
   "preview": false,
   "visibility": [
@@ -23,11 +23,6 @@
       "name": "moduleOptions",
       "displayName": "Platforms",
       "isExpanded": true
-    },
-    {
-      "name": "advanced",
-      "displayName": "Advanced",
-      "isExpanded": false
     }
   ],
   "inputs": [
@@ -76,7 +71,6 @@
       "label": "Unity Hub executable location",
       "defaultValue": "default",
       "helpMarkDown": "The task needs the Unity Hub executable to perform CLI commands. If your Unity Hub is not in the default install location, use this option to specify its location.",
-      "groupName": "advanced",
       "options": {
         "default": "Default (recommended)",
         "specify": "Specify path"
@@ -88,7 +82,6 @@
       "label": "Custom Unity Hub executable path",
       "defaultValue": "",
       "required": true,
-      "groupName": "advanced",
       "visibleRule": "unityHubExecutableLocation == specify",
       "helpMarkDown": "(Optional) Specify where to look for the Unity Hub executable on the agent."
     },
