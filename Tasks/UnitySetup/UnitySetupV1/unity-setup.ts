@@ -1,13 +1,14 @@
 import path = require('path');
 import tl = require('azure-pipelines-task-lib/task');
-import { UnityPathTools, UnityVersionInfoResult, UnityVersionTools } from '@dinomite-studios/unity-azure-pipelines-tasks-lib/';
+import { OS, UnityPathTools, UnityVersionInfoResult, UnityVersionTools, Utilities } from '@dinomite-studios/unity-azure-pipelines-tasks-lib/';
 
 // Input variables - General.
 const versionSelectionModeVariableName = "versionSelectionMode";
 const versionInputVariableName = 'version';
 const revisionInputVariableName = 'revision';
 const unityHubExecutableLocationVariableName = 'unityHubExecutableLocation';
-const customUnityHubExecutableLocation = 'customUnityHubExecutableLocation';
+const customUnityHubExecutableLocationVariableName = 'customUnityHubExecutableLocation';
+const macOSArchitectureVariableName = 'macOSArchitecture';
 
 // Input variables - Modules (Platforms)
 const androidModuleInputVariableName = 'installAndroidModule';
@@ -18,10 +19,8 @@ const tvOSModuleInputVariableName = 'installTVOSModule';
 const visionOSModuleInputVariableName = 'installVisionOSModule';
 const linuxMonoModuleInputVariableName = 'installLinuxMonoModule';
 const linuxIL2CPPModuleInputVariableName = 'installLinuxIL2CPPModule';
-const macMonoIntelModuleInputVariableName = 'installMacMonoIntelModule';
-const macIL2CPPIntelModuleInputVariableName = 'installMacIL2CPPIntelModule';
-const macMonoSiliconModuleInputVariableName = 'installMacMonoSiliconModule';
-const macIL2CPPSiliconModuleInputVariableName = 'installMacIL2CPPSiliconModule';
+const macMonoModuleInputVariableName = 'installMacMonoModule';
+const macIL2CPPModuleInputVariableName = 'installMacIL2CPPModule';
 const windowsModuleInputVariableName = 'installWindowsIL2CPPModule';
 const uwpModuleInputVariableName = 'installUWPModule';
 const webGLModuleInputVariableName = 'installWebGLModule';
@@ -37,7 +36,7 @@ function run() {
         let unityHubExecutablePath: string | undefined = undefined;
         const unityHubLookupOption = tl.getInput(unityHubExecutableLocationVariableName, true)!
         if (unityHubLookupOption === 'specify') {
-            unityHubExecutablePath = tl.getPathInput(customUnityHubExecutableLocation);
+            unityHubExecutablePath = tl.getPathInput(customUnityHubExecutableLocationVariableName);
         } else {
             unityHubExecutablePath = UnityPathTools.getUnityHubPath();
         }
@@ -75,10 +74,8 @@ function run() {
         const installVisionOSModule = tl.getBoolInput(visionOSModuleInputVariableName, false) || false;
         const installLinuxMonoModule = tl.getBoolInput(linuxMonoModuleInputVariableName, false) || false;
         const installLinuxIL2CPPModule = tl.getBoolInput(linuxIL2CPPModuleInputVariableName, false) || false;
-        const installMacMonoIntelModule = tl.getBoolInput(macMonoIntelModuleInputVariableName, false) || false;
-        const installMacIL2CPPIntelModule = tl.getBoolInput(macIL2CPPIntelModuleInputVariableName, false) || false;
-        const installMacMonoSiliconModule = tl.getBoolInput(macMonoSiliconModuleInputVariableName, false) || false;
-        const installMacIL2CPPSiliconModule = tl.getBoolInput(macIL2CPPSiliconModuleInputVariableName, false) || false;
+        const installMacMonoModule = tl.getBoolInput(macMonoModuleInputVariableName, false) || false;
+        const installMacIL2CPPModule = tl.getBoolInput(macIL2CPPModuleInputVariableName, false) || false;
         const installWindowsModule = tl.getBoolInput(windowsModuleInputVariableName, false) || false;
         const installUwpModule = tl.getBoolInput(uwpModuleInputVariableName, false) || false;
         const installWebGLModule = tl.getBoolInput(webGLModuleInputVariableName, false) || false;
@@ -91,8 +88,9 @@ function run() {
             .arg('--version').arg(version)
             .arg('--changeset').arg(revision);
 
-        if (installMacMonoSiliconModule || installMacIL2CPPSiliconModule) {
-            installEditorCmd.arg('--architecture arm64')
+        if (Utilities.getOS() === OS.MacOS) {
+            const macOSArchitectureOption = tl.getInput(macOSArchitectureVariableName, true)!
+            installEditorCmd.arg('--architecture').arg(macOSArchitectureOption);
         }
 
         installEditorCmd.execSync();
@@ -104,10 +102,8 @@ function run() {
             installVisionOSModule ||
             installLinuxMonoModule ||
             installLinuxIL2CPPModule ||
-            installMacMonoIntelModule ||
-            installMacIL2CPPIntelModule ||
-            installMacMonoSiliconModule ||
-            installMacIL2CPPSiliconModule ||
+            installMacMonoModule ||
+            installMacIL2CPPModule ||
             installWindowsModule ||
             installUwpModule ||
             installWebGLModule) {
@@ -151,11 +147,11 @@ function run() {
                 installModulesCmd.arg('linux-il2cpp');
             }
 
-            if (installMacMonoIntelModule || installMacMonoSiliconModule) {
+            if (installMacMonoModule) {
                 installModulesCmd.arg('mac-mono');
             }
 
-            if (installMacIL2CPPIntelModule || installMacIL2CPPSiliconModule) {
+            if (installMacIL2CPPModule) {
                 installModulesCmd.arg('mac-il2cpp');
             }
 

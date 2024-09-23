@@ -86,6 +86,18 @@
       "helpMarkDown": "(Optional) Specify where to look for the Unity Hub executable on the agent."
     },
     {
+      "name": "macOSArchitecture",
+      "type": "pickList",
+      "label": "Editor Architecture (macOS only!)",
+      "required": true,
+      "helpMarkDown": "macOS only: Use this argument to explicitly choose between the Apple Silicon or Intel version of the Unity Editor. Defaults to Intel, x86_64.",
+      "defaultValue": "x86_64",
+      "options": {
+        "x86_64": "Intel",
+        "arm64": "Apple Silicon"
+      }
+    },
+    {
       "name": "installAndroidModule",
       "type": "boolean",
       "label": "Android Build Support",
@@ -160,36 +172,18 @@
       "helpMarkDown": "(Optional) Install the visionOS build module."
     },
     {
-      "name": "installMacMonoIntelModule",
+      "name": "installMacMonoModule",
       "type": "boolean",
-      "label": "Mac Build Support (Mono) (Intel)",
+      "label": "Mac Build Support (Mono)",
       "defaultValue": false,
       "required": false,
       "groupName": "moduleOptions",
       "helpMarkDown": "(Optional) Install the Mac (Mono) build module."
     },
     {
-      "name": "installMacIL2CPPIntelModule",
+      "name": "installMacIL2CPPModule",
       "type": "boolean",
-      "label": "Mac Build Support (IL2CPP) (Intel)",
-      "defaultValue": false,
-      "required": false,
-      "groupName": "moduleOptions",
-      "helpMarkDown": "(Optional) Install the Mac (IL2CPP) build module."
-    },
-    {
-      "name": "installMacMonoSiliconModule",
-      "type": "boolean",
-      "label": "Mac Build Support (Mono) (Silicon)",
-      "defaultValue": false,
-      "required": false,
-      "groupName": "moduleOptions",
-      "helpMarkDown": "(Optional) Install the Mac (Mono) build module."
-    },
-    {
-      "name": "installMacIL2CPPSiliconModule",
-      "type": "boolean",
-      "label": "Mac Build Support (IL2CPP) (Silicon)",
+      "label": "Mac Build Support (IL2CPP)",
       "defaultValue": false,
       "required": false,
       "groupName": "moduleOptions",
