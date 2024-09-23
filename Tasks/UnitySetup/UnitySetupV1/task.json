@@ -89,7 +89,7 @@
       "name": "macOSArchitecture",
       "type": "pickList",
       "label": "Editor Architecture (macOS only!)",
-      "required": true,
+      "required": false,
       "helpMarkDown": "macOS only: Use this argument to explicitly choose between the Apple Silicon or Intel version of the Unity Editor. Defaults to Intel, x86_64.",
       "defaultValue": "x86_64",
       "options": {
