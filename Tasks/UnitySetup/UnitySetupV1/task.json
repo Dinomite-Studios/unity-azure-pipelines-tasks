@@ -107,24 +107,14 @@
       "helpMarkDown": "(Optional) Install the Android build module."
     },
     {
-      "name": "installAndroidSDKNDKModule",
+      "name": "installAndroidChildModules",
       "type": "boolean",
-      "label": "Android SDK & NDK Tools",
+      "label": "Install Android SDK & NDK Tools & OpenJDK",
       "defaultValue": true,
       "required": false,
       "groupName": "moduleOptions",
       "visibleRule": "installAndroidModule == true",
-      "helpMarkDown": "(Optional) Installs Android SDK & NDK Tools."
-    },
-    {
-      "name": "installAndroidOpenJDKModule",
-      "type": "boolean",
-      "label": "OpenJDK",
-      "defaultValue": true,
-      "required": false,
-      "groupName": "moduleOptions",
-      "visibleRule": "installAndroidModule == true",
-      "helpMarkDown": "(Optional) Installs OpenJDK tools."
+      "helpMarkDown": "(Optional) Installs Android SDK & NDK Tools as well as the OpenJDK module."
     },
     {
       "name": "installIOSModule",

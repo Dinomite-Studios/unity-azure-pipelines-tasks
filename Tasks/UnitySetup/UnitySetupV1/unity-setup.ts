@@ -12,8 +12,7 @@ const macOSArchitectureVariableName = 'macOSArchitecture';
 
 // Input variables - Modules (Platforms)
 const androidModuleInputVariableName = 'installAndroidModule';
-const androidSDKNDKModuleInputVariableName = 'installAndroidSDKNDKModule';
-const androidOpenJDKModuleInputVariableName = 'installAndroidOpenJDKModule';
+const androidChildModulesInputVariableName = 'installAndroidChildModules';
 const iOSModuleInputVariableName = 'installIOSModule';
 const tvOSModuleInputVariableName = 'installTVOSModule';
 const visionOSModuleInputVariableName = 'installVisionOSModule';
@@ -67,8 +66,7 @@ function run() {
         console.log(`${tl.loc('installVersionInfo')} ${version} (${revision})`);
 
         const installAndroidModule = tl.getBoolInput(androidModuleInputVariableName, false) || false;
-        const installAndroidSDKNDK = tl.getBoolInput(androidSDKNDKModuleInputVariableName, false) || false;
-        const installAndroidOpenJDK = tl.getBoolInput(androidOpenJDKModuleInputVariableName, false) || false;
+        const installAndroidChildModules = tl.getBoolInput(androidChildModulesInputVariableName, false) || false;
         const installIOSModule = tl.getBoolInput(iOSModuleInputVariableName, false) || false;
         const installTvOSModule = tl.getBoolInput(tvOSModuleInputVariableName, false) || false;
         const installVisionOSModule = tl.getBoolInput(visionOSModuleInputVariableName, false) || false;
@@ -113,18 +111,14 @@ function run() {
                 .arg('install-modules')
                 .arg('--version').arg(version);
 
+            if (installAndroidModule && installAndroidChildModules) {
+                installModulesCmd.arg('--childModules');
+            }
+
             installModulesCmd.arg('--module');
 
             if (installAndroidModule) {
                 installModulesCmd.arg('android');
-
-                if (installAndroidSDKNDK) {
-                    installModulesCmd.arg('android-sdk-ndk-tools');
-                }
-
-                if (installAndroidOpenJDK) {
-                    installModulesCmd.arg('android-open-jdk');
-                }
             }
 
             if (installIOSModule) {
@@ -167,7 +161,7 @@ function run() {
                 installModulesCmd.arg('webgl');
             }
 
-            installModulesCmd.exec();
+            installModulesCmd.execSync();
         }
 
         // Set task result succeeded.
