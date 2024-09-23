@@ -17,6 +17,7 @@ const visionOSModuleInputVariableName = 'installVisionOSModule';
 const linuxMonoModuleInputVariableName = 'installLinuxMonoModule';
 const linuxIL2CPPModuleInputVariableName = 'installLinuxIL2CPPModule';
 const macMonoModuleInputVariableName = 'installMacMonoModule';
+const macIL2CPPModuleInputVariableName = 'installMacIL2CPPModule';
 const windowsModuleInputVariableName = 'installWindowsIL2CPPModule';
 const uwpModuleInputVariableName = 'installUWPModule';
 const webGLModuleInputVariableName = 'installWebGLModule';
@@ -73,6 +74,7 @@ function run() {
         const installLinuxMonoModule = tl.getBoolInput(linuxMonoModuleInputVariableName, false) || false;
         const installLinuxIL2CPPModule = tl.getBoolInput(linuxIL2CPPModuleInputVariableName, false) || false;
         const installMacMonoModule = tl.getBoolInput(macMonoModuleInputVariableName, false) || false;
+        const installMacIL2CPPModule = tl.getBoolInput(macIL2CPPModuleInputVariableName, false) || false;
         const installWindowsModule = tl.getBoolInput(windowsModuleInputVariableName, false) || false;
         const installUwpModule = tl.getBoolInput(uwpModuleInputVariableName, false) || false;
         const installWebGLModule = tl.getBoolInput(webGLModuleInputVariableName, false) || false;
@@ -136,6 +138,10 @@ function run() {
 
             if (installMacMonoModule) {
                 installModulesCmd.arg('mac-mono');
+            }
+
+            if (installMacIL2CPPModule) {
+                installModulesCmd.arg('mac-il2cpp');
             }
 
             if (installWindowsModule) {

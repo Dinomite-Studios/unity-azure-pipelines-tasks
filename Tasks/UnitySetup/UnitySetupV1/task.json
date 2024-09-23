@@ -109,7 +109,7 @@
       "required": false,
       "groupName": "moduleOptions",
       "visibleRule": "installAndroidModule == true",
-      "helpMarkDown": "Installs Android SDK & NDK Tools."
+      "helpMarkDown": "(Optional) Installs Android SDK & NDK Tools."
     },
     {
       "name": "installAndroidOpenJDKModule",
@@ -119,7 +119,7 @@
       "required": false,
       "groupName": "moduleOptions",
       "visibleRule": "installAndroidModule == true",
-      "helpMarkDown": "Installs OpenJDK tools."
+      "helpMarkDown": "(Optional) Installs OpenJDK tools."
     },
     {
       "name": "installIOSModule",
@@ -174,6 +174,15 @@
       "required": false,
       "groupName": "moduleOptions",
       "helpMarkDown": "(Optional) Install the Mac (Mono) build module."
+    },
+    {
+      "name": "installMacIL2CPPModule",
+      "type": "boolean",
+      "label": "Mac Build Support (IL2CPP)",
+      "defaultValue": false,
+      "required": false,
+      "groupName": "moduleOptions",
+      "helpMarkDown": "(Optional) Install the Mac (IL2CPP) build module."
     },
     {
       "name": "installWindowsIL2CPPModule",
