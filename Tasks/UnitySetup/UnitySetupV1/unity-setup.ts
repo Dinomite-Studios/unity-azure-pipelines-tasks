@@ -14,6 +14,8 @@ const androidOpenJDKModuleInputVariableName = 'installAndroidOpenJDKModule';
 const iOSModuleInputVariableName = 'installIOSModule';
 const tvOSModuleInputVariableName = 'installTVOSModule';
 const visionOSModuleInputVariableName = 'installVisionOSModule';
+const linuxMonoModuleInputVariableName = 'installLinuxMonoModule';
+const linuxIL2CPPModuleInputVariableName = 'installLinuxIL2CPPModule';
 const macMonoModuleInputVariableName = 'installMacMonoModule';
 const windowsModuleInputVariableName = 'installWindowsIL2CPPModule';
 const uwpModuleInputVariableName = 'installUWPModule';
@@ -68,6 +70,8 @@ function run() {
         const installIOSModule = tl.getBoolInput(iOSModuleInputVariableName, false) || false;
         const installTvOSModule = tl.getBoolInput(tvOSModuleInputVariableName, false) || false;
         const installVisionOSModule = tl.getBoolInput(visionOSModuleInputVariableName, false) || false;
+        const installLinuxMonoModule = tl.getBoolInput(linuxMonoModuleInputVariableName, false) || false;
+        const installLinuxIL2CPPModule = tl.getBoolInput(linuxIL2CPPModuleInputVariableName, false) || false;
         const installMacMonoModule = tl.getBoolInput(macMonoModuleInputVariableName, false) || false;
         const installWindowsModule = tl.getBoolInput(windowsModuleInputVariableName, false) || false;
         const installUwpModule = tl.getBoolInput(uwpModuleInputVariableName, false) || false;
@@ -120,6 +124,14 @@ function run() {
 
             if (installVisionOSModule) {
                 installModulesCmd.arg('visionOS');
+            }
+
+            if (installLinuxMonoModule) {
+                installModulesCmd.arg('linux-mono');
+            }
+
+            if (installLinuxIL2CPPModule) {
+                installModulesCmd.arg('linux-il2cpp');
             }
 
             if (installMacMonoModule) {

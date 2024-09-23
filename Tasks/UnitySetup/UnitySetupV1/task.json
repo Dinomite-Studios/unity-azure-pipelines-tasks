@@ -149,6 +149,24 @@
       "helpMarkDown": "(Optional) Install the visionOS build module."
     },
     {
+      "name": "installLinuxMonoModule",
+      "type": "boolean",
+      "label": "Linux Build Support (Mono)",
+      "defaultValue": false,
+      "required": false,
+      "groupName": "moduleOptions",
+      "helpMarkDown": "(Optional) Install the visionOS build module."
+    },
+    {
+      "name": "installLinuxIL2CPPModule",
+      "type": "boolean",
+      "label": "Linux Build Support (IL2CPP)",
+      "defaultValue": false,
+      "required": false,
+      "groupName": "moduleOptions",
+      "helpMarkDown": "(Optional) Install the visionOS build module."
+    },
+    {
       "name": "installMacMonoModule",
       "type": "boolean",
       "label": "Mac Build Support (Mono)",
