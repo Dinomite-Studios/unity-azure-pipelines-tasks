@@ -116,7 +116,7 @@
   ],
   "execution": {
     "Node": {
-      "target": "unity-setup.js",
+      "target": "unity-activate-license.js",
       "argumentFormat": ""
     }
   },
