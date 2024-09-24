@@ -1,6 +1,6 @@
 {
   "name": "@dinomite-studios/unity-activate-license-task",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Azure Pipelines task to activate a Unity Pro license prior to building a project.",
   "main": "unity-activate-license.js",
   "scripts": {
@@ -17,12 +17,12 @@
   "author": "Dinomite",
   "license": "MIT",
   "dependencies": {
-    "@types/node": "^18.0.0",
-    "@types/q": "^1.5.5",
-    "@dinomite-studios/unity-azure-pipelines-tasks-lib": "^1.0.0",
-    "azure-pipelines-task-lib": "^4.1.0"
+    "@types/node": "^22.5.5",
+    "@types/q": "^1.5.8",
+    "@dinomite-studios/unity-azure-pipelines-tasks-lib": "^1.0.7",
+    "azure-pipelines-task-lib": "^4.17.2"
   },
   "devDependencies": {
-    "typescript": "^4.0.2"
+    "typescript": "^5.6.2"
   }
 }

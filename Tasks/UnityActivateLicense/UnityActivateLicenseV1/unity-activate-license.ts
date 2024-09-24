@@ -10,13 +10,13 @@ import {
 // Input variable names.
 export const usernameInputVariableName = 'username';
 export const passwordInputVariableName = 'password';
+const serialInputVariableName = 'serial';
+export const versionSelectionModeVariableName = "versionSelectionMode";
 export const versionInputVariableName = 'version';
-export const unityEditorsPathModeInputVariableName = 'unityEditorsPathMode';
-export const customUnityEditorsPathInputVariableName = 'customUnityEditorsPath';
+export const unityEditorsPathModeInputVariableName = 'unityEditorsLocation';
+export const customUnityEditorsPathInputVariableName = 'customUnityEditorsLocation';
 export const unityProjectPathInputVariableName = "unityProjectPath";
 export const tempDirectoryInputVariableName = 'Agent.TempDirectory';
-export const versionSelectionModeVariableName = "versionSelectionMode";
-const serialInputVariableName = 'serial';
 
 function run() {
     try {
@@ -66,6 +66,7 @@ function run() {
             .arg('-serial ').arg(serial)
             .arg('-logfile').arg(logFilePath)
             .arg('-quit');
+            
         const result = unityCmd.execSync();
 
         // Unity process has finished. Set task result.

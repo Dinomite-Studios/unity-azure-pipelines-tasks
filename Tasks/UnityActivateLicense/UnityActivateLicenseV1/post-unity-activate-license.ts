@@ -69,6 +69,7 @@ function run() {
                 .arg('-returnlicense')
                 .arg('-logfile').arg(logFilePath)
                 .arg('-quit');
+                
             const result = unityCmd.execSync();
 
             // Unity process has finished. Set task result.
