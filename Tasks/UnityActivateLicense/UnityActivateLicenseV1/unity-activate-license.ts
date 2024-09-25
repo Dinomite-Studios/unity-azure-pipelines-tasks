@@ -15,7 +15,6 @@ export const versionSelectionModeVariableName = "versionSelectionMode";
 export const versionInputVariableName = 'version';
 export const unityEditorsPathModeInputVariableName = 'unityEditorsLocation';
 export const customUnityEditorsPathInputVariableName = 'customUnityEditorsLocation';
-export const unityProjectPathInputVariableName = "unityProjectPath";
 export const tempDirectoryInputVariableName = 'Agent.TempDirectory';
 
 function run() {
@@ -31,7 +30,6 @@ function run() {
         const unityEditorsPath = UnityPathTools.getUnityEditorsPath(
             tl.getInput(unityEditorsPathModeInputVariableName, true)!,
             tl.getInput(customUnityEditorsPathInputVariableName));
-        const unityProjectPath = tl.getPathInput(unityProjectPathInputVariableName) || '';
 
         var unityVersion: UnityVersionInfoResult;
         if (versionSelectionMode === 'specify') {
@@ -60,7 +58,6 @@ function run() {
         const unityCmd = tl.tool(unityExecutablePath)
             .arg('-batchmode')
             .arg('-nographics')
-            .arg('-projectPath').arg(unityProjectPath)
             .arg('-username').arg(username)
             .arg('-password').arg(password)
             .arg('-serial ').arg(serial)
