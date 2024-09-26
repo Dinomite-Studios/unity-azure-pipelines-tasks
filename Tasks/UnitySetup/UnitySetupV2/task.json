@@ -3,17 +3,17 @@
   "name": "UnitySetupTask",
   "friendlyName": "Unity Setup",
   "description": "Azure Pipelines task to setup Unity editors and modules on the build machine.",
-  "helpMarkDown": "Use this task to setup Unity editors and modules required to build your project on the build agent. [More Information](https://unitydevops.com/docs/unity-setup-task).",
+  "helpMarkDown": "Use this task to install Unity editors and modules required to build your project on the build agent. [More Information](https://unitydevops.com/docs/unity-setup-task).",
   "category": "Azure Pipelines",
-  "preview": true,
+  "preview": false,
   "visibility": [
     "Build"
   ],
-  "author": "Dinomite Studios",
+  "author": "Dinomite",
   "version": {
-    "Major": "1",
+    "Major": "2",
     "Minor": "0",
-    "Patch": "2"
+    "Patch": "0"
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnitySetup/UnitySetupV1/CHANGELOG.md)",
   "minimumAgentVersion": "2.144.0",
@@ -23,11 +23,6 @@
       "name": "moduleOptions",
       "displayName": "Platforms",
       "isExpanded": true
-    },
-    {
-      "name": "advanced",
-      "displayName": "Advanced",
-      "isExpanded": false
     }
   ],
   "inputs": [
@@ -76,7 +71,6 @@
       "label": "Unity Hub executable location",
       "defaultValue": "default",
       "helpMarkDown": "The task needs the Unity Hub executable to perform CLI commands. If your Unity Hub is not in the default install location, use this option to specify its location.",
-      "groupName": "advanced",
       "options": {
         "default": "Default (recommended)",
         "specify": "Specify path"
@@ -88,18 +82,20 @@
       "label": "Custom Unity Hub executable path",
       "defaultValue": "",
       "required": true,
-      "groupName": "advanced",
       "visibleRule": "unityHubExecutableLocation == specify",
       "helpMarkDown": "(Optional) Specify where to look for the Unity Hub executable on the agent."
     },
     {
-      "name": "installChildModules",
-      "type": "boolean",
-      "label": "Install Child Modules",
-      "defaultValue": true,
+      "name": "macOSArchitecture",
+      "type": "pickList",
+      "label": "Editor Architecture (macOS only!)",
       "required": false,
-      "groupName": "moduleOptions",
-      "helpMarkDown": "(Optional) Installs all child modules, such as the Android SDK & NDK for a given module."
+      "helpMarkDown": "macOS only: Use this argument to explicitly choose between the Apple Silicon or Intel version of the Unity Editor. Defaults to Intel, x86_64.",
+      "defaultValue": "x86_64",
+      "options": {
+        "x86_64": "Intel",
+        "arm64": "Apple Silicon"
+      }
     },
     {
       "name": "installAndroidModule",
@@ -109,6 +105,26 @@
       "required": false,
       "groupName": "moduleOptions",
       "helpMarkDown": "(Optional) Install the Android build module."
+    },
+    {
+      "name": "installAndroidChildModules",
+      "type": "boolean",
+      "label": "Install Android SDK & NDK Tools & OpenJDK",
+      "defaultValue": true,
+      "required": false,
+      "groupName": "moduleOptions",
+      "visibleRule": "installAndroidModule == true",
+      "helpMarkDown": "(Optional) Installs Android SDK & NDK Tools as well as the OpenJDK module."
+    },
+    {
+      "name": "configureAndroidTooling",
+      "type": "boolean",
+      "label": "Configure editor Android tools paths",
+      "defaultValue": true,
+      "required": false,
+      "groupName": "moduleOptions",
+      "visibleRule": "installAndroidChildModules == true",
+      "helpMarkDown": "(Optional) Configures Android SDK, NDK, OpenJDK and Gradle path settings on the installed editor prior to building."
     },
     {
       "name": "installIOSModule",
@@ -129,6 +145,33 @@
       "helpMarkDown": "(Optional) Install the tvOS build module."
     },
     {
+      "name": "installVisionOSModule",
+      "type": "boolean",
+      "label": "visionOS Build Support",
+      "defaultValue": false,
+      "required": false,
+      "groupName": "moduleOptions",
+      "helpMarkDown": "(Optional) Install the visionOS build module."
+    },
+    {
+      "name": "installLinuxMonoModule",
+      "type": "boolean",
+      "label": "Linux Build Support (Mono)",
+      "defaultValue": false,
+      "required": false,
+      "groupName": "moduleOptions",
+      "helpMarkDown": "(Optional) Install the visionOS build module."
+    },
+    {
+      "name": "installLinuxIL2CPPModule",
+      "type": "boolean",
+      "label": "Linux Build Support (IL2CPP)",
+      "defaultValue": false,
+      "required": false,
+      "groupName": "moduleOptions",
+      "helpMarkDown": "(Optional) Install the visionOS build module."
+    },
+    {
       "name": "installMacMonoModule",
       "type": "boolean",
       "label": "Mac Build Support (Mono)",
@@ -136,6 +179,15 @@
       "required": false,
       "groupName": "moduleOptions",
       "helpMarkDown": "(Optional) Install the Mac (Mono) build module."
+    },
+    {
+      "name": "installMacIL2CPPModule",
+      "type": "boolean",
+      "label": "Mac Build Support (IL2CPP)",
+      "defaultValue": false,
+      "required": false,
+      "groupName": "moduleOptions",
+      "helpMarkDown": "(Optional) Install the Mac (IL2CPP) build module."
     },
     {
       "name": "installWindowsIL2CPPModule",
@@ -181,6 +233,9 @@
     "warningAlphaBetaVersion": "You are using a Unity Alpha/Beta version. It may not be supported by the extension!",
     "projectPathInfo": "Determining Unity editor version for project at",
     "successGetUnityEditorVersion": "Success, Unity editor version found",
-    "failGetUnityEditorVersion": "Fail, Unity editor version not found"
+    "failGetUnityEditorVersion": "Fail, Unity editor version not found",
+    "configureAndroidToolingStart": "Editor and modules installed. Attemping to configure Android tooling paths on the installed editor instance",
+    "configureAndroidToolingSuccess": "Successfully configured Android tooling paths on the installed editor instance",
+    "configureAndroidToolingFailed": "Failed to configure Android tooling paths on the installed editor instance"
   }
 }

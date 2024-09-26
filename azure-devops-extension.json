@@ -74,6 +74,9 @@
         },
         {
             "path": "Tasks/UnitySetup/UnitySetupV1"
+        },
+        {
+            "path": "Tasks/UnitySetup/UnitySetupV2"
         }
     ],
     "branding": {
