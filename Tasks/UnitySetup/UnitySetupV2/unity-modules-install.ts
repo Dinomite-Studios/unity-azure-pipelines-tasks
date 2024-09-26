@@ -89,7 +89,11 @@ export class UnityModulesInstall {
             }
 
             const result = installModulesCmd.execSync();
-            if (result.code !== 0) {
+
+            // The Unity Hub CLI returns 1 instead of 0 even in case of success,
+            // This seems to be by design for whatever reason.
+            // See https://issuetracker.unity3d.com/issues/hub-errorlevel-value-is-set-to-1-when-executing-hub-cli-commands
+            if (result.code !== 1) {
                 return result.code;
             }
         }

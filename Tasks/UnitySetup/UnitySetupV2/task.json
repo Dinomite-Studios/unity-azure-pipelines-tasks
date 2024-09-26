@@ -268,19 +268,19 @@
     }
   },
   "messages": {
-    "unityHubLookUpInfo": "Looking up Unity Hub executable",
-    "unityHubLocationNotSpecified": "Unity Hub executable location not specified.",
-    "unityHubLocationInfo": "Unity Hub executable location:",
-    "warningAlphaBetaVersion": "You are using a Unity Alpha/Beta version. It may not be supported by the extension!",
-    "projectPathInfo": "Determining Unity editor version for project at",
-    "successGetUnityEditorVersion": "Success, Unity editor version found",
-    "failGetUnityEditorVersion": "Fail, Unity editor version not found",
-    "taskResultSuccessUnitySetup": "The Unity editor for building the project has been setup successfully.",
-    "taskResultSuccessEditorDeactivation": "Unity license / seat has been acivated successfully.",
-    "taskResultFailedEditorInstall": "Failed installing the Unity editor. The process failed with exit code",
-    "taskResultFailedModulesInstall": "Failed installing Unity modules. The process failed with exit code",
-    "taskResultFailedEditorConfig": "Failed configuring Android tools on the Unity editor. The process failed with exit code",
-    "taskResultFailedEditorActivation": "Failed activating Unity license / seat. The process failed with exit code",
-    "taskResultFailedEditorDeactivation": "Failed deactivating Unity license / seat. The process failed with exit code"
+    "unityHubLookUpInfo": "\nLooking up Unity Hub executable",
+    "unityHubLocationNotSpecified": "\nUnity Hub executable location not specified.",
+    "unityHubLocationInfo": "\nUnity Hub executable location:",
+    "warningAlphaBetaVersion": "\nYou are using a Unity Alpha/Beta version. It may not be supported by the extension!",
+    "projectPathInfo": "\nDetermining Unity editor version for project at",
+    "successGetUnityEditorVersion": "\nSuccess, Unity editor version found",
+    "failGetUnityEditorVersion": "\nFail, Unity editor version not found",
+    "taskResultSuccessUnitySetup": "\nThe Unity editor for building the project has been setup successfully.",
+    "taskResultSuccessEditorDeactivation": "\nUnity license / seat has been acivated successfully.",
+    "taskResultFailedEditorInstall": "\nFailed installing the Unity editor. The process failed with exit code",
+    "taskResultFailedModulesInstall": "\nFailed installing Unity modules. The process failed with exit code",
+    "taskResultFailedEditorConfig": "\nFailed configuring Android tools on the Unity editor. The process failed with exit code",
+    "taskResultFailedEditorActivation": "\nFailed activating Unity license / seat. The process failed with exit code",
+    "taskResultFailedEditorDeactivation": "\nFailed deactivating Unity license / seat. The process failed with exit code"
   }
 }

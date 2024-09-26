@@ -33,10 +33,10 @@ export class UnityEditorConfiguration {
             UnityPackageManagerTools.addPackageToProject(temporaryProjectPath, 'games.dinomite.azurepipelines', 'https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks-build-scripts.git');
             const editorPath = UnityPathTools.getUnityEditorDirectory(editorInstallationsPath, editorVersion!);
 
-            const androidJDKPath = path.join(editorPath, 'Data\PlaybackEngines\AndroidPlayer\OpenJDK');
-            const androidSdkPath = path.join(editorPath, 'Data\PlaybackEngines\AndroidPlayer\SDK');
-            const androidNdkPath = path.join(editorPath, 'Data\PlaybackEngines\AndroidPlayer\NDK');
-            const androidGradlePath = path.join(editorPath, 'Data\PlaybackEngines\AndroidPlayer\Tools\gradle');
+            const androidJDKPath = path.join(editorPath, 'Data', 'PlaybackEngines', 'AndroidPlayer', 'OpenJDK');
+            const androidSdkPath = path.join(editorPath, 'Data', 'PlaybackEngines', 'AndroidPlayer', 'SDK');
+            const androidNdkPath = path.join(editorPath, 'Data', 'PlaybackEngines', 'AndroidPlayer', 'NDK');
+            const androidGradlePath = path.join(editorPath, 'Data', 'PlaybackEngines', 'AndroidPlayer', 'Tools', 'gradle');
 
             // Open the project briefly and then quit again. The editor will initiaize Android settings upon opening the project.
             const openAndCloseProjectCmd = tl.tool(installedExecutablePath)
