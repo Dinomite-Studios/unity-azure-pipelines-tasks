@@ -1,8 +1,9 @@
 {
   "id": "13159b9a-b7ba-4977-922c-2b5cb63c90df",
+  "deprecated": true,
   "name": "UnityActivateLicenseTask",
   "friendlyName": "Unity Activate License",
-  "description": "Activates a Unity license on the agent.",
+  "description": "[DEPRECATED: Use UnitySetup v2 instead] Activates a Unity license on the agent.",
   "helpMarkDown": "Use this task to activate a Unity Plus/Pro license on the executing agent machine. [More Information](https://unitydevops.com/docs/unity-activate-license-task)",
   "category": "Azure Pipelines",
   "visibility": [
