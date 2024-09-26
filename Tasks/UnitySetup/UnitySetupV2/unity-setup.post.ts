@@ -9,12 +9,16 @@ function run() {
 
         const unityDeactivation = UnityEditorDeactivation.run();
         if (unityDeactivation !== 0) {
-            tl.setResult(tl.TaskResult.Failed, `${tl.loc('failUnityGeneric')} ${unityDeactivation}`);
+            const log = `${tl.loc('taskResultFailedEditorDeactivation')} ${unityDeactivation}`;
+            console.error(log);
+            tl.setResult(tl.TaskResult.Failed, log);
             return;
         }
 
         // Set task result succeeded.
-        tl.setResult(tl.TaskResult.Succeeded, tl.loc('successUnityInstall'));
+        const log = tl.loc('taskResultSuccessEditorDeactivation');
+        console.log(log);
+        tl.setResult(tl.TaskResult.Succeeded, log);
     } catch (e) {
         if (e instanceof Error) {
             console.error(e.message);

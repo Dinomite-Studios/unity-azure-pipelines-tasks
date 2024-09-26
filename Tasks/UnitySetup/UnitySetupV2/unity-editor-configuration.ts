@@ -11,8 +11,6 @@ export class UnityEditorConfiguration {
         const configureAndroidTooling = tl.getBoolInput(androidConfigureToolingInputVariableName, false) || false;
 
         if (installAndroidModule && installAndroidChildModules && configureAndroidTooling) {
-            console.log(tl.loc('configureAndroidToolingStart'));
-
             const editorVersion = getProjectUnityVersion();
             const editorInstallationsPath = UnityPathTools.getUnityEditorsPath('default');
             const installedExecutablePath = UnityPathTools.getUnityExecutableFullPath(editorInstallationsPath, editorVersion!);
@@ -27,7 +25,6 @@ export class UnityEditorConfiguration {
 
             let result = createTemporaryProjectCmd.execSync();
             if (result.code !== 0) {
-                console.log(tl.loc('configureAndroidToolingFailed'));
                 return result.code;
             }
 
@@ -54,11 +51,8 @@ export class UnityEditorConfiguration {
 
             result = openAndCloseProjectCmd.execSync();
             if (result.code !== 0) {
-                console.log(tl.loc('configureAndroidToolingFailed'));
                 return result.code;
             }
-
-            console.log(tl.loc('configureAndroidToolingSuccess'));
         }
 
         return 0;

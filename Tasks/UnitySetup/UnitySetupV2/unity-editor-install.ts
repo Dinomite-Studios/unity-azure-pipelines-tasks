@@ -13,8 +13,6 @@ export class UnityEditorInstall {
             return -1;
         }
 
-        console.log(`${tl.loc('installVersionInfo')} ${editorVersion!.version} (${editorVersion!.revision})`);
-
         const installEditorCmd = tl.tool(unityHubExecutablePath!)
             .arg('--')
             .arg('--headless')

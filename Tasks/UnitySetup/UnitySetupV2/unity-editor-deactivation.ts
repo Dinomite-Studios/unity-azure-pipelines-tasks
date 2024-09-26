@@ -36,10 +36,6 @@ export class UnityEditorDeactivation {
             if (result.code !== 0) {
                 return result.code;
             }
-
-            console.log(tl.loc('successLicenseReturned'));
-        } else {
-            console.log(tl.loc('successSkipReturn'));
         }
 
         return 0;

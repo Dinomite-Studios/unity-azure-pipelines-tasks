@@ -35,39 +35,42 @@ function run() {
         // Configure localization.
         tl.setResourcePath(path.join(__dirname, 'task.json'));
 
-        // Step 1: Install the requested Unity editor.
         const installResult = UnityEditorInstall.run();
         if (installResult !== 0) {
-            tl.setResult(tl.TaskResult.Failed, tl.loc('failUnityInstall'));
+            const log = `${tl.loc('taskResultFailedEditorInstall')} ${installResult}`
+            console.error(log);
+            tl.setResult(tl.TaskResult.Failed, log);
             return;
         }
 
-        // Step 2: If any additional modules are requested, install those as well.
         const installModulesResult = UnityModulesInstall.run();
         if (installModulesResult !== 0) {
-            tl.setResult(tl.TaskResult.Failed, tl.loc('failUnityInstall'));
+            const log = `${tl.loc('taskResultFailedModulesInstall')} ${installResult}`
+            console.error(log);
+            tl.setResult(tl.TaskResult.Failed, log);
             return;
         }
 
-        // Step 3: If requested, activate a seat / license on the editor.
-        const unityActivation = UnityEditorActivation.run();
-        if (unityActivation !== 0) {
-            tl.setResult(tl.TaskResult.Failed, tl.loc('failUnityInstall'));
+        const unityActivationResult = UnityEditorActivation.run();
+        if (unityActivationResult !== 0) {
+            const log = `${tl.loc('taskResultFailedEditorActivation')} ${installResult}`
+            console.error(log);
+            tl.setResult(tl.TaskResult.Failed, log);
             return;
         }
 
-        // Step 4: If Android SDK & OpenJDK have been installed, we must
-        // ensure the Unity editor settings are properly initalized with their paths.
-        // Otherwise builds will fail since the modules, while installed, are not known
-        // to the editor.
         const configurationResult = UnityEditorConfiguration.run();
         if (configurationResult !== 0) {
-            tl.setResult(tl.TaskResult.Failed, tl.loc('failUnityInstall'));
+            const log = `${tl.loc('taskResultFailedEditorConfig')} ${installResult}`
+            console.error(log);
+            tl.setResult(tl.TaskResult.Failed, log);
             return;
         }
 
         // Set task result succeeded.
-        tl.setResult(tl.TaskResult.Succeeded, tl.loc('successUnityInstall'));
+        const log = tl.loc('taskResultSuccessUnitySetup');
+        console.log(log);
+        tl.setResult(tl.TaskResult.Succeeded, tl.loc('taskResultSuccessUnitySetup'));
     } catch (e) {
         if (e instanceof Error) {
             console.error(e.message);

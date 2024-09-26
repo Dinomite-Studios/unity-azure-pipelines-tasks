@@ -35,7 +35,6 @@ export class UnityEditorActivation {
             return result.code;
         }
 
-        console.log(tl.loc('successLicenseActivated'));
         return 0;
     }
 }
