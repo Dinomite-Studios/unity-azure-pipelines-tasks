@@ -66,6 +66,38 @@
       "visibleRule": "versionSelectionMode == specify"
     },
     {
+      "name": "username",
+      "type": "string",
+      "label": "Username",
+      "defaultValue": "",
+      "required": true,
+      "helpMarkDown": "The username used to activate the Unity Editor."
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "label": "Password",
+      "defaultValue": "",
+      "required": true,
+      "helpMarkDown": "The password used to activate the Unity Editor."
+    },
+    {
+      "name": "serial",
+      "type": "string",
+      "label": "Serial",
+      "defaultValue": "",
+      "required": true,
+      "helpMarkDown": "Serial key used to activate the Unity Editor. The serial key must be assigned to the user defined by username and password above."
+    },
+    {
+      "name": "deactivateSeatOnComplete",
+      "type": "boolean",
+      "label": "Deactivate seat on complete",
+      "defaultValue": true,
+      "required": false,
+      "helpMarkDown": "By default the seat activation is released again after the pipeline has run. Uncheck this to keep the activation active."
+    },
+    {
       "name": "unityHubExecutableLocation",
       "type": "pickList",
       "label": "Unity Hub executable location",
@@ -217,9 +249,21 @@
       "helpMarkDown": "(Optional) Install the WebGL build module."
     }
   ],
+  "outputVariables": [
+    {
+      "name": "logsOutputPath",
+      "description": "Path to the Unity editor log files generated."
+    }
+  ],
   "execution": {
     "Node": {
       "target": "unity-setup.js",
+      "argumentFormat": ""
+    }
+  },
+  "postjobexecution": {
+    "Node": {
+      "target": "unity-setup.post.js",
       "argumentFormat": ""
     }
   },
@@ -236,6 +280,10 @@
     "failGetUnityEditorVersion": "Fail, Unity editor version not found",
     "configureAndroidToolingStart": "Editor and modules installed. Attemping to configure Android tooling paths on the installed editor instance",
     "configureAndroidToolingSuccess": "Successfully configured Android tooling paths on the installed editor instance",
-    "configureAndroidToolingFailed": "Failed to configure Android tooling paths on the installed editor instance"
+    "configureAndroidToolingFailed": "Failed to configure Android tooling paths on the installed editor instance",
+    "successSkipReturn": "The Unity editor license was not returned since disabled in task settings.",
+    "successLicenseActivated": "Unity editor license activated",
+    "successLicenseReturned": "Unity editor license returned",
+    "failUnityGeneric": "The Unity process failed with exit code"
   }
 }

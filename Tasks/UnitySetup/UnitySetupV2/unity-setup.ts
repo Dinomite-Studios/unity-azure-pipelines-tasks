@@ -5,15 +5,16 @@ import { UnityModulesInstall } from './unity-modules-install';
 import { UnityEditorConfiguration } from './unity-editor-configuration';
 import { UnityEditorActivation } from './unity-editor-activation';
 
-// Input variables - General
+// Input variables
 export const versionSelectionModeVariableName = "versionSelectionMode";
 export const versionInputVariableName = 'version';
 export const revisionInputVariableName = 'revision';
+export const usernameInputVariableName = 'username';
+export const passwordInputVariableName = 'password';
+export const serialInputVariableName = 'serial';
 export const unityHubExecutableLocationVariableName = 'unityHubExecutableLocation';
 export const customUnityHubExecutableLocationVariableName = 'customUnityHubExecutableLocation';
 export const macOSArchitectureVariableName = 'macOSArchitecture';
-
-// Input variables - Modules (Platforms)
 export const androidModuleInputVariableName = 'installAndroidModule';
 export const androidChildModulesInputVariableName = 'installAndroidChildModules';
 export const androidConfigureToolingInputVariableName = 'configureAndroidTooling';
@@ -27,6 +28,7 @@ export const macIL2CPPModuleInputVariableName = 'installMacIL2CPPModule';
 export const windowsModuleInputVariableName = 'installWindowsIL2CPPModule';
 export const uwpModuleInputVariableName = 'installUWPModule';
 export const webGLModuleInputVariableName = 'installWebGLModule';
+export const deactivateSeatOnCompleteInputVariableName = 'deactivateSeatOnComplete';
 
 function run() {
     try {
