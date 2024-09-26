@@ -1,6 +1,6 @@
 import path = require('path');
 import tl = require('azure-pipelines-task-lib/task');
-import { OS, UnityPathTools, Utilities } from '@dinomite-studios/unity-azure-pipelines-tasks-lib/';
+import { OS, UnityPackageManagerTools, UnityPathTools, Utilities } from '@dinomite-studios/unity-azure-pipelines-tasks-lib/';
 import { getUnityEditorVersion } from './unity-build-shared';
 
 // Input variables - General.
@@ -14,6 +14,7 @@ const macOSArchitectureVariableName = 'macOSArchitecture';
 // Input variables - Modules (Platforms)
 const androidModuleInputVariableName = 'installAndroidModule';
 const androidChildModulesInputVariableName = 'installAndroidChildModules';
+const androidConfigureToolingInputVariableName = 'configureAndroidTooling';
 const iOSModuleInputVariableName = 'installIOSModule';
 const tvOSModuleInputVariableName = 'installTVOSModule';
 const visionOSModuleInputVariableName = 'installVisionOSModule';
@@ -68,6 +69,7 @@ function run() {
 
         const installAndroidModule = tl.getBoolInput(androidModuleInputVariableName, false) || false;
         const installAndroidChildModules = tl.getBoolInput(androidChildModulesInputVariableName, false) || false;
+        const configureAndroidTooling = tl.getBoolInput(androidConfigureToolingInputVariableName, false) || false;
         const installIOSModule = tl.getBoolInput(iOSModuleInputVariableName, false) || false;
         const installTvOSModule = tl.getBoolInput(tvOSModuleInputVariableName, false) || false;
         const installVisionOSModule = tl.getBoolInput(visionOSModuleInputVariableName, false) || false;
@@ -163,6 +165,70 @@ function run() {
             }
 
             installModulesCmd.execSync();
+        }
+
+        // Step 3: If Android SDK & OpenJDK have been installed, we must
+        // ensure the Unity editor settings are properly initalized with their paths.
+        // Otherwise builds will fail since the modules, while installed, are not known
+        // to the editor.
+        if (installAndroidModule && installAndroidChildModules && configureAndroidTooling) {
+            console.log(tl.loc('configureAndroidToolingStart'));
+
+            const editorInstallationsPath = UnityPathTools.getUnityEditorsPath('default');
+            const installedExecutablePath = UnityPathTools.getUnityExecutableFullPath(editorInstallationsPath, {
+                version: version,
+                revision: revision,
+                isAlpha: false,
+                isBeta: false
+            });
+
+            // Step 3.1: Create the dummy project at a temporary path.
+            const temporaryProjectPath = tl.getVariable('Agent.TempDirectory')!
+            const createTemporaryProjectCmd = tl.tool(installedExecutablePath)
+                .arg('-batchmode')
+                .arg('-nographics')
+                .arg('-createProject').arg(temporaryProjectPath)
+                .arg('-quit');
+
+            let result = createTemporaryProjectCmd.execSync();
+
+            if (result.code === 0) {
+                // Step 3.2: Add the build scripts package to the dummy project. It contains the required
+                // C# scripts that will make sure to initialize editor Android settings.
+                UnityPackageManagerTools.addPackageToProject(temporaryProjectPath, 'games.dinomite.azurepipelines', 'https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks-build-scripts.git');
+                const editorPath = UnityPathTools.getUnityEditorDirectory(editorInstallationsPath, {
+                    version: version,
+                    revision: revision,
+                    isAlpha: false,
+                    isBeta: false
+                });
+
+                const androidJDKPath = path.join(editorPath, 'Data\PlaybackEngines\AndroidPlayer\OpenJDK');
+                const androidSdkPath = path.join(editorPath, 'Data\PlaybackEngines\AndroidPlayer\SDK');
+                const androidNdkPath = path.join(editorPath, 'Data\PlaybackEngines\AndroidPlayer\NDK');
+                const androidGradlePath = path.join(editorPath, 'Data\PlaybackEngines\AndroidPlayer\Tools\gradle');
+
+                // Step 3.3: Open the project briefly and then quit again. The editor will initiaize Android settings upon opening the project.
+                const openAndCloseProjectCmd = tl.tool(installedExecutablePath)
+                    .arg('-batchmode')
+                    .arg('-nographics')
+                    .arg('-projectPath').arg(temporaryProjectPath)
+                    .arg('-quit')
+                    .arg('-overrideAndroidJdkPath').arg(androidJDKPath)
+                    .arg('-overrideAndroidSdkPath').arg(androidSdkPath)
+                    .arg('-overrideAndroidNdkPath').arg(androidNdkPath)
+                    .arg('-overrideAndroidGradlePath').arg(androidGradlePath);
+
+                result = openAndCloseProjectCmd.execSync();
+
+                if (result.code === 0) {
+                    console.log(tl.loc('configureAndroidToolingSuccess'));
+                } else {
+                    console.log(tl.loc('configureAndroidToolingFailed'));
+                }
+            } else {
+                console.log(tl.loc('configureAndroidToolingFailed'));
+            }
         }
 
         // Set task result succeeded.

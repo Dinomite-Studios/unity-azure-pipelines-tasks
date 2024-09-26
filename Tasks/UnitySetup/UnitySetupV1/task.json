@@ -117,6 +117,16 @@
       "helpMarkDown": "(Optional) Installs Android SDK & NDK Tools as well as the OpenJDK module."
     },
     {
+      "name": "configureAndroidTooling",
+      "type": "boolean",
+      "label": "Configure editor Android tools paths",
+      "defaultValue": true,
+      "required": false,
+      "groupName": "moduleOptions",
+      "visibleRule": "installAndroidChildModules == true",
+      "helpMarkDown": "(Optional) Configures Android SDK, NDK, OpenJDK and Gradle path settings on the installed editor prior to building."
+    },
+    {
       "name": "installIOSModule",
       "type": "boolean",
       "label": "iOS Build Support",
@@ -223,6 +233,9 @@
     "warningAlphaBetaVersion": "You are using a Unity Alpha/Beta version. It may not be supported by the extension!",
     "projectPathInfo": "Determining Unity editor version for project at",
     "successGetUnityEditorVersion": "Success, Unity editor version found",
-    "failGetUnityEditorVersion": "Fail, Unity editor version not found"
+    "failGetUnityEditorVersion": "Fail, Unity editor version not found",
+    "configureAndroidToolingStart": "Editor and modules installed. Attemping to configure Android tooling paths on the installed editor instance",
+    "configureAndroidToolingSuccess": "Successfully configured Android tooling paths on the installed editor instance",
+    "configureAndroidToolingFailed": "Failed to configure Android tooling paths on the installed editor instance"
   }
 }
