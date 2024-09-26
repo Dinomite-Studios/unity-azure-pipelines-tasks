@@ -43,7 +43,7 @@ export class UnityEditorConfiguration {
                 .arg('-batchmode')
                 .arg('-nographics')
                 .arg('-projectPath').arg(temporaryProjectPath)
-                .arg('-quit')
+                .arg('-executeMethod').arg('InitializeAndroidTools.SetupAndroidToolsFromCmd')
                 .arg('-overrideAndroidJdkPath').arg(androidJDKPath)
                 .arg('-overrideAndroidSdkPath').arg(androidSdkPath)
                 .arg('-overrideAndroidNdkPath').arg(androidNdkPath)
