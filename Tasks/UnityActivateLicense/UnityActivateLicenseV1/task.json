@@ -10,9 +10,9 @@
   ],
   "author": "Dinomite Studios",
   "version": {
-    "Major": "1",
-    "Minor": "2",
-    "Patch": "1"
+    "Major": 1,
+    "Minor": 2,
+    "Patch": 1
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityActivateLicense/UnityActivateLicenseV1/CHANGELOG.md)",
   "minimumAgentVersion": "2.144.0",
@@ -119,10 +119,18 @@
     "Node10": {
       "target": "unity-activate-license.js",
       "argumentFormat": ""
+    },
+    "Node20_1": {
+      "target": "unity-activate-license.js",
+      "argumentFormat": ""
     }
   },
   "postjobexecution": {
     "Node10": {
+      "target": "post-unity-activate-license.js",
+      "argumentFormat": ""
+    },
+    "Node20_1": {
       "target": "post-unity-activate-license.js",
       "argumentFormat": ""
     }

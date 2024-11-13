@@ -11,9 +11,9 @@
   ],
   "author": "Dinomite Studios",
   "version": {
-    "Major": "1",
-    "Minor": "0",
-    "Patch": "2"
+    "Major": 1,
+    "Minor": 0,
+    "Patch": 2
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnitySetup/UnitySetupV1/CHANGELOG.md)",
   "minimumAgentVersion": "2.144.0",
@@ -167,6 +167,10 @@
   ],
   "execution": {
     "Node": {
+      "target": "unity-setup.js",
+      "argumentFormat": ""
+    },
+    "Node20_1": {
       "target": "unity-setup.js",
       "argumentFormat": ""
     }
