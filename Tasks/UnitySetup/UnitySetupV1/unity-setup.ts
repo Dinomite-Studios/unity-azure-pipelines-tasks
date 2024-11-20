@@ -17,7 +17,7 @@ const installChildModulesInputVariableName = 'installChildModules';
 const unityHubExecutableLocationVariableName = 'unityHubExecutableLocation';
 const customUnityHubExecutableLocation = 'customUnityHubExecutableLocation';
 
-function run() {
+async function run() {
     try {
         // Configure localization.
         tl.setResourcePath(path.join(__dirname, 'task.json'));
@@ -43,8 +43,8 @@ function run() {
         // Next up we need to know what version of the Unity editor to install.
         // This can either be the version found in the project's settings or it can be a
         // user specified version.
-        var version = '';
-        var revision = '';
+        let version = '';
+        let revision = '';
 
         const versionSelectionMode = tl.getInput(versionSelectionModeVariableName, true)!
         if (versionSelectionMode === 'specify') {
@@ -124,7 +124,7 @@ function run() {
                 installModulesCmd.arg('webgl');
             }
 
-            installModulesCmd.exec();
+            await installModulesCmd.execAsync();
         }
 
         // Set task result succeeded.

@@ -31,9 +31,9 @@ function run() {
         const unityEditorsPath = UnityPathTools.getUnityEditorsPath(
             tl.getInput(unityEditorsPathModeInputVariableName, true)!,
             tl.getInput(customUnityEditorsPathInputVariableName));
-        const unityProjectPath = tl.getPathInput(unityProjectPathInputVariableName) || '';
+        const unityProjectPath = tl.getPathInput(unityProjectPathInputVariableName) ?? '';
 
-        var unityVersion: UnityVersionInfoResult;
+        let unityVersion: UnityVersionInfoResult;
         if (versionSelectionMode === 'specify') {
             let customVersion = tl.getInput(versionInputVariableName, true)!;
             unityVersion = {

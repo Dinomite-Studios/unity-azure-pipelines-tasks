@@ -27,14 +27,14 @@ const logsOutputPathOutputVariableName = 'logsOutputPath';
 async function run() {
     try {
         // Setup and read inputs.
-        const projectPath = tl.getPathInput(unityProjectPathInputVariableName) || '';
+        const projectPath = tl.getPathInput(unityProjectPathInputVariableName) ?? '';
         const unityEditorsPath = UnityPathTools.getUnityEditorsPath(
             tl.getInput(unityEditorsPathModeInputVariableName, true)!,
             tl.getInput(customUnityEditorsPathInputVariableName));
-            const unityVersion = { info: { version: tl.getInput(unityVersionInputVariableName) } } as UnityVersionInfoResult || getUnityEditorVersion();
+            const unityVersion = tl.getInput(unityVersionInputVariableName) != '' ? { info: { version: tl.getInput(unityVersionInputVariableName) } } as UnityVersionInfoResult : getUnityEditorVersion();
         const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(unityEditorsPath, unityVersion.info!);
         const repositoryLocalPath = tl.getVariable(tempDirectoryInputVariableName)!;
-        const logFilesDirectory = path.join(repositoryLocalPath!, 'Logs');
+        const logFilesDirectory = path.join(repositoryLocalPath, 'Logs');
         const logFilePath = path.join(logFilesDirectory, `UnityCMDLog_${Utilities.getLogFileNameTimeStamp()}.log`);
 
         // Set output variable values.

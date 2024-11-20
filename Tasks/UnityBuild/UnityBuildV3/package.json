@@ -17,7 +17,7 @@
   "license": "MIT",
   "dependencies": {
     "@types/fs-extra": "^9.0.6",
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.3.1",
     "@types/q": "^1.5.5",
     "@dinomite-studios/unity-azure-pipelines-tasks-lib": "^1.0.0",
     "azure-pipelines-task-lib": "^3.3.1",

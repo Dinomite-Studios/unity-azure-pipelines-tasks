@@ -17,7 +17,7 @@ const projectVersionRevisionOutputVariableName = 'projectVersionRevision';
 function run() {
     try {
         // Setup and read inputs.
-        const projectPath = tl.getPathInput(unityProjectPathInputVariableName) || '';
+        const projectPath = tl.getPathInput(unityProjectPathInputVariableName) ?? '';
         console.log(`${tl.loc('projectPathInfo')} ${projectPath}`);
 
         // Determine the project's last used Unity editor version.
