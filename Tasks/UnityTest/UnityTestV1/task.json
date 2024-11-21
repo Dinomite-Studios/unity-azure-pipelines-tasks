@@ -10,9 +10,9 @@
   ],
   "author": "Dinomite",
   "version": {
-    "Major": "1",
-    "Minor": "5",
-    "Patch": "0"
+    "Major": 1,
+    "Minor": 5,
+    "Patch": 0
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityTest/UnityTestV1/CHANGELOG.md)",
   "minimumAgentVersion": "2.144.0",
@@ -160,6 +160,10 @@
   ],
   "execution": {
     "Node10": {
+      "target": "unity-test.js",
+      "argumentFormat": ""
+    },
+    "Node20_1": {
       "target": "unity-test.js",
       "argumentFormat": ""
     }

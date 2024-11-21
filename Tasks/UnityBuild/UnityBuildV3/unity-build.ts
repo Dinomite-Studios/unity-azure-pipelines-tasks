@@ -31,16 +31,16 @@ async function run() {
         tl.setResourcePath(path.join(__dirname, 'task.json'));
 
         // Setup and read inputs.
-        const outputFileName = tl.getInput(outputFileNameInputVariableName) || 'drop';
+        const outputFileName = tl.getInput(outputFileNameInputVariableName) ?? 'drop';
         const buildTarget = tl.getInput(buildTargetInputVariableName, true)!;
-        const projectPath = tl.getPathInput(unityProjectPathInputVariableName) || '';
+        const projectPath = tl.getPathInput(unityProjectPathInputVariableName) ?? '';
         const versionSelectionMode = tl.getInput(versionSelectionModeVariableName, true)!
-        const outputPath = tl.getPathInput(outputPathInputVariableName) || '';
+        const outputPath = tl.getPathInput(outputPathInputVariableName) ?? '';
         const unityEditorsPath = UnityPathTools.getUnityEditorsPath(
             tl.getInput(unityEditorsPathModeInputVariableName, true)!,
             tl.getInput(customUnityEditorsPathInputVariableName));
 
-        var unityVersion: UnityVersionInfoResult;
+        let unityVersion: UnityVersionInfoResult;
         if (versionSelectionMode === 'specify') {
             let customVersion = tl.getInput(versionInputVariableName, true)!;
             unityVersion = {
@@ -59,7 +59,7 @@ async function run() {
         const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(unityEditorsPath, unityVersion.info!);
         const cleanBuild = tl.getVariable(cleanBuildInputVariableName);
         const repositoryLocalPath = tl.getVariable(tempDirectoryInputVariableName)!;
-        const logFilesDirectory = path.join(repositoryLocalPath!, 'Logs');
+        const logFilesDirectory = path.join(repositoryLocalPath, 'Logs');
         const logFilePath = path.join(logFilesDirectory, `UnityBuildLog_${Utilities.getLogFileNameTimeStamp()}.log`);
 
         // Set output variable values.
@@ -81,7 +81,7 @@ async function run() {
             .arg('-projectPath').arg(projectPath)
             .arg('-logfile').arg(logFilePath);
 
-        const additionalArgs = tl.getInput('additionalCmdArgs') || '';
+        const additionalArgs = tl.getInput('additionalCmdArgs') ?? '';
         if (additionalArgs !== '') {
             unityCmd.line(additionalArgs);
         }
@@ -136,7 +136,7 @@ async function run() {
 }
 
 function getUnityEditorVersion(): UnityVersionInfoResult {
-    const projectPath = tl.getPathInput('unityProjectPath') || '';
+    const projectPath = tl.getPathInput('unityProjectPath') ?? '';
     console.log(`${tl.loc('projectPathInfo')} ${projectPath}`);
 
     const unityVersion = UnityVersionTools.determineProjectVersionFromFile(projectPath);

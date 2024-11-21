@@ -48,10 +48,10 @@ async function run() {
     try {
         // Setup and read inputs.
         const testMode: UnityTestMode = (<any>UnityTestMode)[tl.getInput(testModeInputVariableName, true)!];
-        const projectPath = tl.getPathInput(unityProjectPathInputVariableName) || '';
-        const testCategory = tl.getInput(testCategoryInputVariableName) || '';
-        const testFilter = tl.getInput(testFilterInputVariableName) || '';
-        const testResultsPath = tl.getInput(testResultsPathInputVariableName) || 'Test Results';
+        const projectPath = tl.getPathInput(unityProjectPathInputVariableName) ?? '';
+        const testCategory = tl.getInput(testCategoryInputVariableName) ?? '';
+        const testFilter = tl.getInput(testFilterInputVariableName) ?? '';
+        const testResultsPath = tl.getInput(testResultsPathInputVariableName) ?? 'Test Results';
         const unityEditorsPath = UnityPathTools.getUnityEditorsPath(
             tl.getInput(unityEditorsPathModeInputVariableName, true)!,
             tl.getInput(customUnityEditorsPathInputVariableName));
@@ -64,11 +64,11 @@ async function run() {
         const noGraphics = tl.getBoolInput(noGraphicsInputVariableName);
         const acceptApiUpdate = tl.getBoolInput(acceptApiUpdateInputVariableName);
         const noPackageManager = tl.getBoolInput(noPackageManagerInputVariableName);
-        const additionalCmdArgs = tl.getInput(additionalCmdArgsInputVariableName) || '';
+        const additionalCmdArgs = tl.getInput(additionalCmdArgsInputVariableName) ?? '';
         const repositoryLocalPath = tl.getVariable(tempDirectoryInputVariableName)!;
         const testResultsFileName = testMode === UnityTestMode.editMode ? editModeResultsFileName : playModeResultsFileName;
         const testResultsPathAndFileName = path.join(`${testResultsPath}`, `${testResultsFileName}`);
-        const logFilesDirectory = path.join(repositoryLocalPath!, 'Logs');
+        const logFilesDirectory = path.join(repositoryLocalPath, 'Logs');
         const logFilePath = path.join(logFilesDirectory, `UnityTestLog_${Utilities.getLogFileNameTimeStamp()}.log`);
 
         // Set output variable values.

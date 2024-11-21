@@ -11,9 +11,9 @@
   ],
   "author": "Dinomite",
   "version": {
-    "Major": "3",
-    "Minor": "2",
-    "Patch": "1"
+    "Major": 3,
+    "Minor": 2,
+    "Patch": 1
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityBuild/UnityBuildV3/CHANGELOG.md)",
   "minimumAgentVersion": "2.144.0",
@@ -165,6 +165,10 @@
   ],
   "execution": {
     "Node10": {
+      "target": "unity-build.js",
+      "argumentFormat": ""
+    },
+    "Node20_1": {
       "target": "unity-build.js",
       "argumentFormat": ""
     }

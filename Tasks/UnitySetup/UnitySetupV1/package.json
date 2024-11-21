@@ -17,7 +17,7 @@
   "author": "Dinomite Studios",
   "license": "MIT",
   "dependencies": {
-    "@types/node": "^18.0.0",
+    "@types/node": "^20.3.1",
     "@types/q": "^1.5.5",
     "@dinomite-studios/unity-azure-pipelines-tasks-lib": "^1.0.4",
     "azure-pipelines-task-lib": "^4.13.0"
