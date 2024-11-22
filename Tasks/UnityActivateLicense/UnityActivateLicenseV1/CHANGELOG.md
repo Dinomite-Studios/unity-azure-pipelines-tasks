@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Aligned configuraiton options grouping and naming with other tasks
 - Updated and cleaned up external dependencies
+- [Update node version](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/pull/259)
 
 ## [1.2.1]
 

@@ -30,7 +30,6 @@ function run() {
         const unityEditorsPath = UnityPathTools.getUnityEditorsPath(
             tl.getInput(unityEditorsPathModeInputVariableName, true)!,
             tl.getInput(customUnityEditorsPathInputVariableName));
-        const unityProjectPath = tl.getPathInput(unityProjectPathInputVariableName) ?? '';
 
         let unityVersion: UnityVersionInfoResult;
         if (versionSelectionMode === 'specify') {
@@ -64,7 +63,7 @@ function run() {
             .arg('-serial ').arg(serial)
             .arg('-logfile').arg(logFilePath)
             .arg('-quit');
-            
+
         const result = unityCmd.execSync();
 
         // Unity process has finished. Set task result.

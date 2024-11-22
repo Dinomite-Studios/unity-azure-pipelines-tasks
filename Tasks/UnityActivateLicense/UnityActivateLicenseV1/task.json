@@ -71,15 +71,6 @@
       }
     },
     {
-      "name": "unityProjectPath",
-      "type": "filePath",
-      "label": "Unity project path",
-      "defaultValue": "",
-      "required": false,
-      "helpMarkDown": "(Optional) Enter the path to the Unity project within the repository. If no value is entered, the root of the repository will be used.",
-      "visibleRule": "versionSelectionMode == project"
-    },
-    {
       "name": "version",
       "type": "string",
       "label": "Version",
@@ -87,6 +78,15 @@
       "required": true,
       "helpMarkDown": "The Unity editor version to activate the license with, e.g. value: `2022.2.1f1`.",
       "visibleRule": "versionSelectionMode == specify"
+    },
+    {
+      "name": "unityProjectPath",
+      "type": "filePath",
+      "label": "Unity project path",
+      "defaultValue": "",
+      "required": false,
+      "helpMarkDown": "(Optional) Enter the path to the Unity project within the repository. If no value is entered, the root of the repository will be used.",
+      "visibleRule": "versionSelectionMode == project"
     },
     {
       "name": "unityEditorsLocation",
@@ -119,10 +119,18 @@
     "Node10": {
       "target": "unity-activate-license.js",
       "argumentFormat": ""
+    },
+    "Node20_1": {
+      "target": "unity-activate-license.js",
+      "argumentFormat": ""
     }
   },
   "postjobexecution": {
     "Node10": {
+      "target": "post-unity-activate-license.js",
+      "argumentFormat": ""
+    },
+    "Node20_1": {
       "target": "post-unity-activate-license.js",
       "argumentFormat": ""
     }
