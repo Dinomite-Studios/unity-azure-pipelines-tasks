@@ -17,7 +17,6 @@ export class UnityEditorDeactivation {
 
         const username = tl.getInput(usernameInputVariableName, true)!;
         const password = tl.getInput(passwordInputVariableName, true)!;
-        const serial = tl.getInput(serialInputVariableName, true)!;
 
         const logFilesDirectory = path.join(tl.getVariable('Agent.TempDirectory')!, 'Logs');
         const logFilePath = path.join(logFilesDirectory, `UnityDeactivationLog_${Utilities.getLogFileNameTimeStamp()}.log`);
