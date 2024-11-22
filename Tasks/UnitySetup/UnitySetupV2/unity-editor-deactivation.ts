@@ -15,9 +15,10 @@ export class UnityEditorDeactivation {
         const editorInstallationsPath = UnityPathTools.getUnityEditorsPath('default');
         const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(editorInstallationsPath, editorVersion!);
 
-        const username = tl.getInput(usernameInputVariableName)!;
-        const password = tl.getInput(passwordInputVariableName)!;
-        
+        const username = tl.getInput(usernameInputVariableName, true)!;
+        const password = tl.getInput(passwordInputVariableName, true)!;
+        const serial = tl.getInput(serialInputVariableName, true)!;
+
         const logFilesDirectory = path.join(tl.getVariable('Agent.TempDirectory')!, 'Logs');
         const logFilePath = path.join(logFilesDirectory, `UnityDeactivationLog_${Utilities.getLogFileNameTimeStamp()}.log`);
         const deactivateSeatOnComplete = tl.getBoolInput(deactivateSeatOnCompleteInputVariableName);

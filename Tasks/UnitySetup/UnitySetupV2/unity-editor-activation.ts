@@ -15,9 +15,9 @@ export class UnityEditorActivation {
         const editorInstallationsPath = UnityPathTools.getUnityEditorsPath('default');
         const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(editorInstallationsPath, editorVersion!);
 
-        const username = tl.getInput(usernameInputVariableName)!;
-        const password = tl.getInput(passwordInputVariableName)!;
-        const serial = tl.getInput(serialInputVariableName)!;
+        const username = tl.getInput(usernameInputVariableName, true)!;
+        const password = tl.getInput(passwordInputVariableName, true)!;
+        const serial = tl.getInput(serialInputVariableName, true)!;
 
         const logFilesDirectory = path.join(tl.getVariable('Agent.TempDirectory')!, 'Logs');
         const logFilePath = path.join(logFilesDirectory, `UnityActivationLog_${Utilities.getLogFileNameTimeStamp()}.log`);
