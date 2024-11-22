@@ -9,8 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Aligned configuraiton options grouping and naming with other tasks
+- Aligned configuration options grouping and naming with other tasks
 - Updated and cleaned up external dependencies
+- Task deprecated, please use UnitySetupV2 instead for a streamlined Unity setup and configuration experience
 - [Update node version](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/pull/259)
 
 ## [1.2.1]
