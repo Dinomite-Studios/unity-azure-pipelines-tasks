@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.9.3]
+
+### Added
+
+- Unity Setup Task V2
+
+### Changed
+
+- Deprecated Unity Setup Task V1 in favor of Unity Setup V2
+- Deprecated Unity Activate License Task in favor of Unity Setup V2
+- Updated and cleaned up external dependencies for tasks
+- [Updated all tasks to run on Node 20 runners](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/pull/259) (thank you bdovaz!)
+
 ## [2.9.2]
 
 ### Added
