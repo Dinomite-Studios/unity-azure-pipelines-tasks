@@ -61,10 +61,10 @@
     {
       "name": "versionSelectionMode",
       "type": "pickList",
-      "label": "Unity version to install",
+      "label": "Unity version to install / verify",
       "groupName": "general",
-      "required": true,
-      "helpMarkDown": "Select which Unity version to install. You can either use the project's version or specify a version yourself.",
+      "required": false,
+      "helpMarkDown": "Select which Unity version to install or verify. You can either use the project's version or specify a version yourself.",
       "defaultValue": "project",
       "options": {
         "project": "Project Version",
@@ -115,13 +115,23 @@
       "visibleRule": "versionSelectionMode == specify"
     },
     {
+      "name": "activateLicense",
+      "type": "boolean",
+      "label": "Activate license",
+      "groupName": "licenseActivation",
+      "defaultValue": false,
+      "required": false,
+      "helpMarkDown": "If the project requires a Unity Pro or any other license to build or you are using a hosted cloud agent, make sure to enter your seat credentials here and activate the editor."
+    },
+    {
       "name": "username",
       "type": "string",
       "label": "Username",
       "groupName": "licenseActivation",
       "defaultValue": "",
       "required": true,
-      "helpMarkDown": "The username used to activate the Unity Editor."
+      "helpMarkDown": "The username used to activate the Unity Editor.",
+      "visibleRule": "activateLicense == true"
     },
     {
       "name": "password",
@@ -130,7 +140,8 @@
       "groupName": "licenseActivation",
       "defaultValue": "",
       "required": true,
-      "helpMarkDown": "The password used to activate the Unity Editor."
+      "helpMarkDown": "The password used to activate the Unity Editor.",
+      "visibleRule": "activateLicense == true"
     },
     {
       "name": "serial",
@@ -139,16 +150,18 @@
       "groupName": "licenseActivation",
       "defaultValue": "",
       "required": true,
-      "helpMarkDown": "Serial key used to activate the Unity Editor. The serial key must be assigned to the user defined by username and password above."
+      "helpMarkDown": "Serial key used to activate the Unity Editor. The serial key must be assigned to the user defined by username and password above.",
+      "visibleRule": "activateLicense == true"
     },
     {
       "name": "deactivateSeatOnComplete",
       "type": "boolean",
-      "label": "Deactivate seat on complete",
+      "label": "Deactivate license when pipeline has finished",
       "groupName": "licenseActivation",
       "defaultValue": true,
       "required": false,
-      "helpMarkDown": "By default the seat activation is released again after the pipeline has run. Uncheck this to keep the activation active."
+      "helpMarkDown": "By default the seat activation is released again after the pipeline has run. Uncheck this to keep the activation active.",
+      "visibleRule": "activateLicense == true"
     },
     {
       "name": "installAndroidModule",
@@ -168,16 +181,6 @@
       "groupName": "moduleOptions",
       "visibleRule": "installAndroidModule == true",
       "helpMarkDown": "(Optional) Installs Android SDK & NDK Tools as well as the OpenJDK module."
-    },
-    {
-      "name": "configureAndroidTooling",
-      "type": "boolean",
-      "label": "Configure editor Android tools paths",
-      "defaultValue": true,
-      "required": false,
-      "groupName": "moduleOptions",
-      "visibleRule": "installAndroidChildModules == true",
-      "helpMarkDown": "(Optional) Configures Android SDK, NDK, OpenJDK and Gradle path settings on the installed editor prior to building."
     },
     {
       "name": "installIOSModule",

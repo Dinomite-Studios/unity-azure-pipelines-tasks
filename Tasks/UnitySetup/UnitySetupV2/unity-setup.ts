@@ -9,9 +9,11 @@ import { UnityEditorActivation } from './unity-editor-activation';
 export const versionSelectionModeVariableName = "versionSelectionMode";
 export const versionInputVariableName = 'version';
 export const revisionInputVariableName = 'revision';
+export const activateLicenseInputVariableName = 'activateLicense';
 export const usernameInputVariableName = 'username';
 export const passwordInputVariableName = 'password';
 export const serialInputVariableName = 'serial';
+export const deactivateSeatOnCompleteInputVariableName = 'deactivateSeatOnComplete';
 export const unityHubExecutableLocationVariableName = 'unityHubExecutableLocation';
 export const customUnityHubExecutableLocationVariableName = 'customUnityHubExecutableLocation';
 export const macOSArchitectureVariableName = 'macOSArchitecture';
@@ -28,7 +30,6 @@ export const macIL2CPPModuleInputVariableName = 'installMacIL2CPPModule';
 export const windowsModuleInputVariableName = 'installWindowsIL2CPPModule';
 export const uwpModuleInputVariableName = 'installUWPModule';
 export const webGLModuleInputVariableName = 'installWebGLModule';
-export const deactivateSeatOnCompleteInputVariableName = 'deactivateSeatOnComplete';
 
 function run() {
     try {
@@ -59,13 +60,13 @@ function run() {
             return;
         }
 
-        const configurationResult = UnityEditorConfiguration.run();
-        if (configurationResult !== 0) {
-            const log = `${tl.loc('taskResultFailedEditorConfig')} ${installResult}`
-            console.error(log);
-            tl.setResult(tl.TaskResult.Failed, log);
-            return;
-        }
+        // const configurationResult = UnityEditorConfiguration.run();
+        // if (configurationResult !== 0) {
+        //     const log = `${tl.loc('taskResultFailedEditorConfig')} ${installResult}`
+        //     console.error(log);
+        //     tl.setResult(tl.TaskResult.Failed, log);
+        //     return;
+        // }
 
         // Set task result succeeded.
         const log = tl.loc('taskResultSuccessUnitySetup');

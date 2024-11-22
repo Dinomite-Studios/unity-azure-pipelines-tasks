@@ -1,11 +1,16 @@
 import tl = require('azure-pipelines-task-lib/task');
-import { usernameInputVariableName, passwordInputVariableName, serialInputVariableName, deactivateSeatOnCompleteInputVariableName } from './unity-setup';
+import { usernameInputVariableName, passwordInputVariableName, serialInputVariableName, deactivateSeatOnCompleteInputVariableName, activateLicenseInputVariableName } from './unity-setup';
 import { getProjectUnityVersion } from './utilities';
 import path = require('path');
 import { UnityPathTools, Utilities } from '@dinomite-studios/unity-azure-pipelines-tasks-lib';
 
 export class UnityEditorDeactivation {
     public static run(): number {
+        const activateLicense = tl.getBoolInput(activateLicenseInputVariableName);
+        if (!activateLicense) {
+            return 0;
+        }
+
         const editorVersion = getProjectUnityVersion();
         const editorInstallationsPath = UnityPathTools.getUnityEditorsPath('default');
         const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(editorInstallationsPath, editorVersion!);
