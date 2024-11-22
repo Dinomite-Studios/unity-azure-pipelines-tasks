@@ -25,13 +25,13 @@
       "isExpanded": true
     },
     {
-      "name": "licenseActivation",
-      "displayName": "License / Seat Activation",
+      "name": "unityInstallation",
+      "displayName": "Unity Installation / Configuraiton",
       "isExpanded": true
     },
     {
-      "name": "moduleOptions",
-      "displayName": "Additional Platforms",
+      "name": "licenseActivation",
+      "displayName": "License / Seat Activation",
       "isExpanded": true
     }
   ],
@@ -61,10 +61,10 @@
     {
       "name": "versionSelectionMode",
       "type": "pickList",
-      "label": "Unity version to install / verify",
+      "label": "Unity version",
       "groupName": "general",
       "required": false,
-      "helpMarkDown": "Select which Unity version to install or verify. You can either use the project's version or specify a version yourself.",
+      "helpMarkDown": "Select which Unity version to run the task with.",
       "defaultValue": "project",
       "options": {
         "project": "Project Version",
@@ -80,19 +80,6 @@
       "required": false,
       "helpMarkDown": "(Optional) Enter the path to the Unity project within the repository. If no value is entered, the root of the repository will be used.",
       "visibleRule": "versionSelectionMode == project"
-    },
-    {
-      "name": "macOSArchitecture",
-      "type": "pickList",
-      "label": "Editor Architecture (macOS only!)",
-      "required": false,
-      "groupName": "general",
-      "helpMarkDown": "macOS only: Use this argument to explicitly choose between the Apple Silicon or Intel version of the Unity Editor. Defaults to Intel, x86_64.",
-      "defaultValue": "x86_64",
-      "options": {
-        "x86_64": "Intel",
-        "arm64": "Apple Silicon"
-      }
     },
     {
       "name": "version",
@@ -113,6 +100,149 @@
       "required": true,
       "helpMarkDown": "The Unity editor version revision to install, e.g. value: `c7b5465681fb`.",
       "visibleRule": "versionSelectionMode == specify"
+    },
+    {
+      "name": "installEditor",
+      "type": "boolean",
+      "label": "Install / verify editor and configuration",
+      "groupName": "unityInstallation",
+      "defaultValue": true,
+      "required": false,
+      "helpMarkDown": "Make sure the editor required to build is installed and configured properly. Only uncheck this, if you know the agent is properly configured."
+    },
+    {
+      "name": "macOSArchitecture",
+      "type": "pickList",
+      "label": "Editor Architecture (macOS only!)",
+      "required": false,
+      "groupName": "unityInstallation",
+      "helpMarkDown": "macOS only: Use this argument to explicitly choose between the Apple Silicon or Intel version of the Unity Editor. Defaults to Intel, x86_64.",
+      "defaultValue": "x86_64",
+      "visibleRule": "installEditor == true",
+      "options": {
+        "x86_64": "Intel",
+        "arm64": "Apple Silicon"
+      }
+    },
+    {
+      "name": "installAndroidModule",
+      "type": "boolean",
+      "label": "Android Build Support",
+      "defaultValue": false,
+      "required": false,
+      "groupName": "unityInstallation",
+      "visibleRule": "installEditor == true",
+      "helpMarkDown": "(Optional) Install the Android build module."
+    },
+    {
+      "name": "installAndroidChildModules",
+      "type": "boolean",
+      "label": "Install Android SDK & NDK Tools & OpenJDK",
+      "defaultValue": true,
+      "required": false,
+      "groupName": "unityInstallation",
+      "visibleRule": "installAndroidModule == true && installEditor == true",
+      "helpMarkDown": "(Optional) Installs Android SDK & NDK Tools as well as the OpenJDK module."
+    },
+    {
+      "name": "installIOSModule",
+      "type": "boolean",
+      "label": "iOS Build Support",
+      "defaultValue": false,
+      "required": false,
+      "groupName": "unityInstallation",
+      "visibleRule": "installEditor == true",
+      "helpMarkDown": "(Optional) Install the iOS build module."
+    },
+    {
+      "name": "installTVOSModule",
+      "type": "boolean",
+      "label": "tvOS Build Support",
+      "defaultValue": false,
+      "required": false,
+      "groupName": "unityInstallation",
+      "visibleRule": "installEditor == true",
+      "helpMarkDown": "(Optional) Install the tvOS build module."
+    },
+    {
+      "name": "installVisionOSModule",
+      "type": "boolean",
+      "label": "visionOS Build Support",
+      "defaultValue": false,
+      "required": false,
+      "groupName": "unityInstallation",
+      "visibleRule": "installEditor == true",
+      "helpMarkDown": "(Optional) Install the visionOS build module."
+    },
+    {
+      "name": "installLinuxMonoModule",
+      "type": "boolean",
+      "label": "Linux Build Support (Mono)",
+      "defaultValue": false,
+      "required": false,
+      "groupName": "unityInstallation",
+      "visibleRule": "installEditor == true",
+      "helpMarkDown": "(Optional) Install the visionOS build module."
+    },
+    {
+      "name": "installLinuxIL2CPPModule",
+      "type": "boolean",
+      "label": "Linux Build Support (IL2CPP)",
+      "defaultValue": false,
+      "required": false,
+      "groupName": "unityInstallation",
+      "visibleRule": "installEditor == true",
+      "helpMarkDown": "(Optional) Install the visionOS build module."
+    },
+    {
+      "name": "installMacMonoModule",
+      "type": "boolean",
+      "label": "Mac Build Support (Mono)",
+      "defaultValue": false,
+      "required": false,
+      "groupName": "unityInstallation",
+      "visibleRule": "installEditor == true",
+      "helpMarkDown": "(Optional) Install the Mac (Mono) build module."
+    },
+    {
+      "name": "installMacIL2CPPModule",
+      "type": "boolean",
+      "label": "Mac Build Support (IL2CPP)",
+      "defaultValue": false,
+      "required": false,
+      "groupName": "unityInstallation",
+      "visibleRule": "installEditor == true",
+      "helpMarkDown": "(Optional) Install the Mac (IL2CPP) build module."
+    },
+    {
+      "name": "installWindowsIL2CPPModule",
+      "type": "boolean",
+      "label": "Windows Build Support (IL2CPP)",
+      "defaultValue": false,
+      "required": false,
+      "groupName": "unityInstallation",
+      "visibleRule": "installEditor == true",
+      "helpMarkDown": "(Optional) Install the Windows (IL2CPP) build module."
+    },
+    {
+      "name": "installUWPModule",
+      "type": "boolean",
+      "label": "Universal Windows Platform Build Support",
+      "defaultValue": false,
+      "required": false,
+      "groupName": "unityInstallation",
+      "visibleRule": "installEditor == true",
+      "helpMarkDown": "(Optional) Install the UWP build module."
+    },
+    {
+      "name": "installWebGLModule",
+      "type": "boolean",
+      "label": "WebGL Build Support",
+      "defaultValue": false,
+      "required": false,
+      "groupName": "unityInstallation",
+      "visibleRule": "installEditor == true",
+      "helpMarkDown": "(Optional) Install the WebGL build module."
     },
     {
       "name": "activateLicense",
@@ -162,115 +292,6 @@
       "required": false,
       "helpMarkDown": "By default the seat activation is released again after the pipeline has run. Uncheck this to keep the activation active.",
       "visibleRule": "activateLicense == true"
-    },
-    {
-      "name": "installAndroidModule",
-      "type": "boolean",
-      "label": "Android Build Support",
-      "defaultValue": false,
-      "required": false,
-      "groupName": "moduleOptions",
-      "helpMarkDown": "(Optional) Install the Android build module."
-    },
-    {
-      "name": "installAndroidChildModules",
-      "type": "boolean",
-      "label": "Install Android SDK & NDK Tools & OpenJDK",
-      "defaultValue": true,
-      "required": false,
-      "groupName": "moduleOptions",
-      "visibleRule": "installAndroidModule == true",
-      "helpMarkDown": "(Optional) Installs Android SDK & NDK Tools as well as the OpenJDK module."
-    },
-    {
-      "name": "installIOSModule",
-      "type": "boolean",
-      "label": "iOS Build Support",
-      "defaultValue": false,
-      "required": false,
-      "groupName": "moduleOptions",
-      "helpMarkDown": "(Optional) Install the iOS build module."
-    },
-    {
-      "name": "installTVOSModule",
-      "type": "boolean",
-      "label": "tvOS Build Support",
-      "defaultValue": false,
-      "required": false,
-      "groupName": "moduleOptions",
-      "helpMarkDown": "(Optional) Install the tvOS build module."
-    },
-    {
-      "name": "installVisionOSModule",
-      "type": "boolean",
-      "label": "visionOS Build Support",
-      "defaultValue": false,
-      "required": false,
-      "groupName": "moduleOptions",
-      "helpMarkDown": "(Optional) Install the visionOS build module."
-    },
-    {
-      "name": "installLinuxMonoModule",
-      "type": "boolean",
-      "label": "Linux Build Support (Mono)",
-      "defaultValue": false,
-      "required": false,
-      "groupName": "moduleOptions",
-      "helpMarkDown": "(Optional) Install the visionOS build module."
-    },
-    {
-      "name": "installLinuxIL2CPPModule",
-      "type": "boolean",
-      "label": "Linux Build Support (IL2CPP)",
-      "defaultValue": false,
-      "required": false,
-      "groupName": "moduleOptions",
-      "helpMarkDown": "(Optional) Install the visionOS build module."
-    },
-    {
-      "name": "installMacMonoModule",
-      "type": "boolean",
-      "label": "Mac Build Support (Mono)",
-      "defaultValue": false,
-      "required": false,
-      "groupName": "moduleOptions",
-      "helpMarkDown": "(Optional) Install the Mac (Mono) build module."
-    },
-    {
-      "name": "installMacIL2CPPModule",
-      "type": "boolean",
-      "label": "Mac Build Support (IL2CPP)",
-      "defaultValue": false,
-      "required": false,
-      "groupName": "moduleOptions",
-      "helpMarkDown": "(Optional) Install the Mac (IL2CPP) build module."
-    },
-    {
-      "name": "installWindowsIL2CPPModule",
-      "type": "boolean",
-      "label": "Windows Build Support (IL2CPP)",
-      "defaultValue": false,
-      "required": false,
-      "groupName": "moduleOptions",
-      "helpMarkDown": "(Optional) Install the Windows (IL2CPP) build module."
-    },
-    {
-      "name": "installUWPModule",
-      "type": "boolean",
-      "label": "Universal Windows Platform Build Support",
-      "defaultValue": false,
-      "required": false,
-      "groupName": "moduleOptions",
-      "helpMarkDown": "(Optional) Install the UWP build module."
-    },
-    {
-      "name": "installWebGLModule",
-      "type": "boolean",
-      "label": "WebGL Build Support",
-      "defaultValue": false,
-      "required": false,
-      "groupName": "moduleOptions",
-      "helpMarkDown": "(Optional) Install the WebGL build module."
     }
   ],
   "outputVariables": [
