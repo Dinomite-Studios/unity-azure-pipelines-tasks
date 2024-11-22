@@ -17,10 +17,10 @@
   "author": "Dinomite",
   "license": "MIT",
   "dependencies": {
-    "@types/node": "^22.5.5",
+    "@types/node": "^22.9.1",
     "@types/q": "^1.5.8",
     "@dinomite-studios/unity-azure-pipelines-tasks-lib": "^1.0.9",
-    "azure-pipelines-task-lib": "^4.17.2"
+    "azure-pipelines-task-lib": "^4.17.3"
   },
   "devDependencies": {
     "typescript": "^5.6.2"
