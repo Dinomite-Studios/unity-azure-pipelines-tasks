@@ -1,6 +1,6 @@
 {
   "name": "@dinomite-studios/unity-setup-task",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Azure Pipelines task to setup Unity editors and modules on the executing machine.",
   "main": "unity-setup.js",
   "scripts": {
