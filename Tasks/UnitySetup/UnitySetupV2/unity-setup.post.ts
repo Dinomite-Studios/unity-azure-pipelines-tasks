@@ -4,9 +4,6 @@ import { UnityEditorDeactivation } from './unity-editor-deactivation';
 
 function run() {
     try {
-        // Configure localization.
-        tl.setResourcePath(path.join(__dirname, 'task.json'));
-
         const unityDeactivation = UnityEditorDeactivation.run();
         if (unityDeactivation !== 0) {
             const log = `${tl.loc('taskResultFailedEditorDeactivation')} ${unityDeactivation}`;
