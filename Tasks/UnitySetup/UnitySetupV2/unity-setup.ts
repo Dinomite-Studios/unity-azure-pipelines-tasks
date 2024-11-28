@@ -2,7 +2,7 @@ import path = require('path');
 import tl = require('azure-pipelines-task-lib/task');
 import { UnityEditorInstall } from './unity-editor-install';
 import { UnityModulesInstall } from './unity-modules-install';
-import { UnityEditorConfiguration } from './unity-editor-configuration';
+// import { UnityEditorConfiguration } from './unity-editor-configuration';
 import { UnityEditorActivation } from './unity-editor-activation';
 
 // Input variables
