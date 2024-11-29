@@ -22,9 +22,6 @@ export class UnityEditorActivation {
         const logFilesDirectory = path.join(tl.getVariable('Agent.TempDirectory')!, 'Logs');
         const logFilePath = path.join(logFilesDirectory, `UnityActivationLog_${Utilities.getLogFileNameTimeStamp()}.log`);
 
-        // Set output variable values.
-        tl.setVariable('logsOutputPath', logFilesDirectory);
-
         // Execute Unity command line.
         const unityCmd = tl.tool(unityExecutablePath)
             .arg('-batchmode')

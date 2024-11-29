@@ -22,9 +22,6 @@ export class UnityEditorDeactivation {
         const logFilePath = path.join(logFilesDirectory, `UnityDeactivationLog_${Utilities.getLogFileNameTimeStamp()}.log`);
         const deactivateSeatOnComplete = tl.getBoolInput(deactivateSeatOnCompleteInputVariableName);
 
-        // Set output variable values.
-        tl.setVariable('logsOutputPath', logFilesDirectory);
-
         if (deactivateSeatOnComplete) {
             const unityCmd = tl.tool(unityExecutablePath)
                 .arg('-batchmode')

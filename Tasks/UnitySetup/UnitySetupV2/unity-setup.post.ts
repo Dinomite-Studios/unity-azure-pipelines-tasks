@@ -13,9 +13,7 @@ function run() {
         }
 
         // Set task result succeeded.
-        const log = tl.loc('taskResultSuccessEditorDeactivation');
-        console.log(log);
-        tl.setResult(tl.TaskResult.Succeeded, log);
+        tl.setResult(tl.TaskResult.Succeeded);
     } catch (e) {
         if (e instanceof Error) {
             console.error(e.message);

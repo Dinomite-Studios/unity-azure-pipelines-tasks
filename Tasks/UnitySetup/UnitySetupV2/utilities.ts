@@ -27,20 +27,12 @@ export function getProjectUnityVersion(): UnityVersionInfo | null | undefined {
 
 export function getProjectUnityEditorVersion(): UnityVersionInfoResult {
     const projectPath = tl.getPathInput('unityProjectPath') || '';
-    console.log(`${tl.loc('projectPathInfo')} ${projectPath}`);
-
     const unityVersion = UnityVersionTools.determineProjectVersionFromFile(projectPath);
+
     if (unityVersion.error) {
         const error = `${tl.loc('failGetUnityEditorVersion')} | ${unityVersion.error}`;
         console.error(error);
         throw new Error(error);
-    }
-
-    const successGetVersionLog = `${tl.loc('successGetUnityEditorVersion')} ${unityVersion.info!.version}${unityVersion.info!.revision ? `, revision=${unityVersion.info!.revision}` : ''}, alpha=${unityVersion.info!.isAlpha}, beta=${unityVersion.info!.isBeta}`;
-    console.log(successGetVersionLog);
-
-    if (unityVersion.info!.isAlpha || unityVersion.info!.isBeta) {
-        console.warn(tl.loc('warningAlphaBetaVersion'));
     }
 
     return unityVersion;
@@ -49,7 +41,6 @@ export function getProjectUnityEditorVersion(): UnityVersionInfoResult {
 export function getUnityHubExecutablePath(): string | undefined {
     // We either use the default installation location of the Unity Hub or if the user
     // decided to customize it, we use the user's specified location.
-    console.log(tl.loc('unityHubLookUpInfo'));
     let unityHubExecutablePath: string | undefined = undefined;
     const unityHubLookupOption = tl.getInput(unityHubExecutableLocationVariableName, true)!
     if (unityHubLookupOption === 'specify') {
@@ -61,8 +52,6 @@ export function getUnityHubExecutablePath(): string | undefined {
     if (!unityHubExecutablePath) {
         console.error(tl.loc('unityHubLocationNotSpecified'));
         tl.setResult(tl.TaskResult.Failed, tl.loc('unityHubLocationNotSpecified'));
-    } else {
-        console.log(`${tl.loc('unityHubLocationInfo')} ${unityHubExecutablePath})`)
     }
 
     return unityHubExecutablePath;

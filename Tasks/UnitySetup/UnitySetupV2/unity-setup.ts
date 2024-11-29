@@ -69,9 +69,7 @@ function run() {
         // }
 
         // Set task result succeeded.
-        const log = tl.loc('taskResultSuccessUnitySetup');
-        console.log(log);
-        tl.setResult(tl.TaskResult.Succeeded, tl.loc('taskResultSuccessUnitySetup'));
+        tl.setResult(tl.TaskResult.Succeeded);
     } catch (e) {
         if (e instanceof Error) {
             console.error(e.message);
