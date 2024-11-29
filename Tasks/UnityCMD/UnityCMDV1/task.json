@@ -2,6 +2,7 @@
   "id": "f357416a-9646-4cd6-9d96-e2f2a9574ce6",
   "name": "UnityCMDTask",
   "friendlyName": "Unity CMD",
+  "deprecated": true,
   "description": "Execute a Unity editor via command line.",
   "helpMarkDown": "Use this task for full control over the arguments passed to the Untiy command line. With this task you are free to implement any custom behaviour needed. [More Information](https://unitydevops.com/docs/unity-cmd-task).",
   "category": "Azure Pipelines",
@@ -10,9 +11,9 @@
   ],
   "author": "Dinomite",
   "version": {
-    "Major": "1",
-    "Minor": "2",
-    "Patch": "0"
+    "Major": 1,
+    "Minor": 2,
+    "Patch": 1
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityCMD/UnityCMDV1/CHANGELOG.md)",
   "minimumAgentVersion": "2.144.0",
@@ -72,6 +73,10 @@
   ],
   "execution": {
     "Node10": {
+      "target": "unity-cmd.js",
+      "argumentFormat": ""
+    },
+    "Node20_1": {
       "target": "unity-cmd.js",
       "argumentFormat": ""
     }
