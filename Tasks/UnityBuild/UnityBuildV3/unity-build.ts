@@ -18,12 +18,8 @@ const unityProjectPathInputVariableName = 'unityProjectPath';
 const versionInputVariableName = 'version';
 const unityEditorsPathModeInputVariableName = 'unityEditorsPathMode';
 const customUnityEditorsPathInputVariableName = 'customUnityEditorsPath';
-const tempDirectoryInputVariableName = 'Agent.TempDirectory';
 const cleanBuildInputVariableName = 'Build.Repository.Clean';
 const versionSelectionModeVariableName = "versionSelectionMode";
-
-// Output variables.
-const logsOutputPathOutputVariableName = 'logsOutputPath';
 
 async function run() {
     try {
@@ -58,12 +54,8 @@ async function run() {
 
         const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(unityEditorsPath, unityVersion.info!);
         const cleanBuild = tl.getVariable(cleanBuildInputVariableName);
-        const repositoryLocalPath = tl.getVariable(tempDirectoryInputVariableName)!;
-        const logFilesDirectory = path.join(repositoryLocalPath, 'Logs');
+        const logFilesDirectory = path.join(tl.getVariable('Agent.TempDirectory')!, 'Logs');
         const logFilePath = path.join(logFilesDirectory, `UnityBuildLog_${Utilities.getLogFileNameTimeStamp()}.log`);
-
-        // Set output variable values.
-        tl.setVariable(logsOutputPathOutputVariableName, logFilesDirectory);
 
         // If clean was specified by the user, delete the existing output directory, if it exists
         if (cleanBuild === 'true') {
