@@ -4,7 +4,7 @@
     "version": "2.9.3",
     "name": "Unity Tools for Azure DevOps",
     "description": "The Unity Tools for Azure DevOps extension adds CI/CD tools for Unity 3D projects to your Azure DevOps organization.",
-    "publisher": "Dinomite",
+    "publisher": "DinomiteStudios",
     "public": true,
     "icons": {
         "default": "images/icon.png"
