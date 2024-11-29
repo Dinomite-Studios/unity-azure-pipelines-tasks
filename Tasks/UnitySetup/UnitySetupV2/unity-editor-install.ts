@@ -25,7 +25,7 @@ export class UnityEditorInstall {
             installEditorCmd.arg('--architecture').arg(macOSArchitectureOption);
         }
 
-        let result = installEditorCmd.execSync();
+        const result = installEditorCmd.execSync();
 
         // The Unity Hub CLI returns 1 instead of 0 even in case of success,
         // This seems to be by design for whatever reason.
