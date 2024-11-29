@@ -1,18 +1,19 @@
 {
   "id": "13159b9a-b7ba-4977-922c-2b5cb63c90df",
+  "deprecated": true,
   "name": "UnityActivateLicenseTask",
   "friendlyName": "Unity Activate License",
-  "description": "Activates a Unity license on the agent.",
+  "description": "[DEPRECATED: Use UnitySetup v2 instead] Activates a Unity license on the agent.",
   "helpMarkDown": "Use this task to activate a Unity Plus/Pro license on the executing agent machine. [More Information](https://unitydevops.com/docs/unity-activate-license-task)",
   "category": "Azure Pipelines",
   "visibility": [
     "Build"
   ],
-  "author": "Dinomite Studios",
+  "author": "Dinomite",
   "version": {
     "Major": 1,
     "Minor": 2,
-    "Patch": 1
+    "Patch": 2
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityActivateLicense/UnityActivateLicenseV1/CHANGELOG.md)",
   "minimumAgentVersion": "2.144.0",
@@ -50,6 +51,14 @@
       "helpMarkDown": "Serial key used to activate the Unity Editor. The serial key must be assigned to the user defined by username and password above."
     },
     {
+      "name": "deactivateSeatOnComplete",
+      "type": "boolean",
+      "label": "Deactivate seat on complete",
+      "defaultValue": true,
+      "required": false,
+      "helpMarkDown": "By default the seat activation is released again after the pipeline has run. Uncheck this to keep the activation active."
+    },
+    {
       "name": "versionSelectionMode",
       "type": "pickList",
       "label": "Unity version to use activate the license with",
@@ -71,42 +80,33 @@
       "visibleRule": "versionSelectionMode == specify"
     },
     {
-      "name": "unityEditorsPathMode",
-      "type": "pickList",
-      "label": "Unity editors location",
-      "defaultValue": "unityHub",
-      "helpMarkDown": "Define where to look for Unity installations on the agent.",
-      "options": {
-        "unityHub": "Unity Hub default installation path",
-        "environmentVariable": "Use UNITYHUB_EDITORS_FOLDER_LOCATION environment variable on agent",
-        "specify": "Specify path"
-      }
-    },
-    {
-      "name": "customUnityEditorsPath",
-      "type": "string",
-      "label": "Editors folder location",
-      "defaultValue": "",
-      "required": true,
-      "visibleRule": "unityEditorsPathMode == specify",
-      "helpMarkDown": "Specify where to look for Unity Editor versions on the agent."
-    },
-    {
       "name": "unityProjectPath",
       "type": "filePath",
       "label": "Unity project path",
       "defaultValue": "",
       "required": false,
-      "helpMarkDown": "(Optional) Enter the directory path to the Unity project. If no value is entered, the root of the repository will be used."
+      "helpMarkDown": "(Optional) Enter the path to the Unity project within the repository. If no value is entered, the root of the repository will be used.",
+      "visibleRule": "versionSelectionMode == project"
     },
     {
-      "name": "deactivateSeatOnComplete",
-      "type": "boolean",
-      "label": "Deactivate seat on complete",
-      "defaultValue": true,
+      "name": "unityEditorsLocation",
+      "type": "pickList",
+      "label": "Unity editors location",
+      "defaultValue": "default",
+      "helpMarkDown": "Define where to look for Unity installations on the agent.",
+      "options": {
+        "default": "Default (recommended)",
+        "specify": "Specify path"
+      }
+    },
+    {
+      "name": "customUnityEditorsLocation",
+      "type": "string",
+      "label": "Editors folder location",
+      "defaultValue": "",
       "required": true,
-      "groupName": "advanced",
-      "helpMarkDown": "By default the seat activation is released again after the pipeline has run. Uncheck this to keep the activation active."
+      "visibleRule": "unityEditorsLocation == specify",
+      "helpMarkDown": "Specify where to look for Unity Editor versions on the agent."
     }
   ],
   "outputVariables": [

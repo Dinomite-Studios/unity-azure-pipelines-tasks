@@ -9,11 +9,11 @@
   "visibility": [
     "Build"
   ],
-  "author": "Dinomite Studios",
+  "author": "Dinomite",
   "version": {
     "Major": 3,
     "Minor": 2,
-    "Patch": 1
+    "Patch": 2
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityBuild/UnityBuildV3/CHANGELOG.md)",
   "minimumAgentVersion": "2.144.0",
@@ -51,11 +51,10 @@
       "name": "unityEditorsPathMode",
       "type": "pickList",
       "label": "Unity editors location",
-      "defaultValue": "unityHub",
+      "defaultValue": "default",
       "helpMarkDown": "Define where to look for Unity installations on the agent.",
       "options": {
-        "unityHub": "Unity Hub default installation path",
-        "environmentVariable": "Use UNITYHUB_EDITORS_FOLDER_LOCATION environment variable on agent",
+        "default": "Default (recommended)",
         "specify": "Specify path"
       }
     },

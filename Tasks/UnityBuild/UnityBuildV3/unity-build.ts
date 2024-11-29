@@ -1,13 +1,13 @@
 import path = require('path');
 import tl = require('azure-pipelines-task-lib/task');
 import fs = require('fs-extra');
-import { UnityBuildScriptHelper } from './unity-build-script.helper';
 import {
     UnityToolRunner,
     UnityPathTools,
     UnityVersionInfoResult,
     Utilities,
-    UnityVersionTools
+    UnityVersionTools,
+    UnityPackageManagerTools
 } from '@dinomite-studios/unity-azure-pipelines-tasks-lib';
 
 // Input variables.
@@ -18,12 +18,8 @@ const unityProjectPathInputVariableName = 'unityProjectPath';
 const versionInputVariableName = 'version';
 const unityEditorsPathModeInputVariableName = 'unityEditorsPathMode';
 const customUnityEditorsPathInputVariableName = 'customUnityEditorsPath';
-const tempDirectoryInputVariableName = 'Agent.TempDirectory';
 const cleanBuildInputVariableName = 'Build.Repository.Clean';
 const versionSelectionModeVariableName = "versionSelectionMode";
-
-// Output variables.
-const logsOutputPathOutputVariableName = 'logsOutputPath';
 
 async function run() {
     try {
@@ -58,12 +54,8 @@ async function run() {
 
         const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(unityEditorsPath, unityVersion.info!);
         const cleanBuild = tl.getVariable(cleanBuildInputVariableName);
-        const repositoryLocalPath = tl.getVariable(tempDirectoryInputVariableName)!;
-        const logFilesDirectory = path.join(repositoryLocalPath, 'Logs');
+        const logFilesDirectory = path.join(tl.getVariable('Agent.TempDirectory')!, 'Logs');
         const logFilePath = path.join(logFilesDirectory, `UnityBuildLog_${Utilities.getLogFileNameTimeStamp()}.log`);
-
-        // Set output variable values.
-        tl.setVariable(logsOutputPathOutputVariableName, logFilesDirectory);
 
         // If clean was specified by the user, delete the existing output directory, if it exists
         if (cleanBuild === 'true') {
@@ -87,24 +79,26 @@ async function run() {
         }
 
         // Perform setup depending on build script type selected
-        const buildScriptType = tl.getInput('buildScriptType');
-        if (buildScriptType === 'default' || buildScriptType === 'inline') {
-            // For default or inline selection we need to make sure to place our default or the user's
-            // entered build script inside the Untiy project.
-            const isDefault = buildScriptType === 'default';
+        const buildScriptType = tl.getInput('buildScriptType') ?? 'default';
 
+        if (buildScriptType === 'default') {
+            // When using default build scripts we rely on a Utility package being installed to the project via the Unity Package Manager.
+            // By adding it to the manifest before opening the project, Unity will load the package before trying to build the project.
+            UnityPackageManagerTools.addPackageToProject(projectPath, 'games.dinomite.azurepipelines', 'https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks-build-scripts.git');
+            unityCmd.arg('-executeMethod').arg('AzurePipelinesBuild.PerformBuild');
+            unityCmd.arg('-outputFileName').arg(outputFileName);
+            unityCmd.arg('-outputPath').arg(outputPath);
+        } else if (buildScriptType === 'inline') {
             // Create a C# script file in a Editor folder at the root Assets directory level. Then write
             // the default or the user's script into it. Unity will then compile it on launch and make sure it's available.
             const projectAssetsEditorFolderPath = path.join(`${projectPath}`, 'Assets', 'Editor');
             tl.mkdirP(projectAssetsEditorFolderPath);
             tl.cd(projectAssetsEditorFolderPath);
-            tl.writeFile('AzureDevOps.cs', isDefault
-                ? UnityBuildScriptHelper.getUnityEditorBuildScriptContent(outputPath, outputFileName)
-                : tl.getInput('inlineBuildScript')!);
+            tl.writeFile('AzureDevOps.cs', tl.getInput('inlineBuildScript')!);
             tl.cd(projectPath);
 
             // Tell Unity which method to execute for build.
-            unityCmd.arg('-executeMethod').arg(isDefault ? 'AzureDevOps.PerformBuild' : tl.getInput('scriptExecuteMethod')!);
+            unityCmd.arg('-executeMethod').arg(tl.getInput('scriptExecuteMethod')!);
         } else if (buildScriptType === 'existing') {
             // If the user already has an existing build script we only need the method to execute.
             unityCmd.arg('-executeMethod').arg(tl.getInput('scriptExecuteMethod')!).arg('-quit');

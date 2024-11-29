@@ -10,13 +10,12 @@ import {
 // Input variable names.
 export const usernameInputVariableName = 'username';
 export const passwordInputVariableName = 'password';
-export const versionInputVariableName = 'version';
-export const unityEditorsPathModeInputVariableName = 'unityEditorsPathMode';
-export const customUnityEditorsPathInputVariableName = 'customUnityEditorsPath';
-export const unityProjectPathInputVariableName = "unityProjectPath";
-export const tempDirectoryInputVariableName = 'Agent.TempDirectory';
-export const versionSelectionModeVariableName = "versionSelectionMode";
 const serialInputVariableName = 'serial';
+export const versionSelectionModeVariableName = "versionSelectionMode";
+export const versionInputVariableName = 'version';
+export const unityEditorsPathModeInputVariableName = 'unityEditorsLocation';
+export const customUnityEditorsPathInputVariableName = 'customUnityEditorsLocation';
+export const tempDirectoryInputVariableName = 'Agent.TempDirectory';
 
 function run() {
     try {
@@ -31,7 +30,6 @@ function run() {
         const unityEditorsPath = UnityPathTools.getUnityEditorsPath(
             tl.getInput(unityEditorsPathModeInputVariableName, true)!,
             tl.getInput(customUnityEditorsPathInputVariableName));
-        const unityProjectPath = tl.getPathInput(unityProjectPathInputVariableName) ?? '';
 
         let unityVersion: UnityVersionInfoResult;
         if (versionSelectionMode === 'specify') {
@@ -60,12 +58,12 @@ function run() {
         const unityCmd = tl.tool(unityExecutablePath)
             .arg('-batchmode')
             .arg('-nographics')
-            .arg('-projectPath').arg(unityProjectPath)
             .arg('-username').arg(username)
             .arg('-password').arg(password)
             .arg('-serial ').arg(serial)
             .arg('-logfile').arg(logFilePath)
             .arg('-quit');
+
         const result = unityCmd.execSync();
 
         // Unity process has finished. Set task result.

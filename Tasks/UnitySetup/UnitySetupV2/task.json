@@ -1,0 +1,326 @@
+{
+  "id": "de4be6e2-9c1e-4ae3-9a7e-6854f719bcc3",
+  "name": "UnitySetupTask",
+  "friendlyName": "Unity Setup",
+  "description": "Azure Pipelines task to setup Unity editors and modules on the build machine.",
+  "helpMarkDown": "Use this task to install Unity editors and modules required to build your project on the build agent. [More Information](https://unitydevops.com/docs/unity-setup-task).",
+  "category": "Azure Pipelines",
+  "preview": false,
+  "visibility": [
+    "Build"
+  ],
+  "author": "Dinomite",
+  "version": {
+    "Major": 2,
+    "Minor": 0,
+    "Patch": 0
+  },
+  "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnitySetup/UnitySetupV1/CHANGELOG.md)",
+  "minimumAgentVersion": "2.144.0",
+  "instanceNameFormat": "Unity Setup $(buildTarget)",
+  "groups": [
+    {
+      "name": "general",
+      "displayName": "General",
+      "isExpanded": true
+    },
+    {
+      "name": "unityInstallation",
+      "displayName": "Unity Installation / Configuraiton",
+      "isExpanded": true
+    },
+    {
+      "name": "licenseActivation",
+      "displayName": "License / Seat Activation",
+      "isExpanded": true
+    }
+  ],
+  "inputs": [
+    {
+      "name": "unityHubExecutableLocation",
+      "type": "pickList",
+      "label": "Unity Hub executable location",
+      "groupName": "general",
+      "defaultValue": "default",
+      "helpMarkDown": "The task needs the Unity Hub executable to perform CLI commands. If your Unity Hub is not in the default install location, use this option to specify its location.",
+      "options": {
+        "default": "Default (recommended)",
+        "specify": "Specify path"
+      }
+    },
+    {
+      "name": "customUnityHubExecutableLocation",
+      "type": "string",
+      "label": "Custom Unity Hub executable path",
+      "groupName": "general",
+      "defaultValue": "",
+      "required": true,
+      "visibleRule": "unityHubExecutableLocation == specify",
+      "helpMarkDown": "(Optional) Specify where to look for the Unity Hub executable on the agent."
+    },
+    {
+      "name": "versionSelectionMode",
+      "type": "pickList",
+      "label": "Unity version",
+      "groupName": "general",
+      "required": false,
+      "helpMarkDown": "Select which Unity version to run the task with.",
+      "defaultValue": "project",
+      "options": {
+        "project": "Project Version",
+        "specify": "Specify"
+      }
+    },
+    {
+      "name": "unityProjectPath",
+      "type": "filePath",
+      "label": "Unity project path",
+      "groupName": "general",
+      "defaultValue": "",
+      "required": false,
+      "helpMarkDown": "(Optional) Enter the path to the Unity project within the repository. If no value is entered, the root of the repository will be used.",
+      "visibleRule": "versionSelectionMode == project"
+    },
+    {
+      "name": "version",
+      "type": "string",
+      "label": "Version",
+      "groupName": "general",
+      "defaultValue": "",
+      "required": true,
+      "helpMarkDown": "The Unity editor version to install, e.g. value: `2022.2.1f1`.",
+      "visibleRule": "versionSelectionMode == specify"
+    },
+    {
+      "name": "revision",
+      "type": "string",
+      "label": "Revision",
+      "groupName": "general",
+      "defaultValue": "",
+      "required": true,
+      "helpMarkDown": "The Unity editor version revision to install, e.g. value: `c7b5465681fb`.",
+      "visibleRule": "versionSelectionMode == specify"
+    },
+    {
+      "name": "installEditor",
+      "type": "boolean",
+      "label": "Install / verify editor and configuration",
+      "groupName": "unityInstallation",
+      "defaultValue": true,
+      "required": false,
+      "helpMarkDown": "Make sure the editor required to build is installed and configured properly. Only uncheck this, if you know the agent is properly configured."
+    },
+    {
+      "name": "macOSArchitecture",
+      "type": "pickList",
+      "label": "Editor Architecture (macOS only!)",
+      "required": false,
+      "groupName": "unityInstallation",
+      "helpMarkDown": "macOS only: Use this argument to explicitly choose between the Apple Silicon or Intel version of the Unity Editor. Defaults to Intel, x86_64.",
+      "defaultValue": "x86_64",
+      "visibleRule": "installEditor == true",
+      "options": {
+        "x86_64": "Intel",
+        "arm64": "Apple Silicon"
+      }
+    },
+    {
+      "name": "installAndroidModule",
+      "type": "boolean",
+      "label": "Android Build Support",
+      "defaultValue": false,
+      "required": false,
+      "groupName": "unityInstallation",
+      "visibleRule": "installEditor == true",
+      "helpMarkDown": "(Optional) Install the Android build module."
+    },
+    {
+      "name": "installAndroidChildModules",
+      "type": "boolean",
+      "label": "Install Android SDK & NDK Tools & OpenJDK",
+      "defaultValue": true,
+      "required": false,
+      "groupName": "unityInstallation",
+      "visibleRule": "installAndroidModule == true && installEditor == true",
+      "helpMarkDown": "(Optional) Installs Android SDK & NDK Tools as well as the OpenJDK module."
+    },
+    {
+      "name": "installIOSModule",
+      "type": "boolean",
+      "label": "iOS Build Support",
+      "defaultValue": false,
+      "required": false,
+      "groupName": "unityInstallation",
+      "visibleRule": "installEditor == true",
+      "helpMarkDown": "(Optional) Install the iOS build module."
+    },
+    {
+      "name": "installTVOSModule",
+      "type": "boolean",
+      "label": "tvOS Build Support",
+      "defaultValue": false,
+      "required": false,
+      "groupName": "unityInstallation",
+      "visibleRule": "installEditor == true",
+      "helpMarkDown": "(Optional) Install the tvOS build module."
+    },
+    {
+      "name": "installVisionOSModule",
+      "type": "boolean",
+      "label": "visionOS Build Support",
+      "defaultValue": false,
+      "required": false,
+      "groupName": "unityInstallation",
+      "visibleRule": "installEditor == true",
+      "helpMarkDown": "(Optional) Install the visionOS build module."
+    },
+    {
+      "name": "installLinuxMonoModule",
+      "type": "boolean",
+      "label": "Linux Build Support (Mono)",
+      "defaultValue": false,
+      "required": false,
+      "groupName": "unityInstallation",
+      "visibleRule": "installEditor == true",
+      "helpMarkDown": "(Optional) Install the visionOS build module."
+    },
+    {
+      "name": "installLinuxIL2CPPModule",
+      "type": "boolean",
+      "label": "Linux Build Support (IL2CPP)",
+      "defaultValue": false,
+      "required": false,
+      "groupName": "unityInstallation",
+      "visibleRule": "installEditor == true",
+      "helpMarkDown": "(Optional) Install the visionOS build module."
+    },
+    {
+      "name": "installMacMonoModule",
+      "type": "boolean",
+      "label": "Mac Build Support (Mono)",
+      "defaultValue": false,
+      "required": false,
+      "groupName": "unityInstallation",
+      "visibleRule": "installEditor == true",
+      "helpMarkDown": "(Optional) Install the Mac (Mono) build module."
+    },
+    {
+      "name": "installMacIL2CPPModule",
+      "type": "boolean",
+      "label": "Mac Build Support (IL2CPP)",
+      "defaultValue": false,
+      "required": false,
+      "groupName": "unityInstallation",
+      "visibleRule": "installEditor == true",
+      "helpMarkDown": "(Optional) Install the Mac (IL2CPP) build module."
+    },
+    {
+      "name": "installWindowsIL2CPPModule",
+      "type": "boolean",
+      "label": "Windows Build Support (IL2CPP)",
+      "defaultValue": false,
+      "required": false,
+      "groupName": "unityInstallation",
+      "visibleRule": "installEditor == true",
+      "helpMarkDown": "(Optional) Install the Windows (IL2CPP) build module."
+    },
+    {
+      "name": "installUWPModule",
+      "type": "boolean",
+      "label": "Universal Windows Platform Build Support",
+      "defaultValue": false,
+      "required": false,
+      "groupName": "unityInstallation",
+      "visibleRule": "installEditor == true",
+      "helpMarkDown": "(Optional) Install the UWP build module."
+    },
+    {
+      "name": "installWebGLModule",
+      "type": "boolean",
+      "label": "WebGL Build Support",
+      "defaultValue": false,
+      "required": false,
+      "groupName": "unityInstallation",
+      "visibleRule": "installEditor == true",
+      "helpMarkDown": "(Optional) Install the WebGL build module."
+    },
+    {
+      "name": "activateLicense",
+      "type": "boolean",
+      "label": "Activate license",
+      "groupName": "licenseActivation",
+      "defaultValue": false,
+      "required": false,
+      "helpMarkDown": "If the project requires a Unity Pro or any other license to build or you are using a hosted cloud agent, make sure to enter your seat credentials here and activate the editor."
+    },
+    {
+      "name": "username",
+      "type": "string",
+      "label": "Username",
+      "groupName": "licenseActivation",
+      "defaultValue": "",
+      "required": true,
+      "helpMarkDown": "The username used to activate the Unity Editor.",
+      "visibleRule": "activateLicense == true"
+    },
+    {
+      "name": "password",
+      "type": "string",
+      "label": "Password",
+      "groupName": "licenseActivation",
+      "defaultValue": "",
+      "required": true,
+      "helpMarkDown": "The password used to activate the Unity Editor.",
+      "visibleRule": "activateLicense == true"
+    },
+    {
+      "name": "serial",
+      "type": "string",
+      "label": "Serial",
+      "groupName": "licenseActivation",
+      "defaultValue": "",
+      "required": true,
+      "helpMarkDown": "Serial key used to activate the Unity Editor. The serial key must be assigned to the user defined by username and password above.",
+      "visibleRule": "activateLicense == true"
+    },
+    {
+      "name": "deactivateSeatOnComplete",
+      "type": "boolean",
+      "label": "Deactivate license when pipeline has finished",
+      "groupName": "licenseActivation",
+      "defaultValue": true,
+      "required": false,
+      "helpMarkDown": "By default the seat activation is released again after the pipeline has run. Uncheck this to keep the activation active.",
+      "visibleRule": "activateLicense == true"
+    }
+  ],
+  "execution": {
+    "Node": {
+      "target": "unity-setup.js",
+      "argumentFormat": ""
+    },
+    "Node20_1": {
+      "target": "unity-setup.js",
+      "argumentFormat": ""
+    }
+  },
+  "postjobexecution": {
+    "Node": {
+      "target": "unity-setup.post.js",
+      "argumentFormat": ""
+    },
+    "Node20_1": {
+      "target": "unity-setup.post.js",
+      "argumentFormat": ""
+    }
+  },
+  "messages": {
+    "unityHubLocationNotSpecified": "\nERROR: Unity Hub executable location not specified.",
+    "failGetUnityEditorVersion": "\nERROR: The project's Unity version could not be determined",
+    "taskResultFailedEditorInstall": "\nERROR: Failed installing the Unity editor. The process failed with exit code",
+    "taskResultFailedModulesInstall": "\nERROR: Failed installing Unity modules. The process failed with exit code",
+    "taskResultFailedEditorConfig": "\nERROR: Failed configuring Android tools on the Unity editor. The process failed with exit code",
+    "taskResultFailedEditorActivation": "\nERROR: Failed activating Unity license / seat. The process failed with exit code",
+    "taskResultFailedEditorDeactivation": "\nERROR: Failed deactivating Unity license / seat. The process failed with exit code"
+  }
+}

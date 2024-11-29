@@ -13,17 +13,17 @@
     "type": "git",
     "url": "https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/"
   },
-  "author": "Dinomite Studios",
+  "author": "Dinomite",
   "license": "MIT",
   "dependencies": {
-    "@types/node": "^20.3.1",
-    "@types/q": "^1.5.5",
+    "@types/node": "^22.9.1",
+    "@types/q": "^1.5.8",
     "@types/fs-extra": "^9.0.6",
-    "azure-pipelines-task-lib": "^3.3.1",
-    "@dinomite-studios/unity-azure-pipelines-tasks-lib": "^1.0.0",
+    "azure-pipelines-task-lib": "^4.17.3",
+    "@dinomite-studios/unity-azure-pipelines-tasks-lib": "^1.0.9",
     "fs-extra": "^8.1.0"
   },
   "devDependencies": {
-    "typescript": "^4.0.2"
+    "typescript": "^5.6.2"
   }
 }
