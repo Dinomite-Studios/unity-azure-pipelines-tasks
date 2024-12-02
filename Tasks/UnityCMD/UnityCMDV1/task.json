@@ -26,7 +26,7 @@
       "defaultValue": "default",
       "helpMarkDown": "Define where to look for Unity installations on the agent.",
       "options": {
-        "default": "Unity Hub default installation path",
+        "default": "Default (recommended)",
         "environmentVariable": "Use UNITYHUB_EDITORS_FOLDER_LOCATION environment variable on agent",
         "specify": "Specify path"
       }
