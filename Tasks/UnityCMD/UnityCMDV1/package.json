@@ -1,6 +1,6 @@
 {
   "name": "@dinomite-studios/unity-cmd-task",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "An Azure Pipelines task to execute Unity via command line.",
   "main": "unity-cmd.js",
   "scripts": {
@@ -18,7 +18,7 @@
   "dependencies": {
     "@types/node": "^22.9.1",
     "@types/q": "^1.5.8",
-    "@dinomite-studios/unity-azure-pipelines-tasks-lib": "^1.0.9",
+    "@dinomite-studios/unity-azure-pipelines-tasks-lib": "^1.0.11",
     "azure-pipelines-task-lib": "^4.17.3"
   },
   "devDependencies": {
