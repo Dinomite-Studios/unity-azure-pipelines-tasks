@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.4]
+
+### Changed
+
+- After discussing with the community and and gathering use cases the deprecation of the UnityCMD task is reverted
+- Optimized editor version selection UX. Instead of using the project's version if the version input variable is empty we use a dropdown element that offers two options. Either to use the project's Unity version or specify one, which will only then show a input textbox for entering a custom Unity version. This is aligned with the other tasks for a consistent user experience
+
 ## [1.2.3]
 
 ### Fixed
