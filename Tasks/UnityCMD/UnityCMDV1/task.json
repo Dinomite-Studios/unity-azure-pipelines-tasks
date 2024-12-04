@@ -2,7 +2,6 @@
   "id": "f357416a-9646-4cd6-9d96-e2f2a9574ce6",
   "name": "UnityCMDTask",
   "friendlyName": "Unity CMD",
-  "deprecated": true,
   "description": "Execute a Unity editor via command line.",
   "helpMarkDown": "Use this task for full control over the arguments passed to the Untiy command line. With this task you are free to implement any custom behaviour needed. [More Information](https://unitydevops.com/docs/unity-cmd-task).",
   "category": "Azure Pipelines",
