@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Add visionOS build target
+- Add configuration options to sign an Android build using a keystore
 
 ### Changed
 

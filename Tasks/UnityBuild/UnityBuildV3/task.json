@@ -28,6 +28,11 @@
       "name": "build",
       "displayName": "Build",
       "isExpanded": true
+    },
+    {
+      "name": "platform",
+      "displayName": "Platform",
+      "isExpanded": true
     }
   ],
   "inputs": [
@@ -180,6 +185,56 @@
       "groupName": "build",
       "defaultValue": "",
       "helpMarkDown": "(Optional) Specify additional command line arguments, see the [documentation](https://docs.unity3d.com/Manual/CommandLineArguments.html) for more info."
+    },
+    {
+      "name": "signAppBundle",
+      "type": "boolean",
+      "label": "Sign APK / app bundle",
+      "groupName": "platform",
+      "defaultValue": true,
+      "required": false,
+      "helpMarkDown": "Whether to sign the produced APK / app bundle using a custom keystore.",
+      "visibleRule": "buildTarget == Android && buildScriptType == default"
+    },
+    {
+      "name": "keystoreName",
+      "type": "filePath",
+      "helpMarkDown": "Android keystore name / file path.",
+      "label": "Keystore file path",
+      "groupName": "platform",
+      "required": true,
+      "defaultValue": "",
+      "visibleRule": "buildTarget == Android && signAppBundle == true && buildScriptType == default"
+    },
+    {
+      "name": "keystorePass",
+      "type": "string",
+      "label": "Keystore password",
+      "groupName": "platform",
+      "helpMarkDown": "Android keystore password.",
+      "required": true,
+      "defaultValue": "",
+      "visibleRule": "buildTarget == Android && signAppBundle == true && buildScriptType == default"
+    },
+    {
+      "name": "keystoreAliasName",
+      "type": "string",
+      "label": "Keystore alias name",
+      "groupName": "platform",
+      "helpMarkDown": "Android key alias name.",
+      "required": true,
+      "defaultValue": "",
+      "visibleRule": "buildTarget == Android && signAppBundle == true && buildScriptType == default"
+    },
+    {
+      "name": "keystoreAliasPass",
+      "type": "string",
+      "label": "Keystore alias password",
+      "groupName": "platform",
+      "helpMarkDown": "Password for the key used for signing an Android application.",
+      "required": true,
+      "defaultValue": "",
+      "visibleRule": "buildTarget == Android && signAppBundle == true && buildScriptType == default"
     }
   ],
   "outputVariables": [
