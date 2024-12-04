@@ -13,19 +13,86 @@
   "version": {
     "Major": 3,
     "Minor": 2,
-    "Patch": 4
+    "Patch": 5
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityBuild/UnityBuildV3/CHANGELOG.md)",
   "minimumAgentVersion": "2.144.0",
   "instanceNameFormat": "Unity Build $(buildTarget)",
-  "groups": [],
+  "groups": [
+    {
+      "name": "general",
+      "displayName": "General",
+      "isExpanded": true
+    },
+    {
+      "name": "build",
+      "displayName": "Build",
+      "isExpanded": true
+    }
+  ],
   "inputs": [
+    {
+      "name": "unityEditorsPathMode",
+      "type": "pickList",
+      "label": "Unity editors location",
+      "defaultValue": "default",
+      "helpMarkDown": "Define where to look for Unity installations on the agent.",
+      "groupName": "general",
+      "options": {
+        "default": "Default (recommended)",
+        "environmentVariable": "Use UNITYHUB_EDITORS_FOLDER_LOCATION environment variable on agent",
+        "specify": "Specify path"
+      }
+    },
+    {
+      "name": "customUnityEditorsPath",
+      "type": "string",
+      "label": "Editors folder location",
+      "defaultValue": "",
+      "groupName": "general",
+      "required": true,
+      "visibleRule": "unityEditorsPathMode == specify",
+      "helpMarkDown": "Specify where to look for Unity Editor versions on the agent."
+    },
+    {
+      "name": "versionSelectionMode",
+      "type": "pickList",
+      "label": "Unity version",
+      "groupName": "general",
+      "required": false,
+      "helpMarkDown": "Select which Unity version to run the task with.",
+      "defaultValue": "project",
+      "options": {
+        "project": "Project Version",
+        "specify": "Specify"
+      }
+    },
+    {
+      "name": "version",
+      "type": "string",
+      "label": "Version",
+      "groupName": "general",
+      "defaultValue": "",
+      "required": true,
+      "helpMarkDown": "Select which Unity version to run the task with, e.g. value: `2022.2.1f1`.",
+      "visibleRule": "versionSelectionMode == specify"
+    },
+    {
+      "name": "unityProjectPath",
+      "type": "filePath",
+      "label": "Unity project path",
+      "groupName": "general",
+      "defaultValue": "",
+      "required": false,
+      "helpMarkDown": "(Optional) Enter the path to the Unity project within the repository. If no value is entered, the root of the repository will be used."
+    },
     {
       "name": "buildTarget",
       "type": "pickList",
       "label": "Build target",
       "defaultValue": "standalone",
       "helpMarkDown": "Build platform to build the Unity project for.",
+      "groupName": "build",
       "options": {
         "standalone": "Standalone (agent-based)",
         "Win": "Windows Standalone (32-bit)",
@@ -44,58 +111,9 @@
         "WindowsStoreApps": "Windows Store Apps",
         "Switch": "Switch",
         "N3DS": "N3DS",
-        "tvOS": "tvOS"
+        "tvOS": "tvOS",
+        "visionos": "visionOS"
       }
-    },
-    {
-      "name": "unityEditorsPathMode",
-      "type": "pickList",
-      "label": "Unity editors location",
-      "defaultValue": "default",
-      "helpMarkDown": "Define where to look for Unity installations on the agent.",
-      "options": {
-        "default": "Default (recommended)",
-        "environmentVariable": "Use UNITYHUB_EDITORS_FOLDER_LOCATION environment variable on agent",
-        "specify": "Specify path"
-      }
-    },
-    {
-      "name": "customUnityEditorsPath",
-      "type": "string",
-      "label": "Editors folder location",
-      "defaultValue": "",
-      "required": true,
-      "visibleRule": "unityEditorsPathMode == specify",
-      "helpMarkDown": "Specify where to look for Unity Editor versions on the agent."
-    },
-    {
-      "name": "unityProjectPath",
-      "type": "filePath",
-      "label": "Unity project path",
-      "defaultValue": "",
-      "required": false,
-      "helpMarkDown": "(Optional) Enter the directory path to the Unity project. If no value is entered, the root of the repository will be used."
-    },
-    {
-      "name": "versionSelectionMode",
-      "type": "pickList",
-      "label": "Unity version to build with",
-      "required": true,
-      "helpMarkDown": "Select which Unity version to build the project with. You can either use the project's version or specify a version yourself.",
-      "defaultValue": "project",
-      "options": {
-        "project": "Project Version",
-        "specify": "Specify"
-      }
-    },
-    {
-      "name": "version",
-      "type": "string",
-      "label": "Version",
-      "defaultValue": "",
-      "required": true,
-      "helpMarkDown": "The Unity editor version to activate the license with, e.g. value: `2022.2.1f1`.",
-      "visibleRule": "versionSelectionMode == specify"
     },
     {
       "name": "buildScriptType",
@@ -103,6 +121,7 @@
       "label": "Build script type",
       "defaultValue": "default",
       "helpMarkDown": "Build script type: Use `Default` to use a built-in simple script which will perform a build without additional options. Use `Existing` if you already have a build script in your source and only need to specify the method to execute on build. Or use `Inline` to define the script inline, please make sure it's valid C#.",
+      "groupName": "build",
       "options": {
         "default": "Default",
         "existing": "Existing",
@@ -114,6 +133,7 @@
       "type": "filePath",
       "helpMarkDown": "Specify the build output path relative to the repository root or fully qualified.",
       "label": "Output path",
+      "groupName": "build",
       "required": true,
       "defaultValue": "$(Build.BinariesDirectory)",
       "visibleRule": "buildScriptType = default"
@@ -122,9 +142,11 @@
       "name": "outputFileName",
       "type": "string",
       "label": "Output filename",
+      "groupName": "build",
       "helpMarkDown": "Enter the output filename to be used when constructing the platform-appropriate output. For instance, if you want the output to be 'thegame.exe' on Windows Standalone, enter 'thegame'",
       "required": true,
-      "defaultValue": "drop"
+      "defaultValue": "drop",
+      "visibleRule": "buildScriptType = default"
     },
     {
       "name": "inlineBuildScript",
@@ -132,6 +154,7 @@
       "label": "Inline build script",
       "visibleRule": "buildScriptType = inline",
       "required": true,
+      "groupName": "build",
       "defaultValue": "/* Write your C# build script here. Define a class and make sure to define a public static method to execute for the build. You'll want to verify your script actually works on your local computer.\n\nExample:\npublic class MyClass {\npublic static void PerformBuild() {\n...\n}\n}\n */",
       "properties": {
         "resizable": "true",
@@ -144,6 +167,7 @@
       "name": "scriptExecuteMethod",
       "type": "string",
       "label": "Build script execute method",
+      "groupName": "build",
       "visibleRule": "buildScriptType = inline || buildScriptType = existing",
       "required": true,
       "defaultValue": "",
@@ -153,6 +177,7 @@
       "name": "additionalCmdArgs",
       "type": "string",
       "label": "Command line arguments",
+      "groupName": "build",
       "defaultValue": "",
       "helpMarkDown": "(Optional) Specify additional command line arguments, see the [documentation](https://docs.unity3d.com/Manual/CommandLineArguments.html) for more info."
     }
