@@ -5,12 +5,6 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.9.7]
-
-### Changed
-
-- After discussing with the community and and gathering use cases the deprecation of the UnityCMD task is reverted
-
 ## [2.9.6]
 
 ### Fixed
