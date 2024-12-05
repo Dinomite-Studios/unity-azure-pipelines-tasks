@@ -13,7 +13,7 @@
   "version": {
     "Major": 3,
     "Minor": 2,
-    "Patch": 5
+    "Patch": 6
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityBuild/UnityBuildV3/CHANGELOG.md)",
   "minimumAgentVersion": "2.144.0",
@@ -185,6 +185,16 @@
       "groupName": "build",
       "defaultValue": "",
       "helpMarkDown": "(Optional) Specify additional command line arguments, see the [documentation](https://docs.unity3d.com/Manual/CommandLineArguments.html) for more info."
+    },
+    {
+      "name": "buildAppBundle",
+      "type": "boolean",
+      "label": "Build Android App Bundle (Google Play)",
+      "groupName": "platform",
+      "defaultValue": false,
+      "required": false,
+      "helpMarkDown": "Set to true to build an Android App Bundle (aab file) instead of an apk. The default value is false.",
+      "visibleRule": "buildTarget == Android && buildScriptType == default"
     },
     {
       "name": "signAppBundle",
