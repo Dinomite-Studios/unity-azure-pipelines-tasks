@@ -231,16 +231,16 @@
       "type": "string",
       "label": "Keystore alias password",
       "groupName": "platform",
-      "helpMarkDown": "Password for the key used for signing an Android application.",
-      "required": true,
+      "helpMarkDown": "Password for the key used for signing an Android application. If left empty, the keystore main password is assumed.",
+      "required": false,
       "defaultValue": "",
       "visibleRule": "buildTarget == Android && signAppBundle == true && buildScriptType == default"
     }
   ],
   "outputVariables": [
     {
-      "name": "logsOutputPath",
-      "description": "Path to the Unity editor log files generated."
+      "name": "editorLogFilePath",
+      "description": "Specifies the location of the editor log file generated."
     }
   ],
   "execution": {
