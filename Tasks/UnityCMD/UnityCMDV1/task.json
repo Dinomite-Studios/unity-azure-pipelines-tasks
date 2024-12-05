@@ -2,7 +2,6 @@
   "id": "f357416a-9646-4cd6-9d96-e2f2a9574ce6",
   "name": "UnityCMDTask",
   "friendlyName": "Unity CMD",
-  "deprecated": true,
   "description": "Execute a Unity editor via command line.",
   "helpMarkDown": "Use this task for full control over the arguments passed to the Untiy command line. With this task you are free to implement any custom behaviour needed. [More Information](https://unitydevops.com/docs/unity-cmd-task).",
   "category": "Azure Pipelines",
@@ -13,7 +12,7 @@
   "version": {
     "Major": 1,
     "Minor": 2,
-    "Patch": 3
+    "Patch": 4
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityCMD/UnityCMDV1/CHANGELOG.md)",
   "minimumAgentVersion": "2.144.0",
@@ -41,20 +40,33 @@
       "helpMarkDown": "Specify where to look for Unity Editor versions on the agent."
     },
     {
+      "name": "versionSelectionMode",
+      "type": "pickList",
+      "label": "Unity version",
+      "required": false,
+      "helpMarkDown": "Select which Unity version to run the task with.",
+      "defaultValue": "project",
+      "options": {
+        "project": "Project Version",
+        "specify": "Specify"
+      }
+    },
+    {
+      "name": "version",
+      "type": "string",
+      "label": "Version",
+      "defaultValue": "",
+      "required": true,
+      "helpMarkDown": "The Unity editor version to execute the command with, e.g. value: `2022.2.1f1`.",
+      "visibleRule": "versionSelectionMode == specify"
+    },
+    {
       "name": "unityProjectPath",
       "type": "filePath",
       "label": "Unity project path",
       "defaultValue": "",
       "required": false,
       "helpMarkDown": "(Optional) Enter the directory path to the Unity project. If no value is entered, the root of the repository will be used."
-    },
-    {
-      "name": "unityVersion",
-      "type": "string",
-      "label": "Unity version",
-      "defaultValue": "",
-      "required": false,
-      "helpMarkDown": "(Optional) Enter the custom version of Unity. If no value is entered, it will be resolved automatically."
     },
     {
       "name": "cmdArgs",
@@ -67,8 +79,8 @@
   ],
   "outputVariables": [
     {
-      "name": "logsOutputPath",
-      "description": "Path to the Unity editor log files generated."
+      "name": "editorLogFilePath",
+      "description": "Specifies the location of the editor log file generated."
     }
   ],
   "execution": {
@@ -82,11 +94,8 @@
     }
   },
   "messages": {
-    "executeSuccess": "The Unity process completed successfully",
-    "executeFailed": "The Unity process failed with exit code",
-    "warningAlphaBetaVersion": "You are using a Unity Alpha/Beta version. It may not be supported by the extension!",
-    "projectPathInfo": "Determining Unity editor version for project at",
-    "successGetUnityEditorVersion": "Success, Unity editor version found",
-    "failGetUnityEditorVersion": "Fail, Unity editor version not found"
+    "executeSuccess": "The Unity process completed successfully.",
+    "executeFailed": "\nERROR: The Unity process failed with exit code",
+    "failGetUnityEditorVersion": "\nERROR: The project's Unity version could not be determined"
   }
 }
