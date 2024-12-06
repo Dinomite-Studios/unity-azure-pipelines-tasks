@@ -135,7 +135,7 @@
     },
     {
       "name": "buildProfile",
-      "type": "filePath",
+      "type": "string",
       "helpMarkDown": "Set the build profile saved at the given path as an active build profile for the build.",
       "label": "Profile",
       "groupName": "build",
