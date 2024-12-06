@@ -29,6 +29,7 @@ const keystoreNameInputVariableName = 'keystoreName';
 const keystorePassInputVariableName = 'keystorePass';
 const keystoreAliasNameInputVariableName = 'keystoreAliasName';
 const keystoreAliasPassInputVariableName = 'keystoreAliasPass';
+const buildAppBundleInputVariableName = 'buildAppBundle';
 const buildFlowInputVariableName = 'buildFlow';
 const buildProfileInputVariableName = 'buildProfile';
 
@@ -119,6 +120,10 @@ async function run() {
                 if (keystoreAliasPass) {
                     unityCmd.arg('-keystoreAliasPass').arg(keystoreAliasPass);
                 }
+            }
+
+            if (tl.getBoolInput(buildAppBundleInputVariableName)) {
+                unityCmd.arg('-buildAppBundle');
             }
         } else if (buildScriptType === 'inline') {
             // Create a C# script file in a Editor folder at the root Assets directory level. Then write
