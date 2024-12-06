@@ -92,12 +92,25 @@
       "helpMarkDown": "(Optional) Enter the path to the Unity project within the repository. If no value is entered, the root of the repository will be used."
     },
     {
+      "name": "buildFlow",
+      "type": "radio",
+      "label": "Build Flow",
+      "defaultValue": "platform",
+      "helpMarkDown": "Select the build target flow used to build your project. Starting with Unity 6 the new build profiles offer a sophisticated way of building for different platforms.",
+      "groupName": "build",
+      "options": {
+        "platform": "Platform",
+        "profile": "Profile (Unity 6+)"
+      }
+    },
+    {
       "name": "buildTarget",
       "type": "pickList",
       "label": "Build target",
       "defaultValue": "standalone",
       "helpMarkDown": "Build platform to build the Unity project for.",
       "groupName": "build",
+      "visibleRule": "buildFlow = platform",
       "options": {
         "standalone": "Standalone (agent-based)",
         "Win": "Windows Standalone (32-bit)",
@@ -119,6 +132,16 @@
         "tvOS": "tvOS",
         "visionos": "visionOS"
       }
+    },
+    {
+      "name": "buildProfile",
+      "type": "filePath",
+      "helpMarkDown": "Set the build profile saved at the given path as an active build profile for the build.",
+      "label": "Profile",
+      "groupName": "build",
+      "required": true,
+      "defaultValue": "",
+      "visibleRule": "buildFlow = profile"
     },
     {
       "name": "buildScriptType",
