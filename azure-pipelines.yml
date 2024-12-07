@@ -70,6 +70,13 @@ steps:
     customCommand: 'run build'
   displayName: 'Build UnityGetProjectVersionV1'
 
+- task: Npm@1
+  inputs:
+    command: 'custom'
+    workingDir: 'Tasks/UnityGetProjectVersion/UnityGetProjectVersionV1'
+    customCommand: 'run test'
+  displayName: 'Build UnityGetProjectVersionV1'
+
 # Build UnitySetup
 - task: Npm@1
   inputs:
