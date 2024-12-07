@@ -3,23 +3,22 @@ import tl = require('azure-pipelines-task-lib/task');
 import {
     UnityToolRunner,
     UnityPathTools,
-    UnityVersionInfoResult,
     Utilities
 } from '@dinomite-studios/unity-azure-pipelines-tasks-lib';
-import { getUnityEditorVersion } from './unity-build-shared';
+import { getProjectUnityVersion } from './utilities';
 
 tl.setResourcePath(path.join(__dirname, 'task.json'));
 
 // Input variables.
 const unityProjectPathInputVariableName = 'unityProjectPath';
-const unityVersionInputVariableName = 'unityVersion';
+export const versionSelectionModeVariableName = "versionSelectionMode";
+export const versionInputVariableName = 'version';
 const unityEditorsPathModeInputVariableName = 'unityEditorsPathMode';
 const customUnityEditorsPathInputVariableName = 'customUnityEditorsPath';
 const cmdArgsInputVariableName = 'cmdArgs';
-const tempDirectoryInputVariableName = 'Agent.TempDirectory';
 
 // Output variables.
-const logsOutputPathOutputVariableName = 'logsOutputPath';
+const editorLogFilePathOutputVariableName = 'editorLogFilePath';
 
 /**
  * Main task runner. Executes the task and sets the result status for the task.
@@ -28,17 +27,16 @@ async function run() {
     try {
         // Setup and read inputs.
         const projectPath = tl.getPathInput(unityProjectPathInputVariableName) ?? '';
-        const unityEditorsPath = UnityPathTools.getUnityEditorsPath(
+        const editorInstallationsPath = UnityPathTools.getUnityEditorsPath(
             tl.getInput(unityEditorsPathModeInputVariableName, true)!,
             tl.getInput(customUnityEditorsPathInputVariableName));
-            const unityVersion = tl.getInput(unityVersionInputVariableName) != '' ? { info: { version: tl.getInput(unityVersionInputVariableName) } } as UnityVersionInfoResult : getUnityEditorVersion();
-        const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(unityEditorsPath, unityVersion.info!);
-        const repositoryLocalPath = tl.getVariable(tempDirectoryInputVariableName)!;
-        const logFilesDirectory = path.join(repositoryLocalPath, 'Logs');
-        const logFilePath = path.join(logFilesDirectory, `UnityCMDLog_${Utilities.getLogFileNameTimeStamp()}.log`);
+        const editorVersion = getProjectUnityVersion();
+        const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(editorInstallationsPath, editorVersion!);
 
         // Set output variable values.
-        tl.setVariable(logsOutputPathOutputVariableName, logFilesDirectory);
+        const logFilesDirectory = path.join(tl.getVariable('Agent.TempDirectory')!, 'Logs');
+        const logFilePath = path.join(logFilesDirectory, `UnityCMDLog_${Utilities.getLogFileNameTimeStamp()}.log`);
+        tl.setVariable(editorLogFilePathOutputVariableName, logFilePath);
 
         // Execute Unity command line.
         const unityCmd = tl.tool(unityExecutablePath)

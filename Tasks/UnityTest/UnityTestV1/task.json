@@ -12,7 +12,7 @@
   "version": {
     "Major": 1,
     "Minor": 5,
-    "Patch": 0
+    "Patch": 2
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityTest/UnityTestV1/CHANGELOG.md)",
   "minimumAgentVersion": "2.144.0",
@@ -40,10 +40,10 @@
       "name": "unityEditorsPathMode",
       "type": "pickList",
       "label": "Unity editors location",
-      "defaultValue": "unityHub",
+      "defaultValue": "default",
       "helpMarkDown": "Define where to look for Unity installations on the agent.",
       "options": {
-        "unityHub": "Unity Hub default installation path",
+        "default": "Default (recommended)",
         "environmentVariable": "Use UNITYHUB_EDITORS_FOLDER_LOCATION environment variable on agent",
         "specify": "Specify path"
       }

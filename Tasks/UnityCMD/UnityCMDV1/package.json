@@ -1,11 +1,12 @@
 {
   "name": "@dinomite-studios/unity-cmd-task",
-  "version": "1.2.1",
+  "version": "1.2.4",
   "description": "An Azure Pipelines task to execute Unity via command line.",
   "main": "unity-cmd.js",
   "scripts": {
     "build": "tsc",
     "upload": "tfx build tasks upload --task-path ./",
+    "dev-refresh": "npm run dev-delete && npm run dev-upload",
     "dev-delete": "tfx build tasks delete --task-id f357416a-9646-4cd6-9d96-e2f2a9574ce6",
     "dev-upload": "npm run build && npm run upload"
   },
@@ -18,7 +19,7 @@
   "dependencies": {
     "@types/node": "^22.9.1",
     "@types/q": "^1.5.8",
-    "@dinomite-studios/unity-azure-pipelines-tasks-lib": "^1.0.9",
+    "@dinomite-studios/unity-azure-pipelines-tasks-lib": "^1.0.11",
     "azure-pipelines-task-lib": "^4.17.3"
   },
   "devDependencies": {

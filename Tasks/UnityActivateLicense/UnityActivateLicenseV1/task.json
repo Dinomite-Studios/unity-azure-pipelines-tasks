@@ -13,7 +13,7 @@
   "version": {
     "Major": 1,
     "Minor": 2,
-    "Patch": 2
+    "Patch": 3
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityActivateLicense/UnityActivateLicenseV1/CHANGELOG.md)",
   "minimumAgentVersion": "2.144.0",
