@@ -106,3 +106,6 @@ dist
 *.js
 *.vsix
 .vs/
+
+# Azure DevOps extensions
+.taskkey
