@@ -15,7 +15,7 @@ steps:
   inputs:
     command: 'custom'
     workingDir: 'Tasks/UnityActivateLicense/UnityActivateLicenseV1'
-    customCommand: 'install --omit=dev'
+    customCommand: 'install'
   displayName: 'NPM Install UnityActivateLicenseV1'
 
 - task: Npm@1
@@ -30,7 +30,7 @@ steps:
   inputs:
     command: 'custom'
     workingDir: 'Tasks/UnityBuild/UnityBuildV3'
-    customCommand: 'install --omit=dev'
+    customCommand: 'install'
   displayName: 'NPM Install UnityBuildV3'
 
 - task: Npm@1
@@ -45,7 +45,7 @@ steps:
   inputs:
     command: 'custom'
     workingDir: 'Tasks/UnityCMD/UnityCMDV1'
-    customCommand: 'install --omit=dev'
+    customCommand: 'install'
   displayName: 'NPM Install UnityCMDV1'
 
 - task: Npm@1
@@ -60,7 +60,7 @@ steps:
   inputs:
     command: 'custom'
     workingDir: 'Tasks/UnityGetProjectVersion/UnityGetProjectVersionV1'
-    customCommand: 'install --omit=dev'
+    customCommand: 'install'
   displayName: 'NPM Install UnityGetProjectVersionV1'
 
 - task: Npm@1
@@ -75,14 +75,14 @@ steps:
     command: 'custom'
     workingDir: 'Tasks/UnityGetProjectVersion/UnityGetProjectVersionV1'
     customCommand: 'run test'
-  displayName: 'Build UnityGetProjectVersionV1'
+  displayName: 'Test UnityGetProjectVersionV1'
 
 # Build UnitySetup
 - task: Npm@1
   inputs:
     command: 'custom'
     workingDir: 'Tasks/UnitySetup/UnitySetupV1'
-    customCommand: 'install --omit=dev'
+    customCommand: 'install'
   displayName: 'NPM Install UnitySetupV1'
 
 - task: Npm@1
@@ -97,7 +97,7 @@ steps:
   inputs:
     command: 'custom'
     workingDir: 'Tasks/UnityTest/UnityTestV1'
-    customCommand: 'install --omit=dev'
+    customCommand: 'install'
   displayName: 'NPM Install UnityTestV1'
 
 - task: Npm@1
