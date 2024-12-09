@@ -5,7 +5,7 @@
   "main": "unity-get-project-version.js",
   "scripts": {
     "build": "tsc",
-    "test": "npm run build && nyc mocha test/_suite.js",
+    "test": "nyc mocha test/_suite.js",
     "upload": "tfx build tasks upload --task-path ./",
     "dev-delete": "tfx build tasks delete --task-id 38ec98bf-601a-4390-9f2e-23d43dd6dbba",
     "dev-upload": "npm run build && npm run upload"
