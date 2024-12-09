@@ -1,0 +1,86 @@
+name: Build, Test and Deploy
+
+on:
+  pull_request:
+    branches: [ main, development ]
+  push:
+    branches: [ main, development ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+# UnityActivateLicense
+      - name: Install UnityActivateLicenseV1
+        run: npm install
+        working-directory: Tasks/UnityActivateLicense/UnityActivateLicenseV1
+
+      - name: Build UnityActivateLicenseV1
+        run: npm run build
+        working-directory: Tasks/UnityActivateLicense/UnityActivateLicenseV1
+
+# UnityBuild
+      - name: Install UnityBuildV3
+        run: npm install
+        working-directory: Tasks/UnityBuild/UnityBuildV3
+
+      - name: Build UnityBuildV3
+        run: npm run build
+        working-directory: Tasks/UnityBuild/UnityBuildV3
+
+# UnityCMD
+      - name: Install UnityCMDV1
+        run: npm install
+        working-directory: Tasks/UnityCMD/UnityCMDV1
+
+      - name: Build UnityCMDV1
+        run: npm run build
+        working-directory: Tasks/UnityCMD/UnityCMDV1
+
+# UnityGetProjectVersion
+      - name: Install UnityGetProjectVersionV1
+        run: npm install
+        working-directory: Tasks/UnityGetProjectVersion/UnityGetProjectVersionV1
+
+      - name: Build UnityGetProjectVersionV1
+        run: npm run build
+        working-directory: Tasks/UnityGetProjectVersion/UnityGetProjectVersionV1
+
+      - name: Test UnityGetProjectVersionV1
+        run: npm run test
+        working-directory: Tasks/UnityGetProjectVersion/UnityGetProjectVersionV1
+
+# UnitySetup
+      - name: Install UnitySetupV1
+        run: npm install
+        working-directory: Tasks/UnitySetup/UnitySetupV1
+
+      - name: Build UnitySetupV1
+        run: npm run build
+        working-directory: Tasks/UnitySetup/UnitySetupV1
+
+      - name: Install UnitySetupV2
+        run: npm install
+        working-directory: Tasks/UnitySetup/UnitySetupV2
+
+      - name: Build UnitySetupV2
+        run: npm run build
+        working-directory: Tasks/UnitySetup/UnitySetupV2
+
+# UnityTest
+      - name: Install UnityTestV1
+        run: npm install
+        working-directory: Tasks/UnityTest/UnityTestV1
+
+      - name: Build UnityTestV1
+        run: npm run build
+        working-directory: Tasks/UnityTest/UnityTestV1
