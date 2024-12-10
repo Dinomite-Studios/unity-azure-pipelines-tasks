@@ -2,21 +2,23 @@ import assert from 'assert';
 import * as mocktest from 'azure-pipelines-task-lib/mock-test';
 import * as path from 'path';
 
-describe("Unity Get Project Version", () => {
+describe("Unity Get Project Version V1 tests", () => {
     it("Error determining the project version from file", (done) => {
-        let testPath = path.join(__dirname, 'errorDeterminingTheProjectVersionFromFile.js');
+        const testPath = path.join(__dirname, 'errorDeterminingTheProjectVersionFromFile.js');
+        const runner: mocktest.MockTestRunner = new mocktest.MockTestRunner();
 
-        let runner: mocktest.MockTestRunner = new mocktest.MockTestRunner(testPath);
-
-        runner.runAsync()
+        runner.LoadAsync(testPath)
             .then(() => {
-                assert.strictEqual(runner.failed, true);
-                assert.strictEqual(runner.invokedToolCount, 0);
-                assert(runner.stdOutContained('loc_mock_failGetUnityEditorVersion | Unknown project version format encountered'));
+                runner.runAsync()
+                    .then(() => {
+                        assert.strictEqual(runner.failed, true);
+                        assert.strictEqual(runner.invokedToolCount, 0);
+                        assert(runner.stdOutContained('loc_mock_failGetUnityEditorVersion | Unknown project version format encountered'));
 
-                done();
+                        done();
+                    });
             });
-    })
+    });
 
     it("Success (alpha) determining the project version from file", (done) => {
         let testPath = path.join(__dirname, 'successAlphaDeterminingTheProjectVersionFromFile.js');
@@ -33,7 +35,7 @@ describe("Unity Get Project Version", () => {
 
                 done();
             });
-    })
+    });
 
     it("Success (beta) determining the project version from file", (done) => {
         let testPath = path.join(__dirname, 'successBetaDeterminingTheProjectVersionFromFile.js');
@@ -50,7 +52,7 @@ describe("Unity Get Project Version", () => {
 
                 done();
             });
-    })
+    });
 
     it("Success (stable) determining the project version from file", (done) => {
         let testPath = path.join(__dirname, 'successStableDeterminingTheProjectVersionFromFile.js');
@@ -67,5 +69,5 @@ describe("Unity Get Project Version", () => {
 
                 done();
             });
-    })
-})
+    });
+});
