@@ -8,7 +8,7 @@ import {
 } from '@dinomite-studios/unity-azure-pipelines-tasks-lib';
 import {
     customUnityEditorsPathInputVariableName,
-    tempDirectoryInputVariableName,
+    editorLogFilePathOutputVariableName,
     passwordInputVariableName,
     unityEditorsPathModeInputVariableName,
     usernameInputVariableName,
@@ -49,12 +49,12 @@ function run() {
             unityVersion = getUnityEditorVersion();
         }
 
-        const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(unityEditorsPath, unityVersion.info!);
-        const logFilesDirectory = path.join(tl.getVariable(tempDirectoryInputVariableName)!, 'Logs');
-        const logFilePath = path.join(logFilesDirectory, `UnityReturnLicenseLog_${Utilities.getLogFileNameTimeStamp()}.log`);
-
         // Set output variable values.
-        tl.setVariable('logsOutputPath', logFilesDirectory);
+        const logFilesDirectory = path.join(tl.getVariable('Agent.TempDirectory')!, 'Logs');
+        const logFilePath = path.join(logFilesDirectory, `UnityReturnLicenseLog_${Utilities.getLogFileNameTimeStamp()}.log`);
+        tl.setVariable(editorLogFilePathOutputVariableName, logFilePath);
+
+        const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(unityEditorsPath, unityVersion.info!);
 
         // Execute Unity command line.
         if (deactivateSeatOnComplete) {
