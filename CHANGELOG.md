@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [Add option to produce .aab file instead of .apk for Android builds](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/pull/270)
 - [Add Android signing option to build task](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/pull/269)
 - [Add UnityGetProjectVersionTask tests](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/pull/278)
+- [Add new task UnityCreateProjectV1](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/pull/283)
 
 ### Changed
 
