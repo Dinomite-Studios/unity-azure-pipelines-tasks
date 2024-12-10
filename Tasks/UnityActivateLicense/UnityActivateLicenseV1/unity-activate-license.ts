@@ -15,7 +15,9 @@ export const versionSelectionModeVariableName = "versionSelectionMode";
 export const versionInputVariableName = 'version';
 export const unityEditorsPathModeInputVariableName = 'unityEditorsLocation';
 export const customUnityEditorsPathInputVariableName = 'customUnityEditorsLocation';
-export const tempDirectoryInputVariableName = 'Agent.TempDirectory';
+
+// Output variables.
+export const editorLogFilePathOutputVariableName = 'editorLogFilePath';
 
 function run() {
     try {
@@ -47,12 +49,12 @@ function run() {
             unityVersion = getUnityEditorVersion();
         }
 
-        const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(unityEditorsPath, unityVersion.info!);
-        const logFilesDirectory = path.join(tl.getVariable(tempDirectoryInputVariableName)!, 'Logs');
-        const logFilePath = path.join(logFilesDirectory, `UnityActivationLog_${Utilities.getLogFileNameTimeStamp()}.log`);
-
         // Set output variable values.
-        tl.setVariable('logsOutputPath', logFilesDirectory);
+        const logFilesDirectory = path.join(tl.getVariable('Agent.TempDirectory')!, 'Logs');
+        const logFilePath = path.join(logFilesDirectory, `UnityActivationLog_${Utilities.getLogFileNameTimeStamp()}.log`);
+        tl.setVariable(editorLogFilePathOutputVariableName, logFilePath);
+
+        const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(unityEditorsPath, unityVersion.info!);
 
         // Execute Unity command line.
         const unityCmd = tl.tool(unityExecutablePath)

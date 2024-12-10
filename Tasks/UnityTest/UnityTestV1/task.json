@@ -12,7 +12,7 @@
   "version": {
     "Major": 1,
     "Minor": 5,
-    "Patch": 2
+    "Patch": 3
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityTest/UnityTestV1/CHANGELOG.md)",
   "minimumAgentVersion": "2.144.0",
@@ -150,8 +150,8 @@
       "description": "Path and FileName of the results in XML format. Path is relative to repository root."
     },
     {
-      "name": "logsOutputPath",
-      "description": "Path to the Unity editor log files generated."
+      "name": "editorLogFilePath",
+      "description": "Specifies the location of the editor log file generated."
     },
     {
       "name": "testsFailed",
