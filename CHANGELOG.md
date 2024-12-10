@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.9.7]
+
+### Added
+
+- [Introduce new configuration option to build using build profiles](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/pull/276)
+- [Add option to produce .aab file instead of .apk for Android builds](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/pull/270)
+- [Add Android signing option to build task](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/pull/269)
+
+### Changed
+
+- [Revert UnityCMD deprecation and align input options with other tasks](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/pull/268)
+- [Update UnityGetProjectVersionV1 shared library dependency](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/pull/281)
+
 ## [2.9.6]
 
 ### Fixed
