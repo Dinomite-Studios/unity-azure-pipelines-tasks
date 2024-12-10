@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - [Revert UnityCMD deprecation and align input options with other tasks](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/pull/268)
 - [Update UnityGetProjectVersionV1 shared library dependency](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/pull/281)
+- [Adjust log output variable to point to log file](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/pull/284)
 
 ## [2.9.6]
 
