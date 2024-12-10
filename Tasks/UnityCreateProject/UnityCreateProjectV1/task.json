@@ -1,0 +1,89 @@
+{
+    "id": "874bd610-5219-45e4-a917-59e3a7ff74da",
+    "name": "UnityCreateProjectTask",
+    "friendlyName": "Unity Create Project",
+    "description": "Create an empty project at a given path.",
+    "helpMarkDown": "Use this task to create a new and empty project. This is e.g. useful for package development. [More Information](https://unitydevops.com/docs/unity-create-project-task)",
+    "category": "Azure Pipelines",
+    "visibility": [
+        "Build"
+    ],
+    "author": "Dinomite",
+    "version": {
+        "Major": 1,
+        "Minor": 0,
+        "Patch": 0
+    },
+    "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityCreateProject/UnityCreateProjectV1/CHANGELOG.md)",
+    "minimumAgentVersion": "2.144.0",
+    "instanceNameFormat": "Unity Create Project",
+    "inputs": [
+        {
+            "name": "version",
+            "type": "string",
+            "label": "Version",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "The Unity editor version to create the project with, e.g. value: `2022.2.1f1`."
+        },
+        {
+            "name": "path",
+            "type": "filePath",
+            "label": "Path",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "(Optional) Enter the path to create the Unity project at. If no value is entered, the root pipeline workspace is used."
+        },
+        {
+            "name": "projectName",
+            "type": "string",
+            "label": "Project Name",
+            "defaultValue": "New Project",
+            "required": true,
+            "helpMarkDown": "The name of the Unity project created."
+        },
+        {
+            "name": "unityEditorsPathMode",
+            "type": "pickList",
+            "label": "Unity editors location",
+            "defaultValue": "default",
+            "helpMarkDown": "Define where to look for Unity installations on the agent.",
+            "groupName": "general",
+            "options": {
+                "default": "Default (recommended)",
+                "environmentVariable": "Use UNITYHUB_EDITORS_FOLDER_LOCATION environment variable on agent",
+                "specify": "Specify path"
+            }
+        },
+        {
+            "name": "customUnityEditorsPath",
+            "type": "string",
+            "label": "Editors folder location",
+            "defaultValue": "",
+            "groupName": "general",
+            "required": true,
+            "visibleRule": "unityEditorsPathMode == specify",
+            "helpMarkDown": "Specify where to look for Unity Editor versions on the agent."
+        }
+    ],
+    "outputVariables": [
+        {
+            "name": "editorLogFilePath",
+            "description": "Specifies the location of the editor log file generated."
+        }
+    ],
+    "execution": {
+        "Node10": {
+            "target": "unity-create-project.js",
+            "argumentFormat": ""
+        },
+        "Node20_1": {
+            "target": "unity-create-project.js",
+            "argumentFormat": ""
+        }
+    },
+    "messages": {
+        "successProjectCreated": "Unity project created!",
+        "failCreateProject": "\nERROR: The Unity process failed with exit code"
+    }
+}

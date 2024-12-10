@@ -77,6 +77,9 @@
         },
         {
             "path": "Tasks/UnitySetup/UnitySetupV2"
+        },
+        {
+            "path": "Tasks/UnityCreateProject/UnityCreateProjectV1"
         }
     ],
     "branding": {
@@ -156,6 +159,16 @@
             ],
             "properties": {
                 "name": "Tasks/UnitySetup"
+            }
+        },
+        {
+            "id": "custom-unity-create-project-task",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "Tasks/UnityCreateProject"
             }
         }
     ]

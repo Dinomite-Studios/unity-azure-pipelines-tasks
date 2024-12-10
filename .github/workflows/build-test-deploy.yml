@@ -84,3 +84,12 @@ jobs:
       - name: Build UnityTestV1
         run: npm run build
         working-directory: Tasks/UnityTest/UnityTestV1
+        
+# UnityCreateProject
+      - name: Install UnityCreateProjectV1
+        run: npm install
+        working-directory: Tasks/UnityCreateProject/UnityCreateProjectV1
+
+      - name: Build UnityCreateProjectV1
+        run: npm run build
+        working-directory: Tasks/UnityCreateProject/UnityCreateProjectV1
