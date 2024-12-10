@@ -16,10 +16,22 @@ const buildTargetInputVariableName = 'buildTarget';
 const outputPathInputVariableName = 'outputPath';
 const unityProjectPathInputVariableName = 'unityProjectPath';
 const versionInputVariableName = 'version';
+const buildScriptTypeInputVariableName = 'buildScriptType';
 const unityEditorsPathModeInputVariableName = 'unityEditorsPathMode';
+const inlineBuildScriptInputVariableName = 'inlineBuildScript';
+const scriptExecuteMethodInputVariableName = 'scriptExecuteMethod';
+const additionalCmdArgsInputVariableName = 'additionalCmdArgs';
 const customUnityEditorsPathInputVariableName = 'customUnityEditorsPath';
 const cleanBuildInputVariableName = 'Build.Repository.Clean';
-const versionSelectionModeVariableName = "versionSelectionMode";
+const versionSelectionModeVariableName = 'versionSelectionMode';
+const signAppBundleInputVariableName = 'signAppBundle';
+const keystoreNameInputVariableName = 'keystoreName';
+const keystorePassInputVariableName = 'keystorePass';
+const keystoreAliasNameInputVariableName = 'keystoreAliasName';
+const keystoreAliasPassInputVariableName = 'keystoreAliasPass';
+
+// Output variables.
+const editorLogFilePathOutputVariableName = 'editorLogFilePath';
 
 async function run() {
     try {
@@ -54,8 +66,11 @@ async function run() {
 
         const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(unityEditorsPath, unityVersion.info!);
         const cleanBuild = tl.getVariable(cleanBuildInputVariableName);
+
+        // Set output variable values.
         const logFilesDirectory = path.join(tl.getVariable('Agent.TempDirectory')!, 'Logs');
         const logFilePath = path.join(logFilesDirectory, `UnityBuildLog_${Utilities.getLogFileNameTimeStamp()}.log`);
+        tl.setVariable(editorLogFilePathOutputVariableName, logFilePath);
 
         // If clean was specified by the user, delete the existing output directory, if it exists
         if (cleanBuild === 'true') {
@@ -73,13 +88,13 @@ async function run() {
             .arg('-projectPath').arg(projectPath)
             .arg('-logfile').arg(logFilePath);
 
-        const additionalArgs = tl.getInput('additionalCmdArgs') ?? '';
+        const additionalArgs = tl.getInput(additionalCmdArgsInputVariableName) ?? '';
         if (additionalArgs !== '') {
             unityCmd.line(additionalArgs);
         }
 
         // Perform setup depending on build script type selected
-        const buildScriptType = tl.getInput('buildScriptType') ?? 'default';
+        const buildScriptType = tl.getInput(buildScriptTypeInputVariableName) ?? 'default';
 
         if (buildScriptType === 'default') {
             // When using default build scripts we rely on a Utility package being installed to the project via the Unity Package Manager.
@@ -88,20 +103,32 @@ async function run() {
             unityCmd.arg('-executeMethod').arg('AzurePipelinesBuild.PerformBuild');
             unityCmd.arg('-outputFileName').arg(outputFileName);
             unityCmd.arg('-outputPath').arg(outputPath);
+
+            if (tl.getBoolInput(signAppBundleInputVariableName)) {
+                unityCmd.arg('-keystoreName').arg(tl.getPathInput(keystoreNameInputVariableName) ?? '');
+                unityCmd.arg('-keystorePass').arg(tl.getInput(keystorePassInputVariableName) ?? '');
+                unityCmd.arg('-keystoreAliasName').arg(tl.getInput(keystoreAliasNameInputVariableName) ?? '');
+
+                // The alias password is optional and should only be passed, if not empty or undefined.
+                const keystoreAliasPass = tl.getInput(keystoreAliasPassInputVariableName) ?? '';
+                if (keystoreAliasPass) {
+                    unityCmd.arg('-keystoreAliasPass').arg(keystoreAliasPass);
+                }
+            }
         } else if (buildScriptType === 'inline') {
             // Create a C# script file in a Editor folder at the root Assets directory level. Then write
             // the default or the user's script into it. Unity will then compile it on launch and make sure it's available.
             const projectAssetsEditorFolderPath = path.join(`${projectPath}`, 'Assets', 'Editor');
             tl.mkdirP(projectAssetsEditorFolderPath);
             tl.cd(projectAssetsEditorFolderPath);
-            tl.writeFile('AzureDevOps.cs', tl.getInput('inlineBuildScript')!);
+            tl.writeFile('AzureDevOps.cs', tl.getInput(inlineBuildScriptInputVariableName)!);
             tl.cd(projectPath);
 
             // Tell Unity which method to execute for build.
-            unityCmd.arg('-executeMethod').arg(tl.getInput('scriptExecuteMethod')!);
+            unityCmd.arg('-executeMethod').arg(tl.getInput(scriptExecuteMethodInputVariableName)!);
         } else if (buildScriptType === 'existing') {
             // If the user already has an existing build script we only need the method to execute.
-            unityCmd.arg('-executeMethod').arg(tl.getInput('scriptExecuteMethod')!).arg('-quit');
+            unityCmd.arg('-executeMethod').arg(tl.getInput(scriptExecuteMethodInputVariableName)!).arg('-quit');
         } else {
             throw `Unsupported build script type ${buildScriptType}`
         }
