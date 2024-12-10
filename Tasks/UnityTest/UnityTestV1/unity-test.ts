@@ -26,7 +26,6 @@ const batchModeInputVariableName = 'batchMode';
 const acceptApiUpdateInputVariableName = 'acceptApiUpdate';
 const noPackageManagerInputVariableName = 'noPackageManager';
 const testResultsPathInputVariableName = 'testResultsPath';
-const tempDirectoryInputVariableName = 'Agent.TempDirectory';
 const cleanBuildInputVariableName = 'Build.Repository.Clean';
 const additionalCmdArgsInputVariableName = 'additionalCmdArgs';
 
@@ -37,13 +36,10 @@ const testSuccessNoTestsFailed = 0;
 const testSuccessTestsFailed = 2;
 
 // Output variables.
-const logsOutputPathOutputVariableName = 'logsOutputPath';
+const editorLogFilePathOutputVariableName = 'editorLogFilePath';
 const testResultsOutputPathAndFileNameOutputVariableName = 'testResultsOutputPathAndFileName';
 const testsFailedOutputVariableName = 'testsFailed';
 
-/**
- * Main task runner. Executes the task and sets the result status for the task.
- */
 async function run() {
     try {
         // Setup and read inputs.
@@ -65,15 +61,14 @@ async function run() {
         const acceptApiUpdate = tl.getBoolInput(acceptApiUpdateInputVariableName);
         const noPackageManager = tl.getBoolInput(noPackageManagerInputVariableName);
         const additionalCmdArgs = tl.getInput(additionalCmdArgsInputVariableName) ?? '';
-        const repositoryLocalPath = tl.getVariable(tempDirectoryInputVariableName)!;
         const testResultsFileName = testMode === UnityTestMode.editMode ? editModeResultsFileName : playModeResultsFileName;
         const testResultsPathAndFileName = path.join(`${testResultsPath}`, `${testResultsFileName}`);
-        const logFilesDirectory = path.join(repositoryLocalPath, 'Logs');
-        const logFilePath = path.join(logFilesDirectory, `UnityTestLog_${Utilities.getLogFileNameTimeStamp()}.log`);
 
         // Set output variable values.
-        tl.setVariable(logsOutputPathOutputVariableName, logFilesDirectory);
         tl.setVariable(testResultsOutputPathAndFileNameOutputVariableName, testResultsPathAndFileName);
+        const logFilesDirectory = path.join(tl.getVariable('Agent.TempDirectory')!, 'Logs');
+        const logFilePath = path.join(logFilesDirectory, `UnityTestLog_${Utilities.getLogFileNameTimeStamp()}.log`);
+        tl.setVariable(editorLogFilePathOutputVariableName, logFilePath);
 
         // If clean was specified by the user, delete the existing test results, if any exist.
         if (cleanBuild === 'true') {
