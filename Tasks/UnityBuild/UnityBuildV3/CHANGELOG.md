@@ -9,20 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Introduce new configuration option to build using build profiles. This feature is only available for Unity 6 and above
-
-## [3.2.6]
-
-### Added
-
-- Add configuration option to build Android App Bundle (aab file) instead of APK
-
-## [3.2.5]
-
-### Added
-
 - Add visionOS build target
 - Add configuration options to sign an Android build using a keystore
+- Add configuration option to build Android App Bundle (aab file) instead of APK
+- Introduce new configuration option to build using build profiles. This feature is only available for Unity 6 and above
 
 ### Changed
 
