@@ -187,6 +187,16 @@
       "helpMarkDown": "(Optional) Specify additional command line arguments, see the [documentation](https://docs.unity3d.com/Manual/CommandLineArguments.html) for more info."
     },
     {
+      "name": "buildAppBundle",
+      "type": "boolean",
+      "label": "Build Android App Bundle (Google Play)",
+      "groupName": "platform",
+      "defaultValue": false,
+      "required": false,
+      "helpMarkDown": "Set to true to build an Android App Bundle (aab file) instead of an apk. The default value is false.",
+      "visibleRule": "buildTarget == Android && buildScriptType == default"
+    },
+    {
       "name": "signAppBundle",
       "type": "boolean",
       "label": "Sign APK / app bundle",

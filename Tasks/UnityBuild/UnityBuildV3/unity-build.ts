@@ -29,6 +29,9 @@ const keystoreNameInputVariableName = 'keystoreName';
 const keystorePassInputVariableName = 'keystorePass';
 const keystoreAliasNameInputVariableName = 'keystoreAliasName';
 const keystoreAliasPassInputVariableName = 'keystoreAliasPass';
+const buildAppBundleInputVariableName = 'buildAppBundle';
+const buildFlowInputVariableName = 'buildFlow';
+const buildProfileInputVariableName = 'buildProfile';
 
 // Output variables.
 const editorLogFilePathOutputVariableName = 'editorLogFilePath';
@@ -40,7 +43,6 @@ async function run() {
 
         // Setup and read inputs.
         const outputFileName = tl.getInput(outputFileNameInputVariableName) ?? 'drop';
-        const buildTarget = tl.getInput(buildTargetInputVariableName, true)!;
         const projectPath = tl.getPathInput(unityProjectPathInputVariableName) ?? '';
         const versionSelectionMode = tl.getInput(versionSelectionModeVariableName, true)!
         const outputPath = tl.getPathInput(outputPathInputVariableName) ?? '';
@@ -82,11 +84,15 @@ async function run() {
         tl.checkPath(outputPath, 'Build Output Directory');
 
         // Execute Unity command line.
+        const buildFlow = tl.getInput(buildFlowInputVariableName) ?? 'platform';
         const unityCmd = tl.tool(unityExecutablePath)
             .arg('-batchmode')
-            .arg('-buildTarget').arg(buildTarget)
-            .arg('-projectPath').arg(projectPath)
-            .arg('-logfile').arg(logFilePath);
+            .arg(buildFlow === 'platform' ? '-buildTarget' : '-activeBuildProfile')
+            .arg(tl.getInput(buildFlow === 'platform' ? buildTargetInputVariableName : buildProfileInputVariableName, true)!)
+            .arg('-projectPath')
+            .arg(projectPath)
+            .arg('-logfile')
+            .arg(logFilePath);
 
         const additionalArgs = tl.getInput(additionalCmdArgsInputVariableName) ?? '';
         if (additionalArgs !== '') {
@@ -114,6 +120,10 @@ async function run() {
                 if (keystoreAliasPass) {
                     unityCmd.arg('-keystoreAliasPass').arg(keystoreAliasPass);
                 }
+            }
+
+            if (tl.getBoolInput(buildAppBundleInputVariableName)) {
+                unityCmd.arg('-buildAppBundle');
             }
         } else if (buildScriptType === 'inline') {
             // Create a C# script file in a Editor folder at the root Assets directory level. Then write
