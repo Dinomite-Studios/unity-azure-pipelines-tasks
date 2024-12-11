@@ -108,9 +108,8 @@
       "type": "pickList",
       "label": "Build target",
       "defaultValue": "standalone",
-      "helpMarkDown": "Build platform to build the Unity project for.",
+      "helpMarkDown": "Build platform to build the Unity project for / the build platform targeted by the specified profile.",
       "groupName": "build",
-      "visibleRule": "buildFlow = platform",
       "options": {
         "standalone": "Standalone (agent-based)",
         "Win": "Windows Standalone (32-bit)",
@@ -224,7 +223,7 @@
       "type": "boolean",
       "label": "Sign APK / app bundle",
       "groupName": "platform",
-      "defaultValue": true,
+      "defaultValue": false,
       "required": false,
       "helpMarkDown": "Whether to sign the produced APK / app bundle using a custom keystore.",
       "visibleRule": "buildTarget == Android && buildScriptType == default"
