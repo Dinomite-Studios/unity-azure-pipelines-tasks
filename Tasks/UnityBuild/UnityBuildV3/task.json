@@ -108,9 +108,8 @@
       "type": "pickList",
       "label": "Build target",
       "defaultValue": "standalone",
-      "helpMarkDown": "Build platform to build the Unity project for.",
+      "helpMarkDown": "Build platform to build the Unity project for / the build platform targeted by the specified profile.",
       "groupName": "build",
-      "visibleRule": "buildFlow = platform",
       "options": {
         "standalone": "Standalone (agent-based)",
         "Win": "Windows Standalone (32-bit)",
@@ -210,7 +209,7 @@
       "helpMarkDown": "(Optional) Specify additional command line arguments, see the [documentation](https://docs.unity3d.com/Manual/CommandLineArguments.html) for more info."
     },
     {
-      "name": "buildAppBundle",
+      "name": "androidBuildAppBundle",
       "type": "boolean",
       "label": "Build Android App Bundle (Google Play)",
       "groupName": "platform",
@@ -220,54 +219,54 @@
       "visibleRule": "buildTarget == Android && buildScriptType == default"
     },
     {
-      "name": "signAppBundle",
+      "name": "androidSignAppBundle",
       "type": "boolean",
       "label": "Sign APK / app bundle",
       "groupName": "platform",
-      "defaultValue": true,
+      "defaultValue": false,
       "required": false,
       "helpMarkDown": "Whether to sign the produced APK / app bundle using a custom keystore.",
       "visibleRule": "buildTarget == Android && buildScriptType == default"
     },
     {
-      "name": "keystoreName",
+      "name": "androidKeystoreName",
       "type": "filePath",
       "helpMarkDown": "Android keystore name / file path.",
       "label": "Keystore file path",
       "groupName": "platform",
       "required": true,
       "defaultValue": "",
-      "visibleRule": "buildTarget == Android && signAppBundle == true && buildScriptType == default"
+      "visibleRule": "buildTarget == Android && androidSignAppBundle == true && buildScriptType == default"
     },
     {
-      "name": "keystorePass",
+      "name": "androidKeystorePass",
       "type": "string",
       "label": "Keystore password",
       "groupName": "platform",
       "helpMarkDown": "Android keystore password.",
       "required": true,
       "defaultValue": "",
-      "visibleRule": "buildTarget == Android && signAppBundle == true && buildScriptType == default"
+      "visibleRule": "buildTarget == Android && androidSignAppBundle == true && buildScriptType == default"
     },
     {
-      "name": "keystoreAliasName",
+      "name": "androidKeystoreAliasName",
       "type": "string",
       "label": "Keystore alias name",
       "groupName": "platform",
       "helpMarkDown": "Android key alias name.",
       "required": true,
       "defaultValue": "",
-      "visibleRule": "buildTarget == Android && signAppBundle == true && buildScriptType == default"
+      "visibleRule": "buildTarget == Android && androidSignAppBundle == true && buildScriptType == default"
     },
     {
-      "name": "keystoreAliasPass",
+      "name": "androidKeystoreAliasPass",
       "type": "string",
       "label": "Keystore alias password",
       "groupName": "platform",
       "helpMarkDown": "Password for the key used for signing an Android application. If left empty, the keystore main password is assumed.",
       "required": false,
       "defaultValue": "",
-      "visibleRule": "buildTarget == Android && signAppBundle == true && buildScriptType == default"
+      "visibleRule": "buildTarget == Android && androidSignAppBundle == true && buildScriptType == default"
     }
   ],
   "outputVariables": [
