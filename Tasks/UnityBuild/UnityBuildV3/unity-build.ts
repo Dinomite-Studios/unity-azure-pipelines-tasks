@@ -105,7 +105,7 @@ async function run() {
         if (buildScriptType === 'default') {
             // When using default build scripts we rely on a Utility package being installed to the project via the Unity Package Manager.
             // By adding it to the manifest before opening the project, Unity will load the package before trying to build the project.
-            UnityPackageManagerTools.addPackageToProject(projectPath, 'games.dinomite.azurepipelines', 'https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks-build-scripts.git');
+            UnityPackageManagerTools.addPackageToProject(projectPath, 'games.dinomite.azurepipelines', 'https://github.com/Dinomite-Studios/games.dinomite.azurepipelines.git#v1.0.13');
             unityCmd.arg('-executeMethod').arg('AzurePipelinesBuild.PerformBuild');
             unityCmd.arg('-outputFileName').arg(outputFileName);
             unityCmd.arg('-outputPath').arg(outputPath);
