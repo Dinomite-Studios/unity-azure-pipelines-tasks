@@ -6,6 +6,7 @@
   "scripts": {
     "build": "tsc",
     "upload": "tfx build tasks upload --task-path ./",
+    "test": "nyc mocha test/_suite.js",
     "dev-refresh": "npm run dev-delete && npm run dev-upload",
     "dev-delete": "tfx build tasks delete --task-id de4be6e2-9c1e-4ae3-9a7e-6854f719bcc3",
     "dev-upload": "npm run build && npm run upload"

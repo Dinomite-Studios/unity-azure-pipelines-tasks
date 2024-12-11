@@ -1,6 +1,6 @@
 import path = require('path');
 import tl = require('azure-pipelines-task-lib/task');
-import { UnityPathTools, UnityToolRunner, Utilities } from '@dinomite-studios/unity-azure-pipelines-tasks-lib';
+import { UnityPathTools, UnitySceneTools, UnityToolRunner, Utilities } from '@dinomite-studios/unity-azure-pipelines-tasks-lib';
 
 // Input variables
 const versionInputVariableName = 'version';
@@ -53,6 +53,9 @@ async function run() {
 
         // Unity process has finished. Set task result.
         if (result === 0) {
+            // Once the empty project is created, we must add a new empty scene to it. Otherwise it will not build.
+            UnitySceneTools.createSceneAt(path.join(projectPath, projectName), 'Assets/New Scene.unity', true);
+
             const buildSuccessLog = tl.loc('successProjectCreated');
             console.log(buildSuccessLog);
             tl.setResult(tl.TaskResult.Succeeded, buildSuccessLog);
