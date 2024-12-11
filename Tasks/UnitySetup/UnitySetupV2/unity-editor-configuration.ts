@@ -30,7 +30,7 @@ export class UnityEditorConfiguration {
 
             // Add the build scripts package to the dummy project. It contains the required
             // C# scripts that will make sure to initialize editor Android settings.
-            UnityPackageManagerTools.addPackageToProject(temporaryProjectPath, 'games.dinomite.azurepipelines', 'https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks-build-scripts.git');
+            UnityPackageManagerTools.addPackageToProject(temporaryProjectPath, 'games.dinomite.azurepipelines', 'https://github.com/Dinomite-Studios/games.dinomite.azurepipelines.git#v1.0.13');
             const editorPath = UnityPathTools.getUnityEditorDirectory(editorInstallationsPath, editorVersion!);
 
             const androidJDKPath = path.join(editorPath, 'Data', 'PlaybackEngines', 'AndroidPlayer', 'OpenJDK');
