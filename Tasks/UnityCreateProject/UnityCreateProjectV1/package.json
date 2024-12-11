@@ -5,8 +5,9 @@
     "main": "unity-create-project.js",
     "scripts": {
         "build": "tsc",
-        "test": "nyc mocha test/_suite.js",
         "upload": "tfx build tasks upload --task-path ./",
+        "test": "nyc mocha test/_suite.js",
+        "dev-refresh": "npm run dev-delete && npm run dev-upload",
         "dev-delete": "tfx build tasks delete --task-id 874bd610-5219-45e4-a917-59e3a7ff74da",
         "dev-upload": "npm run build && npm run upload"
     },
@@ -19,7 +20,7 @@
     "dependencies": {
         "@types/node": "^22.9.1",
         "@types/q": "^1.5.8",
-        "@dinomite-studios/unity-azure-pipelines-tasks-lib": "^1.0.11",
+        "@dinomite-studios/unity-azure-pipelines-tasks-lib": "^1.0.12",
         "azure-pipelines-task-lib": "^4.17.3"
     },
     "devDependencies": {
