@@ -5,6 +5,11 @@ import { getProjectUnityVersion, getUnityHubExecutablePath } from "./utilities";
 export class UnityModulesInstall {
 
     public static run(): number {
+        const installEditor = tl.getBoolInput(installEditorInputVariableName);
+        if (!installEditor) {
+            return 0;
+        }
+
         const unityHubExecutablePath = getUnityHubExecutablePath();
         const editorVersion = getProjectUnityVersion();
 

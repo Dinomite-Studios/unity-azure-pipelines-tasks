@@ -6,6 +6,11 @@ import { macOSArchitectureVariableName, installEditorInputVariableName } from '.
 
 export class UnityEditorInstall {
     public static run(): number {
+	const installEditor = tl.getBoolInput(installEditorInputVariableName);
+        if (!installEditor) {
+            return 0;
+        }
+
         const unityHubExecutablePath = getUnityHubExecutablePath();
         const editorVersion = getProjectUnityVersion();
 
