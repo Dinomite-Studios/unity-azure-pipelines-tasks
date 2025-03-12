@@ -11,6 +11,11 @@ export class UnityEditorDeactivation {
             return 0;
         }
 
+	const deactivateSeatOnComplete = tl.getBoolInput(deactivateSeatOnCompleteInputVariableName);
+	if (!deactivateSeatOnComplete) {
+	    return 0;
+	}
+
         const editorVersion = getProjectUnityVersion();
         const editorInstallationsPath = UnityPathTools.getUnityEditorsPath('default');
         const unityExecutablePath = UnityPathTools.getUnityExecutableFullPath(editorInstallationsPath, editorVersion!);
@@ -19,25 +24,23 @@ export class UnityEditorDeactivation {
         const password = tl.getInput(passwordInputVariableName, true)!;
 
         const logFilesDirectory = path.join(tl.getVariable('Agent.TempDirectory')!, 'Logs');
-        const logFilePath = path.join(logFilesDirectory, `UnityDeactivationLog_${Utilities.getLogFileNameTimeStamp()}.log`);
-        const deactivateSeatOnComplete = tl.getBoolInput(deactivateSeatOnCompleteInputVariableName);
+        const logFilePath = path.join(logFilesDirectory, `UnityDeactivationLog_${Utilities.getLogFileNameTimeStamp()}.log`);        
 
-        if (deactivateSeatOnComplete) {
-            const unityCmd = tl.tool(unityExecutablePath)
-                .arg('-batchmode')
-                .arg('-nographics')
-                .arg('-username').arg(username)
-                .arg('-password').arg(password)
-                .arg('-returnlicense')
-                .arg('-logfile').arg(logFilePath)
-                .arg('-quit');
 
-            const result = unityCmd.execSync();
+        const unityCmd = tl.tool(unityExecutablePath)
+            .arg('-batchmode')
+            .arg('-nographics')
+            .arg('-username').arg(username)
+            .arg('-password').arg(password)
+            .arg('-returnlicense')
+            .arg('-logfile').arg(logFilePath)
+            .arg('-quit');
 
-            if (result.code !== 0) {
-                return result.code;
-            }
-        }
+        const result = unityCmd.execSync();
+
+        if (result.code !== 0) {
+            return result.code;
+        }       
 
         return 0;
     }
