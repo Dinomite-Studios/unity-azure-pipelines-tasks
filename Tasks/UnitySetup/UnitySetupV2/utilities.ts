@@ -1,6 +1,6 @@
 import tl = require('azure-pipelines-task-lib/task');
 import { UnityPathTools, UnityVersionInfo, UnityVersionInfoResult, UnityVersionTools } from '@dinomite-studios/unity-azure-pipelines-tasks-lib/';
-import { customUnityHubExecutableLocationVariableName, revisionInputVariableName, unityHubExecutableLocationVariableName, versionInputVariableName, versionSelectionModeVariableName } from './unity-setup';
+import { customUnityHubExecutableLocationVariableName, revisionInputVariableName, unityHubExecutableLocationVariableName, versionInputVariableName, versionSelectionModeVariableName } from './variables';
 
 export function getProjectUnityVersion(): UnityVersionInfo | null | undefined {
     let editorVersion: UnityVersionInfo | null | undefined;
