@@ -13,9 +13,9 @@
   "version": {
     "Major": 2,
     "Minor": 0,
-    "Patch": 1
+    "Patch": 2
   },
-  "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnitySetup/UnitySetupV1/CHANGELOG.md)",
+  "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnitySetup/UnitySetupV2/CHANGELOG.md)",
   "minimumAgentVersion": "2.144.0",
   "instanceNameFormat": "Unity Setup $(buildTarget)",
   "groups": [
