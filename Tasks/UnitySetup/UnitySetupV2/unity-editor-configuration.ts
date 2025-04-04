@@ -1,7 +1,7 @@
 import { UnityPathTools, UnityPackageManagerTools } from '@dinomite-studios/unity-azure-pipelines-tasks-lib';
 import tl = require('azure-pipelines-task-lib/task');
 import path = require('path');
-import { androidChildModulesInputVariableName, androidConfigureToolingInputVariableName, androidModuleInputVariableName } from './unity-setup';
+import { androidChildModulesInputVariableName, androidConfigureToolingInputVariableName, androidModuleInputVariableName } from './variables';
 import { getProjectUnityVersion } from './utilities';
 
 export class UnityEditorConfiguration {

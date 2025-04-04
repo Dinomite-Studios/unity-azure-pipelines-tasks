@@ -2,10 +2,15 @@ import tl = require('azure-pipelines-task-lib/task');
 import path = require('path');
 import { OS, Utilities } from '@dinomite-studios/unity-azure-pipelines-tasks-lib/';
 import { getProjectUnityVersion, getUnityHubExecutablePath } from './utilities';
-import { macOSArchitectureVariableName } from './unity-setup';
+import { macOSArchitectureVariableName, installEditorInputVariableName } from './variables';
 
 export class UnityEditorInstall {
     public static run(): number {
+	const installEditor = tl.getBoolInput(installEditorInputVariableName);
+        if (!installEditor) {
+            return 0;
+        }
+
         const unityHubExecutablePath = getUnityHubExecutablePath();
         const editorVersion = getProjectUnityVersion();
 

@@ -1,10 +1,15 @@
-import { androidChildModulesInputVariableName, androidModuleInputVariableName, iOSModuleInputVariableName, linuxIL2CPPModuleInputVariableName, linuxMonoModuleInputVariableName, macIL2CPPModuleInputVariableName, macMonoModuleInputVariableName, tvOSModuleInputVariableName, uwpModuleInputVariableName, visionOSModuleInputVariableName, webGLModuleInputVariableName, windowsModuleInputVariableName } from "./unity-setup";
+import { installEditorInputVariableName, androidChildModulesInputVariableName, androidModuleInputVariableName, iOSModuleInputVariableName, linuxIL2CPPModuleInputVariableName, linuxMonoModuleInputVariableName, macIL2CPPModuleInputVariableName, macMonoModuleInputVariableName, tvOSModuleInputVariableName, uwpModuleInputVariableName, visionOSModuleInputVariableName, webGLModuleInputVariableName, windowsModuleInputVariableName } from "./variables";
 import tl = require('azure-pipelines-task-lib/task');
 import { getProjectUnityVersion, getUnityHubExecutablePath } from "./utilities";
 
 export class UnityModulesInstall {
 
     public static run(): number {
+        const installEditor = tl.getBoolInput(installEditorInputVariableName);
+        if (!installEditor) {
+            return 0;
+        }
+
         const unityHubExecutablePath = getUnityHubExecutablePath();
         const editorVersion = getProjectUnityVersion();
 
