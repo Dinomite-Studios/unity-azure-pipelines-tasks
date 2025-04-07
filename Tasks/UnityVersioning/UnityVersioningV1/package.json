@@ -1,0 +1,29 @@
+{
+  "name": "@dinomite-studios/unity-versioning-task",
+  "version": "1.0.0",
+  "description": "Azure Pipelines task to modify a Unity project's bundle version and build codes and check them back in to the project repository.",
+  "main": "unity-versioning.js",
+  "scripts": {
+    "build": "tsc",
+    "upload": "tfx build tasks upload --task-path ./",
+    "test": "nyc mocha test/_suite.js",
+    "dev-refresh": "npm run dev-delete && npm run dev-upload",
+    "dev-delete": "tfx build tasks delete --task-id 1fc2f58e-a8e5-4d5b-907d-467ca982ec76",
+    "dev-upload": "npm run build && npm run upload"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks"
+  },
+  "author": "Dinomite",
+  "license": "MIT",
+  "dependencies": {
+    "@types/node": "^22.9.1",
+    "@types/q": "^1.5.8",
+    "@dinomite-studios/unity-azure-pipelines-tasks-lib": "^1.1.0",
+    "azure-pipelines-task-lib": "^4.17.3"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.2"
+  }
+}
