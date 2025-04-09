@@ -256,6 +256,11 @@ export class UnityVersioning {
         true
       )!;
 
+      tl.execSync("git", ["config", "user.name", commitChangesUserName]);
+      tl.execSync("git", ["config", "user.email", commitChangesUserMail]);
+      tl.execSync("git", ["add", "."]);
+      tl.execSync("git", ["commit", "-m Azure Pipelines Build"]);
+
       // Since we pushed to the repository, does the user also want to create a tag?
       if (createTag) {
         const createTagPattern = tl.getInput(
@@ -272,6 +277,13 @@ export class UnityVersioning {
           "{{buildNumber}}",
           buildCode.toString()
         );
+
+        tl.execSync("git", ["tag", gitTag]);
+      }
+
+      tl.execSync("git", ["push", "origin HEAD"]);
+      if (createTag) {
+        tl.execSync("git", ["push", "origin", gitTag]);
       }
     }
 
