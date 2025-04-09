@@ -1,6 +1,9 @@
 import tl = require("azure-pipelines-task-lib/task");
 import {
+  buildNumberOutputVariableName,
   buildTargetInputVariableName,
+  bundleVersionOutputVariableName,
+  gitTagOutputVariableName,
   projectVersioningBuildNumberModeVariableName,
   projectVersioningBuildNumberVariableName,
   projectVersioningBundleVersionMajorVariableName,
@@ -174,6 +177,9 @@ export class UnityVersioning {
       true
     )!;
 
+    let gitTag: string | "" = "";
+
+    // Does the user want to commit changes to the repositoryß
     if (commitChanges) {
       const commitChangesUserName = tl.getInput(
         projectVersioningCommitChangesUserNameVariableName,
@@ -190,12 +196,37 @@ export class UnityVersioning {
       true
     )!;
 
+    // Since we pushed to the repository, does the user also want to create a tag?
     if (createTag) {
       const createTagPattern = tl.getInput(
         projectVersioningCreateTagPatternVariableName,
         true
       )!;
+
+      gitTag = createTagPattern.replace(
+        "{{bundleVersion}}",
+        `${bundleVersion.major}.${bundleVersion.minor}.${bundleVersion.patch}`
+      );
+
+      gitTag = createTagPattern.replace(
+        "{{buildNumber}}",
+        buildCode.toString()
+      );
     }
+
+    tl.setVariable(
+      bundleVersionOutputVariableName,
+      `${bundleVersion.major}.${bundleVersion.minor}.${bundleVersion.patch}`,
+      false,
+      true
+    );
+    tl.setVariable(
+      buildNumberOutputVariableName,
+      buildCode.toString(),
+      false,
+      true
+    );
+    tl.setVariable(gitTagOutputVariableName, gitTag, false, true);
 
     return 0;
   }

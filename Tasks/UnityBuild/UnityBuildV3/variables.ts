@@ -42,3 +42,9 @@ export const projectVersioningCreateTagVariableName =
   "projectVersioningCreateTag";
 export const projectVersioningCreateTagPatternVariableName =
   "projectVersioningCreateTagPattern";
+
+// Output variables.
+export const editorLogFilePathOutputVariableName = "editorLogFilePath";
+export const bundleVersionOutputVariableName = "bundleVersion";
+export const buildNumberOutputVariableName = "buildNumber";
+export const gitTagOutputVariableName = "gitTag";

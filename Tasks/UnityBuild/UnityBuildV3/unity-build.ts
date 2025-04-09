@@ -32,10 +32,8 @@ import {
   buildAppBundleInputVariableName,
   inlineBuildScriptInputVariableName,
   scriptExecuteMethodInputVariableName,
+  editorLogFilePathOutputVariableName,
 } from "./variables";
-
-// Output variables.
-const editorLogFilePathOutputVariableName = "editorLogFilePath";
 
 async function run() {
   try {
