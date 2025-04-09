@@ -64,14 +64,49 @@ export class UnityVersioning {
       );
 
       if (bundleVersionMode === VersioningMode.Increment) {
-        bundleVersion = UnityVersioningTools.incrementBundleVersion(
-          projectPath,
-          bundleVersion
-        );
+        if (
+          buildPlatform !== BuildPlatform.VisionOS &&
+          buildPlatform !== BuildPlatform.TVOS
+        ) {
+          bundleVersion = UnityVersioningTools.incrementBundleVersion(
+            projectPath,
+            bundleVersion
+          );
+        } else if (buildPlatform === BuildPlatform.VisionOS) {
+          bundleVersion = UnityVersioningTools.incrementVisionOSBundleVersion(
+            projectPath,
+            bundleVersion
+          );
+        } else if (buildPlatform === BuildPlatform.TVOS) {
+          bundleVersion = UnityVersioningTools.incrementTvOSBundleVersion(
+            projectPath,
+            bundleVersion
+          );
+        } else {
+          throw new Error(`Invalid build platform: ${buildPlatform}`);
+        }
       } else if (bundleVersionMode === VersioningMode.Set) {
-        throw new Error(
-          "Bundle version mode set is not implemented yet. Please use increment mode."
-        );
+        if (
+          buildPlatform !== BuildPlatform.VisionOS &&
+          buildPlatform !== BuildPlatform.TVOS
+        ) {
+          bundleVersion = UnityVersioningTools.setBundleVersion(
+            projectPath,
+            bundleVersion
+          );
+        } else if (buildPlatform === BuildPlatform.VisionOS) {
+          bundleVersion = UnityVersioningTools.setVisionOSBundleVersion(
+            projectPath,
+            bundleVersion
+          );
+        } else if (buildPlatform === BuildPlatform.TVOS) {
+          bundleVersion = UnityVersioningTools.setTvOSBundleVersion(
+            projectPath,
+            bundleVersion
+          );
+        } else {
+          throw new Error(`Invalid build platform: ${buildPlatform}`);
+        }
       } else {
         throw new Error(`Invalid bundle version mode: ${bundleVersionMode}`);
       }
@@ -129,9 +164,35 @@ export class UnityVersioning {
           throw new Error(`Invalid build platform: ${buildPlatform}`);
         }
       } else if (buildNumberMode === VersioningMode.Set) {
-        throw new Error(
-          "Build number mode set is not implemented yet. Please use increment mode."
-        );
+        if (
+          buildPlatform !== BuildPlatform.VisionOS &&
+          buildPlatform !== BuildPlatform.IOS &&
+          buildPlatform !== BuildPlatform.TVOS &&
+          buildPlatform !== BuildPlatform.Android
+        ) {
+          buildCode = UnityVersioningTools.setBuildNumber(projectPath, {
+            Standalone: buildNumber,
+          }).Standalone;
+        } else if (buildPlatform === BuildPlatform.Android) {
+          buildCode = UnityVersioningTools.setAndroidBundleVersionCode(
+            projectPath,
+            buildNumber
+          );
+        } else if (buildPlatform === BuildPlatform.VisionOS) {
+          buildCode = UnityVersioningTools.setBuildNumber(projectPath, {
+            VisionOS: buildNumber,
+          }).VisionOS;
+        } else if (buildPlatform === BuildPlatform.IOS) {
+          buildCode = UnityVersioningTools.setBuildNumber(projectPath, {
+            iPhone: buildNumber,
+          }).iPhone;
+        } else if (buildPlatform === BuildPlatform.TVOS) {
+          buildCode = UnityVersioningTools.setBuildNumber(projectPath, {
+            tvOS: buildNumber,
+          }).tvOS;
+        } else {
+          throw new Error(`Invalid build platform: ${buildPlatform}`);
+        }
       } else {
         throw new Error(`Invalid build number mode: ${buildNumberMode}`);
       }
