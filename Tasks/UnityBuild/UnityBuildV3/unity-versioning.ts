@@ -250,29 +250,29 @@ export class UnityVersioning {
         projectVersioningCommitChangesUserMailVariableName,
         true
       )!;
-    }
 
-    const createTag = tl.getBoolInput(
-      projectVersioningCreateTagVariableName,
-      true
-    )!;
-
-    // Since we pushed to the repository, does the user also want to create a tag?
-    if (createTag) {
-      const createTagPattern = tl.getInput(
-        projectVersioningCreateTagPatternVariableName,
+      const createTag = tl.getBoolInput(
+        projectVersioningCreateTagVariableName,
         true
       )!;
 
-      gitTag = createTagPattern.replace(
-        "{{bundleVersion}}",
-        `${bundleVersion.major}.${bundleVersion.minor}.${bundleVersion.patch}`
-      );
+      // Since we pushed to the repository, does the user also want to create a tag?
+      if (createTag) {
+        const createTagPattern = tl.getInput(
+          projectVersioningCreateTagPatternVariableName,
+          true
+        )!;
 
-      gitTag = createTagPattern.replace(
-        "{{buildNumber}}",
-        buildCode.toString()
-      );
+        gitTag = createTagPattern.replace(
+          "{{bundleVersion}}",
+          `${bundleVersion.major}.${bundleVersion.minor}.${bundleVersion.patch}`
+        );
+
+        gitTag = createTagPattern.replace(
+          "{{buildNumber}}",
+          buildCode.toString()
+        );
+      }
     }
 
     tl.setVariable(
