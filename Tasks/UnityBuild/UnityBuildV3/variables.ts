@@ -38,6 +38,8 @@ export const projectVersioningCommitChangesUserNameVariableName =
   "projectVersioningCommitChangesUserName";
 export const projectVersioningCommitChangesUserMailVariableName =
   "projectVersioningCommitChangesUserMail";
+export const projectVersioningCommitChangesMessageVariableName =
+  "projectVersioningCommitChangesMessage";
 export const projectVersioningCreateTagVariableName =
   "projectVersioningCreateTag";
 export const projectVersioningCreateTagPatternVariableName =

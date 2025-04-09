@@ -10,6 +10,7 @@ import {
   projectVersioningBundleVersionMinorVariableName,
   projectVersioningBundleVersionModeVariableName,
   projectVersioningBundleVersionPatchVariableName,
+  projectVersioningCommitChangesMessageVariableName,
   projectVersioningCommitChangesUserMailVariableName,
   projectVersioningCommitChangesUserNameVariableName,
   projectVersioningCommitChangesVariableName,
@@ -256,10 +257,24 @@ export class UnityVersioning {
         true
       )!;
 
+      let commitMessage = tl.getInput(
+        projectVersioningCommitChangesMessageVariableName
+      )!;
+
+      commitMessage = commitMessage.replace(
+        "{{bundleVersion}}",
+        `${bundleVersion.major}.${bundleVersion.minor}.${bundleVersion.patch}`
+      );
+
+      commitMessage = commitMessage.replace(
+        "{{buildNumber}}",
+        buildCode.toString()
+      );
+
       tl.execSync("git", ["config", "user.name", commitChangesUserName]);
       tl.execSync("git", ["config", "user.email", commitChangesUserMail]);
       tl.execSync("git", ["add", "."]);
-      tl.execSync("git", ["commit", "-m Azure Pipelines Build"]);
+      tl.execSync("git", ["commit", `-m ${commitMessage}`]);
 
       // Since we pushed to the repository, does the user also want to create a tag?
       if (createTag) {

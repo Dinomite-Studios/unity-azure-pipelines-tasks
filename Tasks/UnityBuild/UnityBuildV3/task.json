@@ -180,6 +180,15 @@
       "visibleRule": "projectVersioningCommitChanges = true"
     },
     {
+      "name": "projectVersioningCommitChangesMessage",
+      "type": "string",
+      "label": "Commit message",
+      "groupName": "versioning",
+      "defaultValue": "Azure Pipelines Build - {{bundleVersion}}",
+      "helpMarkDown": "The commit message. Valid placeholders are: {{bundleVersion}}, {{buildNumber}}",
+      "visibleRule": "projectVersioningCommitChanges = true"
+    },
+    {
       "name": "projectVersioningCreateTag",
       "type": "boolean",
       "label": "Create a git tag for the changes",
