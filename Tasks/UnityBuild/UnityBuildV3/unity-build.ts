@@ -9,30 +9,30 @@ import {
   UnityVersionTools,
   UnityPackageManagerTools,
 } from "@dinomite-studios/unity-azure-pipelines-tasks-lib";
-import { UnityProjectVersioning } from "./unity-versioning";
-
-// Input variables.
-const outputFileNameInputVariableName = "outputFileName";
-const buildTargetInputVariableName = "buildTarget";
-const outputPathInputVariableName = "outputPath";
-const unityProjectPathInputVariableName = "unityProjectPath";
-const versionInputVariableName = "version";
-const buildScriptTypeInputVariableName = "buildScriptType";
-const unityEditorsPathModeInputVariableName = "unityEditorsPathMode";
-const inlineBuildScriptInputVariableName = "inlineBuildScript";
-const scriptExecuteMethodInputVariableName = "scriptExecuteMethod";
-const additionalCmdArgsInputVariableName = "additionalCmdArgs";
-const customUnityEditorsPathInputVariableName = "customUnityEditorsPath";
-const cleanBuildInputVariableName = "Build.Repository.Clean";
-const versionSelectionModeVariableName = "versionSelectionMode";
-const signAppBundleInputVariableName = "androidSignAppBundle";
-const keystoreNameInputVariableName = "androidKeystoreName";
-const keystorePassInputVariableName = "androidKeystorePass";
-const keystoreAliasNameInputVariableName = "androidKeystoreAliasName";
-const keystoreAliasPassInputVariableName = "androidKeystoreAliasPass";
-const buildAppBundleInputVariableName = "androidBuildAppBundle";
-const buildFlowInputVariableName = "buildFlow";
-const buildProfileInputVariableName = "buildProfile";
+import { UnityVersioning } from "./unity-versioning";
+import {
+  outputFileNameInputVariableName,
+  unityProjectPathInputVariableName,
+  versionSelectionModeVariableName,
+  outputPathInputVariableName,
+  unityEditorsPathModeInputVariableName,
+  customUnityEditorsPathInputVariableName,
+  versionInputVariableName,
+  cleanBuildInputVariableName,
+  buildFlowInputVariableName,
+  buildTargetInputVariableName,
+  buildProfileInputVariableName,
+  additionalCmdArgsInputVariableName,
+  buildScriptTypeInputVariableName,
+  signAppBundleInputVariableName,
+  keystoreNameInputVariableName,
+  keystorePassInputVariableName,
+  keystoreAliasNameInputVariableName,
+  keystoreAliasPassInputVariableName,
+  buildAppBundleInputVariableName,
+  inlineBuildScriptInputVariableName,
+  scriptExecuteMethodInputVariableName,
+} from "./variables";
 
 // Output variables.
 const editorLogFilePathOutputVariableName = "editorLogFilePath";
@@ -42,7 +42,7 @@ async function run() {
     // Configure localization.
     tl.setResourcePath(path.join(__dirname, "task.json"));
 
-    const versioningResult = UnityProjectVersioning.run();
+    const versioningResult = UnityVersioning.run();
     if (versioningResult !== 0) {
       const log = `${tl.loc("taskResultFailedVersioning")} ${versioningResult}`;
       console.error(log);

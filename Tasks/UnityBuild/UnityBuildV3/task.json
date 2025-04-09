@@ -379,6 +379,18 @@
     {
       "name": "editorLogFilePath",
       "description": "Specifies the location of the editor log file generated."
+    },
+    {
+      "name": "bundleVersion",
+      "description": "The bundle version of the Unity project after the build."
+    },
+    {
+      "name": "buildNumber",
+      "description": "The build number of the Unity project after the build."
+    },
+    {
+      "name": "gitTag",
+      "description": "The git tag created for the changeset."
     }
   ],
   "execution": {
