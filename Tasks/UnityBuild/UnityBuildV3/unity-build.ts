@@ -40,9 +40,11 @@ async function run() {
     // Configure localization.
     tl.setResourcePath(path.join(__dirname, "task.json"));
 
-    const versioningResult = UnityVersioning.run();
-    if (versioningResult !== 0) {
-      const log = `${tl.loc("taskResultFailedVersioning")} ${versioningResult}`;
+    const versioningPreBuildResult = UnityVersioning.runPreBuild();
+    if (versioningPreBuildResult !== 0) {
+      const log = `${tl.loc(
+        "taskResultFailedVersioning"
+      )} ${versioningPreBuildResult}`;
       console.error(log);
       tl.setResult(tl.TaskResult.Failed, log);
       return;
@@ -199,6 +201,20 @@ async function run() {
     }
 
     const result = await UnityToolRunner.run(unityCmd, logFilePath);
+
+    // Only if the project was built successfully, run the post build
+    // steps of the versioning tool.
+    if (result === 0) {
+      const versioningPostBuildResult = UnityVersioning.runPostBuild();
+      if (versioningPostBuildResult !== 0) {
+        const log = `${tl.loc(
+          "taskResultFailedVersioning"
+        )} ${versioningPostBuildResult}`;
+        console.error(log);
+        tl.setResult(tl.TaskResult.Failed, log);
+        return;
+      }
+    }
 
     // Unity process has finished. Set task result.
     if (result === 0) {

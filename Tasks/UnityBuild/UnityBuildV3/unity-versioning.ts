@@ -31,7 +31,7 @@ enum VersioningMode {
 }
 
 export class UnityVersioning {
-  public static run(): number {
+  public static runPreBuild(): number {
     const projectPath =
       tl.getPathInput(unityProjectPathInputVariableName) ?? "";
     const buildPlatform = tl.getInput(buildTargetInputVariableName, true)!;
@@ -41,14 +41,14 @@ export class UnityVersioning {
       true
     )!;
 
-    let bundleVersion: SemanticVersion = {
-      major: 0,
-      minor: 0,
-      patch: 0,
-    };
-
     // Does the user want to modify the bundle version?
     if (bundleVersionMode !== VersioningMode.None) {
+      let bundleVersion: SemanticVersion = {
+        major: 0,
+        minor: 0,
+        patch: 0,
+      };
+
       // Read increments / values from the task inputs.
       // The bundle version input is either an increment or a value to set.
       bundleVersion.major = parseInt(
@@ -64,67 +64,36 @@ export class UnityVersioning {
         10
       );
 
-      if (bundleVersionMode === VersioningMode.Increment) {
-        if (
-          buildPlatform !== BuildPlatform.VisionOS &&
-          buildPlatform !== BuildPlatform.TVOS
-        ) {
-          bundleVersion = UnityVersioningTools.incrementBundleVersion(
-            projectPath,
-            bundleVersion
-          );
-        } else if (buildPlatform === BuildPlatform.VisionOS) {
-          bundleVersion = UnityVersioningTools.incrementVisionOSBundleVersion(
-            projectPath,
-            bundleVersion
-          );
-        } else if (buildPlatform === BuildPlatform.TVOS) {
-          bundleVersion = UnityVersioningTools.incrementTvOSBundleVersion(
-            projectPath,
-            bundleVersion
-          );
-        } else {
-          throw new Error(`Invalid build platform: ${buildPlatform}`);
-        }
-      } else if (bundleVersionMode === VersioningMode.Set) {
-        if (
-          buildPlatform !== BuildPlatform.VisionOS &&
-          buildPlatform !== BuildPlatform.TVOS
-        ) {
-          bundleVersion = UnityVersioningTools.setBundleVersion(
-            projectPath,
-            bundleVersion
-          );
-        } else if (buildPlatform === BuildPlatform.VisionOS) {
-          bundleVersion = UnityVersioningTools.setVisionOSBundleVersion(
-            projectPath,
-            bundleVersion
-          );
-        } else if (buildPlatform === BuildPlatform.TVOS) {
-          bundleVersion = UnityVersioningTools.setTvOSBundleVersion(
-            projectPath,
-            bundleVersion
-          );
-        } else {
-          throw new Error(`Invalid build platform: ${buildPlatform}`);
-        }
+      if (
+        buildPlatform !== BuildPlatform.VisionOS &&
+        buildPlatform !== BuildPlatform.TVOS
+      ) {
+        bundleVersion = UnityVersioningTools.updateBundleVersion(
+          projectPath,
+          bundleVersionMode === VersioningMode.Increment,
+          bundleVersion
+        );
+      } else if (buildPlatform === BuildPlatform.VisionOS) {
+        bundleVersion = UnityVersioningTools.updateVisionOSBundleVersion(
+          projectPath,
+          bundleVersionMode === VersioningMode.Increment,
+          bundleVersion
+        );
+      } else if (buildPlatform === BuildPlatform.TVOS) {
+        bundleVersion = UnityVersioningTools.updateTvOSBundleVersion(
+          projectPath,
+          bundleVersionMode === VersioningMode.Increment,
+          bundleVersion
+        );
       } else {
-        throw new Error(`Invalid bundle version mode: ${bundleVersionMode}`);
+        throw new Error(`Invalid build platform: ${buildPlatform}`);
       }
-    } else {
-      // By passing 0 increments, we'll essentially just read the current version.
-      bundleVersion = UnityVersioningTools.incrementBundleVersion(
-        projectPath,
-        bundleVersion
-      );
     }
 
     const buildNumberMode = tl.getInput(
       projectVersioningBuildNumberModeVariableName,
       true
     )!;
-
-    let buildCode: number = 0;
 
     // Does the user want to modify the build number?
     if (buildNumberMode !== VersioningMode.None) {
@@ -134,104 +103,145 @@ export class UnityVersioning {
         10
       );
 
-      if (buildNumberMode === VersioningMode.Increment) {
-        if (
-          buildPlatform !== BuildPlatform.VisionOS &&
-          buildPlatform !== BuildPlatform.IOS &&
-          buildPlatform !== BuildPlatform.TVOS &&
-          buildPlatform !== BuildPlatform.Android
-        ) {
-          buildCode = UnityVersioningTools.incrementBuildNumber(projectPath, {
-            Standalone: buildNumber,
-          }).Standalone;
-        } else if (buildPlatform === BuildPlatform.Android) {
-          buildCode = UnityVersioningTools.incrementAndroidBundleVersionCode(
-            projectPath,
-            buildNumber
-          );
-        } else if (buildPlatform === BuildPlatform.VisionOS) {
-          buildCode = UnityVersioningTools.incrementBuildNumber(projectPath, {
-            VisionOS: buildNumber,
-          }).VisionOS;
-        } else if (buildPlatform === BuildPlatform.IOS) {
-          buildCode = UnityVersioningTools.incrementBuildNumber(projectPath, {
-            iPhone: buildNumber,
-          }).iPhone;
-        } else if (buildPlatform === BuildPlatform.TVOS) {
-          buildCode = UnityVersioningTools.incrementBuildNumber(projectPath, {
-            tvOS: buildNumber,
-          }).tvOS;
-        } else {
-          throw new Error(`Invalid build platform: ${buildPlatform}`);
-        }
-      } else if (buildNumberMode === VersioningMode.Set) {
-        if (
-          buildPlatform !== BuildPlatform.VisionOS &&
-          buildPlatform !== BuildPlatform.IOS &&
-          buildPlatform !== BuildPlatform.TVOS &&
-          buildPlatform !== BuildPlatform.Android
-        ) {
-          buildCode = UnityVersioningTools.setBuildNumber(projectPath, {
-            Standalone: buildNumber,
-          }).Standalone;
-        } else if (buildPlatform === BuildPlatform.Android) {
-          buildCode = UnityVersioningTools.setAndroidBundleVersionCode(
-            projectPath,
-            buildNumber
-          );
-        } else if (buildPlatform === BuildPlatform.VisionOS) {
-          buildCode = UnityVersioningTools.setBuildNumber(projectPath, {
-            VisionOS: buildNumber,
-          }).VisionOS;
-        } else if (buildPlatform === BuildPlatform.IOS) {
-          buildCode = UnityVersioningTools.setBuildNumber(projectPath, {
-            iPhone: buildNumber,
-          }).iPhone;
-        } else if (buildPlatform === BuildPlatform.TVOS) {
-          buildCode = UnityVersioningTools.setBuildNumber(projectPath, {
-            tvOS: buildNumber,
-          }).tvOS;
-        } else {
-          throw new Error(`Invalid build platform: ${buildPlatform}`);
-        }
-      } else {
-        throw new Error(`Invalid build number mode: ${buildNumberMode}`);
-      }
-    } else {
-      // By passing 0 increments, we'll essentially just read the current version.
       if (
         buildPlatform !== BuildPlatform.VisionOS &&
         buildPlatform !== BuildPlatform.IOS &&
         buildPlatform !== BuildPlatform.TVOS &&
         buildPlatform !== BuildPlatform.Android
       ) {
-        buildCode = UnityVersioningTools.incrementBuildNumber(
+        UnityVersioningTools.updateBuildNumber(
           projectPath,
-          {}
+          buildNumberMode === VersioningMode.Increment,
+          {
+            Standalone: buildNumber,
+          }
         ).Standalone;
       } else if (buildPlatform === BuildPlatform.Android) {
-        buildCode = UnityVersioningTools.incrementAndroidBundleVersionCode(
+        UnityVersioningTools.updateAndroidBundleVersionCode(
           projectPath,
-          0
+          buildNumberMode === VersioningMode.Increment,
+          buildNumber
         );
       } else if (buildPlatform === BuildPlatform.VisionOS) {
-        buildCode = UnityVersioningTools.incrementBuildNumber(
+        UnityVersioningTools.updateBuildNumber(
           projectPath,
-          {}
+          buildNumberMode === VersioningMode.Increment,
+          {
+            VisionOS: buildNumber,
+          }
         ).VisionOS;
       } else if (buildPlatform === BuildPlatform.IOS) {
-        buildCode = UnityVersioningTools.incrementBuildNumber(
+        UnityVersioningTools.updateBuildNumber(
           projectPath,
-          {}
+          buildNumberMode === VersioningMode.Increment,
+          {
+            iPhone: buildNumber,
+          }
         ).iPhone;
       } else if (buildPlatform === BuildPlatform.TVOS) {
-        buildCode = UnityVersioningTools.incrementBuildNumber(
+        UnityVersioningTools.updateBuildNumber(
           projectPath,
-          {}
+          buildNumberMode === VersioningMode.Increment,
+          {
+            tvOS: buildNumber,
+          }
         ).tvOS;
       } else {
         throw new Error(`Invalid build platform: ${buildPlatform}`);
       }
+    }
+
+    return 0;
+  }
+
+  public static runPostBuild(): number {
+    const projectPath =
+      tl.getPathInput(unityProjectPathInputVariableName) ?? "";
+    const buildPlatform = tl.getInput(buildTargetInputVariableName, true)!;
+
+    const bundleVersionMode = tl.getInput(
+      projectVersioningBundleVersionModeVariableName,
+      true
+    )!;
+
+    const buildNumberMode = tl.getInput(
+      projectVersioningBuildNumberModeVariableName,
+      true
+    )!;
+
+    // We did neither update the bundle version nor the build number in this run,
+    // so we can stop here and consider things a success.
+    if (
+      bundleVersionMode === VersioningMode.None &&
+      buildNumberMode === VersioningMode.None
+    ) {
+      return 0;
+    }
+
+    let bundleVersion: SemanticVersion = {
+      major: 0,
+      minor: 0,
+      patch: 0,
+    };
+
+    // By passing 0 increment, we'll essentially just read the current version.
+    if (
+      buildPlatform !== BuildPlatform.VisionOS &&
+      buildPlatform !== BuildPlatform.TVOS
+    ) {
+      bundleVersion = UnityVersioningTools.updateBundleVersion(
+        projectPath,
+        true,
+        bundleVersion
+      );
+    } else if (buildPlatform === BuildPlatform.VisionOS) {
+      bundleVersion = UnityVersioningTools.updateVisionOSBundleVersion(
+        projectPath,
+        true,
+        bundleVersion
+      );
+    } else if (buildPlatform === BuildPlatform.TVOS) {
+      bundleVersion = UnityVersioningTools.updateTvOSBundleVersion(
+        projectPath,
+        true,
+        bundleVersion
+      );
+    } else {
+      throw new Error(`Invalid build platform: ${buildPlatform}`);
+    }
+
+    let buildCode: number = 0;
+
+    // By passing 0 increment, we'll essentially just read the current build number.
+    if (
+      buildPlatform !== BuildPlatform.VisionOS &&
+      buildPlatform !== BuildPlatform.IOS &&
+      buildPlatform !== BuildPlatform.TVOS &&
+      buildPlatform !== BuildPlatform.Android
+    ) {
+      buildCode = UnityVersioningTools.updateBuildNumber(projectPath, true, {
+        Standalone: 0,
+      }).Standalone;
+    } else if (buildPlatform === BuildPlatform.Android) {
+      buildCode = UnityVersioningTools.updateAndroidBundleVersionCode(
+        projectPath,
+        true,
+        0
+      );
+    } else if (buildPlatform === BuildPlatform.VisionOS) {
+      buildCode = UnityVersioningTools.updateBuildNumber(projectPath, true, {
+        VisionOS: 0,
+      }).VisionOS;
+    } else if (buildPlatform === BuildPlatform.IOS) {
+      buildCode = UnityVersioningTools.updateBuildNumber(projectPath, true, {
+        iPhone: 0,
+      }).iPhone;
+    } else if (buildPlatform === BuildPlatform.TVOS) {
+      buildCode = UnityVersioningTools.updateBuildNumber(projectPath, true, {
+        tvOS: 0,
+      }).tvOS;
+    } else {
+      throw new Error(`Invalid build platform: ${buildPlatform}`);
     }
 
     const commitChanges = tl.getBoolInput(
