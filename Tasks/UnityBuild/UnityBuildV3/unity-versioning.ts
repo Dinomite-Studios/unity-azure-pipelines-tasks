@@ -251,7 +251,7 @@ export class UnityVersioning {
 
     let gitTag: string | "" = "";
 
-    // Does the user want to commit changes to the repositoryß
+    // Does the user want to commit changes to the repository?
     if (commitChanges) {
       const commitChangesUserName = tl.getInput(
         projectVersioningCommitChangesUserNameVariableName,
@@ -277,12 +277,11 @@ export class UnityVersioning {
         buildCode
       );
 
-      // Since Azure Pipelines will by default to a shallow clone
+      // Since Azure Pipelines will by default do a shallow clone
       // we must first explicitly switch to the source branch prior to commiting
       // changes and pushing.
       const sourceBranchName = tl.getVariable("Build.SourceBranchName")!;
-      tl.execSync("git", ["fetch", "origin", sourceBranchName]);
-      tl.execSync("git", ["checkout", sourceBranchName]);
+      tl.execSync("git", ["switch", sourceBranchName]);
 
       // Now we can commit the changes.
       tl.execSync("git", ["config", "user.name", commitChangesUserName]);
