@@ -271,12 +271,11 @@ export class UnityVersioning {
         projectVersioningCommitChangesMessageVariableName
       )!;
 
-      commitMessage = commitMessage
-        .replace(
-          /{{bundleVersion}}/g,
-          `${bundleVersion.major}.${bundleVersion.minor}.${bundleVersion.patch}`
-        )
-        .replace(/{{buildNumber}}/g, buildCode.toString());
+      commitMessage = this.replacePlaceholders(
+        commitMessage,
+        bundleVersion,
+        buildCode
+      );
 
       tl.execSync("git", ["config", "user.name", commitChangesUserName]);
       tl.execSync("git", ["config", "user.email", commitChangesUserMail]);
@@ -290,12 +289,11 @@ export class UnityVersioning {
           true
         )!;
 
-        gitTag = createTagPattern
-          .replace(
-            /{{bundleVersion}}/g,
-            `${bundleVersion.major}.${bundleVersion.minor}.${bundleVersion.patch}`
-          )
-          .replace(/{{buildNumber}}/g, buildCode.toString());
+        gitTag = this.replacePlaceholders(
+          createTagPattern,
+          bundleVersion,
+          buildCode
+        );
 
         tl.execSync("git", ["tag", gitTag]);
       }
@@ -321,5 +319,18 @@ export class UnityVersioning {
     tl.setVariable(gitTagOutputVariableName, gitTag, false, true);
 
     return 0;
+  }
+
+  private static replacePlaceholders(
+    input: string,
+    bundleVersion: SemanticVersion,
+    buildCode: number
+  ): string {
+    return input
+      .replace(
+        /{{bundleVersion}}/g,
+        `${bundleVersion.major}.${bundleVersion.minor}.${bundleVersion.patch}`
+      )
+      .replace(/{{buildNumber}}/g, buildCode.toString());
   }
 }
