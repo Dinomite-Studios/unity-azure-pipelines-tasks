@@ -281,7 +281,7 @@ export class UnityVersioning {
       // we must first explicitly switch to the source branch prior to commiting
       // changes and pushing.
       const sourceBranchName = tl.getVariable("Build.SourceBranchName")!;
-      tl.execSync("git", ["fetch", `origin ${sourceBranchName}`]);
+      tl.execSync("git", ["fetch", "origin", sourceBranchName]);
       tl.execSync("git", ["checkout", sourceBranchName]);
 
       // Now we can commit the changes.
@@ -307,7 +307,7 @@ export class UnityVersioning {
       }
 
       // Finally push the changeset and tag, if created.
-      tl.execSync("git", ["push", "origin HEAD"]);
+      tl.execSync("git", ["push", "origin", sourceBranchName]);
       if (createTag) {
         tl.execSync("git", ["push", "origin", gitTag]);
       }
