@@ -184,7 +184,7 @@
       "type": "string",
       "label": "Commit message",
       "groupName": "versioning",
-      "defaultValue": "Azure Pipelines Build - {{bundleVersion}}",
+      "defaultValue": "Azure Pipelines Build - v{{bundleVersion}} ({{buildNumber}})",
       "helpMarkDown": "The commit message. Valid placeholders are: {{bundleVersion}}, {{buildNumber}}",
       "visibleRule": "projectVersioningCommitChanges = true"
     },
