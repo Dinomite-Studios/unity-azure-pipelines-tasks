@@ -41,6 +41,25 @@ export class UnityVersioning {
       true
     )!;
 
+    const buildNumberMode = tl.getInput(
+      projectVersioningBuildNumberModeVariableName,
+      true
+    )!;
+
+    // Are we going to modify anything at all?
+    if (
+      bundleVersionMode !== VersioningMode.None ||
+      buildNumberMode !== VersioningMode.None
+    ) {
+      // ... if yes, then we must make sure the git checkout
+      // is in the right state to handle our changes. Azure Pipelines
+      // will be default do a shallow clone and leave us with an unattached
+      // HEAD state. So we must make sure to switch to the source branch before
+      // making any changes to the repository.
+      const sourceBranchName = tl.getVariable("Build.SourceBranchName")!;
+      tl.execSync("git", ["switch", sourceBranchName]);
+    }
+
     // Does the user want to modify the bundle version?
     if (bundleVersionMode !== VersioningMode.None) {
       let bundleVersion: SemanticVersion = {
@@ -89,11 +108,6 @@ export class UnityVersioning {
         throw new Error(`Invalid build platform: ${buildPlatform}`);
       }
     }
-
-    const buildNumberMode = tl.getInput(
-      projectVersioningBuildNumberModeVariableName,
-      true
-    )!;
 
     // Does the user want to modify the build number?
     if (buildNumberMode !== VersioningMode.None) {
@@ -277,12 +291,6 @@ export class UnityVersioning {
         buildCode
       );
 
-      // Since Azure Pipelines will by default do a shallow clone
-      // we must first explicitly switch to the source branch prior to commiting
-      // changes and pushing.
-      const sourceBranchName = tl.getVariable("Build.SourceBranchName")!;
-      tl.execSync("git", ["switch", sourceBranchName]);
-
       // Now we can commit the changes.
       tl.execSync("git", ["config", "user.name", commitChangesUserName]);
       tl.execSync("git", ["config", "user.email", commitChangesUserMail]);
@@ -306,6 +314,7 @@ export class UnityVersioning {
       }
 
       // Finally push the changeset and tag, if created.
+      const sourceBranchName = tl.getVariable("Build.SourceBranchName")!;
       tl.execSync("git", ["push", "origin", sourceBranchName]);
       if (createTag) {
         tl.execSync("git", ["push", "origin", gitTag]);
