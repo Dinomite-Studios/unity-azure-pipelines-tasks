@@ -18,8 +18,7 @@ async function run() {
       return;
     }
 
-    // const buildProjectResult = await UnityBuildProject.run();
-    const buildProjectResult = 0;
+    const buildProjectResult = await UnityBuildProject.run();
 
     // Only if the project was built successfully, run the post build
     // steps of the versioning tool.

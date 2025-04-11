@@ -23,6 +23,7 @@ import {
   UnityVersioningTools,
 } from "@dinomite-studios/unity-azure-pipelines-tasks-lib";
 import { BuildPlatform } from "./build-platform";
+import path = require("path");
 
 enum VersioningMode {
   None = "none",
@@ -57,7 +58,7 @@ export class UnityVersioning {
       // HEAD state. So we must make sure to switch to the source branch before
       // making any changes to the repository.
       const sourceBranchName = tl.getVariable("Build.SourceBranchName")!;
-      tl.execSync("git", ["switch", sourceBranchName]);
+      tl.execSync("git", ["switch", "-c", sourceBranchName]);
     }
 
     // Does the user want to modify the bundle version?
@@ -294,7 +295,10 @@ export class UnityVersioning {
       // Now we can commit the changes.
       tl.execSync("git", ["config", "user.name", commitChangesUserName]);
       tl.execSync("git", ["config", "user.email", commitChangesUserMail]);
-      tl.execSync("git", ["add", "."]);
+      tl.execSync("git", [
+        "add",
+        path.join(projectPath, "ProjectSettings", "ProjectSettings.asset"),
+      ]);
       tl.execSync("git", ["commit", `-m ${commitMessage}`]);
 
       // Since we pushed to the repository, does the user also want to create a tag?
