@@ -292,6 +292,7 @@ export class UnityVersioning {
         bundleVersion,
         buildCode
       );
+      commitMessage = this.ensureSkipCIFlag(commitMessage);
 
       // Now we can commit the changes.
       tl.execSync("git", ["config", "user.name", commitChangesUserName]);
@@ -354,5 +355,26 @@ export class UnityVersioning {
         `${bundleVersion.major}.${bundleVersion.minor}.${bundleVersion.patch}`
       )
       .replace(/{{buildNumber}}/g, buildCode.toString());
+  }
+
+  private static ensureSkipCIFlag(commitMessage: string): string {
+    const skipPatterns = [
+      /\[skip ci\]/i,
+      /\[ci skip\]/i,
+      /skip-checks:\s*true/i,
+      /\[skip azurepipelines\]/i,
+      /\[azurepipelines skip\]/i,
+      /\[skip azpipelines\]/i,
+      /\[azpipelines skip\]/i,
+      /\[skip azp\]/i,
+      /\[azp skip\]/i,
+      /\*\*\*NO_CI\*\*\*/i,
+    ];
+
+    if (skipPatterns.some((pattern) => pattern.test(commitMessage))) {
+      return commitMessage;
+    }
+
+    return `${commitMessage} [skip ci]`;
   }
 }
