@@ -6,13 +6,11 @@
   "helpMarkDown": "Use this task to build your Unity project and generate the target platform's output files. [More Information](https://unitydevops.com/docs/unity-build-task)",
   "category": "Azure Pipelines",
   "preview": false,
-  "visibility": [
-    "Build"
-  ],
+  "visibility": ["Build"],
   "author": "Dinomite",
   "version": {
     "Major": 3,
-    "Minor": 3,
+    "Minor": 4,
     "Patch": 0
   },
   "releaseNotes": "[Full Changelog](https://github.com/Dinomite-Studios/unity-azure-pipelines-tasks/blob/master/Tasks/UnityBuild/UnityBuildV3/CHANGELOG.md)",
@@ -22,6 +20,11 @@
     {
       "name": "general",
       "displayName": "General",
+      "isExpanded": true
+    },
+    {
+      "name": "versioning",
+      "displayName": "Versioning",
       "isExpanded": true
     },
     {
@@ -90,6 +93,118 @@
       "defaultValue": "",
       "required": false,
       "helpMarkDown": "(Optional) Enter the path to the Unity project within the repository. If no value is entered, the root of the repository will be used."
+    },
+    {
+      "name": "projectVersioningBundleVersionMode",
+      "type": "pickList",
+      "label": "Bundle versioning mode",
+      "defaultValue": "none",
+      "helpMarkDown": "Define if and how to modify the project's bundle version.",
+      "groupName": "versioning",
+      "options": {
+        "none": "None",
+        "increment": "Increment bundle version",
+        "set": "Set bundle version"
+      }
+    },
+    {
+      "name": "projectVersioningBundleVersionMajor",
+      "type": "string",
+      "label": "Major (Increment by / Set to)",
+      "groupName": "versioning",
+      "helpMarkDown": "Either the new value for the bundle major version or the increment for the major version to apply.",
+      "visibleRule": "projectVersioningBundleVersionMode = increment || projectVersioningBundleVersionMode = set"
+    },
+    {
+      "name": "projectVersioningBundleVersionMinor",
+      "type": "string",
+      "label": "Minor (Increment by / Set to)",
+      "groupName": "versioning",
+      "helpMarkDown": "Either the new value for the bundle minor version or the increment for the minor version to apply.",
+      "visibleRule": "projectVersioningBundleVersionMode = increment || projectVersioningBundleVersionMode = set"
+    },
+    {
+      "name": "projectVersioningBundleVersionPatch",
+      "type": "string",
+      "label": "Patch (Increment by / Set to)",
+      "groupName": "versioning",
+      "helpMarkDown": "Either the new value for the bundle patch version or the increment for the patch version to apply.",
+      "visibleRule": "projectVersioningBundleVersionMode = increment || projectVersioningBundleVersionMode = set"
+    },
+    {
+      "name": "projectVersioningBuildNumberMode",
+      "type": "pickList",
+      "label": "Build number mode",
+      "defaultValue": "none",
+      "helpMarkDown": "Define if and how to modify the project's build number.",
+      "groupName": "versioning",
+      "options": {
+        "none": "None",
+        "increment": "Increment build number",
+        "set": "Set build number"
+      }
+    },
+    {
+      "name": "projectVersioningBuildNumber",
+      "type": "string",
+      "label": "Build number (Increment by / Set to)",
+      "groupName": "versioning",
+      "helpMarkDown": "Either the new value for the build number or the increment for the build number to apply.",
+      "visibleRule": "projectVersioningBuildNumberMode = increment || projectVersioningBuildNumberMode = set"
+    },
+    {
+      "name": "projectVersioningCommitChanges",
+      "type": "boolean",
+      "label": "Commit changes to repository",
+      "defaultValue": true,
+      "groupName": "versioning",
+      "visibleRule": "projectVersioningBundleVersionMode != none || projectVersioningBuildNumberMode != none",
+      "helpMarkDown": "(Optional) Commit the updated bundle version / build number to the repository."
+    },
+    {
+      "name": "projectVersioningCommitChangesUserName",
+      "type": "string",
+      "label": "git user name",
+      "groupName": "versioning",
+      "defaultValue": "Azure Pipelines",
+      "helpMarkDown": "The user name to use when commiting changes.",
+      "visibleRule": "projectVersioningCommitChanges = true"
+    },
+    {
+      "name": "projectVersioningCommitChangesUserMail",
+      "type": "string",
+      "label": "git user mail",
+      "groupName": "versioning",
+      "defaultValue": "agent@dev.azure.com",
+      "helpMarkDown": "The user mail to use when commiting changes.",
+      "visibleRule": "projectVersioningCommitChanges = true"
+    },
+    {
+      "name": "projectVersioningCommitChangesMessage",
+      "type": "string",
+      "label": "Commit message",
+      "groupName": "versioning",
+      "defaultValue": "Azure Pipelines Build - v{{bundleVersion}} ({{buildNumber}})",
+      "helpMarkDown": "The commit message. Valid placeholders are: {{bundleVersion}}, {{buildNumber}}",
+      "visibleRule": "projectVersioningCommitChanges = true"
+    },
+    {
+      "name": "projectVersioningCreateTag",
+      "type": "boolean",
+      "label": "Create a git tag for the changes",
+      "defaultValue": true,
+      "groupName": "versioning",
+      "visibleRule": "projectVersioningCommitChanges = true",
+      "helpMarkDown": "(Optional) Creates a git tag for the changeset."
+    },
+    {
+      "name": "projectVersioningCreateTagPattern",
+      "type": "string",
+      "label": "git tag pattern",
+      "groupName": "versioning",
+      "defaultValue": "v{{bundleVersion}}",
+      "helpMarkDown": "The pattern defines what the created git tag will look like. Valid placeholders are: {{bundleVersion}}, {{buildNumber}}",
+      "visibleRule": "projectVersioningCreateTag = true"
     },
     {
       "name": "buildFlow",
@@ -273,6 +388,18 @@
     {
       "name": "editorLogFilePath",
       "description": "Specifies the location of the editor log file generated."
+    },
+    {
+      "name": "bundleVersion",
+      "description": "The bundle version of the Unity project after the build."
+    },
+    {
+      "name": "buildNumber",
+      "description": "The build number of the Unity project after the build."
+    },
+    {
+      "name": "gitTag",
+      "description": "The git tag created for the changeset."
     }
   ],
   "execution": {
@@ -291,6 +418,7 @@
     "warningAlphaBetaVersion": "You are using a Unity Alpha/Beta version. It may not be supported by the extension!",
     "projectPathInfo": "Determining Unity editor version for project at",
     "successGetUnityEditorVersion": "Success, Unity editor version found",
-    "failGetUnityEditorVersion": "Fail, Unity editor version not found"
+    "failGetUnityEditorVersion": "\nERROR: Fail, Unity editor version not found",
+    "taskResultFailedVersioning": "\nERROR: Failed during the project versioning process with exit code:"
   }
 }

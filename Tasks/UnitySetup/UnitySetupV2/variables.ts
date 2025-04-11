@@ -1,6 +1,3 @@
-import tl = require('azure-pipelines-task-lib/task');
-
-// Input variables
 export const versionSelectionModeVariableName = "versionSelectionMode";
 export const versionInputVariableName = 'version';
 export const revisionInputVariableName = 'revision';
