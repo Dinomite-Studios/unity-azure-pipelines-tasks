@@ -58,7 +58,8 @@ export class UnityVersioning {
       // HEAD state. So we must make sure to switch to the source branch before
       // making any changes to the repository.
       const sourceBranchName = tl.getVariable("Build.SourceBranchName")!;
-      tl.execSync("git", ["switch", "-c", sourceBranchName]);
+      tl.execSync("git", ["branch", "-f", sourceBranchName]);
+      tl.execSync("git", ["switch", sourceBranchName]);
     }
 
     // Does the user want to modify the bundle version?
