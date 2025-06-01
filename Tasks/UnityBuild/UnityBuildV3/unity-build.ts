@@ -20,6 +20,7 @@ const buildScriptTypeInputVariableName = 'buildScriptType';
 const unityEditorsPathModeInputVariableName = 'unityEditorsPathMode';
 const inlineBuildScriptInputVariableName = 'inlineBuildScript';
 const scriptExecuteMethodInputVariableName = 'scriptExecuteMethod';
+const scriptCompletionQuitInputVariableName = 'scriptCompletionQuit';
 const additionalCmdArgsInputVariableName = 'additionalCmdArgs';
 const customUnityEditorsPathInputVariableName = 'customUnityEditorsPath';
 const cleanBuildInputVariableName = 'Build.Repository.Clean';
@@ -138,7 +139,11 @@ async function run() {
             unityCmd.arg('-executeMethod').arg(tl.getInput(scriptExecuteMethodInputVariableName)!);
         } else if (buildScriptType === 'existing') {
             // If the user already has an existing build script we only need the method to execute.
-            unityCmd.arg('-executeMethod').arg(tl.getInput(scriptExecuteMethodInputVariableName)!).arg('-quit');
+            unityCmd.arg('-executeMethod').arg(tl.getInput(scriptExecuteMethodInputVariableName)!);
+
+            if (tl.getBoolInput(scriptCompletionQuitInputVariableName)) {
+                unityCmd.arg('-quit');
+            }
         } else {
             throw `Unsupported build script type ${buildScriptType}`
         }

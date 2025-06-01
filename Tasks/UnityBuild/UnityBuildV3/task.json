@@ -201,6 +201,16 @@
       "helpMarkDown": "Specify class and method name of the method to execute in your build script separated by a dot. E.g. `MyClass.PerformBuild`"
     },
     {
+      "name": "scriptCompletionQuit",
+      "type": "boolean",
+      "label": "Quit after script method completion",
+      "groupName": "build",
+      "visibleRule": "buildScriptType = existing",
+      "required": false,
+      "defaultValue": true,
+      "helpMarkDown": "Weather to quit the Unity editor after the build script method has completed. If set to false, the editor will stay open after the build script method has completed. The default value is true."
+    },
+    {
       "name": "additionalCmdArgs",
       "type": "string",
       "label": "Command line arguments",
